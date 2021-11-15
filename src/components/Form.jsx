@@ -90,6 +90,11 @@ const Form = () => {
 		for (let i = DATA_STARTS_FROM_CELL; i < 50; i++) {
 			let element = neededSheet.getCellByA1(`B${i}`).value
 
+			if (element === fio) {
+				alert('Нельзя! Такой челик уже зарегался');
+				break
+			}
+
 			if (element === null) {
 				neededSheet.getCellByA1(`B${i}`).value = fio;
 				neededSheet.getCellByA1(`C${i}`).value = tell;
