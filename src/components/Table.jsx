@@ -6,7 +6,8 @@ import { useSelector } from 'react-redux';
 const Table = () => {
 
 	const selector = useSelector(state => state.data)
-	console.log(`Данные по турниру`, selector);
+	const currentTournament = useSelector(state => state.table.neededTournamentName)
+	console.log(`Данные по турниру ${currentTournament}`, selector);
 
 	//при обновлении стора у нас обновится компонент 
 	return (
@@ -19,7 +20,7 @@ const Table = () => {
 			</div>
 			<div className="neTable__main">
 				{selector.tableFio?.map((name) => (
-					<div className='neTable__row' key={name}>
+					<div className='neTable__row' key={name + currentTournament}>
 						<div className="neTable__row_square" ></div>
 						<div className="neTable__row_fio" >{name} </div>
 					</div>

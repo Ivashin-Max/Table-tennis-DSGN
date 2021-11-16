@@ -8,7 +8,12 @@ import { useDispatch } from 'react-redux';
 
 
 
+//FIXME:
+// Добавить визуальный эффект, после нажатия кнопки Добавить/Удалить, не дублируя весь код
+
 const Form = () => {
+	const [loading, setLoading] = React.useState(false);
+
 	const dispatch = useDispatch();
 	const storeData = useSelector(state => state.data)
 	const neededTournament = useSelector(state => state.table)
@@ -41,40 +46,43 @@ const Form = () => {
 		const neededSheet = await getSheet(neededTournament.neededDivisionId, neededTournament.neededTournamentName, 'B1:C50');
 		console.groupCollapsed('Отработка функции удаления участника')
 		console.log(`Хотим удалить челика фио: ${fio}, tell: ${tell} -  в этой табле`, neededSheet);
-		const neededCell = findParticipant(neededSheet, fio, tell);
-
-		if (neededCell === null) {
-			console.warn(`Такого участника не существует`);
-		}
+		if (!fio || !tell) { alert('Введите данные') }
 		else {
-			console.log(`Нашли cовпадение по имени:${fio} и телефону ${tell} в строке №${neededCell}`);
-			neededSheet.getCellByA1(`B${neededCell}`).value = null;
-			neededSheet.getCellByA1(`C${neededCell}`).value = null;
-			await neededSheet.saveUpdatedCells()
-			await neededSheet.loadCells();
-			//FIXME:
-			// ДЕСТРУКТУРИЗАЦИЯ,мы взяли именно 3й элемент массива,пздец, переделывать
+			const neededCell = findParticipant(neededSheet, fio, tell);
 
-			const nonEmpty = neededSheet._cells.filter(([, , cell]) => !!cell.value).map(([, , cell]) => cell.value)
-			const nonEmpty1 = neededSheet._cells.filter(([, q,]) => !!q.value).map(([, q,]) => q.value);
-			let i = 0;
-			let j = 0
-			neededSheet._cells.forEach(([, , cell], index) => {
-				const cellS = neededSheet.getCell(cell._row, cell._column);
-				cellS.value = nonEmpty[i];
-				i++;
-			});
+			if (neededCell === null) {
+				console.warn(`Такого участника не существует`);
+			}
+			else {
+				console.log(`Нашли cовпадение по имени:${fio} и телефону ${tell} в строке №${neededCell}`);
+				neededSheet.getCellByA1(`B${neededCell}`).value = null;
+				neededSheet.getCellByA1(`C${neededCell}`).value = null;
+				await neededSheet.saveUpdatedCells()
+				await neededSheet.loadCells();
+				//FIXME:
+				// ДЕСТРУКТУРИЗАЦИЯ,мы взяли именно 3й элемент массива,пздец, переделывать
 
-			neededSheet._cells.forEach(([, q,], index) => {
-				const cellS = neededSheet.getCell(q._row, q._column);
-				cellS.value = nonEmpty1[j];
-				j++;
-			});
+				const nonEmpty = neededSheet._cells.filter(([, , cell]) => !!cell.value).map(([, , cell]) => cell.value)
+				const nonEmpty1 = neededSheet._cells.filter(([, q,]) => !!q.value).map(([, q,]) => q.value);
+				let i = 0;
+				let j = 0
+				neededSheet._cells.forEach(([, , cell], index) => {
+					const cellS = neededSheet.getCell(cell._row, cell._column);
+					cellS.value = nonEmpty[i];
+					i++;
+				});
+
+				neededSheet._cells.forEach(([, q,], index) => {
+					const cellS = neededSheet.getCell(q._row, q._column);
+					cellS.value = nonEmpty1[j];
+					j++;
+				});
 
 
 
-			await neededSheet.saveUpdatedCells()
-			dispatch(fetchTableData())
+				await neededSheet.saveUpdatedCells()
+				dispatch(fetchTableData())
+			}
 		}
 
 
@@ -84,6 +92,7 @@ const Form = () => {
 
 	const newParticipant = async (e) => {
 		e.preventDefault();
+		setLoading(true)
 		const neededSheet = await getSheet(neededTournament.neededDivisionId, neededTournament.neededTournamentName, 'B1:C29');
 		console.log(`Хотим добавить челика фио: ${fio}, tell: ${tell} -  в эту таблу`, neededSheet);
 
@@ -99,14 +108,66 @@ const Form = () => {
 				neededSheet.getCellByA1(`B${i}`).value = fio;
 				neededSheet.getCellByA1(`C${i}`).value = tell;
 				await neededSheet.saveUpdatedCells();
-				dispatch(fetchTableData())
+				await dispatch(fetchTableData())
+				setLoading(false)
 				break
 			}
 		}
+
 	}
 
 
+	if (loading) {
+		return (
+			<form action="#" id="form" className="form">
+				<section className="form_header">
+					<p id="tournamentAdress">
+						{storeData.tournamentPlace}
+					</p>
+					<p id="tournamentTell">
+						{storeData.tournamentTell}
+					</p>
+					<img src={logo} alt="red rocket" />
+				</section>
+				<div className="placeholder-container">
+					<input type="text" placeholder=' ' id="newParticipantName" value={fio} onChange={event => setFio(event.target.value)} />
+					<label>Ваше ФИО</label>
+				</div>
+				<div className="placeholder-container">
+					<input type="tel" placeholder=' ' id="participantTell" value={tell} onChange={event => setTell(event.target.value)} />
+					<label>Ваш телефон</label>
+				</div>
+				<div className="buttons">
+					<button className="buttons_green" onClick={newParticipant}>Грузимся</button>
+					<button className="buttons_red" onClick={deleteParticipant}>Грузимся</button>
+				</div>
+				<p id="tournamentRating">
+					{storeData.tournamentRate}
+				</p>
 
+				<div className="accordeon">
+					<div className="accordeon_item">
+						<label className="accordeon_item_title" htmlFor="radio">Клик!</label>
+						<input className="accordeon_item_input" type="checkbox" id="radio" />
+						<div className="accordeon_item_content">
+							<div className="accordeon_item_content_left">
+								<a href="https://www.google.com/">Google</a>
+								<a href="https://vk.com/">VK</a>
+							</div>
+							<div className="accordeon_item_content_right">
+								<a href="https://www.youtube.com/">YouTube</a>
+								<a href="https://www.figma.com/">Figma</a>
+							</div>
+						</div>
+					</div>
+
+
+				</div>
+
+			</form>
+
+		)
+	}
 
 	return (
 		<form action="#" id="form" className="form">

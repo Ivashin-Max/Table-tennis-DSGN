@@ -52,7 +52,5 @@ export const fetchTableData = () => async (dispatch, getState) => {
 		tableFio: fioArr,
 		tableZapas: zapasArr
 	}))
-	console.log(store.data);
-
 
 }
