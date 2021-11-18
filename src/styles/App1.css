@@ -89,7 +89,6 @@ body {
   font-size: 16px;
   font-family: 'Montserrat', sans-serif;
   background: #E9E9E9;
-  padding: 10px 0;
 }
 ul {
   background: #fff;
@@ -184,6 +183,8 @@ main {
   border-radius: 10px;
   min-height: 779px;
   min-width: 350px;
+  max-width: 350px;
+  overflow-x: hidden;
 }
 .neTable p {
   font-weight: bold;
@@ -214,11 +215,14 @@ main {
   align-items: center;
 }
 .neTable__row_square {
-  width: 10px;
+  min-width: 10px;
   height: 10px;
   background-color: #39AEA9;
   border-radius: 2px;
   margin-right: 13px;
+}
+.neTable__row_fio {
+  cursor: default;
 }
 .neTable__total {
   color: #656464;
@@ -279,6 +283,37 @@ button {
   height: 40px;
   width: 250px;
   display: block;
+}
+.loader {
+  margin-left: 400px;
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  display: inline-block;
+  position: relative;
+  background: linear-gradient(0deg, rgba(51, 122, 183, 0.2) 33%, #337AB7 100%);
+  box-sizing: border-box;
+  animation: rotation 1s linear infinite;
+}
+.loader::after {
+  content: '';
+  box-sizing: border-box;
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  background: #FFFFFF;
+}
+@keyframes rotation {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
 }
 input {
   width: 240px;

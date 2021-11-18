@@ -43,6 +43,7 @@ const Form = () => {
 
 	const deleteParticipant = async (e) => {
 		e.preventDefault();
+		setLoading(true)
 		const neededSheet = await getSheet(neededTournament.neededDivisionId, neededTournament.neededTournamentName, 'B1:C50');
 		console.groupCollapsed('Отработка функции удаления участника')
 		console.log(`Хотим удалить челика фио: ${fio}, tell: ${tell} -  в этой табле`, neededSheet);
@@ -81,7 +82,8 @@ const Form = () => {
 
 
 				await neededSheet.saveUpdatedCells()
-				dispatch(fetchTableData())
+				await dispatch(fetchTableData())
+				setLoading(false)
 			}
 		}
 
@@ -101,6 +103,7 @@ const Form = () => {
 
 			if (element === fio) {
 				alert('Нельзя! Такой челик уже зарегался');
+				setLoading(false)
 				break
 			}
 
@@ -119,53 +122,7 @@ const Form = () => {
 
 	if (loading) {
 		return (
-			<form action="#" id="form" className="form">
-				<section className="form_header">
-					<p id="tournamentAdress">
-						{storeData.tournamentPlace}
-					</p>
-					<p id="tournamentTell">
-						{storeData.tournamentTell}
-					</p>
-					<img src={logo} alt="red rocket" />
-				</section>
-				<div className="placeholder-container">
-					<input type="text" placeholder=' ' id="newParticipantName" value={fio} onChange={event => setFio(event.target.value)} />
-					<label>Ваше ФИО</label>
-				</div>
-				<div className="placeholder-container">
-					<input type="tel" placeholder=' ' id="participantTell" value={tell} onChange={event => setTell(event.target.value)} />
-					<label>Ваш телефон</label>
-				</div>
-				<div className="buttons">
-					<button className="buttons_green" onClick={newParticipant}>Грузимся</button>
-					<button className="buttons_red" onClick={deleteParticipant}>Грузимся</button>
-				</div>
-				<p id="tournamentRating">
-					{storeData.tournamentRate}
-				</p>
-
-				<div className="accordeon">
-					<div className="accordeon_item">
-						<label className="accordeon_item_title" htmlFor="radio">Клик!</label>
-						<input className="accordeon_item_input" type="checkbox" id="radio" />
-						<div className="accordeon_item_content">
-							<div className="accordeon_item_content_left">
-								<a href="https://www.google.com/">Google</a>
-								<a href="https://vk.com/">VK</a>
-							</div>
-							<div className="accordeon_item_content_right">
-								<a href="https://www.youtube.com/">YouTube</a>
-								<a href="https://www.figma.com/">Figma</a>
-							</div>
-						</div>
-					</div>
-
-
-				</div>
-
-			</form>
-
+			<span className="loader"></span>
 		)
 	}
 

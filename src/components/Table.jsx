@@ -18,11 +18,11 @@ const Table = () => {
 			<div className="neTable__header_date">
 				{selector.tableDate}
 			</div>
-			<div className="neTable__main">
+			<div className="neTable__main" >
 				{selector.tableFio?.map((name) => (
-					<div className='neTable__row' key={name + currentTournament}>
+					<div className='neTable__row' key={name + currentTournament} >
 						<div className="neTable__row_square" ></div>
-						<div className="neTable__row_fio" >{name} </div>
+						<div className="neTable__row_fio" title={name}>{name} </div>
 					</div>
 				))
 				}
