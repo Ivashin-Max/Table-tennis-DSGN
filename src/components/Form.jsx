@@ -26,8 +26,8 @@ const Form = () => {
 	const findParticipant = (sheet, findingFio, findingTell) => {
 		let rowNumber = null;
 
-		for (let i = DATA_STARTS_FROM_CELL; i < 50; i++) {
-			let element = sheet.getCellByA1(`B${i}`).value
+		for (let i = DATA_STARTS_FROM_CELL; i < 70; i++) {
+			let element = sheet.getCellByA1(`B${i}`).value.toString()
 
 			if (element === findingFio) {
 				let tell = sheet.getCellByA1(`C${i}`).value.toString()
@@ -44,7 +44,7 @@ const Form = () => {
 	const deleteParticipant = async (e) => {
 		e.preventDefault();
 		setLoading(true)
-		const neededSheet = await getSheet(neededTournament.neededDivisionId, neededTournament.neededTournamentName, 'B1:C50');
+		const neededSheet = await getSheet(neededTournament.neededDivisionId, neededTournament.neededTournamentName, 'B1:C70');
 		console.groupCollapsed('Отработка функции удаления участника')
 		console.log(`Хотим удалить челика фио: ${fio}, tell: ${tell} -  в этой табле`, neededSheet);
 		if (!fio || !tell) { alert('Введите данные') }
@@ -52,7 +52,9 @@ const Form = () => {
 			const neededCell = findParticipant(neededSheet, fio, tell);
 
 			if (neededCell === null) {
+				alert(`Такого участника не существует`)
 				console.warn(`Такого участника не существует`);
+				setLoading(false)
 			}
 			else {
 				console.log(`Нашли cовпадение по имени:${fio} и телефону ${tell} в строке №${neededCell}`);
@@ -95,10 +97,10 @@ const Form = () => {
 	const newParticipant = async (e) => {
 		e.preventDefault();
 		setLoading(true)
-		const neededSheet = await getSheet(neededTournament.neededDivisionId, neededTournament.neededTournamentName, 'B1:C29');
+		const neededSheet = await getSheet(neededTournament.neededDivisionId, neededTournament.neededTournamentName, 'B1:C60');
 		console.log(`Хотим добавить челика фио: ${fio}, tell: ${tell} -  в эту таблу`, neededSheet);
 
-		for (let i = DATA_STARTS_FROM_CELL; i < 50; i++) {
+		for (let i = DATA_STARTS_FROM_CELL; i < 70; i++) {
 			let element = neededSheet.getCellByA1(`B${i}`).value
 
 			if (element === fio) {
@@ -146,30 +148,19 @@ const Form = () => {
 				<label>Ваш телефон</label>
 			</div>
 			<div className="buttons">
-				<button className="buttons_green" onClick={newParticipant}>Добавить запись</button>
-				<button className="buttons_red" onClick={deleteParticipant}>Удалить запись</button>
+				<button className="buttons_green" onClick={newParticipant}>Записаться на турнир</button>
+				<button className="buttons_red" onClick={deleteParticipant}>Удалиться с турнира</button>
 			</div>
 			<p id="tournamentRating">
 				{storeData.tournamentRate}
 			</p>
 
-			<div className="accordeon">
-				<div className="accordeon_item">
-					<label className="accordeon_item_title" htmlFor="radio">Клик!</label>
-					<input className="accordeon_item_input" type="checkbox" id="radio" />
-					<div className="accordeon_item_content">
-						<div className="accordeon_item_content_left">
-							<a href="https://www.google.com/">Google</a>
-							<a href="https://vk.com/">VK</a>
-						</div>
-						<div className="accordeon_item_content_right">
-							<a href="https://www.youtube.com/">YouTube</a>
-							<a href="https://www.figma.com/">Figma</a>
-						</div>
-					</div>
+			<div className="acor-container">
+				<input name='chacor' type="checkbox" id="chacor1" />
+				<label htmlFor="chacor1">Важные ссылки</label>
+				<div className="acor-body">
+					<p>Тут будут ссылки</p>
 				</div>
-
-
 			</div>
 
 		</form>

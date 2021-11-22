@@ -54,7 +54,7 @@ ul{
 	align-items: center;
 	margin-left: 130px;
 	height: 50px;
-	margin-top: 20px;
+	margin-top: 24px;
 	width: 100%;
 	font-weight: bold;
 	&__left{
@@ -75,7 +75,7 @@ ul{
 		}
 	}
 	&__navbar{
-		margin-left: 150px;
+		margin-left: 97px;
 		position: relative;
 		z-index: 2;
 		font-weight: normal;
@@ -95,14 +95,15 @@ ul{
 	}
 	&__navbar_menu{
 		position: relative;
-		// width: 586px;
-		// height: 46px;
+		height: 46px;
+		padding: 0 10px;
 		display: flex;
 		justify-content: space-between;
 		align-items: center;
 		& li{
 			position: relative;
-			padding: 15px 22px;
+			margin: 7px 7px;
+			padding: 7px 7px;
 
 			&:hover .header__navbar_menu_sub{
 				transition-delay:0s;
@@ -118,12 +119,20 @@ ul{
 			// top: 50px;
 			left: 0;
 			z-index: -1;
+			text-align: center;
+
+			& li:hover{
+				background-color: @color_green;
+				border-radius: 5px;
+				color: white;
+			}
 		& li{
 				display: block;
 				min-width: max-content;
-
+				font-size: 14px;
 				&:first-child{
 					padding-top: 30px;
+
 				}
 			}
 		}
@@ -133,10 +142,10 @@ ul{
 
 
 main{
-	margin-top: 34px;
+	padding: 35px 0;
 	display: flex;
 	align-items: center;
-	min-height: 1030px;
+	// min-height: 1030px;
 	margin-left: 130px;
 }
 
@@ -146,9 +155,10 @@ main{
 	padding: 2px;
 	background-color: #fff;
 	border-radius: 10px;
-	min-height: 779px;
-   min-width: 350px;
-	max-width: 350px;
+	min-height: 835px;
+	max-height: 835px;
+   min-width: 300px;
+	max-width: 300px;
 	overflow-x: hidden;
 
 
@@ -158,10 +168,12 @@ main{
 	&__header{
 		text-align: center;
 
+
 		&_name{
 		font-weight: bold;
 		margin: 10px 0 0 0 ;
-		min-height: 36px;
+		min-height: 30px;
+		font-size: 18px;
 		}
 		&_date{
 		font-weight: normal;
@@ -169,20 +181,35 @@ main{
 		border-bottom: 1px solid #E8E9E9;
 		text-align: center;
 		min-height: 26px;
+		display: flex;
+		justify-content: space-around;
 		}
 	}
 	&__main{
-		margin-top: 27px;
+		margin-top: 22px;
 		// display: flex;
 		// flex-direction: column;
-		padding: 0 18px;
-		min-height: 660px;
-		
+		padding: 0 0 0 18px;
+		min-height: 611px;
+		max-height: 611px;
+		overflow-y: scroll;
+		overflow-x: hidden;
+		&::-webkit-scrollbar {
+			width: 10px;
+			&-thumb{
+				border-radius: 5px;
+				background-color: @color_green;
+			}
+			&-track{
+			border-radius: 10px;
+		}
+		}
 	}
 	&__row{
 		display: flex;
-		padding-bottom: 15px;
+		padding-bottom: 17px;
 		align-items: center;
+		white-space: nowrap;
 		&_square{
 			min-width: 10px;
 			height: 10px;
@@ -192,6 +219,7 @@ main{
 		}
 		&_fio{
 			cursor: default;
+			font-size: 13px;
 		}
 	}
 	&__total{
@@ -202,10 +230,11 @@ main{
 		border-bottom: 1px solid #E8E9E9;
 	}
 	&__zapas{
-		min-height: 64px;
-		max-height: 65px;
+		min-height: 60px;
+		max-height: 60px;
 		padding: 0 18px;
 		overflow-y: scroll;
+		overflow-x: hidden;
 		&::-webkit-scrollbar {
 			width: 10px;
 			&-thumb{
@@ -223,10 +252,11 @@ main{
 .form{
 	transition: ease 1s;
 	box-shadow: 0px 3px 10px rgba(0, 0, 0, 0.25);
-	margin-left: 150px;
+	margin-left: 130px;
 	background-color: white;
 	border-radius: 10px;
 	min-width: 525px;
+	max-height: 520px;
 	display: flex;
 	flex-direction: column;
    justify-content: center;
@@ -237,15 +267,16 @@ main{
 		margin: 10px 0 70px 0;
 		width: 100%;
 		position: relative;
-	
+
+		
 		& img{
 			position: absolute;
 			top: 5px;
 			right: 14px;
 			margin: auto;
 			display: inline-block;
-			width: 50px;
-			height: 50px;
+			width: 60px;
+			height: 60px;
 			// margin:0 20px 0 40px;
 		
 		}
@@ -258,7 +289,7 @@ main{
 	 & input, button{
 	
 		height: 40px;
-		width: 250px;
+		width: 236px;
 		display: block;
 	 }
 
@@ -293,12 +324,17 @@ main{
 	  transform: rotate(360deg);
 	}
  } 
+
+ #tournamentAdress{
+	 font-size: 17px;
+ }
+ #tournamentTell{
+	font-size: 14px;
+ }
 input{
 
 	width: 240px;
 	height: 33px;
-
-	background: #FFFFFF;
 	opacity: 0.2;
 	border: 1px solid #535E69;
 	box-shadow: inset 0px 4px 4px rgba(0, 0, 0, 0.25);
@@ -320,6 +356,7 @@ input{
 	border-radius: 10px;
 	color: white;
 	transition: 0.4s ease;
+	font-size: 14px;
 	}
 
 	&_green{
@@ -355,39 +392,47 @@ li{
 }
 
 
-.accordeon{
+.acor-container {
+	margin: 20px 0;
+}
+.acor-container .acor-body {
 	width: 100%;
-	margin-top: 5px;
-	padding: 10px;
-	border-top: 1px solid #E8E9E9;
+	height: 0;
+	transition: color 0.5s, padding 0.5s;
+	overflow: hidden;
 
+}
+.acor-container .acor-body p {
+	margin: 0 0 10px;
+}
+.acor-container label {
+	cursor: pointer;
+	padding: 15px 20px;
+	margin: 0 0 5px;
+	transition: color .55s;
+	color: rgba(43, 71, 106, 0.74)
+}
+.acor-container label:hover {
+	transition: color .55s;
+	color: rgb(36, 71, 114)
+}
+.acor-container input{
+	display: none;
+}
+.acor-container label:before {
+	content: '\276F';
+	float: right;
+}
 
-	&_item{
-		text-align: center;
-
-			&_title{
-				color:#2B476A;
-				font-weight: bold;
-				display: block;
-				cursor: pointer;
-			}
-
-			&_input{
-				width: 0;
-				height: 0;
-				appearance: none;
-				border: none;
-				&:checked + .accordeon_item_content{
-					display: flex;
-					justify-content: space-around;
-					transition: .4s ease;
-				}
-			}
-
-			&_content{
-				display: none;
-			}
-	}
+.acor-container input:checked + label:before {
+	transition: transform .35s;
+	transform: rotate(90deg);
+}
+.acor-container input:checked + label + .acor-body {
+	height: auto;
+	margin-top: -5px;
+	color: #000;
+	padding: 15px 20px;
 }
 
 
@@ -413,9 +458,10 @@ a{
 		position: absolute;
 		transition: all 300ms;
 		font-size: 12px;
-		color: whitesmoke;
+		color: rgba(0, 0, 0, 0.25);
 		top: 10px;
 		left: 10px;
+
 	}
 	& input:focus + label, input:not(:placeholder-shown) + label{
 		top: -10px;
@@ -423,6 +469,7 @@ a{
 		font-size: 11px; 
 		background-color: @color_green;
 		padding: 2px 10px;
+		color: white;
   
 	}
 }

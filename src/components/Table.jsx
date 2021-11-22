@@ -16,7 +16,8 @@ const Table = () => {
 				{selector.tableDivisionName}
 			</div>
 			<div className="neTable__header_date">
-				{selector.tableDate}
+				<div>	{selector.tableDate}</div>
+				<div>	{selector.tableTime}</div>
 			</div>
 			<div className="neTable__main" >
 				{selector.tableFio?.map((name) => (
@@ -33,9 +34,9 @@ const Table = () => {
 			<p>Запас</p>
 			<div id="neTable__total" className="neTable__zapas">
 				{selector.tableZapas?.map((name) => (
-					<div className='neTable__row' key={name}>
+					<div className='neTable__row' key={name + currentTournament}>
 						<div className="neTable__row_square"></div>
-						<div className="neTable__row_fio">{name} </div>
+						<div className="neTable__row_fio" title={name}>{name} </div>
 					</div>
 				))
 				}
