@@ -19,7 +19,10 @@ const Form = () => {
 	const neededTournament = useSelector(state => state.table)
 	const [fio, setFio] = useState('');
 	const [tell, setTell] = useState('')
-
+	const clearInputs = () => {
+		setFio('');
+		setTell('');
+	}
 	const DATA_STARTS_FROM_CELL = 2;
 
 
@@ -117,7 +120,8 @@ const Form = () => {
 				neededSheet.getCellByA1(`B${i}`).value = fio;
 				neededSheet.getCellByA1(`C${i}`).value = tell;
 				await neededSheet.saveUpdatedCells();
-				await dispatch(fetchTableData())
+				await dispatch(fetchTableData());
+				// clearInputs();
 				setLoading(false)
 				break
 			}
