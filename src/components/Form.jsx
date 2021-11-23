@@ -27,10 +27,10 @@ const Form = () => {
 		let rowNumber = null;
 
 		for (let i = DATA_STARTS_FROM_CELL; i < 70; i++) {
-			let element = sheet.getCellByA1(`B${i}`).value.toString()
+			let element = sheet.getCellByA1(`B${i}`).value
 
 			if (element === findingFio) {
-				let tell = sheet.getCellByA1(`C${i}`).value.toString()
+				let tell = sheet.getCellByA1(`C${i}`).value
 				if (tell === findingTell) {
 					rowNumber = i
 					break
@@ -47,7 +47,11 @@ const Form = () => {
 		const neededSheet = await getSheet(neededTournament.neededDivisionId, neededTournament.neededTournamentName, 'B1:C70');
 		console.groupCollapsed('Отработка функции удаления участника')
 		console.log(`Хотим удалить челика фио: ${fio}, tell: ${tell} -  в этой табле`, neededSheet);
-		if (!fio || !tell) { alert('Введите данные') }
+		if (!fio || !tell) {
+			alert('Введите данные');
+			setLoading(false)
+		}
+
 		else {
 			const neededCell = findParticipant(neededSheet, fio, tell);
 
