@@ -17,8 +17,19 @@ h1,h2,h3,h4,h5,h6{font-size:inherit;font-weight: inherit;}
 /*--------------------*/
 
 @color_red:#AE393F;
-@color_green:#39aea8ec;
+@color_green:#39aea8;
 @color_text:#2B476A;
+.beforeAfter{
+						content: '';
+						position: absolute;
+						top: 0;
+						width: 15px;
+						height: 100%;
+						background-color:  @color_green;
+						border-radius: 7px;
+						color: white;
+						z-index: -1;
+}
 
 @font-face {
 	font-family: 'Montserrat';
@@ -30,12 +41,24 @@ h1,h2,h3,h4,h5,h6{font-size:inherit;font-weight: inherit;}
 	font-weight: bold;
 	src: local('Montserrat'), url(./font/Montserrat-Bold.ttf) format('opentype');
 }
+@font-face {
+	font-family: 'OpenSans';
+	font-weight: 600;
+	src: local('OpenSans'), url(./font/OpenSans-SemiBold.ttf) format('opentype');
+}
+@font-face {
+	font-family: 'OpenSans';
+	font-weight: 400;
+	src: local('OpenSans'), url(./font/OpenSans-Regular.ttf) format('opentype');
+}
 body{
 	color: #2B476A;
 	font-size: 16px;
 	font-family: 'Montserrat', sans-serif;;
-	background: #E9E9E9;
-
+	background: #FBFAF5;
+	margin: 0 auto;
+	width: 1000px;
+	padding: 5px;
 }
 
 ul{
@@ -45,18 +68,15 @@ ul{
 
 }
 
-
-
-
 .header{
+
 	font-size: 17px;
 	display: flex;
 	align-items: center;
-	margin-left: 130px;
 	height: 50px;
 	margin-top: 24px;
 	width: 100%;
-	font-weight: bold;
+	font-weight: 600;
 	&__left{
 		display: flex;
 		align-items: center;
@@ -75,11 +95,23 @@ ul{
 		}
 	}
 	&__navbar{
+		font-family: 'OpenSans';
 		margin-left: 97px;
 		position: relative;
 		z-index: 2;
-		font-weight: normal;
+		font-weight: 400;
 		color: @color_text;
+
+
+		&_line{
+			opacity: 0;
+			position: relative;
+			bottom: -3px;
+			height: 1px;
+			width: 1%;
+			margin: 0 auto;
+			background-color: @color_green;
+		}
 
 	}
 	&__right {
@@ -94,6 +126,7 @@ ul{
 		color: #fff;
 	}
 	&__navbar_menu{
+	// 	font-weight: 400;
 		position: relative;
 		height: 46px;
 		padding: 0 10px;
@@ -102,39 +135,71 @@ ul{
 		align-items: center;
 		& li{
 			position: relative;
-			margin: 7px 7px;
-			padding: 7px 7px;
+			padding: 7px;
+		}
+		&>li{
+			position: relative;
+			// margin: 7px 7px;
+			padding: 16px 13.5px;
+			&::after{
+				position: absolute;
+				content: '';
+				display: block;
+				width: 100%;
+				height: 30px;
+				top: 30px;
+			}
 
 			&:hover .header__navbar_menu_sub{
-				transition-delay:0s;
+				transition:all 0.9s;
 				visibility:visible;
-   			opacity:1;
+				top: 55px;
+			}
+			&:hover .header__navbar_line{
+				transition: width .9s ease;
+				width: 95%;
+				opacity: 1;
 			}
 		}
-		&_sub{
+
+		&_sub {
 			visibility: hidden;
-			opacity: 0;
-			transition: visibility 0s linear 0.1s,opacity 0.2s linear;
 			position: absolute;
-			// top: 50px;
+			top: 0px;	
 			left: 0;
 			z-index: -1;
 			text-align: center;
+			font-size: 14px;
+			font-weight: 600;
 
-			& li:hover{
-				background-color: @color_green;
-				border-radius: 5px;
-				color: white;
+			&:first-child{
+				padding-top: 11px;
+				padding-bottom: 11px;
 			}
-		& li{
-				display: block;
-				min-width: max-content;
-				font-size: 14px;
-				&:first-child{
-					padding-top: 30px;
 
+			& li{
+					display: block;
+					min-width: max-content;
+					font-size: 14px;
+					height: 23px;
+					display: flex;
+					justify-content: center;
+					align-items: center;
+					&:hover{
+						border-radius: 5px;
+						background-color: @color_green;
+						color: white;
+						&::after, &::before{
+							.beforeAfter;
+						}
+						&::before{
+							left: -4px;
+						}
+						&::after{
+							right: -4px;
+						}
+					}
 				}
-			}
 		}
 	}
 }
@@ -146,7 +211,6 @@ main{
 	display: flex;
 	align-items: center;
 	// min-height: 1030px;
-	margin-left: 130px;
 }
 
 .neTable{
@@ -234,7 +298,7 @@ main{
 
 		&_tooltip{
 
-				position: absolute;
+				position: relative;
 				top: 60%;
 				left: -5%;
 				margin-top: 10px;
@@ -253,7 +317,8 @@ main{
 				opacity: 0;
 				transition: all 0.2s ease-in-out;
 			 
-		}
+
+			}
 		&_fio{
 			cursor: default;
 			font-size: 13px;
@@ -289,7 +354,7 @@ main{
 .form{
 	transition: ease 1s;
 	box-shadow: 0px 3px 10px rgba(0, 0, 0, 0.25);
-	margin-left: 130px;
+	margin-left: 129px;
 	background-color: white;
 	border-radius: 10px;
 	min-width: 525px;

@@ -20,16 +20,27 @@ const MyHeader = () => {
 				<ul className="header__navbar_menu">
 					<li>Свободный
 						<SubMenu id={mySelector.free} />
+						<div className="header__navbar_line"></div>
 					</li>
 					<li>Первый
 						<SubMenu id={mySelector.first} />
+						<div className="header__navbar_line"></div>
 					</li>
 					<li>Второй
 						<SubMenu id={mySelector.second} />
+						<div className="header__navbar_line"></div>
 					</li>
-					<li>Третий</li>
-					<li>Высший </li>
-					<li>ТТклаб</li>
+					<li>Третий
+						<SubMenu id={mySelector.third} />
+						<div className="header__navbar_line"></div>
+					</li>
+					<li>Высший
+						<SubMenu id={mySelector.high} />
+						<div className="header__navbar_line"></div> </li>
+					<li>ТТклаб
+						<SubMenu id={mySelector.ttClub} />
+						<div className="header__navbar_line"></div>
+					</li>
 				</ul>
 			</div>
 		</div>
