@@ -5,7 +5,7 @@ import { useState } from 'react';
 import { getSheet } from '../actions/google';
 import { fetchTableData } from '../actions/fetchTableData';
 import { useDispatch } from 'react-redux';
-
+import { NewParticipant } from '../actions/formActions';
 
 
 //FIXME:
@@ -34,7 +34,8 @@ const Form = () => {
 
 			if (element === findingFio) {
 				let tell = sheet.getCellByA1(`C${i}`).value
-				if (tell === findingTell) {
+
+				if (tell.toString() === findingTell) {
 					rowNumber = i
 					break
 				}
@@ -60,7 +61,6 @@ const Form = () => {
 
 			if (neededCell === null) {
 				alert(`Такого участника не существует`)
-				console.warn(`Такого участника не существует`);
 				setLoading(false)
 			}
 			else {
