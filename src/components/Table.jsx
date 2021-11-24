@@ -23,7 +23,8 @@ const Table = () => {
 				{selector.tableFio?.map((name) => (
 					<div className='neTable__row' key={name + currentTournament} >
 						<div className="neTable__row_square" ></div>
-						<div className="neTable__row_fio" title={name}>{name} </div>
+						<div className="neTable__row_fio" >{name} </div>
+						<span className="neTable__row_tooltip">{name}</span>
 					</div>
 				))
 				}
@@ -36,7 +37,8 @@ const Table = () => {
 				{selector.tableZapas?.map((name) => (
 					<div className='neTable__row' key={name + currentTournament}>
 						<div className="neTable__row_square"></div>
-						<div className="neTable__row_fio" title={name}>{name} </div>
+						<div className="neTable__row_fio" >{name} </div>
+						<span className="neTable__row_tooltip">{name}</span>
 					</div>
 				))
 				}

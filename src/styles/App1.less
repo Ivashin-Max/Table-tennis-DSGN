@@ -17,7 +17,7 @@ h1,h2,h3,h4,h5,h6{font-size:inherit;font-weight: inherit;}
 /*--------------------*/
 
 @color_red:#AE393F;
-@color_green:#39AEA9;
+@color_green:#39aea8ec;
 @color_text:#2B476A;
 
 @font-face {
@@ -210,12 +210,49 @@ main{
 		padding-bottom: 17px;
 		align-items: center;
 		white-space: nowrap;
+		position: relative;
+		&:hover{
+			.neTable__row_square{
+				transform: scale(1.1);
+			}
+			.neTable__row_tooltip{
+				top: 10%;
+				opacity: 1;
+				z-index: 1;
+				overflow-x: visible;
+				font-size: 13px;
+				border: 1px solid @color_green;
+			}
+		} 
 		&_square{
 			min-width: 10px;
 			height: 10px;
 			background-color: @color_green;
 			border-radius: 2px;
 			margin-right: 13px;
+		}
+
+		&_tooltip{
+
+				position: absolute;
+				top: 60%;
+				left: -5%;
+				margin-top: 10px;
+				padding: .55rem 1rem;
+				white-space: nowrap;
+				color: #000;
+				border-radius: 50px;
+				background-color: #fff;
+				box-shadow: 0 15px 35px rgba(50, 50, 93, 0.1),
+				  0 5px 15px rgba(0, 0, 0, 0.07);
+				pointer-events: none;
+				-webkit-user-select: none;
+				-moz-user-select: none;
+				-ms-user-select: none;
+				user-select: none;
+				opacity: 0;
+				transition: all 0.2s ease-in-out;
+			 
 		}
 		&_fio{
 			cursor: default;
