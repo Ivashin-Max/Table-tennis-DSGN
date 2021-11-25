@@ -87,13 +87,23 @@ h6 {
 }
 @font-face {
   font-family: 'Montserrat';
-  font-weight: normal;
+  font-weight: 400;
   src: local('Montserrat'), url(font/Montserrat-Regular.ttf) format('opentype');
 }
 @font-face {
   font-family: 'Montserrat';
-  font-weight: bold;
+  font-weight: 700;
   src: local('Montserrat'), url(font/Montserrat-Bold.ttf) format('opentype');
+}
+@font-face {
+  font-family: 'Montserrat';
+  font-weight: 600;
+  src: local('Montserrat'), url(font/Montserrat-SemiBold.ttf) format('opentype');
+}
+@font-face {
+  font-family: 'Montserrat';
+  font-weight: 500;
+  src: local('Montserrat'), url(font/Montserrat-Medium.ttf) format('opentype');
 }
 @font-face {
   font-family: 'OpenSans';
@@ -111,8 +121,8 @@ body {
   font-family: 'Montserrat', sans-serif;
   background: #FBFAF5;
   margin: 0 auto;
-  width: 1000px;
-  padding: 5px;
+  width: 1287px;
+  padding: 5px 15px;
 }
 ul {
   background: #fff;
@@ -265,45 +275,49 @@ ul {
 main {
   padding: 35px 0;
   display: flex;
-  align-items: center;
 }
 .neTable {
   text-align: center;
   filter: drop-shadow(0px 3px 10px rgba(0, 0, 0, 0.25));
-  padding: 2px;
   background-color: #fff;
   border-radius: 10px;
-  min-height: 835px;
-  max-height: 835px;
+  min-height: 779px;
+  max-height: 779px;
   min-width: 300px;
   max-width: 300px;
 }
 .neTable p {
-  font-weight: bold;
+  font-weight: 600;
 }
 .neTable__header {
   text-align: center;
 }
+.neTable__header_line {
+  border-bottom: 1px solid #E8E9E9;
+}
+.neTable__header_head {
+  width: max-content;
+  margin: 0 auto;
+}
 .neTable__header_name {
-  font-weight: bold;
-  margin: 10px 0 0 0 ;
-  min-height: 30px;
-  font-size: 18px;
+  font-weight: 600;
+  margin: 7px 0 9px 0 ;
+  font-size: 20px;
 }
 .neTable__header_date {
-  font-weight: normal;
-  padding-bottom: 10px;
-  border-bottom: 1px solid #E8E9E9;
+  font-family: 'OpenSans';
+  font-weight: 400;
+  font-size: 18px;
+  padding-bottom: 7px;
   text-align: center;
   min-height: 26px;
   display: flex;
-  justify-content: space-around;
+  justify-content: space-between;
 }
 .neTable__main {
-  margin-top: 22px;
   padding: 0 0 0 18px;
-  min-height: 611px;
-  max-height: 611px;
+  min-height: 566px;
+  max-height: 566px;
   overflow-y: scroll;
   overflow-x: hidden;
 }
@@ -318,10 +332,15 @@ main {
   border-radius: 10px;
 }
 .neTable__row {
+  box-sizing: content-box;
   display: flex;
   padding-bottom: 17px;
   align-items: center;
   white-space: nowrap;
+  height: 18px;
+}
+.neTable__row:first-child {
+  margin-top: 28px;
 }
 .neTable__row:hover .neTable__row_square {
   background-color: #AE393F;
@@ -344,8 +363,8 @@ main {
   transition: transform 0.6s ease;
 }
 .neTable__row_tooltip {
-  position: absolute;
-  margin: 50px 0 0 20px;
+  position: relative;
+  margin: 61px 0 0 13px;
   padding: 0.55rem 1rem;
   color: #000;
   border-radius: 10px;
@@ -362,6 +381,7 @@ main {
 .neTable__row_fio {
   cursor: default;
   font-size: 13px;
+  font-weight: 500;
 }
 .neTable__total {
   color: #656464;
@@ -371,8 +391,8 @@ main {
   border-bottom: 1px solid #E8E9E9;
 }
 .neTable__zapas {
-  min-height: 60px;
-  max-height: 60px;
+  min-height: 80px;
+  max-height: 80px;
   padding: 0 18px;
   overflow-y: scroll;
   overflow-x: hidden;
@@ -387,10 +407,14 @@ main {
 .neTable__zapas::-webkit-scrollbar-track {
   border-radius: 10px;
 }
+.zapas {
+  margin-top: 5px!important;
+}
 .form {
   transition: ease 1s;
   box-shadow: 0px 3px 10px rgba(0, 0, 0, 0.25);
   margin-left: 129px;
+  margin-top: 95px;
   background-color: white;
   border-radius: 10px;
   min-width: 525px;

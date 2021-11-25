@@ -19,7 +19,7 @@ export const fetchTableData = () => async (dispatch, getState) => {
 	await neededTournament.loadCells('A1:E70');
 
 	const settings = neededTournament;
-	// console.log('Получили дату,сходив в таблицу', settings);
+	console.log('Получили дату,сходив в таблицу', settings);
 	const settingsArr = [];
 	for (let i = 1; i < 8; i++) {
 		settingsArr.push(settings.getCellByA1(`E${i}`).value);

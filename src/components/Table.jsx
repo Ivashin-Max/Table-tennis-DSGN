@@ -12,13 +12,17 @@ const Table = () => {
 	//при обновлении стора у нас обновится компонент 
 	return (
 		<div id="neTable" className='neTable'>
-			<div className="neTable__header_name">
-				{selector.tableDivisionName}
+			<div className="neTable__header_head">
+				<div className="neTable__header_name">
+					{selector.tableDivisionName}
+				</div>
+				<div className="neTable__header_date">
+					<div>	{selector.tableDate}</div>
+					<div>	{selector.tableTime}</div>
+				</div>
 			</div>
-			<div className="neTable__header_date">
-				<div>	{selector.tableDate}</div>
-				<div>	{selector.tableTime}</div>
-			</div>
+			<div className="neTable__header_line"></div>
+
 			<div className="neTable__main" >
 				{selector.tableFio?.map((name) => (
 					<div className='neTable__row' key={name + currentTournament} >
@@ -35,7 +39,7 @@ const Table = () => {
 			<p>Запас</p>
 			<div id="neTable__total" className="neTable__zapas">
 				{selector.tableZapas?.map((name) => (
-					<div className='neTable__row' key={name + currentTournament}>
+					<div className='neTable__row zapas' key={name + currentTournament}>
 						<div className="neTable__row_square"></div>
 						<div className="neTable__row_fio" >{name} </div>
 						<span className="neTable__row_tooltip">{name}</span>

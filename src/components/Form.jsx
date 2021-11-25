@@ -103,31 +103,39 @@ const Form = () => {
 
 	const newParticipant = async (e) => {
 		e.preventDefault();
-		setLoading(true)
-		const neededSheet = await getSheet(neededTournament.neededDivisionId, neededTournament.neededTournamentName, 'B1:C60');
-		console.log(`Хотим добавить челика фио: ${fio}, tell: ${tell} -  в эту таблу`, neededSheet);
-
-		for (let i = DATA_STARTS_FROM_CELL; i < 70; i++) {
-			let element = neededSheet.getCellByA1(`B${i}`).value
-
-			if (element === fio) {
-				alert('Нельзя! Такой челик уже зарегался');
-				setLoading(false)
-				break
-			}
-
-			if (element === null) {
-				neededSheet.getCellByA1(`B${i}`).value = fio;
-				neededSheet.getCellByA1(`C${i}`).value = tell;
-				await neededSheet.saveUpdatedCells();
-				await dispatch(fetchTableData());
-				// clearInputs();
-				setLoading(false)
-				break
-			}
+		if (!fio || !tell) {
+			alert('Введите данные');
 		}
+		else {
+			setLoading(true)
 
+			const neededSheet = await getSheet(neededTournament.neededDivisionId, neededTournament.neededTournamentName, 'B1:C60');
+			console.log(`Хотим добавить челика фио: ${fio}, tell: ${tell} -  в эту таблу`, neededSheet);
+
+			for (let i = DATA_STARTS_FROM_CELL; i < 70; i++) {
+				let element = neededSheet.getCellByA1(`B${i}`).value
+
+				if (element === fio) {
+					alert('Нельзя! Такой челик уже зарегался');
+					setLoading(false)
+					break
+				}
+
+				if (element === null) {
+					neededSheet.getCellByA1(`B${i}`).value = fio;
+					neededSheet.getCellByA1(`C${i}`).value = tell;
+					await neededSheet.saveUpdatedCells();
+					await dispatch(fetchTableData());
+					// clearInputs();
+					setLoading(false)
+					break
+				}
+			}
+
+		}
 	}
+
+
 
 
 	if (loading) {
