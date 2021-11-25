@@ -81,6 +81,7 @@ ul{
 		display: flex;
 		align-items: center;
 		color: black;	
+		z-index: 102;
 		& p{
 			text-align: left;
 		}
@@ -98,7 +99,7 @@ ul{
 		font-family: 'OpenSans';
 		margin-left: 97px;
 		position: relative;
-		z-index: 2;
+		z-index: 102;
 		font-weight: 400;
 		color: @color_text;
 
@@ -115,6 +116,7 @@ ul{
 
 	}
 	&__right {
+		z-index: 102;
 		margin-right: 40px;
 		background-color:#39AEA9;
 		border-radius: 50%;
@@ -204,7 +206,15 @@ ul{
 	}
 }
 
-
+.modal{
+	position: absolute;
+	top: 0;
+	left: 0;
+	width: 100%;
+	height: 100%;
+	background-color: #e9e9e985;
+	z-index: 100;
+}
 
 main{
 	padding: 35px 0;
@@ -223,7 +233,7 @@ main{
 	max-height: 835px;
    min-width: 300px;
 	max-width: 300px;
-	overflow-x: hidden;
+	// overflow-x: hidden;
 
 
 	& p{
@@ -274,16 +284,17 @@ main{
 		padding-bottom: 17px;
 		align-items: center;
 		white-space: nowrap;
-		position: relative;
+
 		&:hover{
 			.neTable__row_square{
-				transform: scale(1.1);
+				background-color: @color_red;
+				transform: rotateZ(45deg) scale(1.2);
+				transition:  .6s ease	;
 			}
 			.neTable__row_tooltip{
-				top: 10%;
+
 				opacity: 1;
 				z-index: 1;
-				overflow-x: visible;
 				font-size: 13px;
 				border: 1px solid @color_green;
 			}
@@ -294,18 +305,17 @@ main{
 			background-color: @color_green;
 			border-radius: 2px;
 			margin-right: 13px;
+			transform: rotateZ(0deg) scale(1);
+			transition: transform .6s ease	;
 		}
 
 		&_tooltip{
-
-				position: relative;
-				top: 60%;
-				left: -5%;
-				margin-top: 10px;
+			
+				position: absolute;
+				margin: 50px 0 0 20px;
 				padding: .55rem 1rem;
-				white-space: nowrap;
 				color: #000;
-				border-radius: 50px;
+				border-radius: 10px;
 				background-color: #fff;
 				box-shadow: 0 15px 35px rgba(50, 50, 93, 0.1),
 				  0 5px 15px rgba(0, 0, 0, 0.07);
@@ -317,7 +327,7 @@ main{
 				opacity: 0;
 				transition: all 0.2s ease-in-out;
 			 
-
+				
 			}
 		&_fio{
 			cursor: default;
@@ -448,6 +458,21 @@ input{
 		opacity: 1;
 	}
 }
+.logo{
+	&:hover{
+		animation: rotation1 .9s ease infinite;
+
+		@keyframes rotation1 {
+			0% {
+			  transform: rotate(0deg);
+			}
+			100% {
+			  transform: rotate(360deg);
+			}
+		 } 
+	}
+}
+
 
 .buttons{
 	margin: 40px 0 15px 0;

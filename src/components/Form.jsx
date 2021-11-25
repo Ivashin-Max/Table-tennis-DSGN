@@ -145,7 +145,7 @@ const Form = () => {
 				<p id="tournamentTell">
 					{storeData.tournamentTell}
 				</p>
-				<img src={logo} alt="red rocket" />
+				<img src={logo} alt="red rocket" className="logo" />
 			</section>
 			<div className="placeholder-container">
 				<input type="text" placeholder=' ' id="newParticipantName" value={fio} onChange={event => setFio(event.target.value)} />

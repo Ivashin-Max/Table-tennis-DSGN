@@ -15,7 +15,6 @@ function App() {
 	React.useEffect(() => {
 		(async () => {
 			setLoading(true);
-			// preventDefault();
 			await dispatch(initApp());
 			setLoading(false);
 		})()
@@ -31,6 +30,7 @@ function App() {
 
 	return (
 		<div className="App">
+			{/* <div className="modal"></div> */}
 			<MyHeader />
 			<main>
 				<Table />
