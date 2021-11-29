@@ -240,11 +240,14 @@ main{
 	border-radius: 10px;
 	min-height: 779px;
 	max-height: 779px;
-   min-width: 300px;
+    min-width: 300px;
 	max-width: 300px;
 	// overflow-x: hidden;
-
-
+	transition: 0.5s ease;
+	&:hover{
+		max-width: 500px;
+		transition: 1s ease-in-out;
+	}
 	& p{
 		font-weight: 600;
 	}
@@ -304,6 +307,7 @@ main{
 		align-items: center;
 		white-space: nowrap;
 		height: 18px;
+		position: relative;
 		&:first-child{
 			margin-top: 28px;
 		}
@@ -314,13 +318,13 @@ main{
 				transform: rotateZ(45deg) scale(1.2);
 				transition:  .6s ease	;
 			}
-			.neTable__row_tooltip{
+			// .neTable__row_tooltip{
 
-				opacity: 1;
-				z-index: 1;
-				font-size: 13px;
-				border: 1px solid @color_green;
-			}
+			// 	opacity: 1;
+			// 	z-index: 1;
+			// 	font-size: 13px;
+			// 	border: 1px solid @color_green;
+			// }
 		} 
 		&_square{
 			min-width: 10px;
@@ -334,7 +338,7 @@ main{
 
 		&_tooltip{
 			
-				position: relative;
+				position: absolute;
 				margin: 61px 0 0 13px;
 				padding: .55rem 1rem;
 				color: #000;
