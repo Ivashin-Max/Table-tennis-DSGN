@@ -34,7 +34,7 @@ function App() {
 			<MyHeader />
 			<main>
 				<Table />
-				<Form />
+				<Form q='sdfsd' />
 			</main>
 		</div>
 	);

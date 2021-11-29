@@ -5,7 +5,8 @@ import { useState } from 'react';
 import { getSheet } from '../actions/google';
 import { fetchTableData } from '../actions/fetchTableData';
 import { useDispatch } from 'react-redux';
-import { NewParticipant } from '../actions/formActions';
+import { fetchVk } from '../actions/fetchVk'
+
 
 
 //FIXME:
@@ -13,10 +14,11 @@ import { NewParticipant } from '../actions/formActions';
 
 const Form = () => {
 	const [loading, setLoading] = React.useState(false);
-
+	const [disabled, setDisabled] = React.useState(false);
 	const dispatch = useDispatch();
 	const storeData = useSelector(state => state.data)
 	const neededTournament = useSelector(state => state.table)
+	const vkData = useSelector(state => state.vk)
 	const [fio, setFio] = useState('');
 	const [tell, setTell] = useState('')
 	const clearInputs = () => {
@@ -57,7 +59,15 @@ const Form = () => {
 		}
 
 		else {
-			const neededCell = findParticipant(neededSheet, fio, tell);
+			let neededCell = '';
+			if (vkData.fullfield === true) {
+				neededCell = findParticipant(neededSheet, fio, vkData.id);
+				console.log(`Ищу по ID`);
+			}
+			else {
+				neededCell = findParticipant(neededSheet, fio, tell);
+				console.log(`Ищу по телефону`);
+			}
 
 			if (neededCell === null) {
 				alert(`Такого участника не существует`)
@@ -101,6 +111,7 @@ const Form = () => {
 	}
 
 
+
 	const newParticipant = async (e) => {
 		e.preventDefault();
 		if (!fio || !tell) {
@@ -123,7 +134,12 @@ const Form = () => {
 
 				if (element === null) {
 					neededSheet.getCellByA1(`B${i}`).value = fio;
-					neededSheet.getCellByA1(`C${i}`).value = tell;
+					if (vkData.fullfield === true) {
+						neededSheet.getCellByA1(`C${i}`).value = vkData.id;
+					}
+					else {
+						neededSheet.getCellByA1(`C${i}`).value = tell;
+					}
 					await neededSheet.saveUpdatedCells();
 					await dispatch(fetchTableData());
 					// clearInputs();
@@ -135,7 +151,15 @@ const Form = () => {
 		}
 	}
 
+	const vkAuth = (e) => {
 
+		e.preventDefault();
+		dispatch(fetchVk())
+		setFio(`${vkData.lastName} ${vkData.name}`)
+		setTell(`Ввод телефона не требуется`)
+		setDisabled(true)
+
+	}
 
 
 	if (loading) {
@@ -160,12 +184,14 @@ const Form = () => {
 				<label>Ваше ФИО</label>
 			</div>
 			<div className="placeholder-container">
-				<input type="tel" placeholder=' ' id="participantTell" value={tell} onChange={event => setTell(event.target.value)} />
+				<input type="tel" placeholder=' ' id="participantTell" disabled={disabled} value={tell} onChange={event => setTell(event.target.value)} />
 				<label>Ваш телефон</label>
 			</div>
 			<div className="buttons">
 				<button className="buttons_green" onClick={newParticipant}>Записаться на турнир</button>
 				<button className="buttons_red" onClick={deleteParticipant}>Удалиться с турнира</button>
+				<button className="buttons_green" onClick={vkAuth}>Авторизоваться Вконтакте</button>
+
 			</div>
 			<p id="tournamentRating">
 				{storeData.tournamentRate}
