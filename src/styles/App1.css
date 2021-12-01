@@ -264,7 +264,7 @@ ul {
   right: -4px;
 }
 .modal {
-  position: absolute;
+  position: fixed;
   top: 0;
   left: 0;
   width: 100%;
@@ -285,7 +285,7 @@ main {
   max-height: 779px;
   min-width: 300px;
   max-width: 300px;
-  transition: 0.5s ease;
+  transition: 1s ease-in-out;
 }
 .neTable:hover {
   max-width: 500px;
@@ -418,7 +418,7 @@ main {
   background-color: white;
   border-radius: 10px;
   min-width: 525px;
-  max-height: 520px;
+  max-height: 600px;
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -448,6 +448,24 @@ button {
   height: 40px;
   width: 236px;
   display: block;
+}
+.fioPrompt {
+  position: absolute;
+  opacity: 1;
+  font-size: 13px;
+  top: 36px;
+  left: 0;
+  z-index: 10;
+  background-color: white;
+  width: max-content;
+  min-width: 240px;
+}
+.fioPrompt div {
+  padding: 7px;
+  cursor: pointer;
+}
+.fioPrompt div:hover {
+  background-color: #e9e9e985;
 }
 .loader {
   margin-left: 400px;

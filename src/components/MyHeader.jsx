@@ -3,12 +3,15 @@ import SubMenu from './SubMenu';
 import { useSelector } from 'react-redux';
 
 const MyHeader = () => {
-
+	const [isShown, setIsShown] = React.useState(true);
 	const mySelector = useSelector(state => state.spreadId);
-
+	const hideModal = () => setIsShown(false);
 
 	return (
+
 		<div className="header">
+			{isShown &&
+				<div className="modal"></div>}
 			<div className="header__left">
 				<div className="header__left_round"></div>
 				<div>
@@ -17,9 +20,9 @@ const MyHeader = () => {
 				</div>
 			</div>
 			<div className="header__navbar">
-				<ul className="header__navbar_menu">
-					<li>Свободный
-						<SubMenu id={mySelector.free} />
+				<ul className="header__navbar_menu" onClick={hideModal}>
+					<li >Свободный
+						<SubMenu id={mySelector.free} onClick={() => { console.log('sdfs'); }} />
 						<div className="header__navbar_line"></div>
 					</li>
 					<li>Первый
@@ -36,7 +39,8 @@ const MyHeader = () => {
 					</li>
 					<li>Высший
 						<SubMenu id={mySelector.high} />
-						<div className="header__navbar_line"></div> </li>
+						<div className="header__navbar_line"></div>
+					</li>
 					<li>ТТклаб
 						<SubMenu id={mySelector.ttClub} />
 						<div className="header__navbar_line"></div>

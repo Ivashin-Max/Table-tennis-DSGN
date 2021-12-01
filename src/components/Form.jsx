@@ -1,31 +1,39 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { useSelector } from 'react-redux';
 import logo from '../styles/img/ping-pong-svgrepo-com.svg'
-import { useState } from 'react';
 import { getSheet } from '../actions/google';
 import { fetchTableData } from '../actions/fetchTableData';
 import { useDispatch } from 'react-redux';
-import { fetchVk } from '../actions/fetchVk'
-
-
+import { vkAuth } from '../actions/vk'
+import { clearStorageId, checkStoragedId, addFioToStorage, getPromptFio } from '../actions/localStorage';
 
 //FIXME:
 // Добавить визуальный эффект, после нажатия кнопки Добавить/Удалить, не дублируя весь код
 
 const Form = () => {
-	const [loading, setLoading] = React.useState(false);
-	const [disabled, setDisabled] = React.useState(false);
+	const [loading, setLoading] = useState(false);
+	const [disabled, setDisabled] = useState(false);
+	const [tellPlaceholder, setTellPlaceholder] = useState('Ваш телефон');
+	const [prompt, setPrompt] = useState(false)
 	const dispatch = useDispatch();
 	const storeData = useSelector(state => state.data)
 	const neededTournament = useSelector(state => state.table)
-	const vkData = useSelector(state => state.vk)
 	const [fio, setFio] = useState('');
 	const [tell, setTell] = useState('')
-	const clearInputs = () => {
-		setFio('');
-		setTell('');
-	}
+
 	const DATA_STARTS_FROM_CELL = 2;
+
+
+
+	React.useEffect(() => {
+		let vkId = checkStoragedId();
+		console.log(`В локалСторадж хранится id: ${vkId}`);
+		if (!!vkId) {
+			setDisabled(true);
+			setTellPlaceholder('Ввод телефона не требуется')
+		}
+	}, [])
+
 
 
 	const findParticipant = (sheet, findingFio, findingTell) => {
@@ -50,27 +58,25 @@ const Form = () => {
 	const deleteParticipant = async (e) => {
 		e.preventDefault();
 		setLoading(true)
-		const neededSheet = await getSheet(neededTournament.neededDivisionId, neededTournament.neededTournamentName, 'B1:C70');
-		console.groupCollapsed('Отработка функции удаления участника')
-		console.log(`Хотим удалить челика фио: ${fio}, tell: ${tell} -  в этой табле`, neededSheet);
-		if (!fio || !tell) {
+		const vkId = checkStoragedId();
+
+		if (fio === '' || (tell === '' && !vkId)) {
 			alert('Введите данные');
 			setLoading(false)
 		}
 
 		else {
 			let neededCell = '';
-			if (vkData.fullfield === true) {
-				neededCell = findParticipant(neededSheet, fio, vkData.id);
-				console.log(`Ищу по ID`);
-			}
-			else {
-				neededCell = findParticipant(neededSheet, fio, tell);
-				console.log(`Ищу по телефону`);
-			}
+
+			const neededSheet = await getSheet(neededTournament.neededDivisionId, neededTournament.neededTournamentName, 'B1:C70');
+
+			if (vkId) neededCell = findParticipant(neededSheet, fio, vkId);
+			else neededCell = findParticipant(neededSheet, fio, tell);
+
+
 
 			if (neededCell === null) {
-				alert(`Такого участника не существует`)
+				alert(`Такой участник не зарегистрирован`)
 				setLoading(false)
 			}
 			else {
@@ -102,6 +108,7 @@ const Form = () => {
 
 				await neededSheet.saveUpdatedCells()
 				await dispatch(fetchTableData())
+				setPrompt(false)
 				setLoading(false)
 			}
 		}
@@ -114,51 +121,55 @@ const Form = () => {
 
 	const newParticipant = async (e) => {
 		e.preventDefault();
-		if (!fio || !tell) {
+		const vkId = checkStoragedId();
+		if (fio === '' || (tell === '' && !vkId)) {
 			alert('Введите данные');
+			setLoading(false)
 		}
 		else {
 			setLoading(true)
 
 			const neededSheet = await getSheet(neededTournament.neededDivisionId, neededTournament.neededTournamentName, 'B1:C60');
+			const vkId = checkStoragedId();
+
 			console.log(`Хотим добавить челика фио: ${fio}, tell: ${tell} -  в эту таблу`, neededSheet);
 
 			for (let i = DATA_STARTS_FROM_CELL; i < 70; i++) {
 				let element = neededSheet.getCellByA1(`B${i}`).value
 
 				if (element === fio) {
-					alert('Нельзя! Такой челик уже зарегался');
+					alert('Нельзя! Такой участник уже зарегистрировался');
 					setLoading(false)
 					break
 				}
 
 				if (element === null) {
 					neededSheet.getCellByA1(`B${i}`).value = fio;
-					if (vkData.fullfield === true) {
-						neededSheet.getCellByA1(`C${i}`).value = vkData.id;
-					}
-					else {
-						neededSheet.getCellByA1(`C${i}`).value = tell;
-					}
+
+					if (vkId) neededSheet.getCellByA1(`C${i}`).value = vkId
+					else neededSheet.getCellByA1(`C${i}`).value = tell
+
 					await neededSheet.saveUpdatedCells();
 					await dispatch(fetchTableData());
-					// clearInputs();
+					addFioToStorage(fio)
+					setPrompt(false)
 					setLoading(false)
 					break
 				}
 			}
-
 		}
 	}
 
-	const vkAuth = (e) => {
+	const showPrompt = () => {
+		setPrompt(true)
+	}
+	const hidePrompt = () => {
+		setPrompt(false)
+	}
 
-		e.preventDefault();
-		dispatch(fetchVk())
-		setFio(`${vkData.lastName} ${vkData.name}`)
-		setTell(`Ввод телефона не требуется`)
-		setDisabled(true)
-
+	const autoComplete = event => {
+		setFio(event.target.textContent)
+		hidePrompt()
 	}
 
 
@@ -169,7 +180,7 @@ const Form = () => {
 	}
 
 	return (
-		<form action="#" id="form" className="form">
+		<form action="#" id="form" className="form" >
 			<section className="form_header">
 				<p id="tournamentAdress">
 					{storeData.tournamentPlace}
@@ -180,18 +191,55 @@ const Form = () => {
 				<img src={logo} alt="red rocket" className="logo" />
 			</section>
 			<div className="placeholder-container">
-				<input type="text" placeholder=' ' id="newParticipantName" value={fio} onChange={event => setFio(event.target.value)} />
-				<label>Ваше ФИО</label>
+				{prompt && <div className="fioPrompt">
+					{
+						getPromptFio().map((name) => (
+							<div
+								key={name}
+								onMouseDown={autoComplete}
+							>
+								{name}
+							</div>
+						))
+					}
+				</div>}
+				<input
+					type="text"
+					placeholder=' '
+					id="newParticipantName"
+					autoComplete='off'
+					value={fio}
+					onChange={event => setFio(event.target.value)}
+					onClick={showPrompt}
+					onBlur={hidePrompt}
+				/>
+				<label >Ваше ФИО</label>
 			</div>
 			<div className="placeholder-container">
-				<input type="tel" placeholder=' ' id="participantTell" disabled={disabled} value={tell} onChange={event => setTell(event.target.value)} />
-				<label>Ваш телефон</label>
+				<input
+					type="tell"
+					placeholder=' '
+					id="participantTell"
+					autoComplete='off'
+					disabled={disabled}
+					value={tell}
+					onChange={event => setTell(event.target.value)} />
+				<label>{tellPlaceholder}</label>
 			</div>
 			<div className="buttons">
 				<button className="buttons_green" onClick={newParticipant}>Записаться на турнир</button>
 				<button className="buttons_red" onClick={deleteParticipant}>Удалиться с турнира</button>
-				<button className="buttons_green" onClick={vkAuth}>Авторизоваться Вконтакте</button>
-
+				<button className="buttons_green"
+					disabled={disabled}
+					onClick={vkAuth}>
+					{!disabled && <span>Авторизоваться Вконтакте</span>}
+					{disabled && <span> Вы авторизованы Вконтакте</span>}
+				</button>
+				<button
+					className="buttons_red"
+					onClick={clearStorageId}>
+					Выйти из Вконтакте
+				</button>
 			</div>
 			<p id="tournamentRating">
 				{storeData.tournamentRate}
