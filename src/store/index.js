@@ -1,5 +1,5 @@
 import { createStore, applyMiddleware, combineReducers } from 'redux';
-import { reducerTable, reducerSpreadsheetsIds, reducerData, reducerVK } from './reducer';
+import { reducerTable, reducerSpreadsheetsIds, reducerData } from './reducer';
 import ReduxThunk from 'redux-thunk';
 
 // export const store = createStore(reducerTable);
@@ -14,7 +14,7 @@ export const getMiddleware = (config = middlewareConfig()) => (
 
 
 
-const rootReducer = combineReducers({ table: reducerTable, spreadId: reducerSpreadsheetsIds, data: reducerData, vk: reducerVK })
+const rootReducer = combineReducers({ table: reducerTable, spreadId: reducerSpreadsheetsIds, data: reducerData })
 
 export const store = createStore(
 	rootReducer,

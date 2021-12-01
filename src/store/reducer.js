@@ -99,36 +99,3 @@ export function reducerData(state = fetchedData, action) {
 			return state;
 	}
 }
-//стор для ВК
-const vk = {
-	name: '',
-	lastName: '',
-	id: '',
-	fullfield: false
-}
-
-const SET_vk = 'SET_vk';
-
-export const setVk = (payload) => {
-	return {
-		type: SET_vk,
-		payload
-	}
-}
-
-export function reducerVK(state = vk, action) {
-	switch (action.type) {
-
-		case SET_vk:
-			return {
-				...state,
-				name: action.payload.name,
-				lastName: action.payload.lastName,
-				id: action.payload.id,
-				fullfield: action.payload.fullfield
-			};
-
-		default:
-			return state;
-	}
-}
