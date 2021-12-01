@@ -287,10 +287,6 @@ main {
   max-width: 300px;
   transition: 1s ease-in-out;
 }
-.neTable:hover {
-  max-width: 500px;
-  transition: 1s ease-in-out;
-}
 .neTable p {
   font-weight: 600;
 }
@@ -363,7 +359,6 @@ main {
   transition: transform 0.6s ease;
 }
 .neTable__row_tooltip {
-  position: absolute;
   margin: 61px 0 0 13px;
   padding: 0.55rem 1rem;
   color: #000;
@@ -375,8 +370,6 @@ main {
   -moz-user-select: none;
   -ms-user-select: none;
   user-select: none;
-  opacity: 0;
-  transition: all 0.2s ease-in-out;
 }
 .neTable__row_fio {
   cursor: default;
@@ -409,6 +402,24 @@ main {
 }
 .zapas {
   margin-top: 5px!important;
+}
+.rc-tooltip {
+  color: red;
+  margin: 61px 0 0 13px;
+  padding: 0.55rem 1rem;
+  color: #000;
+  border-radius: 10px;
+  background-color: #fff;
+  box-shadow: 0 15px 35px rgba(50, 50, 93, 0.1), 0 5px 15px rgba(0, 0, 0, 0.07);
+  pointer-events: none;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+  width: max-content;
+}
+.rc-tooltip-hidden {
+  display: none;
 }
 .form {
   transition: ease 1s;
@@ -448,6 +459,9 @@ button {
   height: 40px;
   width: 236px;
   display: block;
+}
+.ALO {
+  color: red;
 }
 .fioPrompt {
   position: absolute;

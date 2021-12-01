@@ -3,9 +3,9 @@ import { reactLocalStorage } from 'reactjs-localstorage';
 
 export const setId = (vkId) => reactLocalStorage.set('vkId', vkId)
 
-export const clearStorageId = (e) => {
+export const clearStorage = (e) => {
 	e.preventDefault();
-	reactLocalStorage.remove('vkId');
+	reactLocalStorage.clear();
 }
 
 export const checkStoragedId = () => reactLocalStorage.get('vkId')

@@ -8,7 +8,7 @@ import { fetchTableData } from '../actions/fetchTableData';
 
 
 //Подменю хедера, которые мы создаём при ините
-const SubMenu = ({ id }) => {
+const SubMenu = ({ id, onPress }) => {
 
 	const dispatch = useDispatch();
 	const [tournamentsNames, setTournamentsNames] = React.useState();
@@ -29,6 +29,7 @@ const SubMenu = ({ id }) => {
 			neededTournamentName: name
 		}))
 		dispatch(fetchTableData());
+		onPress();
 	}, [id, dispatch])
 
 

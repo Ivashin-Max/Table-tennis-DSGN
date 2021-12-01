@@ -5,7 +5,8 @@ import { getSheet } from '../actions/google';
 import { fetchTableData } from '../actions/fetchTableData';
 import { useDispatch } from 'react-redux';
 import { vkAuth } from '../actions/vk'
-import { clearStorageId, checkStoragedId, addFioToStorage, getPromptFio } from '../actions/localStorage';
+import { clearStorage, checkStoragedId, addFioToStorage, getPromptFio } from '../actions/localStorage';
+
 
 //FIXME:
 // Добавить визуальный эффект, после нажатия кнопки Добавить/Удалить, не дублируя весь код
@@ -235,11 +236,13 @@ const Form = () => {
 					{!disabled && <span>Авторизоваться Вконтакте</span>}
 					{disabled && <span> Вы авторизованы Вконтакте</span>}
 				</button>
+
 				<button
 					className="buttons_red"
-					onClick={clearStorageId}>
+					onClick={clearStorage}>
 					Выйти из Вконтакте
 				</button>
+
 			</div>
 			<p id="tournamentRating">
 				{storeData.tournamentRate}

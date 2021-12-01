@@ -20,29 +20,29 @@ const MyHeader = () => {
 				</div>
 			</div>
 			<div className="header__navbar">
-				<ul className="header__navbar_menu" onClick={hideModal}>
+				<ul className="header__navbar_menu" >
 					<li >Свободный
-						<SubMenu id={mySelector.free} onClick={() => { console.log('sdfs'); }} />
+						<SubMenu id={mySelector.free} onPress={hideModal} />
 						<div className="header__navbar_line"></div>
 					</li>
 					<li>Первый
-						<SubMenu id={mySelector.first} />
+						<SubMenu id={mySelector.first} onPress={hideModal} />
 						<div className="header__navbar_line"></div>
 					</li>
 					<li>Второй
-						<SubMenu id={mySelector.second} />
+						<SubMenu id={mySelector.second} onPress={hideModal} />
 						<div className="header__navbar_line"></div>
 					</li>
 					<li>Третий
-						<SubMenu id={mySelector.third} />
+						<SubMenu id={mySelector.third} onPress={hideModal} />
 						<div className="header__navbar_line"></div>
 					</li>
 					<li>Высший
-						<SubMenu id={mySelector.high} />
+						<SubMenu id={mySelector.high} onPress={hideModal} />
 						<div className="header__navbar_line"></div>
 					</li>
 					<li>ТТклаб
-						<SubMenu id={mySelector.ttClub} />
+						<SubMenu id={mySelector.ttClub} onPress={hideModal} />
 						<div className="header__navbar_line"></div>
 					</li>
 				</ul>

@@ -1,14 +1,22 @@
 import React from 'react';
 import { useSelector } from 'react-redux';
-
-
+import ToolTip from 'react-portal-tooltip'
+import { useState } from 'react';
+import TableFio from './TableFio'
 
 const Table = () => {
-
+	const [show, setShow] = useState(false);
 	const selector = useSelector(state => state.data)
 	const currentTournament = useSelector(state => state.table.neededTournamentName)
 	console.log(`Данные по турниру ${currentTournament}`, selector);
 
+	const showTooltip = () => {
+		setShow(true)
+	}
+
+	const hideTooltip = () => {
+		setShow(false)
+	}
 	//при обновлении стора у нас обновится компонент 
 	return (
 		<div id="neTable" className='neTable'>
@@ -25,11 +33,7 @@ const Table = () => {
 
 			<div className="neTable__main" >
 				{selector.tableFio?.map((name) => (
-					<div className='neTable__row' key={name + currentTournament} >
-						<div className="neTable__row_square" ></div>
-						<div className="neTable__row_fio" >{name} </div>
-						<span className="neTable__row_tooltip">{name}</span>
-					</div>
+					<TableFio name={name} currentTournament={currentTournament} />
 				))
 				}
 			</div>
@@ -39,10 +43,10 @@ const Table = () => {
 			<p>Запас</p>
 			<div id="neTable__total" className="neTable__zapas">
 				{selector.tableZapas?.map((name) => (
-					<div className='neTable__row zapas' key={name + currentTournament}>
+					<div className='neTable__row zapas' id="hoverMe" onMouseEnter={showTooltip} onMouseLeave={hideTooltip} key={name + currentTournament}>
 						<div className="neTable__row_square"></div>
 						<div className="neTable__row_fio" >{name} </div>
-						<span className="neTable__row_tooltip">{name}</span>
+
 					</div>
 				))
 				}
