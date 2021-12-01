@@ -10,8 +10,9 @@ function App() {
 
 	const dispatch = useDispatch();
 	const [loading, setLoading] = React.useState(true);
+	const [isShown, setIsShown] = React.useState(true);
 
-
+	const hideModal = () => setIsShown(false);
 	React.useEffect(() => {
 		(async () => {
 			setLoading(true);
@@ -29,8 +30,9 @@ function App() {
 
 
 	return (
-		<div className="App">
-			{/* <div className="modal"></div> */}
+		<div onClick={hideModal} className="App">
+			{isShown &&
+				<div className="modal"></div>}
 			<MyHeader />
 			<main>
 				<Table />
