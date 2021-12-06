@@ -173,12 +173,29 @@ const Form = () => {
 		hidePrompt()
 	}
 
+  const auth = (e) => {
+    e.preventDefault();
+    setLoading(true)
+		vkAuth();
+		setDisabled(true);
+    setLoading(false);
+	}
+
+  const noAuth = (e)=>{
+    e.preventDefault();
+    setLoading(true)
+		clearStorage();
+		setDisabled(false);
+    setLoading(false);
+  }
 
 	if (loading) {
 		return (
 			<span className="loader"></span>
 		)
 	}
+
+
 
 	return (
 		<form action="#" id="form" className="form" >
@@ -216,32 +233,31 @@ const Form = () => {
 				/>
 				<label >Ваше ФИО</label>
 			</div>
-			<div className="placeholder-container">
+		{!disabled &&	<div className="placeholder-container">
 				<input
 					type="tell"
 					placeholder=' '
 					id="participantTell"
 					autoComplete='off'
-					disabled={disabled}
+
 					value={tell}
 					onChange={event => setTell(event.target.value)} />
 				<label>{tellPlaceholder}</label>
-			</div>
+			</div>}
 			<div className="buttons">
 				<button className="buttons_green" onClick={newParticipant}>Записаться на турнир</button>
 				<button className="buttons_red" onClick={deleteParticipant}>Удалиться с турнира</button>
-				<button className="buttons_green"
-					disabled={disabled}
-					onClick={vkAuth}>
-					{!disabled && <span>Авторизоваться Вконтакте</span>}
-					{disabled && <span> Вы авторизованы Вконтакте</span>}
-				</button>
-
-				<button
+				{!disabled && <button className="buttons_green"
+          onClick={auth}>
+          <span>Авторизоваться Вконтакте</span>
+          </button>}
+        {disabled && 				<button
 					className="buttons_red"
-					onClick={clearStorage}>
+					onClick={noAuth}>
 					Выйти из Вконтакте
-				</button>
+				</button>}
+
+
 
 			</div>
 			<p id="tournamentRating">

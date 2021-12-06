@@ -1,10 +1,10 @@
 import { setId } from "./localStorage";
 
 
-const fetchVk = () => {
+const fetchVk = async () => {
 
 	// eslint-disable-next-line no-undef
-	VK.Auth.login((r) => {
+await	VK.Auth.login((r) => {
 		let vkId = r.session.user.id
 		console.log(`Сходили в вк, достали Id:${vkId}, положили в локалСторадж`);
 		setId(vkId)
@@ -12,9 +12,8 @@ const fetchVk = () => {
 }
 
 
-export const vkAuth = (e) => {
-	e.preventDefault();
-	fetchVk();
+export const vkAuth =async  () => {
+	await fetchVk();
 }
 
 

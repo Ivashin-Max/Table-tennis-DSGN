@@ -5,7 +5,7 @@ import { useSelector } from 'react-redux';
 const MyHeader = () => {
 	const [isShown, setIsShown] = React.useState(true);
 	const mySelector = useSelector(state => state.spreadId);
-	const hideModal = () => setIsShown(false);
+	const hideModal = () =>  setIsShown(false);
 
 	return (
 

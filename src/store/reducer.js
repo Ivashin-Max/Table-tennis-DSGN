@@ -99,3 +99,31 @@ export function reducerData(state = fetchedData, action) {
 			return state;
 	}
 }
+
+//Стор для флага Авторизации
+const isAuthorized = {
+  auth:"true"
+}
+
+const SET_AUTH = 'SET_AUTH';
+
+
+export const setAuth = (payload) => {
+	return {
+		type: SET_AUTH,
+		payload
+	}
+}
+
+export function reducerAuth(state = isAuthorized, action) {
+	switch (action.type) {
+		case SET_AUTH:
+			return {
+				...state,
+				auth: action.payload.tournamentPlace,
+			}
+
+		default:
+			return state;
+	}
+}
