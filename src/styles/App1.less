@@ -151,6 +151,9 @@ ul{
 			position: relative;
 			padding: 7px;
 		}
+		&~li:last-child{
+			left: -50px;
+		}
 		&>li{
 			position: relative;
 			// margin: 7px 7px;
@@ -163,7 +166,6 @@ ul{
 				height: 30px;
 				top: 30px;
 			}
-
 			&:hover .header__navbar_menu_sub{
 				transition:all 0.9s;
 				visibility:visible;
@@ -174,12 +176,18 @@ ul{
 				width: 95%;
 				opacity: 1;
 			}
+			&:last-child .header__navbar_menu_sub{
+				left: -60px;
+			}
+			// &:hover:last-child .header__navbar_menu_sub{
+			// 	left: -60px;
+			// }
 		}
 
 		&_sub {
 			visibility: hidden;
 			position: absolute;
-			top: 0px;	
+			top: 10px;	
 			left: 0;
 			z-index: -1;
 			text-align: center;
@@ -190,7 +198,6 @@ ul{
 				padding-top: 11px;
 				padding-bottom: 11px;
 			}
-
 			& li{
 					display: block;
 					min-width: max-content;
@@ -342,6 +349,7 @@ main{
 				-moz-user-select: none;
 				-ms-user-select: none;
 				user-select: none;
+				border: 1px solid #39aea8;
 
 			 
 				
@@ -384,14 +392,17 @@ main{
 
 }
 .rc-tooltip{
-	color: red;
-	margin: 61px 0 0 13px;
+	font-family: 'Montserrat';
+	font-size: 1rem;
+	margin: 49px 0 0 13px;
 	padding: .55rem 1rem;
-	color: #000;
+	color: #2B476A;
+	font-weight: 500;
 	border-radius: 10px;
 	background-color: #fff;
 	box-shadow: 0 15px 35px rgba(50, 50, 93, 0.1),
 	  0 5px 15px rgba(0, 0, 0, 0.07);
+	border: 1px solid #39aea8;
 	pointer-events: none;
 	-webkit-user-select: none;
 	-moz-user-select: none;
@@ -403,6 +414,11 @@ main{
 .rc-tooltip-hidden{
 	display: none;
 }
+.rc-tooltip-placement-right{
+	margin: 49px 0 0 13px;
+	top: -100px
+}
+
 .form{
 	transition: ease 1s;
 	box-shadow: 0px 3px 10px rgba(0, 0, 0, 0.25);
