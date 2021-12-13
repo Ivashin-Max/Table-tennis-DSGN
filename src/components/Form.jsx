@@ -41,16 +41,18 @@ const Form = () => {
 		let rowNumber = null;
 
 		for (let i = DATA_STARTS_FROM_CELL; i < 70; i++) {
-			let element = sheet.getCellByA1(`B${i}`).value
+      if (sheet.getCellByA1(`B${i}`).value !== null){
+			let element = sheet.getCellByA1(`B${i}`).value.trim().toLocaleLowerCase();
 
-			if (element === findingFio) {
-				let tell = sheet.getCellByA1(`C${i}`).value
+			  if (element === findingFio) {
+			  	let tell = sheet.getCellByA1(`C${i}`).value.trim()
 
-				if (tell.toString() === findingTell) {
-					rowNumber = i
-					break
-				}
-			}
+			  	if (tell.toString() === findingTell) {
+			  		rowNumber = i
+			  		break
+			  	}
+			  }
+      }
 		}
 		return rowNumber
 	}
@@ -61,18 +63,22 @@ const Form = () => {
 		setLoading(true)
 		const vkId = checkStoragedId();
 
-		if (fio === '' || (tell === '' && !vkId)) {
-			alert('Введите данные');
+		if (fio.trim() === '' ) {
+			alert('Введите ФИО');
 			setLoading(false)
 		}
+    else if(tell.trim() === '' && !vkId){
+      alert('Введите телефон или авторизуйтесь Вконтакте');
+			setLoading(false)
+    }
 
 		else {
 			let neededCell = '';
 
 			const neededSheet = await getSheet(neededTournament.neededDivisionId, neededTournament.neededTournamentName, 'B1:C70');
 
-			if (vkId) neededCell = findParticipant(neededSheet, fio, vkId);
-			else neededCell = findParticipant(neededSheet, fio, tell);
+			if (vkId) neededCell = findParticipant(neededSheet, fio.trim().toLocaleLowerCase(), vkId);
+			else neededCell = findParticipant(neededSheet, fio.trim().toLocaleLowerCase(), tell);
 
 
 
@@ -108,7 +114,8 @@ const Form = () => {
 
 
 				await neededSheet.saveUpdatedCells()
-				await dispatch(fetchTableData())
+				await dispatch(fetchTableData());
+        
 				setPrompt(false)
 				setLoading(false)
 			}
@@ -123,10 +130,14 @@ const Form = () => {
 	const newParticipant = async (e) => {
 		e.preventDefault();
 		const vkId = checkStoragedId();
-		if (fio === '' || (tell === '' && !vkId)) {
-			alert('Введите данные');
+		if (fio.trim() === '') {
+			alert('Для добавления участника необходимо ввести ФИО');
 			setLoading(false)
 		}
+    else if(tell.trim() === '' && !vkId){
+      alert('Для добавления участника необходимо ввести телефон или авторизоваться Вконтакте');
+			setLoading(false)
+    }
 		else {
 			setLoading(true)
 

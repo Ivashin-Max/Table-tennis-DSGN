@@ -221,7 +221,8 @@ ul {
   opacity: 1;
 }
 .header__navbar_menu > li:last-child .header__navbar_menu_sub {
-  left: -60px;
+  left: auto;
+  right: 0;
 }
 .header__navbar_menu_sub {
   visibility: hidden;
@@ -309,6 +310,7 @@ main {
 .neTable__header_name {
   font-weight: 600;
   margin: 7px 0 9px 0 ;
+  width: 236px;
   font-size: 20px;
 }
 .neTable__header_date {
