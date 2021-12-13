@@ -1,12 +1,17 @@
 import React from 'react'
 import SubMenu from './SubMenu';
 import { useSelector } from 'react-redux';
+import classNames from 'classnames';
 
 const MyHeader = () => {
 	const [isShown, setIsShown] = React.useState(true);
 	const mySelector = useSelector(state => state.spreadId);
 	const hideModal = () =>  setIsShown(false);
-
+  let className = classNames({
+    "header__navbar_menu": true,
+    "green": isShown
+  });
+  
 	return (
 
 		<div className="header">
@@ -20,7 +25,7 @@ const MyHeader = () => {
 				</div>
 			</div>
 			<div className="header__navbar">
-				<ul className="header__navbar_menu" >
+				<ul className={className} >
 					<li >Свободный
 						<SubMenu id={mySelector.free} onPress={hideModal} />
 						<div className="header__navbar_line"></div>
