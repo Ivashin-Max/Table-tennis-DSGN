@@ -6,7 +6,7 @@ import { fetchTableData } from '../actions/fetchTableData';
 import { useDispatch } from 'react-redux';
 import { vkAuth } from '../actions/vk'
 import { clearStorage, checkStoragedId, addFioToStorage, getPromptFio } from '../actions/localStorage';
-
+import InputMask from 'react-input-mask';
 
 //FIXME:
 // Добавить визуальный эффект, после нажатия кнопки Добавить/Удалить, не дублируя весь код
@@ -39,22 +39,30 @@ const Form = () => {
 
 	const findParticipant = (sheet, findingFio, findingTell) => {
 		let rowNumber = null;
-
+    let participant = {
+      name: false,
+      tell: false,
+      rowNumber: null
+    }
 		for (let i = DATA_STARTS_FROM_CELL; i < 70; i++) {
       if (sheet.getCellByA1(`B${i}`).value !== null){
 			let element = sheet.getCellByA1(`B${i}`).value.trim().toLocaleLowerCase();
 
 			  if (element === findingFio) {
+          participant.name = true
 			  	let tell = sheet.getCellByA1(`C${i}`).value.trim()
 
 			  	if (tell.toString() === findingTell) {
+            participant.tell = true;
+            participant.rowNumber = i
 			  		rowNumber = i
 			  		break
 			  	}
 			  }
       }
 		}
-		return rowNumber
+    console.log(`Participant`, participant);
+		return participant
 	}
 
 
@@ -67,8 +75,8 @@ const Form = () => {
 			alert('Введите ФИО');
 			setLoading(false)
 		}
-    else if(tell.trim() === '' && !vkId){
-      alert('Введите телефон или авторизуйтесь Вконтакте');
+    else if(tell.length !==17 && !vkId){
+      alert('Введите телефон в корректном формате');
 			setLoading(false)
     }
 
@@ -82,14 +90,18 @@ const Form = () => {
 
 
 
-			if (neededCell === null) {
-				alert(`Такой участник не зарегистрирован`)
+			if (neededCell.name === false) {
+				alert(`Участник с таким именем не зарегистрирован`)
 				setLoading(false)
 			}
+      else if (neededCell.tell === false){
+        alert(`Участник с таким именем зарегистрирован под другим номером телефона`)
+				setLoading(false)
+      }
 			else {
-				console.log(`Нашли cовпадение по имени:${fio} и телефону ${tell} в строке №${neededCell}`);
-				neededSheet.getCellByA1(`B${neededCell}`).value = null;
-				neededSheet.getCellByA1(`C${neededCell}`).value = null;
+				console.log(`Нашли cовпадение по имени:${fio} и телефону ${tell} в строке №${neededCell.rowNumber}`);
+				neededSheet.getCellByA1(`B${neededCell.rowNumber}`).value = null;
+				neededSheet.getCellByA1(`C${neededCell.rowNumber}`).value = null;
 				await neededSheet.saveUpdatedCells()
 				await neededSheet.loadCells();
 				//FIXME:
@@ -115,7 +127,11 @@ const Form = () => {
 
 				await neededSheet.saveUpdatedCells()
 				await dispatch(fetchTableData());
-        
+        if (vkId) neededCell = findParticipant(neededSheet, fio.trim().toLocaleLowerCase(), vkId).rowNumber;
+        else neededCell = findParticipant(neededSheet, fio.trim().toLocaleLowerCase(), tell).rowNumber;
+        if (neededCell === null) {
+          alert(`Удаление прошло успешно`)
+        }
 				setPrompt(false)
 				setLoading(false)
 			}
@@ -134,11 +150,12 @@ const Form = () => {
 			alert('Для добавления участника необходимо ввести ФИО');
 			setLoading(false)
 		}
-    else if(tell.trim() === '' && !vkId){
-      alert('Для добавления участника необходимо ввести телефон или авторизоваться Вконтакте');
+    else if(tell.trim().length !== 17 && !vkId){
+      alert('Для добавления участника необходимо ввести корректный формат номера или авторизоваться Вконтакте');
 			setLoading(false)
     }
 		else {
+      console.log(tell.trim(), tell.trim().length);
 			setLoading(true)
 
 			const neededSheet = await getSheet(neededTournament.neededDivisionId, neededTournament.neededTournamentName, 'B1:C60');
@@ -232,6 +249,7 @@ const Form = () => {
 						))
 					}
 				</div>}
+
 				<input
 					type="text"
 					placeholder=' '
@@ -245,14 +263,23 @@ const Form = () => {
 				<label >Ваше ФИО</label>
 			</div>
 		{!disabled &&	<div className="placeholder-container">
-				<input
+    <InputMask  
+      mask="+7\(999)-999-99-99"
+      maskChar=""
+      id="participantTell"
+	    autoComplete='off'
+      placeholder=' '
+      value={tell}
+      onChange={event => setTell(event.target.value)} 
+     />
+				{/* <input
 					type="tell"
 					placeholder=' '
 					id="participantTell"
 					autoComplete='off'
 
 					value={tell}
-					onChange={event => setTell(event.target.value)} />
+					onChange={event => setTell(event.target.value)} /> */}
 				<label>{tellPlaceholder}</label>
 			</div>}
 			<div className="buttons">

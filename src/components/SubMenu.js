@@ -9,7 +9,7 @@ import { fetchTableData } from '../actions/fetchTableData';
 
 //Подменю хедера, которые мы создаём при ините
 const SubMenu = ({ id, onPress }) => {
-
+	const [isShown, setIsShown] = React.useState(false);
 	const dispatch = useDispatch();
 	const [tournamentsNames, setTournamentsNames] = React.useState();
 
@@ -23,28 +23,33 @@ const SubMenu = ({ id, onPress }) => {
 	}, [id])
 
 
-	const onClick = React.useCallback((name) => () => {
-		dispatch(setTable({
+	const onClick = React.useCallback((name) =>async () => {
+    setIsShown(true);
+		await dispatch(setTable({
 			neededDivisionId: id,
 			neededTournamentName: name
 		}))
-		dispatch(fetchTableData());
-		onPress();
+		await dispatch(fetchTableData());
+    	onPress();
+    setIsShown(false);
 	}, [id, dispatch])
 
 
 	return (
-		<ul className="header__navbar_menu_sub">
-			{tournamentsNames?.map((name) => (
-				<li
-					onClick={onClick(name)}
-					key={name}
-				>
-					{name}
-				</li>
-			))
-			}
-		</ul >
+    <>{isShown &&
+      <div className="modal"></div>}
+		  <ul className="header__navbar_menu_sub">
+		  	{tournamentsNames?.map((name) => (
+		  		<li
+		  			onClick={onClick(name)}
+		  			key={name}
+		  		>
+		  			{name}
+		  		</li>
+		  	))
+		  	}
+		  </ul >
+    </>
 	)
 }
 
