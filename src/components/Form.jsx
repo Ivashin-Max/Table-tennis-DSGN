@@ -55,7 +55,6 @@ const Form = () => {
 			  	if (tell.toString() === findingTell) {
             participant.tell = true;
             participant.rowNumber = i
-			  		rowNumber = i
 			  		break
 			  	}
 			  }
