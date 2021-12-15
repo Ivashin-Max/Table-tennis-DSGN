@@ -165,12 +165,13 @@ const Form = () => {
 
 			for (let i = DATA_STARTS_FROM_CELL; i < 70; i++) {
 				let element = neededSheet.getCellByA1(`B${i}`).value
-
-				if (element === fio) {
-					alert('Нельзя! Такой участник уже зарегистрировался');
-					setLoading(false)
-					break
-				}
+        if (element){
+				  if (element.trim().toLocaleLowerCase() === fio.trim().toLocaleLowerCase() ) {
+				  	alert('Нельзя! Такой участник уже зарегистрировался');
+				  	setLoading(false)
+				  	break
+				  }
+        }
 
 				if (element === null) {
 					neededSheet.getCellByA1(`B${i}`).value = fio;
