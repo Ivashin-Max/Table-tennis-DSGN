@@ -21,7 +21,8 @@ const Form = () => {
 	const neededTournament = useSelector(state => state.table)
 	const [fio, setFio] = useState('');
 	const [tell, setTell] = useState('')
-
+  const [modal, setModal] = useState(false);
+  const [modalMsg, setModalMsg] = useState("");
 	const DATA_STARTS_FROM_CELL = 2;
 
 
@@ -71,11 +72,11 @@ const Form = () => {
 		const vkId = checkStoragedId();
 
 		if (fio.trim() === '' ) {
-			alert('Введите ФИО');
+			showModalMsg('Введите ФИО');
 			setLoading(false)
 		}
     else if(tell.length !==17 && !vkId){
-      alert('Введите телефон в корректном формате');
+      showModalMsg('Введите телефон в корректном формате');
 			setLoading(false)
     }
 
@@ -90,11 +91,11 @@ const Form = () => {
 
 
 			if (neededCell.name === false) {
-				alert(`Участник с таким именем не зарегистрирован`)
+				showModalMsg(`Участник с таким именем не зарегистрирован`)
 				setLoading(false)
 			}
       else if (neededCell.tell === false){
-        alert(`Участник с таким именем зарегистрирован под другим номером телефона`)
+        showModalMsg(`Участник с таким именем зарегистрирован под другим номером телефона`)
 				setLoading(false)
       }
 			else {
@@ -129,7 +130,8 @@ const Form = () => {
         if (vkId) neededCell = findParticipant(neededSheet, fio.trim().toLocaleLowerCase(), vkId).rowNumber;
         else neededCell = findParticipant(neededSheet, fio.trim().toLocaleLowerCase(), tell).rowNumber;
         if (neededCell === null) {
-          alert(`Удаление прошло успешно`)
+          showModalMsg(`Удаление прошло успешно`);
+
         }
 				setPrompt(false)
 				setLoading(false)
@@ -146,11 +148,11 @@ const Form = () => {
 		e.preventDefault();
 		const vkId = checkStoragedId();
 		if (fio.trim() === '') {
-			alert('Для добавления участника необходимо ввести ФИО');
+      showModalMsg('Для добавления участника необходимо ввести ФИО');
 			setLoading(false)
 		}
     else if(tell.trim().length !== 17 && !vkId){
-      alert('Для добавления участника необходимо ввести корректный формат номера или авторизоваться Вконтакте');
+      showModalMsg('Для добавления участника необходимо ввести корректный формат номера или авторизоваться Вконтакте');
 			setLoading(false)
     }
 		else {
@@ -166,7 +168,7 @@ const Form = () => {
 				let element = neededSheet.getCellByA1(`B${i}`).value
         if (element){
 				  if (element.trim().toLocaleLowerCase() === fio.trim().toLocaleLowerCase() ) {
-				  	alert('Нельзя! Такой участник уже зарегистрировался');
+				  	showModalMsg('Нельзя! Такой участник уже зарегистрировался');
 				  	setLoading(false)
 				  	break
 				  }
@@ -188,7 +190,13 @@ const Form = () => {
 			}
 		}
 	}
-
+  const closeModalMsg = ()=>{
+    setModal(false)
+  }
+  const showModalMsg = (msg)=>{
+    setModalMsg(msg)
+    setModal(true)
+  }
 	const showPrompt = () => {
 		setPrompt(true)
 	}
@@ -226,6 +234,12 @@ const Form = () => {
 
 
 	return (
+  <>
+    {modal && <div className="modal_msg">
+      <div onClick={closeModalMsg} className="modal_msg_close">&times;</div>
+      <div className="modal_msg_text">{modalMsg}</div>
+    </div>}
+
 		<form action="#" id="form" className="form" >
 			<section className="form_header">
 				<p id="tournamentAdress">
@@ -272,14 +286,6 @@ const Form = () => {
       value={tell}
       onChange={event => setTell(event.target.value)} 
      />
-				{/* <input
-					type="tell"
-					placeholder=' '
-					id="participantTell"
-					autoComplete='off'
-
-					value={tell}
-					onChange={event => setTell(event.target.value)} /> */}
 				<label>{tellPlaceholder}</label>
 			</div>}
 			<div className="buttons">
@@ -311,6 +317,7 @@ const Form = () => {
 			</div>
 
 		</form>
+ </>
 	)
 }
 
