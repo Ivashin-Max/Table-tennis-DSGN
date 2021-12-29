@@ -129,7 +129,7 @@ ul {
   border-radius: 10px;
   box-shadow: 0px 3px 10px rgba(0, 0, 0, 0.25);
 }
-.mo .green {
+.green {
   box-shadow: 0px 0px 8px 0px rgba(57, 174, 168, 0.23);
   animation: shadowBox 1s infinite;
 }
@@ -320,6 +320,9 @@ ul {
   left: 250px;
   padding: 20px;
   cursor: pointer;
+}
+.modal_msg_close:hover {
+  color: red;
 }
 main {
   padding: 35px 0;
