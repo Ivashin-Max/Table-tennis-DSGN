@@ -1,10 +1,9 @@
-import React, { useState } from 'react'
+import React from 'react'
 import Tooltip from 'rc-tooltip';
-// import 'rc-tooltip/assets/bootstrap_white.css';
-import domAlign from 'dom-align';
 
-// use domAlign
-// sourceNode's initial style should be position:absolute;left:-9999px;top:-9999px;
+
+
+
 
 const alignConfig = {
   offset: [-175, 5],            // the offset sourceNode by 10px in x and 20px in y,

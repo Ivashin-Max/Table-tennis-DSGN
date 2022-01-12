@@ -1,11 +1,12 @@
 import React, { useState } from 'react'
 import { useSelector } from 'react-redux';
-import logo from '../styles/img/ping-pong-svgrepo-com.svg'
+import logoPingPong from '../styles/img/ping-pong.svg'
+import logoVk from '../styles/img/VK_Compact_Logo.svg'
+import logoVkBlack from '../styles/img/VK_Compact_Logo_Black.svg'
 import { getSheet } from '../actions/google';
 import { fetchTableData } from '../actions/fetchTableData';
 import { useDispatch } from 'react-redux';
-import { vkAuth } from '../actions/vk'
-import { clearStorage, checkStoragedId, addFioToStorage, getPromptFio } from '../actions/localStorage';
+import { clearStorage, checkStoragedId, addFioToStorage, getPromptFio, setId } from '../actions/localStorage';
 import InputMask from 'react-input-mask';
 
 //FIXME:
@@ -39,7 +40,7 @@ const Form = () => {
 
 
 	const findParticipant = (sheet, findingFio, findingTell) => {
-		let rowNumber = null;
+		// let rowNumber = null;
     let participant = {
       name: false,
       tell: false,
@@ -209,12 +210,28 @@ const Form = () => {
 		hidePrompt()
 	}
 
+  const successAuth = function(id){
+    setId(id);
+    setDisabled(true);
+    setLoading(false);
+  }
   const auth = (e) => {
     e.preventDefault();
     setLoading(true)
-		vkAuth();
-		setDisabled(true);
-    setLoading(false);
+
+
+    const fetchVk =  () => {
+      // eslint-disable-next-line no-undef
+        VK.Auth.login((r) => {
+          if (r.session) {
+            successAuth(r.session.mid)
+          } else {
+            showModalMsg("Ошибка авторизации");
+            setLoading(false);
+          }
+        })
+      };
+     fetchVk();
 	}
 
   const noAuth = (e)=>{
@@ -242,72 +259,80 @@ const Form = () => {
 
 		<form action="#" id="form" className="form" >
 			<section className="form_header">
-				<p id="tournamentAdress">
-					{storeData.tournamentPlace}
-				</p>
-				<p id="tournamentTell">
-					{storeData.tournamentTell}
-				</p>
-				<img src={logo} alt="red rocket" className="logo" />
+        
+          {disabled && <div 
+                        onClick={noAuth}
+                        className="form_header_vk">
+                          <img className="form_header_img left" src={logoVkBlack} alt="vk Logo"  />
+                          <span  className="span black">Выйти</span>
+                        </div>
+          }
+          {!disabled && <div 
+                        onClick={auth}
+                        className="form_header_vk">
+                          <img className="form_header_img left" src={logoVk} alt="vk Logo"  />
+                          <span  className="span">Войти</span>
+                        </div>}
+        <div>
+				  <p id="tournamentAdress">
+				  	{storeData.tournamentPlace}
+				  </p>
+				  <p id="tournamentTell">
+				  	{storeData.tournamentTell}
+				  </p>
+        </div>
+				<img className="form_header_img right" src={logoPingPong} alt="red rocket"  />
 			</section>
-			<div className="placeholder-container">
-				{prompt && <div className="fioPrompt">
-					{
-						getPromptFio().map((name) => (
-							<div
-								key={name}
-								onMouseDown={autoComplete}
-							>
-								{name}
-							</div>
-						))
-					}
-				</div>}
 
-				<input
-					type="text"
-					placeholder=' '
-					id="newParticipantName"
-					autoComplete='off'
-					value={fio}
-					onChange={event => setFio(event.target.value)}
-					onClick={showPrompt}
-					onBlur={hidePrompt}
-				/>
-				<label >Ваше ФИО</label>
-			</div>
-		{!disabled &&	<div className="placeholder-container">
-    <InputMask  
-      mask="+7\(999)-999-99-99"
-      maskChar=""
-      id="participantTell"
-	    autoComplete='off'
-      placeholder=' '
-      value={tell}
-      onChange={event => setTell(event.target.value)} 
-     />
-				<label>{tellPlaceholder}</label>
-			</div>}
+      <div className="inputs">
+			  <div className="placeholder-container">
+			  	{prompt && <div className="fioPrompt">
+			  		{
+			  			getPromptFio().map((name) => (
+			  				<div
+			  					key={name}
+			  					onMouseDown={autoComplete}
+			  				>
+			  					{name}
+			  				</div>
+			  			))
+			  		}
+			  	</div>}
+
+			  	<input
+			  		type="text"
+			  		placeholder=' '
+			  		id="newParticipantName"
+			  		autoComplete='off'
+			  		value={fio}
+			  		onChange={event => setFio(event.target.value)}
+			  		onClick={showPrompt}
+			  		onBlur={hidePrompt}
+			  	/>
+			  	<label >Ваше ФИО</label>
+			  </div>
+		      {!disabled &&	<div className="placeholder-container">
+            <InputMask  
+              mask="+7\(999)-999-99-99"
+              maskChar=""
+              id="participantTell"
+	            autoComplete='off'
+              placeholder=' '
+              value={tell}
+              onChange={event => setTell(event.target.value)} 
+             />
+		        <label>{tellPlaceholder}</label>
+		      </div>}
+      </div>
 			<div className="buttons">
 				<button className="buttons_green" onClick={newParticipant}>Записаться на турнир</button>
 				<button className="buttons_red" onClick={deleteParticipant}>Удалиться с турнира</button>
-				{!disabled && <button className="buttons_green"
-          onClick={auth}>
-          <span>Авторизоваться Вконтакте</span>
-          </button>}
-        {disabled && 				<button
-					className="buttons_red"
-					onClick={noAuth}>
-					Выйти из Вконтакте
-				</button>}
-
-
-
 			</div>
 			<p id="tournamentRating">
 				{storeData.tournamentRate}
 			</p>
 
+      <div className="line"></div>
 			<div className="acor-container">
 				<input name='chacor' type="checkbox" id="chacor1" />
 				<label htmlFor="chacor1">Важные ссылки</label>

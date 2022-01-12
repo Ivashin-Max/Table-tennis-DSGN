@@ -1,7 +1,9 @@
 import { reactLocalStorage } from 'reactjs-localstorage';
 
 
-export const setId = (vkId) => reactLocalStorage.set('vkId', vkId)
+export const setId = (vkId) => {
+  console.log(`Получил ID: ${vkId}, кладу в ЛокалСторадж`);
+  return reactLocalStorage.set('vkId', vkId)}
 
 export const clearStorage = () => {
 	reactLocalStorage.clear();

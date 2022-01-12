@@ -32,7 +32,7 @@ const SubMenu = ({ id, onPress }) => {
 		await dispatch(fetchTableData());
     	onPress();
     setIsShown(false);
-	}, [id, dispatch])
+	}, [id, dispatch, onPress])
 
 
 	return (

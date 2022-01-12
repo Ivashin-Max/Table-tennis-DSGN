@@ -1,10 +1,10 @@
 import React from 'react';
 import { useSelector } from 'react-redux';
-import { useState } from 'react';
+
 import TableFio from './TableFio'
 
 const Table = () => {
-	const [show, setShow] = useState(false);
+
 	const selector = useSelector(state => state.data)
 	const currentTournament = useSelector(state => state.table.neededTournamentName)
 	console.log(`Данные по турниру ${currentTournament}`, selector);

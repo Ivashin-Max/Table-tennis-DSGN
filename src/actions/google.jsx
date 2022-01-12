@@ -7,9 +7,13 @@ export async function getGoogleSrpeadsheet(spreadsheetId) {
 	//!ОБЯЗАТЕЛЬНАЯ аутентификация
 	await srpeadsheet.useServiceAccountAuth(creds);
 	//Загрузка, обязательна
-	await srpeadsheet.loadInfo();
+	await srpeadsheet.loadInfo()
+  // .then(console.log("then"))
+  // .catch(console.log("catch"))
+
 	//получаем результат 
 	const result = srpeadsheet;
+
 	return result
 }
 

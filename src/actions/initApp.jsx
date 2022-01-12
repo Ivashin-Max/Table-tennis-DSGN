@@ -1,5 +1,6 @@
 import { getDivisionsSpreadsheetsIds } from './renderNavbar';
 import { setIds } from '../store/reducer';
+import { vkSubscribe } from './vk';
 
 
 export const initApp = () => async (dispatch, getState) => {
@@ -20,6 +21,6 @@ export const initApp = () => async (dispatch, getState) => {
 	console.groupCollapsed('Сходили в настроечную таблицу, теперь в сторе хранятся следующие ссылки на таблицы');
 	console.table(table.spreadId);
 	console.groupEnd();
-
+  vkSubscribe();
 }
 
