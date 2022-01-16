@@ -5,7 +5,7 @@ import { useDispatch } from 'react-redux';
 import Table from './components/Table'
 import MyHeader from './components/MyHeader';
 import Form from './components/Form';
-
+import logoPingPong from './styles/img/ping-pong-loader.svg'
 
 function App() {
 
@@ -24,7 +24,11 @@ function App() {
 	//Сначала инитим апп, потом отрисовываемся, может даже лоадер?
 	//useState для хранения була лоадинг
 
-	if (loading) { return null }
+	if (loading) { return (
+    <div className="loaderRocket">
+      	<img className="loader_rocket" src={logoPingPong} alt="red rocket"  />
+    </div>
+    ) }
 
 
 

@@ -2,6 +2,7 @@ import React, { useState } from 'react'
 import { useSelector } from 'react-redux';
 import logoPingPong from '../styles/img/ping-pong.svg'
 import logoVk from '../styles/img/VK_Compact_Logo.svg'
+import logoPingPongLoader from '../styles/img/ping-pong-loader.svg'
 import logoVkBlack from '../styles/img/VK_Compact_Logo_Black.svg'
 import { getSheet } from '../actions/google';
 import { fetchTableData } from '../actions/fetchTableData';
@@ -244,7 +245,10 @@ const Form = () => {
 
 	if (loading) {
 		return (
-			<span className="loader"></span>
+      <form action="#" id="form" className="form" >
+        			<img className="loader_rocket" src={logoPingPongLoader} alt="rocket loader"  />
+      </form>
+
 		)
 	}
 
