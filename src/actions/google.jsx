@@ -8,8 +8,11 @@ export async function getGoogleSrpeadsheet(spreadsheetId) {
 	await srpeadsheet.useServiceAccountAuth(creds);
 	//Загрузка, обязательна
 	await srpeadsheet.loadInfo()
-  // .then(console.log("then"))
-  // .catch(console.log("catch"))
+// .then(
+//     result => console.log("then res", result),
+//     error => console.log("error res", error)
+//     )
+
 
 	//получаем результат 
 	const result = srpeadsheet;
