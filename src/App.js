@@ -26,7 +26,7 @@ function App() {
 
 	if (loading) { return (
     <div className="loaderRocket">
-      	<img className="loader_rocket" src={logoPingPong} alt="red rocket"  />
+      	<img className="loader_rocket_start" src={logoPingPong} alt="red rocket"  />
     </div>
     ) }
 
