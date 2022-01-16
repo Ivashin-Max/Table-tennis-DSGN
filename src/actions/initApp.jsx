@@ -5,7 +5,7 @@ import { vkSubscribe } from './vk';
 
 export const initApp = () => async (dispatch, getState) => {
 	//Получаем ссылки из настроечной таблицы
-	const divisionsSpreedsheetsLinks = await getDivisionsSpreadsheetsIds('1PKVkuDeCrDG4wLFiM6DhPVXrlvmFk8fcfROXi4WNcoE');
+	const divisionsSpreedsheetsLinks = await getDivisionsSpreadsheetsIds('1PKVkuDeCrDG4wLFiM6DhPVXrlvmFk8fcfROXi4WNcoE').catch((e)=>alert("Ошибка базы данных, перезагрузите страницу"));
 
 	//Кладём их в стор
 	dispatch(setIds({

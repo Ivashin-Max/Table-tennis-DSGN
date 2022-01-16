@@ -195,6 +195,7 @@ const Form = () => {
   const closeModalMsg = ()=>{
     setModal(false)
   }
+
   const showModalMsg = (msg)=>{
     setModalMsg(msg)
     setModal(true)
@@ -224,6 +225,8 @@ const Form = () => {
     const fetchVk =  () => {
       // eslint-disable-next-line no-undef
         VK.Auth.login((r) => {
+
+          console.log('Ответ от вк авторизации', r);
           if (r.session) {
             successAuth(r.session.mid)
           } else {

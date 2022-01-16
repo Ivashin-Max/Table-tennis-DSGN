@@ -6,7 +6,7 @@ export async function getDivisionsSpreadsheetsIds(spreadsheetId) {
 
 
 	const divisionsSpreadsheetsIds = {};
-	const spreadsheet = await getGoogleSrpeadsheet(spreadsheetId);
+	const spreadsheet = await getGoogleSrpeadsheet(spreadsheetId) //.then((r)=>console.log('r',r));
 	const firstSheet = spreadsheet.sheetsByIndex[0]
 	await firstSheet.loadCells('A1:B10');
 	const firstSheetCells = firstSheet;
