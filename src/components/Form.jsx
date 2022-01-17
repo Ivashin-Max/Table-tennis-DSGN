@@ -338,7 +338,7 @@ const Form = () => {
               value={tell}
               onChange={event => setTell(event.target.value)} 
              />
-		        <label>"Ваш телефон"</label>
+		        <label>Ваш телефон</label>
 		      </div>}
       </div>
 			<div className="buttons">

@@ -247,6 +247,7 @@ ul {
 .header__navbar_menu_sub:first-child {
   padding-top: 11px;
   padding-bottom: 11px;
+  width: max-content;
 }
 .header__navbar_menu_sub li {
   display: block;
@@ -790,23 +791,23 @@ a:hover {
   font-weight: bold;
   letter-spacing: 0.1em;
   position: relative;
-  top: 67px;
+  top: 11px;
 }
 #scroll-down::before {
-  -webkit-animation: elasticus 1.2s cubic-bezier(1, 0, 0, 1) infinite;
+  -webkit-animation: elasticus 1s cubic-bezier(1, 0, 0, 1) infinite;
   /* Safari 4+ */
-  -moz-animation: elasticus 1.2s cubic-bezier(1, 0, 0, 1) infinite;
+  -moz-animation: elasticus 1s cubic-bezier(1, 0, 0, 1) infinite;
   /* Fx 5+ */
-  -o-animation: elasticus 1.2s cubic-bezier(1, 0, 0, 1) infinite;
+  -o-animation: elasticus 1s cubic-bezier(1, 0, 0, 1) infinite;
   /* Opera 12+ */
-  animation: elasticus 1.2s cubic-bezier(1, 0, 0, 1) infinite;
+  animation: elasticus 1s cubic-bezier(1, 0, 0, 1) infinite;
   /* IE 10+, Fx 29+ */
   position: absolute;
   top: 8px;
   left: 50%;
   margin-left: -1.5px;
   width: 2px;
-  height: 90px;
+  height: 37px;
   background: #AE393F;
   content: ' ';
 }
