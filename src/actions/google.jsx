@@ -1,5 +1,5 @@
 import { GoogleSpreadsheet } from 'google-spreadsheet';
-import creds from '../durable-gift-325518-58e461d27598.json';
+import creds from '../durable-gift/durable-gift-325518-58e461d27598.json';
 
 export async function getGoogleSrpeadsheet(spreadsheetId) {
 	//Прокидываем запрос к "настроечной таблице"

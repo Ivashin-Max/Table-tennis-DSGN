@@ -1,4 +1,4 @@
 # Игнорировать файл паролей
-/src/durable-gift-325518-58e461d27598.json
+/src/durable-gift/*
 # Игнорировать модули
 /node_modules/*
