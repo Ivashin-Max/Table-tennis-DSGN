@@ -26,7 +26,7 @@ function App() {
 
 	if (loading) { return (
     <div className="loaderRocket">
-      	<img className="loader_rocket_start" src={logoPingPong} alt="red rocket"  />
+      <object className='loader_rocket_start' type="image/svg+xml" data={logoPingPong}>svg-animation</object>
     </div>
     ) }
 

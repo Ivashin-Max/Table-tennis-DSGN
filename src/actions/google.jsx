@@ -6,12 +6,11 @@ export async function getGoogleSrpeadsheet(spreadsheetId) {
 	const srpeadsheet = new GoogleSpreadsheet(spreadsheetId);
 	//!ОБЯЗАТЕЛЬНАЯ аутентификация
 	await srpeadsheet.useServiceAccountAuth(creds);
+
 	//Загрузка, обязательна
 	await srpeadsheet.loadInfo()
-// .then(
-//     result => console.log("then res", result),
-//     error => console.log("error res", error)
-//     )
+  .then(
+    () => console.log("then res", srpeadsheet))
 
 
 	//получаем результат 

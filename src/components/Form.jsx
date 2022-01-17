@@ -2,7 +2,9 @@ import React, { useState } from 'react'
 import { useSelector } from 'react-redux';
 import logoPingPong from '../styles/img/ping-pong.svg'
 import logoVk from '../styles/img/VK_Compact_Logo.svg'
+
 import logoPingPongLoader from '../styles/img/ping-pong-loader.svg'
+
 import logoVkBlack from '../styles/img/VK_Compact_Logo_Black.svg'
 import { getSheet } from '../actions/google';
 import { fetchTableData } from '../actions/fetchTableData';
@@ -13,10 +15,11 @@ import InputMask from 'react-input-mask';
 //FIXME:
 // Добавить визуальный эффект, после нажатия кнопки Добавить/Удалить, не дублируя весь код
 
+
+
 const Form = () => {
 	const [loading, setLoading] = useState(false);
 	const [disabled, setDisabled] = useState(false);
-	const [tellPlaceholder, setTellPlaceholder] = useState('Ваш телефон');
 	const [prompt, setPrompt] = useState(false)
 	const dispatch = useDispatch();
 	const storeData = useSelector(state => state.data)
@@ -34,7 +37,6 @@ const Form = () => {
 		console.log(`В локалСторадж хранится id: ${vkId}`);
 		if (!!vkId) {
 			setDisabled(true);
-			setTellPlaceholder('Ввод телефона не требуется')
 		}
 	}, [])
 
@@ -102,24 +104,27 @@ const Form = () => {
       }
 			else {
 				console.log(`Нашли cовпадение по имени:${fio} и телефону ${tell} в строке №${neededCell.rowNumber}`);
+
 				neededSheet.getCellByA1(`B${neededCell.rowNumber}`).value = null;
-				neededSheet.getCellByA1(`C${neededCell.rowNumber}`).value = null;
+				neededSheet.getCellByA1(`C${neededCell.rowNumber}`).value = undefined;
+        console.log('1', neededSheet._cells);
 				await neededSheet.saveUpdatedCells()
-				await neededSheet.loadCells();
+
 				//FIXME:
 				// ДЕСТРУКТУРИЗАЦИЯ,мы взяли именно 3й элемент массива,пздец, переделывать
 
 				const nonEmpty = neededSheet._cells.filter(([, , cell]) => !!cell.value).map(([, , cell]) => cell.value)
 				const nonEmpty1 = neededSheet._cells.filter(([, q,]) => !!q.value).map(([, q,]) => q.value);
+        console.log(nonEmpty1);
 				let i = 0;
 				let j = 0
-				neededSheet._cells.forEach(([, , cell], index) => {
+				neededSheet._cells.forEach(([, , cell]) => {
 					const cellS = neededSheet.getCell(cell._row, cell._column);
 					cellS.value = nonEmpty[i];
 					i++;
 				});
 
-				neededSheet._cells.forEach(([, q,], index) => {
+				neededSheet._cells.forEach(([, q,]) => {
 					const cellS = neededSheet.getCell(q._row, q._column);
 					cellS.value = nonEmpty1[j];
 					j++;
@@ -128,7 +133,7 @@ const Form = () => {
 
 
 				await neededSheet.saveUpdatedCells()
-				await dispatch(fetchTableData());
+				await dispatch(fetchTableData(neededSheet));
         if (vkId) neededCell = findParticipant(neededSheet, fio.trim().toLocaleLowerCase(), vkId).rowNumber;
         else neededCell = findParticipant(neededSheet, fio.trim().toLocaleLowerCase(), tell).rowNumber;
         if (neededCell === null) {
@@ -149,6 +154,8 @@ const Form = () => {
 	const newParticipant = async (e) => {
 		e.preventDefault();
 		const vkId = checkStoragedId();
+    const newFio = fio;
+    // console.log(newFio);
 		if (fio.trim() === '') {
       showModalMsg('Для добавления участника необходимо ввести ФИО');
 			setLoading(false)
@@ -158,7 +165,7 @@ const Form = () => {
 			setLoading(false)
     }
 		else {
-      console.log(tell.trim(), tell.trim().length);
+      // console.log(tell.trim(), tell.trim().length);
 			setLoading(true)
 
 			const neededSheet = await getSheet(neededTournament.neededDivisionId, neededTournament.neededTournamentName, 'B1:C60');
@@ -185,8 +192,11 @@ const Form = () => {
 					await neededSheet.saveUpdatedCells();
 					await dispatch(fetchTableData());
 					addFioToStorage(fio)
+          const fios = storeData
+          console.log('stor', fios);
 					setPrompt(false)
 					setLoading(false)
+          
 					break
 				}
 			}
@@ -200,6 +210,7 @@ const Form = () => {
     setModalMsg(msg)
     setModal(true)
   }
+
 	const showPrompt = () => {
 		setPrompt(true)
 	}
@@ -249,7 +260,7 @@ const Form = () => {
 	if (loading) {
 		return (
       <form action="#" id="form" className="form" >
-        			<img className="loader_rocket" src={logoPingPongLoader} alt="rocket loader"  />
+                <object className='loader_rocket_big' type="image/svg+xml" data={logoPingPongLoader}>svg-animation</object>
       </form>
 
 		)
@@ -266,8 +277,7 @@ const Form = () => {
 
 		<form action="#" id="form" className="form" >
 			<section className="form_header">
-        
-          {disabled && <div 
+         {disabled && <div 
                         onClick={noAuth}
                         className="form_header_vk">
                           <img className="form_header_img left" src={logoVkBlack} alt="vk Logo"  />
@@ -328,7 +338,7 @@ const Form = () => {
               value={tell}
               onChange={event => setTell(event.target.value)} 
              />
-		        <label>{tellPlaceholder}</label>
+		        <label>"Ваш телефон"</label>
 		      </div>}
       </div>
 			<div className="buttons">
@@ -356,5 +366,6 @@ const Form = () => {
 
 
 export default Form
+
 
 

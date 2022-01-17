@@ -16,7 +16,16 @@ const MyHeader = () => {
 
 		<div className="header">
 			{isShown &&
-				<div className="modal"></div>}
+				<><div className="modal"></div>
+        <div id="scroll-down">
+          <span class="arrow-down">
+          </span>
+          <span id="scroll-title">
+            Выбор турнира
+          </span>
+        </div>
+        </>
+        }
 			<div className="header__left">
 				<div className="header__left_round"></div>
 				<div>

@@ -16,15 +16,19 @@ const SubMenu = ({ id, onPress }) => {
 
 	React.useEffect(() => {
 		async function fetchData() {
-			const tournamentsNames = await getSheetsNames(id).catch((r)=>{
+			await getSheetsNames(id)
+      .then((r) => {
+        setTournamentsNames(r);
+       // console.log('response', r)
+      })
+      .catch((r)=>{
         let error = r;
-        error.toString();
         if(error.toString().includes("[429]")){
-          console.log('Ошибка 429, превышено кол-во запросов к гугл-таблице(лимиты: "https://developers.google.com/sheets/api/reference/limits")',r)
-        }
-        
-        console.log('Ошибка',r)});
-			setTournamentsNames(tournamentsNames);
+          console.log(
+            'Ошибка 429, превышено кол-во запросов к гугл-таблице(лимиты: "https://developers.google.com/sheets/api/reference/limits")',r)
+         }
+      });
+			
 		}
 		fetchData()
 	}, [id])

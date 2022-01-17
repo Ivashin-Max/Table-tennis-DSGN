@@ -6,7 +6,8 @@ import { setData } from '../store/reducer';
 import { getGoogleSrpeadsheet } from './google';
 
 
-export const fetchTableData = () => async (dispatch, getState) => {
+export const fetchTableData = (param) => async (dispatch, getState) => {
+  console.log('par',param);
 	const DATA_STARTS_FROM_CELL = 2;
 	//получаем со стора айди и тайтл нужной таблицы
 	const store = getState();
@@ -14,10 +15,17 @@ export const fetchTableData = () => async (dispatch, getState) => {
 	console.table(store.table);
 	console.groupEnd();
 	//идём в эту таблицу
-	const spreadsheet = await getGoogleSrpeadsheet(store.table.neededDivisionId);
-	const neededTournament = spreadsheet.sheetsByTitle[store.table.neededTournamentName];
-	await neededTournament.loadCells('A1:E70');
-
+  let spreadsheet = param;
+  let neededTournament;
+  if(!param){
+    spreadsheet = await getGoogleSrpeadsheet(store.table.neededDivisionId);
+    neededTournament = spreadsheet.sheetsByTitle[store.table.neededTournamentName];
+    
+  } else{
+    neededTournament = spreadsheet._spreadsheet.sheetsByTitle[store.table.neededTournamentName];
+  }
+   
+  await neededTournament.loadCells('A1:E70');
 	const settings = neededTournament;
 	console.log('Получили дату,сходив в таблицу', settings);
 	const settingsArr = [];
