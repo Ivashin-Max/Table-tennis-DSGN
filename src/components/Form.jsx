@@ -154,7 +154,7 @@ const Form = () => {
 	const newParticipant = async (e) => {
 		e.preventDefault();
 		const vkId = checkStoragedId();
-    const newFio = fio;
+    // const newFio = fio;
     // console.log(newFio);
 		if (fio.trim() === '') {
       showModalMsg('Для добавления участника необходимо ввести ФИО');

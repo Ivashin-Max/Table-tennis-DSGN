@@ -18,7 +18,7 @@ const MyHeader = () => {
 			{isShown &&
 				<><div className="modal"></div>
         <div id="scroll-down">
-          <span class="arrow-down">
+          <span className="arrow-down">
           </span>
           <span id="scroll-title">
             Выбор турнира
