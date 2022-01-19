@@ -212,6 +212,7 @@ ul{
 			&:first-child{
 				padding-top: 11px;
 				padding-bottom: 11px;
+				min-width: max-content;
 			}
 			& li{
 					display: block;
@@ -275,10 +276,11 @@ ul{
     }
     &_close{
       position: relative;
-      top: 50px;
+      top: 61px;
       left: 250px;
       padding: 20px;
       cursor: pointer;
+	  font-size: 30px;
 
       &:hover{
         color: red;
@@ -471,7 +473,11 @@ main{
 	margin: 49px 0 0 13px;
 	top: -100px
 }
-
+// button for mobiles
+.plus {
+	display: none;
+  }
+  
 .form{
 	transition: ease 1s;
 	box-shadow: 0px 3px 10px rgba(0, 0, 0, 0.25);
@@ -827,7 +833,7 @@ a{
   font-weight:bold;
   letter-spacing:.1em;
   position: relative;
-  top: 67px;
+  top: 11px;
 }
 #scroll-down::before {
   -webkit-animation: elasticus 1.2s cubic-bezier(1, 0, 0, 1) infinite;
@@ -847,7 +853,7 @@ a{
   left: 50%;
   margin-left: -1.5px;
   width: 2px;
-  height: 90px;
+  height: 37px;
   background: @color_red;
   content: ' ';
 }
@@ -1052,3 +1058,75 @@ a{
   }
 }
 
+@media only screen and (max-width: 1300px) {
+	#scroll-down {
+	  display: none;
+	}
+  }
+  @media only screen and (max-width: 500px) {
+	body {
+	  width: auto;
+	}
+	#scroll-down {
+	  display: block;
+	  left: 28%;
+	  top: 12%;
+	}
+	.header {
+	  font-size: 11px;
+	}
+	.header__left {
+	  display: none;
+	}
+	.header__navbar {
+	  margin: 0 auto;
+	  font-weight: 600;
+	  width: 100%;
+	}
+	.header__navbar_menu > li {
+	  padding: 16px 4.5px;
+	}
+	.form {
+	  top: 945px;
+	  margin-top: 0;
+	  position: absolute;
+	  min-width: 200px;
+	  margin: 0 auto;
+  
+	}
+	.acor-container {
+	  display: none;
+	}
+	.plus {
+	  position: fixed;
+	  bottom: 5px;
+	  right: 45%;
+	  width: 50px;
+	  height: 50px;
+	  background:  linear-gradient(#fff,#fff),
+		linear-gradient(#fff,#fff),#39aea8;
+	  background-position: center;
+	  background-size: 50% 2px,2px 50%;
+	  /*thickness = 2px, length = 50% (25px)*/
+	  background-repeat: no-repeat;
+	  display: block;
+	  border-radius: 7px;
+	}
+	.main {
+		display: block;
+	}
+	.neTable {
+		margin: 0 auto;
+	}
+	.modal_msg_text {
+		width: 300px;
+	}
+
+	.modal_msg_close {
+		left: 130px
+	}
+	.loader_rocket_start {
+		right: 35%;
+	}
+  }
+  
