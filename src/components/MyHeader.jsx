@@ -21,7 +21,7 @@ const MyHeader = () => {
           <span className="arrow-down">
           </span>
           <span id="scroll-title">
-            Выбор турнира
+            Выбери дивизион
           </span>
         </div>
         </>

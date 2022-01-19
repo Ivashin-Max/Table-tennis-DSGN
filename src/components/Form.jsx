@@ -275,6 +275,8 @@ const Form = () => {
       <div className="modal_msg_text">{modalMsg}</div>
     </div>}
 
+		<a className="plus radius" href="#form"></a>
+
 		<form action="#" id="form" className="form" >
 			<section className="form_header">
          {disabled && <div 
