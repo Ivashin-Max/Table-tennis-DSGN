@@ -7,7 +7,7 @@ import { getGoogleSrpeadsheet } from './google';
 
 
 export const fetchTableData = (param) => async (dispatch, getState) => {
-  console.log('par',param);
+  // console.log('par',param);
 	const DATA_STARTS_FROM_CELL = 2;
 	//получаем со стора айди и тайтл нужной таблицы
 	const store = getState();
