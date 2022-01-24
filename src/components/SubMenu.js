@@ -1,61 +1,44 @@
 import React from 'react'
-import { getSheetsNames } from '../actions/google'
 import { useDispatch } from 'react-redux';
 import { setTable } from '../store/reducer';
 import { fetchTableData } from '../actions/fetchTableData';
-
-
-
+import person from '../styles/img/personWhite.svg'
+import { getTournamentDay } from '../actions/date';
+import { useSelector } from 'react-redux';
 
 //Подменю хедера, которые мы создаём при ините
-const SubMenu = ({ id, onPress }) => {
+const SubMenu = ({ url, tournaments, onPress }) => {
 	const [isShown, setIsShown] = React.useState(false);
 	const dispatch = useDispatch();
-	const [tournamentsNames, setTournamentsNames] = React.useState();
-
-
-	React.useEffect(() => {
-		async function fetchData() {
-			await getSheetsNames(id)
-      .then((r) => {
-        setTournamentsNames(r);
-       // console.log('response', r)
-      })
-      .catch((r)=>{
-        let error = r;
-        if(error.toString().includes("[429]")){
-          console.log(
-            'Ошибка 429, превышено кол-во запросов к гугл-таблице(лимиты: "https://developers.google.com/sheets/api/reference/limits")',r)
-         }
-      });
-			
-		}
-		fetchData()
-	}, [id])
+  const storeData = useSelector(state => state.data.tableDate)
 
 
 	const onClick = React.useCallback((name) =>async () => {
+
     setIsShown(true);
 		await dispatch(setTable({
-			neededDivisionId: id,
+			neededDivisionId: url,
 			neededTournamentName: name
 		}))
 		await dispatch(fetchTableData());
     	onPress();
     setIsShown(false);
-	}, [id, dispatch, onPress])
+
+
+	}, [dispatch, onPress, url])
 
 
 	return (
     <>{isShown &&
       <div className="modal"></div>}
 		  <ul className="header__navbar_menu_sub">
-		  	{tournamentsNames?.map((name) => (
+        
+		  	{tournaments.map((tournament) => (
 		  		<li
-		  			onClick={onClick(name)}
-		  			key={name}
+		  			onClick={onClick(tournament.pageName)}
+		  			key={tournament.tournamentName}
 		  		>
-		  			{name}
+		  			{tournament.tournamentName} | <span>{getTournamentDay(tournament.day)}</span> | <object className='person' type="image/svg+xml" data={person}> person</object> {tournament.total}
 		  		</li>
 		  	))
 		  	}

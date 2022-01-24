@@ -4,13 +4,26 @@ import logoPingPong from '../styles/img/ping-pong.svg'
 import logoVk from '../styles/img/VK_Compact_Logo.svg'
 
 import logoPingPongLoader from '../styles/img/ping-pong-loader.svg'
-
+import person from '../styles/img/personBlue.svg'
 import logoVkBlack from '../styles/img/VK_Compact_Logo_Black.svg'
 import { getSheet } from '../actions/google';
 import { fetchTableData } from '../actions/fetchTableData';
 import { useDispatch } from 'react-redux';
-import { clearStorage, checkStoragedId, addFioToStorage, getPromptFio, setId } from '../actions/localStorage';
+import { removeStorageItem, checkStoragedId, addFioToStorage, getPromptFio,getPromptTell, setId, addTellToStorage } from '../actions/localStorage';
 import InputMask from 'react-input-mask';
+import Tooltip from 'rc-tooltip';
+import clearStorageIcon from '../styles/img/x-svgrepo-com.svg'
+import classNames from 'classnames';
+
+
+
+const alignConfig = {
+        // the offset sourceNode by 10px in x and 20px in y,
+  targetOffset: ['60%','-200%'], // the offset targetNode by 30% of targetNode width in x and 40% of targetNode height in y,
+  overflow: { adjustX: true, adjustY: true }, // auto adjust position when sourceNode is overflowed
+};
+
+
 
 //FIXME:
 // Добавить визуальный эффект, после нажатия кнопки Добавить/Удалить, не дублируя весь код
@@ -20,9 +33,11 @@ import InputMask from 'react-input-mask';
 const Form = () => {
 	const [loading, setLoading] = useState(false);
 	const [disabled, setDisabled] = useState(false);
-	const [prompt, setPrompt] = useState(false)
+	const [promptFio, setpromptFio] = useState(false)
+  const [promptTell, setpromptTell] = useState(false)
 	const dispatch = useDispatch();
 	const storeData = useSelector(state => state.data)
+  const storeDate = useSelector(state => state.date)
 	const neededTournament = useSelector(state => state.table)
 	const [fio, setFio] = useState('');
 	const [tell, setTell] = useState('')
@@ -30,6 +45,14 @@ const Form = () => {
   const [modalMsg, setModalMsg] = useState("");
 	const DATA_STARTS_FROM_CELL = 2;
 
+  let classNameGreen = classNames({
+    "buttons_disabled": storeDate.isLate,
+    "buttons_green": !storeDate.isLate
+  });
+  let classNameRed = classNames({
+    "buttons_disabled": storeDate.isLate,
+    "buttons_red": !storeDate.isLate
+  });
 
 
 	React.useEffect(() => {
@@ -140,7 +163,8 @@ const Form = () => {
           showModalMsg(`Удаление прошло успешно`);
 
         }
-				setPrompt(false)
+				setpromptFio(false)
+        setpromptTell(false)
 				setLoading(false)
 			}
 		}
@@ -154,8 +178,8 @@ const Form = () => {
 	const newParticipant = async (e) => {
 		e.preventDefault();
 		const vkId = checkStoragedId();
-    // const newFio = fio;
-    // console.log(newFio);
+    const newFio = fio;
+    console.log('newFio', newFio);
 		if (fio.trim() === '') {
       showModalMsg('Для добавления участника необходимо ввести ФИО');
 			setLoading(false)
@@ -191,10 +215,10 @@ const Form = () => {
 
 					await neededSheet.saveUpdatedCells();
 					await dispatch(fetchTableData());
-					addFioToStorage(fio)
-          const fios = storeData
-          console.log('stor', fios);
-					setPrompt(false)
+					addFioToStorage(fio);
+          addTellToStorage(tell);
+					setpromptFio(false)
+          setpromptTell(false)
 					setLoading(false)
           
 					break
@@ -211,16 +235,26 @@ const Form = () => {
     setModal(true)
   }
 
-	const showPrompt = () => {
-		setPrompt(true)
+	const showpromptFio = () => {
+		setpromptFio(true)
 	}
-	const hidePrompt = () => {
-		setPrompt(false)
+	const hidepromptFio = () => {
+		setpromptFio(false)
+	}
+  const showpromptTell = () => {
+		setpromptTell(true)
+	}
+	const hidepromptTell = () => {
+		setpromptTell(false)
 	}
 
-	const autoComplete = event => {
+	const autoCompleteFio = event => {
 		setFio(event.target.textContent)
-		hidePrompt()
+		hidepromptFio()
+	}
+  const autoCompleteTell = event => {
+		setTell(event.target.textContent)
+		hidepromptTell()
 	}
 
   const successAuth = function(id){
@@ -252,7 +286,7 @@ const Form = () => {
   const noAuth = (e)=>{
     e.preventDefault();
     setLoading(true)
-		clearStorage();
+		removeStorageItem('vkId')
 		setDisabled(false);
     setLoading(false);
   }
@@ -275,7 +309,6 @@ const Form = () => {
       <div className="modal_msg_text">{modalMsg}</div>
     </div>}
 
-		<a className="plus radius" href="#form"></a>
 
 		<form action="#" id="form" className="form" >
 			<section className="form_header">
@@ -296,21 +329,40 @@ const Form = () => {
 				  <p id="tournamentAdress">
 				  	{storeData.tournamentPlace}
 				  </p>
-				  <p id="tournamentTell">
-				  	{storeData.tournamentTell}
-				  </p>
+          			<Tooltip placement="right"
+		          		overlay={
+                  <div className='org_tooltip'>
+
+                    <span className='org_tooltip_fio'>
+                    {storeData.tournamentOrgFio}
+                    </span>
+                  </div>
+                  }
+                  trigger={['hover']}
+                  mouseLeaveDelay={0}
+                  align={alignConfig}
+                  >
+                    <p id="tournamentTell">
+				              {storeData.tournamentTell}
+                      <img className='person' src={person} alt="personIcon" />
+				            </p>
+		          	</Tooltip>
+
         </div>
 				<img className="form_header_img right" src={logoPingPong} alt="red rocket"  />
 			</section>
 
       <div className="inputs">
 			  <div className="placeholder-container">
-			  	{prompt && <div className="fioPrompt">
+          <div onMouseDown={() =>{removeStorageItem("fio");removeStorageItem("tell") }} className="clearStorage">
+                    <img src={clearStorageIcon} alt="" title='Очистить историю' />
+                  </div>
+			  	{promptFio && <div className="fioPrompt">
 			  		{
 			  			getPromptFio().map((name) => (
 			  				<div
 			  					key={name}
-			  					onMouseDown={autoComplete}
+			  					onMouseDown={autoCompleteFio}
 			  				>
 			  					{name}
 			  				</div>
@@ -325,12 +377,26 @@ const Form = () => {
 			  		autoComplete='off'
 			  		value={fio}
 			  		onChange={event => setFio(event.target.value)}
-			  		onClick={showPrompt}
-			  		onBlur={hidePrompt}
+			  		onClick={showpromptFio}
+			  		onBlur={hidepromptFio}
 			  	/>
 			  	<label >Ваше ФИО</label>
 			  </div>
-		      {!disabled &&	<div className="placeholder-container">
+		      {!disabled &&
+          <div className="placeholder-container">
+                  
+            {promptTell && <div className="fioPrompt">
+			  		{
+			  			getPromptTell().map((name) => (
+			  				<div
+			  					key={name}
+			  					onMouseDown={autoCompleteTell}
+			  				>
+			  					{name}
+			  				</div>
+			  			))
+			  		}
+			  	</div>}
             <InputMask  
               mask="+7\(999)-999-99-99"
               maskChar=""
@@ -338,14 +404,38 @@ const Form = () => {
 	            autoComplete='off'
               placeholder=' '
               value={tell}
+              onClick={showpromptTell}
+              onBlur={hidepromptTell}
               onChange={event => setTell(event.target.value)} 
              />
+             
 		        <label>Ваш телефон</label>
 		      </div>}
       </div>
+      <div className="price">
+        Стоимость участия {storeData.tournamentPrice}
+      </div>
+
+      
 			<div className="buttons">
-				<button className="buttons_green" onClick={newParticipant}>Записаться на турнир</button>
-				<button className="buttons_red" onClick={deleteParticipant}>Удалиться с турнира</button>
+
+				<button 
+
+        className={classNameGreen}
+        onClick={newParticipant}
+        disabled={storeDate.isLate}
+        >
+          {storeDate.isLate === false && <span>Записаться на турнир</span>}
+          {storeDate.isLate === true && <span>Регистрация окончена</span>}
+          </button>
+				<button 
+          className={classNameRed}
+          
+          onClick={deleteParticipant}
+          disabled={storeDate.isLate}
+        >
+          Удалиться с турнира
+        </button>
 			</div>
 			<p id="tournamentRating">
 				{storeData.tournamentRate}

@@ -415,12 +415,20 @@ main{
 			font-weight: 500;
 		}
 	}
+  &__copy{
+    width: 14px;
+    height: 14px;
+    position: absolute;
+    top: -1px;
+    right: 5px;
+  }
 	&__total{
 		color:#656464;
 		font-size: 14px;
 		margin-bottom: 10px;
 		padding-bottom: 5px;
 		border-bottom: 1px solid #E8E9E9;
+    position: relative;
 	}
 	&__zapas{
 		min-height: 80px;
@@ -473,6 +481,12 @@ main{
 	margin: 49px 0 0 13px;
 	top: -100px
 }
+.price{
+  font-family: 'OpenSans';
+  font-size: 12px;
+  font-weight: 400;
+  margin-bottom: 12px;
+}
 // button for mobiles
 .plus {
 	display: none;
@@ -502,12 +516,12 @@ main{
 		position: relative;
     padding: 0 19px;
 		margin: 21px 16px 64px;
-		& img{
+		&_img{
 			// position: absolute;
 			// top: 21px;
 
 			display: inline-block;
-			width: 48px;
+			// width: 48px;
 			height: 48px;
 			// margin:0 20px 0 40px;
 		}
@@ -568,7 +582,12 @@ main{
 		}
 	}
 	}
- 
+ .clearStorage{
+   cursor: pointer;
+   position: absolute;
+   top: 5px;
+   right: -25px;
+ }
  .loader {
 	margin-left: 400px;
 	margin-top: 40vh;
@@ -634,6 +653,14 @@ main{
 	font-size: 14px;
   font-weight: 400;
    font-family: 'OpenSans';
+  user-select: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  & .person{
+    margin-left: 6px;
+  }
  }
  #tournamentRating{
    margin-top: 18px;
@@ -667,7 +694,7 @@ input{
 }
 
 .buttons{
-	margin: 40px 0 0 0;
+
 
 	& button{
   height: 41px;
@@ -681,7 +708,9 @@ input{
   font-family: 'OpenSans';
   font-weight: 600;
 	}
-
+  &_disabled{
+    background-color: @color_red;
+  }
 	&_green{
 		background-color: @color_green;
 
@@ -750,7 +779,7 @@ li{
 
 
 .inputs{
-  min-height: 94px;
+  min-height: 80px;
 }
 
 .right:hover{
@@ -772,6 +801,10 @@ a{
 	position: relative;
 
 	margin-bottom: 14px;
+
+  &:last-child{
+    margin-bottom: 34px;
+  }
 
 	& label{
 		pointer-events: none;
@@ -1057,7 +1090,24 @@ a{
       transform: scale(1, 0);
   }
 }
+.person{
 
+  width: 10px;
+
+    fill: #000;
+
+
+
+}
+.org_tooltip{
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  &_fio{
+    padding-left: 5px;
+  }
+}
 @media only screen and (max-width: 1300px) {
 	#scroll-down {
 	  display: none;
@@ -1097,6 +1147,7 @@ a{
 	.acor-container {
 	  display: none;
 	}
+
 	.plus {
 	  position: fixed;
 	  bottom: 5px;

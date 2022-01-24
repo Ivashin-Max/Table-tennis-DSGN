@@ -2,9 +2,9 @@
 //по итогу кладём в стор всю нужную дату
 //при обновлении стора у нас обновится компонент 
 
-import { setData } from '../store/reducer';
+import { setData,  setDateFlag } from '../store/reducer';
 import { getGoogleSrpeadsheet } from './google';
-
+import { checkDate } from './date';
 
 export const fetchTableData = (param) => async (dispatch, getState) => {
   // console.log('par',param);
@@ -29,7 +29,7 @@ export const fetchTableData = (param) => async (dispatch, getState) => {
 	const settings = neededTournament;
 	console.log('Получили дату,сходив в таблицу', settings);
 	const settingsArr = [];
-	for (let i = 1; i < 8; i++) {
+	for (let i = 1; i < 10; i++) {
 		settingsArr.push(settings.getCellByA1(`E${i}`).value);
 	}
 	console.log('Массив настроек', settingsArr);
@@ -50,11 +50,16 @@ export const fetchTableData = (param) => async (dispatch, getState) => {
 			zapasArr.push(element)
 		}
 	}
-
-	dispatch(setData({
+  checkDate(settingsArr[1], settingsArr[2])
+  await dispatch(setDateFlag({
+    isLate: checkDate(settingsArr[1], settingsArr[2])
+  }))
+	await dispatch(setData({
 		tournamentPlace: settingsArr[3],
 		tournamentTell: settingsArr[4],
 		tournamentRate: settingsArr[5],
+    tournamentPrice: settingsArr[8],
+    tournamentOrgFio: settingsArr[7],
 		tableDivisionName: settingsArr[0],
 		tableDate: settingsArr[1],
 		tableTime: settingsArr[2],

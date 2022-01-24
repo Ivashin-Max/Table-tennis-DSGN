@@ -5,7 +5,7 @@ import classNames from 'classnames';
 
 const MyHeader = () => {
 	const [isShown, setIsShown] = React.useState(true);
-	const mySelector = useSelector(state => state.spreadId);
+	const mySelector = useSelector(state => state.test);
 	const hideModal = () =>  setIsShown(false);
   let className = classNames({
     "header__navbar_menu": true,
@@ -36,27 +36,32 @@ const MyHeader = () => {
 			<div className="header__navbar">
 				<ul className={className} >
 					<li >Свободный
-						<SubMenu id={mySelector.free} onPress={hideModal} />
+						<SubMenu 
+            url={mySelector.free.url} 
+            tournaments={mySelector.free.tournaments} 
+            onPress={hideModal} 
+
+            />
 						<div className="header__navbar_line"></div>
 					</li>
 					<li>Первый
-						<SubMenu id={mySelector.first} onPress={hideModal} />
+						<SubMenu url={mySelector.first.url} tournaments={mySelector.first.tournaments} onPress={hideModal} />
 						<div className="header__navbar_line"></div>
 					</li>
 					<li>Второй
-						<SubMenu id={mySelector.second} onPress={hideModal} />
+						<SubMenu url={mySelector.second.url} tournaments={mySelector.second.tournaments} onPress={hideModal} />
 						<div className="header__navbar_line"></div>
 					</li>
 					<li>Третий
-						<SubMenu id={mySelector.third} onPress={hideModal} />
+						<SubMenu url={mySelector.third.url} tournaments={mySelector.third.tournaments} onPress={hideModal} />
 						<div className="header__navbar_line"></div>
 					</li>
 					<li>Высший
-						<SubMenu id={mySelector.high} onPress={hideModal} />
+						<SubMenu url={mySelector.high.url} tournaments={mySelector.high.tournaments} onPress={hideModal} />
 						<div className="header__navbar_line"></div>
 					</li>
 					<li>ТТклаб
-						<SubMenu id={mySelector.ttClub} onPress={hideModal} />
+						<SubMenu url={mySelector.ttClub.url} tournaments={mySelector.ttClub.tournaments} onPress={hideModal} />
 						<div className="header__navbar_line"></div>
 					</li>
 				</ul>

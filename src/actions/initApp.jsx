@@ -1,25 +1,27 @@
-import { getDivisionsSpreadsheetsIds } from './renderNavbar';
-import { setIds } from '../store/reducer';
+import { setSpreadsheets } from '../store/reducer';
 import { vkSubscribe } from './vk';
-
+import { getDivisionsSpreadsheets } from './renderNav';
+import url from '../static/url.json';
 
 export const initApp = () => async (dispatch, getState) => {
 	//Получаем ссылки из настроечной таблицы
-	const divisionsSpreedsheetsLinks = await getDivisionsSpreadsheetsIds('1PKVkuDeCrDG4wLFiM6DhPVXrlvmFk8fcfROXi4WNcoE').catch((e)=>alert("Ошибка базы данных, перезагрузите страницу"));
+  const test = await getDivisionsSpreadsheets(url.settingsURL).catch((e)=>{
+    console.log('Ошибка настроечной таблицы', e);
+    alert('Ошибка базы данных, перезагрузите страницу')});
 
 	//Кладём их в стор
-	dispatch(setIds({
-		free: divisionsSpreedsheetsLinks.free,
-		first: divisionsSpreedsheetsLinks.first,
-		second: divisionsSpreedsheetsLinks.second,
-		third: divisionsSpreedsheetsLinks.third,
-		high: divisionsSpreedsheetsLinks.high,
-		ttClub: divisionsSpreedsheetsLinks.ttClub,
-	}))
+  dispatch(setSpreadsheets({
+		free: {url:test.free.url, tournaments: test.free.tournaments},
+		first: {url:test.first.url, tournaments: test.first.tournaments},
+    second: {url:test.second.url, tournaments: test.second.tournaments},
+    third:{url:test.third.url, tournaments: test.third.tournaments},
+    high: {url:test.high.url, tournaments: test.high.tournaments},
+    ttClub: {url:test.ttClub.url, tournaments: test.ttClub.tournaments},
+  }))
 
 	const table = getState();
-	console.groupCollapsed('Сходили в настроечную таблицу, теперь в сторе хранятся следующие ссылки на таблицы');
-	console.table(table.spreadId);
+	console.groupCollapsed('Сходили в настроечную таблицу, теперь в сторе хранятся следующие данные по турнирам');
+	console.log(table.test);
 	console.groupEnd();
   vkSubscribe();
 }

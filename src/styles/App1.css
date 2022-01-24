@@ -433,12 +433,20 @@ main {
   font-size: 13px;
   font-weight: 500;
 }
+.neTable__copy {
+  width: 14px;
+  height: 14px;
+  position: absolute;
+  top: -1px;
+  right: 5px;
+}
 .neTable__total {
   color: #656464;
   font-size: 14px;
   margin-bottom: 10px;
   padding-bottom: 5px;
   border-bottom: 1px solid #E8E9E9;
+  position: relative;
 }
 .neTable__zapas {
   min-height: 80px;
@@ -485,6 +493,12 @@ main {
   margin: 49px 0 0 13px;
   top: -100px;
 }
+.price {
+  font-family: 'OpenSans';
+  font-size: 12px;
+  font-weight: 400;
+  margin-bottom: 12px;
+}
 .plus {
   display: none;
 }
@@ -512,9 +526,8 @@ main {
   padding: 0 19px;
   margin: 21px 16px 64px;
 }
-.form_header img {
+.form_header_img {
   display: inline-block;
-  width: 48px;
   height: 48px;
 }
 .form_header_vk {
@@ -563,6 +576,12 @@ p {
 }
 .fioPrompt div:hover {
   background-color: #e9e9e985;
+}
+.clearStorage {
+  cursor: pointer;
+  position: absolute;
+  top: 5px;
+  right: -25px;
 }
 .loader {
   margin-left: 400px;
@@ -624,6 +643,13 @@ p {
   font-size: 14px;
   font-weight: 400;
   font-family: 'OpenSans';
+  user-select: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+#tournamentTell .person {
+  margin-left: 6px;
 }
 #tournamentRating {
   margin-top: 18px;
@@ -650,9 +676,6 @@ input:focus {
   transition: 0.4s ease;
   opacity: 1;
 }
-.buttons {
-  margin: 40px 0 0 0;
-}
 .buttons button {
   height: 41px;
   width: 235px;
@@ -664,6 +687,9 @@ input:focus {
   font-size: 14px;
   font-family: 'OpenSans';
   font-weight: 600;
+}
+.buttons_disabled {
+  background-color: #AE393F;
 }
 .buttons_green {
   background-color: #39aea8;
@@ -715,7 +741,7 @@ li {
   display: none;
 }
 .inputs {
-  min-height: 94px;
+  min-height: 80px;
 }
 .right:hover {
   animation: spin 1.5s ease infinite;
@@ -737,6 +763,9 @@ a:hover {
 .placeholder-container {
   position: relative;
   margin-bottom: 14px;
+}
+.placeholder-container:last-child {
+  margin-bottom: 34px;
 }
 .placeholder-container label {
   pointer-events: none;
@@ -1014,6 +1043,18 @@ a:hover {
     -o-transform: scale(1, 0);
     transform: scale(1, 0);
   }
+}
+.person {
+  width: 10px;
+  fill: #000;
+}
+.org_tooltip {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.org_tooltip_fio {
+  padding-left: 5px;
 }
 @media only screen and (max-width: 1300px) {
   #scroll-down {

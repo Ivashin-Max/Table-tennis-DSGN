@@ -1,5 +1,6 @@
 import React from 'react';
 import { useSelector } from 'react-redux';
+import copyIcon from '../styles/img/file-svgrepo-com.svg'
 
 import TableFio from './TableFio'
 
@@ -32,13 +33,17 @@ const Table = () => {
 
 			<div className="neTable__main" >
 				{selector.tableFio?.map((name) => (
-					<TableFio name={name} currentTournament={currentTournament} />
+					<TableFio name={name} currentTournament={currentTournament} key={name + currentTournament} />
 				))
 				}
 			</div>
 			<div className="neTable__total">
 				{`Total ${selector.tableFio.length}/${selector.tableTotal}`}
+        <div title='Скопировать участников' onClick={() => {navigator.clipboard.writeText(selector.tableFio.join('\n'))}}>
+          <img src={copyIcon} alt="" className="neTable__copy"/>
+        </div>
 			</div>
+
 			<p>Запас</p>
 			<div id="neTable__total" className="neTable__zapas">
 				{selector.tableZapas?.map((name) => (
@@ -53,6 +58,7 @@ const Table = () => {
 		</div>
 	)
 };
+
 
 export default Table
 
