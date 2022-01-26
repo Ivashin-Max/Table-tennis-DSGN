@@ -15,7 +15,7 @@ export function checkDate(date, time){
 export function getTournamentDay(date){
   const currentYear = new Date().getFullYear();
   const tournamentDay = new Date(`${currentYear}/${date.split('.').reverse().join('/')}`).toLocaleDateString("ru-RU", { weekday: 'short' })
-  console.log('day', tournamentDay);
+  // console.log('day', tournamentDay);
   
   return tournamentDay
 }

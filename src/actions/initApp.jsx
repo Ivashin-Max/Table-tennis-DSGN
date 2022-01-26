@@ -5,9 +5,10 @@ import url from '../static/url.json';
 
 export const initApp = () => async (dispatch, getState) => {
 	//Получаем ссылки из настроечной таблицы
-  const test = await getDivisionsSpreadsheets(url.settingsURL).catch((e)=>{
-    console.log('Ошибка настроечной таблицы', e);
-    alert('Ошибка базы данных, перезагрузите страницу')});
+  const test = await getDivisionsSpreadsheets(url.settingsURL)
+  .catch((e)=>{
+    console.log('Ошибка доступа к таблице', e);
+    alert(`Ошибка доступа к таблице \n ${e}`)});
 
 	//Кладём их в стор
   dispatch(setSpreadsheets({
@@ -17,6 +18,7 @@ export const initApp = () => async (dispatch, getState) => {
     third:{url:test.third.url, tournaments: test.third.tournaments},
     high: {url:test.high.url, tournaments: test.high.tournaments},
     ttClub: {url:test.ttClub.url, tournaments: test.ttClub.tournaments},
+    links: test.links
   }))
 
 	const table = getState();

@@ -60,30 +60,13 @@ export function reducerSpreadsheetsIds(state = spreadsheetsIds, action) {
 
 //Стор для хранения данных по турнирам (получаем из настроечной при ините апа и больше не трогаем)
 const spreadsheets = {
-	free: {
-    url:'',
-    tournaments: []
-  },
-	first: {
-    url:'',
-    tournaments: []
-  },
-	second: {
-    url:'',
-    tournaments: []
-  },
-	third: {
-    url:'',
-    tournaments: []
-  },
-	high: {
-    url:'',
-    tournaments: []
-  },
-	ttClub: {
-    url:'',
-    tournaments: []
-  }
+	free: {},
+	first: {},
+	second: {},
+	third: {},
+	high: {},
+	ttClub: {},
+  links: []
 }
 
 const SET_spreadsheets = 'SET_spreadsheets';
@@ -106,6 +89,7 @@ export function reducerSpreadsheets(state = spreadsheets, action) {
 				third: {url: action.payload.third.url, tournaments: action.payload.third.tournaments},
 				high: {url: action.payload.high.url, tournaments: action.payload.high.tournaments},
 				ttClub: {url: action.payload.ttClub.url, tournaments: action.payload.ttClub.tournaments},
+        links: action.payload.links
 			}
 		default:
 			return state;
