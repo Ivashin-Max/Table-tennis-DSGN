@@ -2,3 +2,5 @@
 /src/durable-gift/*
 # Игнорировать модули
 /node_modules/*
+# Игнорировать билд
+/build/*

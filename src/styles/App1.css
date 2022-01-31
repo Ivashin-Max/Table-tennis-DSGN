@@ -1155,7 +1155,7 @@ a:hover {
   .plus {
     position: fixed;
     bottom: 35px;
-    right: 72vw;
+    right: 44vw;
     width: 50px;
     height: 50px;
     background: linear-gradient(#fff, #fff), linear-gradient(#fff, #fff), #39aea8;
@@ -1165,6 +1165,27 @@ a:hover {
     background-repeat: no-repeat;
     display: block;
     border-radius: 7px;
+  }
+  .header__navbar_menu > li:hover .header__navbar_menu_sub {
+    position: fixed;
+    top: 85px;
+    left: 12%;
+  }
+  .header__navbar_menu > li:last-child .header__navbar_menu_sub {
+    position: fixed;
+    left: 12%;
+    right: auto;
+  }
+  .header__navbar_menu_sub {
+    position: fixed;
+    top: 33px;
+    left: 10%;
+  }
+  .copy_popup {
+    display: none;
+  }
+  .copy_popup_none {
+    display: none;
   }
   .main {
     display: block;
