@@ -5,6 +5,8 @@ export function checkDate(date, time){
   const currentTime = new Date();
   const correctTimeFormat = `T${time.trim()}:00`
   const tournamentDate = new Date(`${currentYear}-${date.split('.').reverse().join('-')}${correctTimeFormat}`)
+  console.log(tournamentDate);
+  console.log(currentTime);
   console.log(tournamentDate > currentTime?'турнир ещё не прошёл':'турнир уже прошёл');
   if(tournamentDate > currentTime){
     return false

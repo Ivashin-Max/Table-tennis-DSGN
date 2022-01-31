@@ -347,8 +347,8 @@ main{
 		// display: flex;
 		// flex-direction: column;
 		padding: 0 0 0 18px;
-		min-height: 566px;
-		max-height: 566px;
+		min-height: 575px;
+		min-height: 575px;
 		overflow-y: scroll;
 		overflow-x: hidden;
 		&::-webkit-scrollbar {
@@ -642,6 +642,7 @@ main{
   display: block;
   margin-left: 129px;
   padding: 15px 20px;
+  cursor: pointer;
 
 
   &_links{
@@ -1197,6 +1198,21 @@ a{
 	.header__navbar_menu > li {
 	  padding: 16px 4.5px;
 	}
+	.header__navbar_menu_sub {
+		position: fixed;
+		left: 80px;
+		top: 32px;
+	}
+	.header__navbar_menu>li:hover .header__navbar_menu_sub {
+		top: 87px;
+	}
+	.header__navbar_menu>li:last-child .header__navbar_menu_sub{
+		right: auto;
+		left: 53px;
+	}
+	.copy_popup{
+		display: none;
+	}
 	.form {
 	  top: 10px;
 	  margin-top: 0;
@@ -1219,7 +1235,7 @@ a{
 	.plus {
 	  position: fixed;
 	  bottom: 35px;
-	  right: 44vw;
+	  right: 44%;
 	  width: 50px;
 	  height: 50px;
 	  background:  linear-gradient(#fff,#fff),
