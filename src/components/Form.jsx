@@ -15,7 +15,7 @@ import Tooltip from 'rc-tooltip';
 
 import { ReactComponent as ClearStorageIcon } from '../styles/img/x-svgrepo-com.svg';
 import classNames from 'classnames';
-import { fetchRttf } from '../actions/rttf';
+
 import { checkNewParticipant } from '../actions/checkNewParticipant';
 
 
