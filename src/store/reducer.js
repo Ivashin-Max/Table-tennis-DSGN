@@ -22,42 +22,6 @@ export function reducerTable(state = neededTable, action) {
 	}
 }
 
-//Стор для хранения ссылок на таблицы (получаем из настроечной при ините апа и больше не трогаем)
-const spreadsheetsIds = {
-	free: '',
-	first: '',
-	second: '',
-	third: '',
-	high: '',
-	ttClub: ''
-}
-
-const SET_Ids = 'SET_Ids';
-
-export const setIds = (payload) => {
-	return {
-		type: SET_Ids,
-		payload
-	}
-}
-
-export function reducerSpreadsheetsIds(state = spreadsheetsIds, action) {
-	switch (action.type) {
-		case 'SET_Ids':
-			return {
-				...state,
-				free: action.payload.free,
-				first: action.payload.first,
-				second: action.payload.second,
-				third: action.payload.third,
-				high: action.payload.high,
-				ttClub: action.payload.ttClub,
-			}
-		default:
-			return state;
-	}
-}
-
 //Стор для хранения данных по турнирам (получаем из настроечной при ините апа и больше не трогаем)
 const spreadsheets = {
 	free: {},

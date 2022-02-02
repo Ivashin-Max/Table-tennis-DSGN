@@ -25,12 +25,12 @@ export const fetchTableData = (param) => async (dispatch, getState) => {
     neededTournament = spreadsheet._spreadsheet.sheetsByTitle[store.table.neededTournamentName];
   }
    
-  await neededTournament.loadCells('A1:E70');
+  await neededTournament.loadCells('A1:J70');
 	const settings = neededTournament;
 	console.log('Получили дату,сходив в таблицу', settings);
 	const settingsArr = [];
-	for (let i = 1; i < 10; i++) {
-		settingsArr.push(settings.getCellByA1(`E${i}`).value);
+	for (let i = 1; i < 11; i++) {
+		settingsArr.push(settings.getCellByA1(`H${i}`).value);
 	}
 	console.log('Массив настроек', settingsArr);
 	const zapasStartsFromCell = settingsArr[6] + 2;
@@ -50,7 +50,7 @@ export const fetchTableData = (param) => async (dispatch, getState) => {
 			zapasArr.push(element)
 		}
 	}
-  checkDate(settingsArr[1], settingsArr[2])
+
   await dispatch(setDateFlag({
     isLate: checkDate(settingsArr[1], settingsArr[2])
   }))
