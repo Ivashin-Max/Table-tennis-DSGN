@@ -5,7 +5,7 @@ import classNames from 'classnames';
 
 const MyHeader = () => {
 	const [isShown, setIsShown] = React.useState(true);
-	const mySelector = useSelector(state => state.test);
+	const mySelector = useSelector(state => state.settingsTable);
 	const hideModal = () =>  setIsShown(false);
   let className = classNames({
     "header__navbar_menu": true,

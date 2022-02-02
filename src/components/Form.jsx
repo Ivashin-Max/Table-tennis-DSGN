@@ -38,8 +38,8 @@ const Form = () => {
   const [promptTell, setpromptTell] = useState(false)
 	const dispatch = useDispatch();
 	const storeData = useSelector(state => state.data)
-  const storeDate = useSelector(state => state.date)
-  const links = useSelector(state => state.test.links)
+  const storeDateFlag = useSelector(state => state.dateFlag)
+  const links = useSelector(state => state.settingsTable.links)
 	const neededTournament = useSelector(state => state.table)
 	const [fio, setFio] = useState('');
 	const [tell, setTell] = useState('')
@@ -48,12 +48,12 @@ const Form = () => {
 	const DATA_STARTS_FROM_CELL = 2;
 
   let classNameGreen = classNames({
-    "buttons_disabled": storeDate.isLate,
-    "buttons_green": !storeDate.isLate
+    "buttons_disabled": storeDateFlag.isLate,
+    "buttons_green": !storeDateFlag.isLate
   });
   let classNameRed = classNames({
-    "buttons_disabled": storeDate.isLate,
-    "buttons_red": !storeDate.isLate
+    "buttons_disabled": storeDateFlag.isLate,
+    "buttons_red": !storeDateFlag.isLate
   });
 
 
@@ -431,16 +431,16 @@ const Form = () => {
 
         className={classNameGreen}
         onClick={newParticipant}
-        disabled={storeDate.isLate}
+        disabled={storeDateFlag.isLate}
         >
-          {storeDate.isLate === false && <span>Записаться на турнир</span>}
-          {storeDate.isLate === true && <span>Регистрация окончена</span>}
+          {storeDateFlag.isLate === false && <span>Записаться на турнир</span>}
+          {storeDateFlag.isLate === true && <span>Регистрация окончена</span>}
           </button>
 				<button 
           className={classNameRed}
           
           onClick={deleteParticipant}
-          disabled={storeDate.isLate}
+          disabled={storeDateFlag.isLate}
         >
           Удалиться с турнира
         </button>
