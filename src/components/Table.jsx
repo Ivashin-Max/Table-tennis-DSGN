@@ -24,6 +24,15 @@ const Table = () => {
     setTimeout(() => setNone(true), 1000)
   }
 
+  const copyText = () => {
+    const objectsArr = selector.tableFio;
+    const arr = [];
+    objectsArr.forEach(element => {
+      arr.push(element.fio1, element.fio2)
+    });
+    let q = arr.filter((el) => !!el);
+    navigator.clipboard.writeText(q.join('\n'))
+  }
 
   return (
     <div id="neTable" className='neTable'>
@@ -66,7 +75,7 @@ const Table = () => {
           title='Скопировать участников'
           onClick={() => {
             showCopy()
-            navigator.clipboard.writeText(selector.tableFio.join('\n'))
+            copyText();
           }}
 
         >
