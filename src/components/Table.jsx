@@ -87,15 +87,28 @@ const Table = () => {
 
       <p>Запас</p>
       <div id="neTable__total" className="neTable__zapas">
+        {selector.doubleTournamentFlag && selector.tableZapas?.map((name) => (
+          <TableFio
+            name={name.fio1}
+            name2={name.fio2}
+            rttf1={name.rttf1}
+            rttf2={name.rttf2}
+            currentTournament={currentTournament}
+            key={name + currentTournament}
+          />
+        ))
+        }
+        {!selector.doubleTournamentFlag && selector.tableZapas?.map((name) => (
+          <TableFio
+            name={name.fio1}
+            rttf1={name.rttf1}
+            currentTournament={currentTournament}
+            key={name + currentTournament}
+          />
+        ))
+        }
         {//FIXME:
           //ЗАПАС
-        }
-        {selector.tableZapas?.map((name) => (
-          <div className='neTable__row zapas' key={name + currentTournament}>
-            <div className="neTable__row_square"></div>
-            <div className="neTable__row_fio" >{name.fio1} </div>
-          </div>
-        ))
         }
       </div>
     </div>
