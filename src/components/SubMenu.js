@@ -5,7 +5,7 @@ import { fetchTableData } from '../actions/fetchTableData';
 import {ReactComponent as PersonIcon} from '../styles/img/personWhite.svg';
 import {ReactComponent as CalendarIcon} from '../styles/img/calendar-svgrepo-com (1).svg';
 import { getTournamentDay } from '../actions/date';
-import { useSelector } from 'react-redux';
+
 
 //Подменю хедера, которые мы создаём при ините
 const SubMenu = ({ url, tournaments, onPress }) => {
