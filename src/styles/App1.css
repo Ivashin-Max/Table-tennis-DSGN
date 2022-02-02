@@ -431,6 +431,7 @@ main {
   border: 1px solid #39aea8;
 }
 .neTable__row_fio {
+  text-align: left;
   cursor: default;
   font-size: 13px;
   font-weight: 500;

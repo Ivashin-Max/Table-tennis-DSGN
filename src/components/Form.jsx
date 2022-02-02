@@ -16,6 +16,7 @@ import Tooltip from 'rc-tooltip';
 import { ReactComponent as ClearStorageIcon } from '../styles/img/x-svgrepo-com.svg';
 import classNames from 'classnames';
 import { fetchRttf } from '../actions/rttf';
+import { checkNewParticipant } from '../actions/checkNewParticipant';
 
 
 
@@ -69,7 +70,7 @@ const Form = () => {
 
 
 
-  const findParticipant = (sheet, findingFio, findingTell) => {
+  const findParticipant = (sheet, findingFio, findingTell, findingFio2) => {
     // let rowNumber = null;
     let participant = {
       name: false,
@@ -114,7 +115,7 @@ const Form = () => {
     else {
       let neededCell = '';
 
-      const neededSheet = await getSheet(neededTournament.neededDivisionId, neededTournament.neededTournamentName, 'B1:C70');
+      const neededSheet = await getSheet(neededTournament.neededDivisionId, neededTournament.neededTournamentName, 'B1:F70');
 
       if (vkId) neededCell = findParticipant(neededSheet, fio.trim().toLocaleLowerCase(), vkId);
       else neededCell = findParticipant(neededSheet, fio.trim().toLocaleLowerCase(), tell);
@@ -133,18 +134,32 @@ const Form = () => {
         console.log(`Нашли cовпадение по имени:${fio} и телефону ${tell} в строке №${neededCell.rowNumber}`);
 
         neededSheet.getCellByA1(`B${neededCell.rowNumber}`).value = null;
-        neededSheet.getCellByA1(`C${neededCell.rowNumber}`).value = undefined;
-        console.log('1', neededSheet._cells);
+        neededSheet.getCellByA1(`C${neededCell.rowNumber}`).value = null;
+        neededSheet.getCellByA1(`D${neededCell.rowNumber}`).value = null;
+        neededSheet.getCellByA1(`E${neededCell.rowNumber}`).value = null;
+        neededSheet.getCellByA1(`F${neededCell.rowNumber}`).value = null;
+
         await neededSheet.saveUpdatedCells()
 
         //FIXME:
         // ДЕСТРУКТУРИЗАЦИЯ,мы взяли именно 3й элемент массива,пздец, переделывать
+        // const clearEmptyCells = (cellsArr, cellsPosition) => {
+        //   return cellsArr.filter((el) => el[cellsPosition] = !!el[cellsPosition].value).map((el) => el[cellsPosition] = el[cellsPosition].value)
+        // }
+        // const nonEmpty = clearEmptyCells(neededSheet._cells, 2)
 
-        const nonEmpty = neededSheet._cells.filter(([, , cell]) => !!cell.value).map(([, , cell]) => cell.value)
         const nonEmpty1 = neededSheet._cells.filter(([, q,]) => !!q.value).map(([, q,]) => q.value);
-        console.log(nonEmpty1);
+        const nonEmpty = neededSheet._cells.filter(([, , cell]) => !!cell.value).map(([, , cell]) => cell.value)
+        const nonEmpty2 = neededSheet._cells.filter(([, , , w]) => !!w.value).map((([, , , w]) => w.value));
+        const nonEmpty3 = neededSheet._cells.filter(([, , , , e]) => !!e.value).map(([, , , , e]) => e.value);
+        const nonEmpty4 = neededSheet._cells.filter(([, , , , , r]) => !!r.value).map(([, , , , , r]) => r.value);
+
         let i = 0;
-        let j = 0
+        let j = 0;
+        let k = 0;
+        let l = 0;
+        let m = 0;
+
         neededSheet._cells.forEach(([, , cell]) => {
           const cellS = neededSheet.getCell(cell._row, cell._column);
           cellS.value = nonEmpty[i];
@@ -156,6 +171,25 @@ const Form = () => {
           cellS.value = nonEmpty1[j];
           j++;
         });
+
+        neededSheet._cells.forEach(([, , , w]) => {
+          const cellS = neededSheet.getCell(w._row, w._column);
+          cellS.value = nonEmpty2[k];
+          k++;
+        });
+
+        neededSheet._cells.forEach(([, , , , e]) => {
+          const cellS = neededSheet.getCell(e._row, e._column);
+          cellS.value = nonEmpty3[l];
+          l++;
+        });
+
+        neededSheet._cells.forEach(([, , , , , r]) => {
+          const cellS = neededSheet.getCell(r._row, r._column);
+          cellS.value = nonEmpty4[m];
+          m++;
+        });
+
 
 
 
@@ -183,7 +217,7 @@ const Form = () => {
     e.preventDefault();
     const vkId = checkStoragedId();
     const newFio = fio;
-    if (fio.trim() === '') {
+    if (fio.trim() === '' || (storeData.doubleTournamentFlag && fio.trim() === '')) {
       showModalMsg('Для добавления участника необходимо ввести ФИО');
       setLoading(false)
     }
@@ -198,7 +232,7 @@ const Form = () => {
       const neededSheet = await getSheet(neededTournament.neededDivisionId, neededTournament.neededTournamentName, 'B1:F60');
       const vkId = checkStoragedId();
 
-      console.log(`Хотим добавить челика фио: ${fio}, tell: ${tell} -  в эту таблу`, neededSheet);
+      console.log(`Хотим добавить челика фио: ${fio},фио2: ${fio2} tell: ${tell} -  в эту таблу`, neededSheet);
 
 
       for (let i = DATA_STARTS_FROM_CELL; i < 70; i++) {
@@ -213,14 +247,14 @@ const Form = () => {
 
         if (element === null) {
           neededSheet.getCellByA1(`B${i}`).value = fio;
-
           if (vkId) neededSheet.getCellByA1(`C${i}`).value = vkId
           else neededSheet.getCellByA1(`C${i}`).value = tell
 
+          if (storeData.doubleTournamentFlag) neededSheet.getCellByA1(`D${i}`).value = fio2;
           await neededSheet.saveUpdatedCells();
           const fioArr = await dispatch(fetchTableData());
 
-          if (fioArr.includes(newFio)) showModalMsg("Участник добавлен успешно")
+          if (checkNewParticipant(fioArr, newFio)) showModalMsg("Участник добавлен успешно")
           else showModalMsg("Ошибка добавления! Попробуйте ещё раз");
 
           addFioToStorage(fio);
@@ -234,6 +268,7 @@ const Form = () => {
       }
     }
   }
+
   const closeModalMsg = () => {
     setModal(false)
   }
