@@ -11,7 +11,6 @@ import { useSelector } from 'react-redux';
 const SubMenu = ({ url, tournaments, onPress }) => {
 	const [isShown, setIsShown] = React.useState(false);
 	const dispatch = useDispatch();
-  const storeData = useSelector(state => state.data.tableDate)
 
 
 	const onClick = React.useCallback((name) =>async () => {
