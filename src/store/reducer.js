@@ -72,7 +72,8 @@ const fetchedData = {
 	tableTime: '',
 	tableTotal: '',
 	tableFio: [],
-	tableZapas: []
+	tableZapas: [],
+  doubleTournamentFlag: null
 }
 
 const SET_DATA = 'SET_DATA';
@@ -100,6 +101,7 @@ export function reducerData(state = fetchedData, action) {
 				tableTotal: action.payload.tableTotal,
 				tableFio: action.payload.tableFio,
 				tableZapas: action.payload.tableZapas,
+        doubleTournamentFlag: action.payload.doubleTournamentFlag,
 			}
 		default:
 			return state;

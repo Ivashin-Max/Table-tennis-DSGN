@@ -50,6 +50,7 @@ export const fetchTableData = (param) => async (dispatch, getState) => {
 			zapasArr.push(element)
 		}
 	}
+  const doubleTournamentFlag = settingsArr[9] === 'да'? true:false
 
   await dispatch(setDateFlag({
     isLate: checkDate(settingsArr[1], settingsArr[2])
@@ -65,7 +66,8 @@ export const fetchTableData = (param) => async (dispatch, getState) => {
 		tableTime: settingsArr[2],
 		tableTotal: settingsArr[6],
 		tableFio: fioArr,
-		tableZapas: zapasArr
+		tableZapas: zapasArr,
+    doubleTournamentFlag: doubleTournamentFlag
 	}))
   return fioArr
 }
