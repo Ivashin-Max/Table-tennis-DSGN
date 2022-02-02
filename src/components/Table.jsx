@@ -55,7 +55,7 @@ const Table = () => {
             rttf1={name.rttf1}
             rttf2={name.rttf2}
             currentTournament={currentTournament}
-            key={name + currentTournament}
+            key={name.fio1 + currentTournament}
           />
         ))
         }
@@ -64,7 +64,7 @@ const Table = () => {
             name={name.fio1}
             rttf1={name.rttf1}
             currentTournament={currentTournament}
-            key={name + currentTournament}
+            key={name.fio2 + currentTournament}
           />
         ))
         }
@@ -94,7 +94,7 @@ const Table = () => {
             rttf1={name.rttf1}
             rttf2={name.rttf2}
             currentTournament={currentTournament}
-            key={name + currentTournament}
+            key={name.fio1 + currentTournament}
           />
         ))
         }
@@ -103,7 +103,7 @@ const Table = () => {
             name={name.fio1}
             rttf1={name.rttf1}
             currentTournament={currentTournament}
-            key={name + currentTournament}
+            key={name.fio1 + currentTournament}
           />
         ))
         }

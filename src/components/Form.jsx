@@ -352,7 +352,7 @@ const Form = () => {
         <div onClick={closeModalMsg} className="modal_msg_close">&times;</div>
         <div className="modal_msg_text">{modalMsg}</div>
       </div>}
-      <a className="plus radius" href="#form"></a>
+      <a className="plus radius" href="#form"> </a>
       <div className="form_wrap">
         <form action="#" id="form" className="form" >
           <section className="form_header">
