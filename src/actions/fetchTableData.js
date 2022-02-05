@@ -67,5 +67,5 @@ export const fetchTableData = (param) => async (dispatch, getState) => {
 		tableFio: fioArr,
 		tableZapas: zapasArr
 	}))
-
+  return fioArr
 }

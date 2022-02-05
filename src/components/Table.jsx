@@ -1,23 +1,30 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { useSelector } from 'react-redux';
 import copyIcon from '../styles/img/file-svgrepo-com.svg'
+import classNames from 'classnames';
 
 import TableFio from './TableFio'
 
 const Table = () => {
+  const [none, setNone] = useState(true);
+
 
 	const selector = useSelector(state => state.data)
 	const currentTournament = useSelector(state => state.table.neededTournamentName)
 	console.log(`Данные по турниру ${currentTournament}`, selector);
 
-	// const showTooltip = () => {
-	// 	setShow(true)
-	// }
 
-	// const hideTooltip = () => {
-	// 	setShow(false)
-	// }
-	//при обновлении стора у нас обновится компонент 
+  let classNameNone = classNames({
+    "copy_popup": true,
+    "copy_popup_none": none
+  });
+
+  const showCopy = () =>{
+    setNone(false);
+    setTimeout(() =>setNone(true), 1000)
+  }
+
+
 	return (
 		<div id="neTable" className='neTable'>
 			<div className="neTable__header_head">
@@ -39,9 +46,17 @@ const Table = () => {
 			</div>
 			<div className="neTable__total">
 				{`Total ${selector.tableFio.length}/${selector.tableTotal}`}
-        <div title='Скопировать участников' onClick={() => {navigator.clipboard.writeText(selector.tableFio.join('\n'))}}>
-          <img src={copyIcon} alt="" className="neTable__copy"/>
+        <div 
+        title='Скопировать участников' 
+        onClick={() => {
+          showCopy()
+          navigator.clipboard.writeText(selector.tableFio.join('\n'))}}
+        // className= {classNameNone}
+        >
+          <img src={copyIcon} alt="" className='copy' />
+          
         </div>
+        <div className= {classNameNone}> Участники скопированы</div>
 			</div>
 
 			<p>Запас</p>

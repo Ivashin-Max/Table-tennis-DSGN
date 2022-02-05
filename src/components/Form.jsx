@@ -12,7 +12,8 @@ import { useDispatch } from 'react-redux';
 import { removeStorageItem, checkStoragedId, addFioToStorage, getPromptFio,getPromptTell, setId, addTellToStorage } from '../actions/localStorage';
 import InputMask from 'react-input-mask';
 import Tooltip from 'rc-tooltip';
-import clearStorageIcon from '../styles/img/x-svgrepo-com.svg'
+
+import {ReactComponent as ClearStorageIcon} from '../styles/img/x-svgrepo-com.svg';
 import classNames from 'classnames';
 
 
@@ -38,6 +39,7 @@ const Form = () => {
 	const dispatch = useDispatch();
 	const storeData = useSelector(state => state.data)
   const storeDate = useSelector(state => state.date)
+  const links = useSelector(state => state.test.links)
 	const neededTournament = useSelector(state => state.table)
 	const [fio, setFio] = useState('');
 	const [tell, setTell] = useState('')
@@ -179,7 +181,6 @@ const Form = () => {
 		e.preventDefault();
 		const vkId = checkStoragedId();
     const newFio = fio;
-    console.log('newFio', newFio);
 		if (fio.trim() === '') {
       showModalMsg('Для добавления участника необходимо ввести ФИО');
 			setLoading(false)
@@ -214,7 +215,12 @@ const Form = () => {
 					else neededSheet.getCellByA1(`C${i}`).value = tell
 
 					await neededSheet.saveUpdatedCells();
-					await dispatch(fetchTableData());
+					const fioArr = await dispatch(fetchTableData());
+          console.log(fioArr.includes(newFio));
+          
+          if (fioArr.includes(newFio)) showModalMsg("Участник добавлен успешно")
+          else showModalMsg("Ошибка добавления! Попробуйте ещё раз");
+          
 					addFioToStorage(fio);
           addTellToStorage(tell);
 					setpromptFio(false)
@@ -276,6 +282,7 @@ const Form = () => {
             successAuth(r.session.mid)
           } else {
             showModalMsg("Ошибка авторизации");
+            console.log("Ошибка авторизации ВК", r);
             setLoading(false);
           }
         })
@@ -308,9 +315,9 @@ const Form = () => {
       <div onClick={closeModalMsg} className="modal_msg_close">&times;</div>
       <div className="modal_msg_text">{modalMsg}</div>
     </div>}
-
-
-		<form action="#" id="form" className="form" >
+    <a className="plus radius" href="#form"></a>
+    <div className="form_wrap">
+    <form action="#" id="form" className="form" >
 			<section className="form_header">
          {disabled && <div 
                         onClick={noAuth}
@@ -355,7 +362,8 @@ const Form = () => {
       <div className="inputs">
 			  <div className="placeholder-container">
           <div onMouseDown={() =>{removeStorageItem("fio");removeStorageItem("tell") }} className="clearStorage">
-                    <img src={clearStorageIcon} alt="" title='Очистить историю' />
+                     <ClearStorageIcon className='clearStorage_icon' title='Очистить историю'/>
+
                   </div>
 			  	{promptFio && <div className="fioPrompt">
 			  		{
@@ -442,15 +450,29 @@ const Form = () => {
 			</p>
 
       <div className="line"></div>
-			<div className="acor-container">
-				<input name='chacor' type="checkbox" id="chacor1" />
-				<label htmlFor="chacor1">Важные ссылки</label>
-				<div className="acor-body">
-					<p>Тут будут ссылки</p>
-				</div>
-			</div>
+			
 
 		</form>
+    <input className="drop_input" name='chacor' type="checkbox" id="chacor1" />
+    <div className="drop_links">
+            <div>
+              {links.map((link) => {
+              const linkName = Object.entries(link)[0][0];
+              const linkHttp = Object.entries(link)[0][1];
+              return  <a 
+                        key={linkHttp + linkName}
+                        href={linkHttp}
+                      >{linkName}
+                      </a>
+              }
+              )}
+            </div>
+
+    </div>
+       <label  className='drop' htmlFor="chacor1">Важные ссылки</label>
+    </div>
+
+		
  </>
 	)
 }
