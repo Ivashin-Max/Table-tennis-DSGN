@@ -462,6 +462,7 @@ const Form = () => {
               return  <a 
                         key={linkHttp + linkName}
                         href={linkHttp}
+						target="_blank"
                       >{linkName}
                       </a>
               }
