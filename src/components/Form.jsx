@@ -62,7 +62,7 @@ const Form = () => {
 
   React.useEffect(() => {
     let vkId = checkStoragedId();
-    console.log(`В локалСторадж хранится id: ${vkId}`);
+    if (vkId) console.log(`В локалСторадж хранится id: ${vkId}`);
     if (!!vkId) {
       setDisabled(true);
     }
@@ -71,7 +71,7 @@ const Form = () => {
 
 
   const findParticipant = (sheet, findingFio, findingTell, findingFio2) => {
-    // let rowNumber = null;
+
     let participant = {
       name: false,
       tell: false,

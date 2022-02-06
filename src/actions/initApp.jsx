@@ -23,7 +23,7 @@ export const initApp = () => async (dispatch, getState) => {
 
   const table = getState();
   console.groupCollapsed('Сходили в настроечную таблицу, теперь в сторе хранятся следующие данные по турнирам');
-  console.log(table.test);
+  console.log(table.settingsTable);
   console.groupEnd();
 }
 

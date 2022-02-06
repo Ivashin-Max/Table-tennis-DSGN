@@ -32,7 +32,7 @@ export const fetchTableData = (param) => async (dispatch, getState) => {
   for (let i = 1; i < 11; i++) {
     settingsArr.push(settings.getCellByA1(`H${i}`).value);
   }
-  console.log('Массив настроек', settingsArr);
+  // console.log('Массив настроек', settingsArr);
   const zapasStartsFromCell = settingsArr[6] + 2;
   const fio = neededTournament;
   const fioArr = [];

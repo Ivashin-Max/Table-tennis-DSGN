@@ -11,7 +11,7 @@ const Table = () => {
 
   const selector = useSelector(state => state.data)
   const currentTournament = useSelector(state => state.table.neededTournamentName)
-  console.log(`Данные по турниру ${currentTournament}`, selector);
+  if (selector.doubleTournamentFlag) console.log(`Данные по турниру ${currentTournament}`, selector);
 
 
   let classNameNone = classNames({
