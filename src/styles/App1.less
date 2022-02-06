@@ -327,7 +327,7 @@ main{
 		&_name{
 		font-weight: 600;
 		margin: 7px 0 9px 0 ;
-    min-width: 185px;
+        min-width: 185px;
 		font-size: 20px;
 		}
 		&_date{
@@ -343,12 +343,9 @@ main{
 		}
 	}
 	&__main{
-
-		// display: flex;
-		// flex-direction: column;
 		padding: 0 0 0 18px;
 		min-height: 575px;
-		min-height: 575px;
+		max-height: 575px;
 		overflow-y: scroll;
 		overflow-x: hidden;
 		&::-webkit-scrollbar {
@@ -1178,6 +1175,7 @@ a{
   @media only screen and (max-width: 500px) {
 	body {
 	  width: auto;
+	  padding: 5px 5px;
 	}
 	#scroll-down {
 	  display: block;
@@ -1186,6 +1184,7 @@ a{
 	}
 	.header {
 	  font-size: 11px;
+	//   width: 350px;
 	}
 	.header__left {
 	  display: none;
@@ -1218,7 +1217,9 @@ a{
 	  margin-top: 0;
 	  min-width: 200px;
 	  margin: 0 auto;
-  
+	}
+	#tournamentAdress {
+		font-size: 14px;
 	}
   main{
     flex-direction: column;
@@ -1254,7 +1255,7 @@ a{
   }
   .header__navbar_menu>li:last-child .header__navbar_menu_sub{
     position: fixed;
-    left: 12%;
+	left: 7%;
     right: auto;
   }
   .header__navbar_menu_sub{

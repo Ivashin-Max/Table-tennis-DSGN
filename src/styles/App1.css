@@ -377,6 +377,7 @@ main {
 .neTable__main {
   padding: 0 0 0 18px;
   min-height: 575px;
+  max-height: 575px;
   overflow-y: scroll;
   overflow-x: hidden;
 }
@@ -1116,6 +1117,7 @@ a:hover {
 @media only screen and (max-width: 500px) {
   body {
     width: auto;
+    padding: 5px 5px;
   }
   #scroll-down {
     display: block;
@@ -1157,6 +1159,9 @@ a:hover {
     min-width: 200px;
     margin: 0 auto;
   }
+  #tournamentAdress {
+    font-size: 14px;
+  }
   main {
     flex-direction: column;
   }
@@ -1188,7 +1193,7 @@ a:hover {
   }
   .header__navbar_menu > li:last-child .header__navbar_menu_sub {
     position: fixed;
-    left: 12%;
+    left: 7%;
     right: auto;
   }
   .header__navbar_menu_sub {
