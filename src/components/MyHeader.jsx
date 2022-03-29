@@ -1,73 +1,75 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import SubMenu from './SubMenu';
 import { useSelector } from 'react-redux';
+import { useDispatch } from 'react-redux';
+
 import classNames from 'classnames';
+import url from '../static/url.json';
+import axios from 'axios';
+import { setDivisions } from '../store/reducer';
+
 
 const MyHeader = () => {
-	const [isShown, setIsShown] = React.useState(true);
-	const mySelector = useSelector(state => state.test);
-	const hideModal = () =>  setIsShown(false);
+  const [isShown, setIsShown] = React.useState(true);
+  const mySelector = useSelector(state => state.test);
+  const divisions = useSelector(state => state.divisions);
+  const dispatch = useDispatch();
+  const hideModal = () => setIsShown(false);
+
+  useEffect(() => {
+    axios.get(url.back + url.endpoints.divisions)
+      .then(({ data }) => {
+        console.log('Axios', data);
+        dispatch(setDivisions({ divisions: data }))
+      });
+
+
+  }, [])
+
+
   let className = classNames({
     "header__navbar_menu": true,
     "green": isShown
   });
-  
-	return (
 
-		<div className="header">
-			{isShown &&
-				<><div className="modal"></div>
-        <div id="scroll-down">
-          <span className="arrow-down">
-          </span>
-          <span id="scroll-title">
-            Выбери дивизион
-          </span>
-        </div>
-        </>
+  return (
+    <>
+      <div className="header">
+        {isShown &&
+          <><div className="modal"></div>
+            <div id="scroll-down">
+              <span className="arrow-down">
+              </span>
+              <span id="scroll-title">
+                Выбери дивизион
+              </span>
+            </div>
+          </>
         }
-			<div className="header__left">
-				<div className="header__left_round"></div>
-				<div>
-					<p>Форма регистрации</p>
-					<p>Любительская Лига НиНо</p>
-				</div>
-			</div>
-			<div className="header__navbar">
-				<ul className={className} >
-					<li >Свободный
-						<SubMenu 
-            url={mySelector.free.url} 
-            tournaments={mySelector.free.tournaments} 
-            onPress={hideModal} 
+        <div className="header__left">
+          <div className="header__left_round"></div>
+          <div>
+            <p>Форма регистрации</p>
+            <p>Любительская Лига НиНо</p>
+          </div>
+        </div>
+        <div className="header__navbar">
+          <ul className={className} >
+            {divisions.divisions.divisions && divisions.divisions.divisions.map((division) => {
+              return <li>{division.division_name}
+                <SubMenu
+                  url={1}
+                  tournaments={division.tournaments}
+                  onPress={hideModal}
+                />
+              </li >
+            })}
 
-            />
-						<div className="header__navbar_line"></div>
-					</li>
-					<li>Первый
-						<SubMenu url={mySelector.first.url} tournaments={mySelector.first.tournaments} onPress={hideModal} />
-						<div className="header__navbar_line"></div>
-					</li>
-					<li>Второй
-						<SubMenu url={mySelector.second.url} tournaments={mySelector.second.tournaments} onPress={hideModal} />
-						<div className="header__navbar_line"></div>
-					</li>
-					<li>Третий
-						<SubMenu url={mySelector.third.url} tournaments={mySelector.third.tournaments} onPress={hideModal} />
-						<div className="header__navbar_line"></div>
-					</li>
-					<li>Высший
-						<SubMenu url={mySelector.high.url} tournaments={mySelector.high.tournaments} onPress={hideModal} />
-						<div className="header__navbar_line"></div>
-					</li>
-					<li>ТТклаб
-						<SubMenu url={mySelector.ttClub.url} tournaments={mySelector.ttClub.tournaments} onPress={hideModal} />
-						<div className="header__navbar_line"></div>
-					</li>
-				</ul>
-			</div>
-		</div>
-	)
+          </ul>
+        </div>
+      </div>
+    </>
+  )
 }
 
 export default MyHeader
