@@ -5,7 +5,7 @@ import url from '../static/url.json';
 
 export const initApp = () => async (dispatch, getState) => {
   //Получаем ссылки из настроечной таблицы
-  const test = await getDivisionsSpreadsheets(url.TEST_settingsURL)
+  const test = await getDivisionsSpreadsheets(url.PROD_settingsURL)
     .catch((e) => {
       console.log('Ошибка доступа к таблице', e);
       alert(`Ошибка доступа к таблице \n ${e}`)
