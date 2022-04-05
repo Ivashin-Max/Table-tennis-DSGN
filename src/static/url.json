@@ -5,6 +5,7 @@
     "divisions": "/division/get",
     "getParticipants": "/participant/get?id=",
     "addParticipant": "/participant/add",
-    "deleteParticipant": "/participant/drop"
+    "deleteParticipant": "/participant/drop",
+    "addProfile": "/profile/create"
   }
 }

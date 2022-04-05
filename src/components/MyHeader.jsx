@@ -7,6 +7,7 @@ import classNames from 'classnames';
 import { getDivisionsInfo } from '../actions/fetchDB';
 import { setRole } from '../store/reducer';
 import { useNavigate } from 'react-router-dom';
+import AuthModal from './AuthModule/Modal/Modal';
 
 const MyHeader = ({ adminMode }) => {
   const [isShown, setIsShown] = React.useState(true);
@@ -42,7 +43,8 @@ const MyHeader = ({ adminMode }) => {
           </>
         }
         <div className="header__left">
-          <div className="header__left_round"></div>
+          <div className="header__left_round" ></div>
+          <AuthModal />
           <div>
             {adminMode ?
               <>
