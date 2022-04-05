@@ -17,7 +17,7 @@ const RegistrationForm = (props: any) => {
     mode: "onChange"
   });
 
-  const validateEmailRegExp = '/^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,6}$/'
+  const validateEmailRegExp = new RegExp(/^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/)
 
 
   const onSubmit = (profile: RegistrationFormValues) => {
@@ -32,7 +32,13 @@ const RegistrationForm = (props: any) => {
     <SForm onSubmit={handleSubmit(onSubmit)}>
       <Title>Регистрация</Title>
       <Input control={control} name="name" rules={{ required: 'Обязательное поле' }} />
-      <Input control={control} name="username" rules={{ required: 'Обязательное поле' }} />
+      <Input
+        control={control}
+        name="username"
+        rules={{
+          required: 'Обязательное поле',
+          // pattern: { value: validateEmailRegExp, message: 'Должен содержать e-mail формата ххх@хх.хх' }
+        }} />
       <Input control={control} name="password" rules={{ required: 'Обязательное поле' }} />
 
       <Title onClick={props.onClick}>Вход</Title>

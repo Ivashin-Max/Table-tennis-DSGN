@@ -1,6 +1,7 @@
 import { Box } from '@mui/material'
 import React from 'react'
 import { useForm } from 'react-hook-form'
+import { authProfile } from '../../../actions/Profile/profileRequests'
 import { AuthFormValues, RegistrationFormValues } from '../../../types/forms'
 import Button from '../Button'
 import SForm from '../Form'
@@ -16,7 +17,15 @@ const AuthForm = (props: any) => {
     },
     mode: "onChange"
   });
-  const onSubmit = (data: RegistrationFormValues) => console.log(data);
+
+
+  const onSubmit = (profile: RegistrationFormValues) => {
+
+
+    authProfile(profile)
+      .then(res => console.log(res))
+
+  }
 
 
   return (

@@ -6,6 +6,7 @@
     "getParticipants": "/participant/get?id=",
     "addParticipant": "/participant/add",
     "deleteParticipant": "/participant/drop",
-    "addProfile": "/profile/create"
+    "addProfile": "/profile/create",
+    "authProfile": "/auth"
   }
 }
