@@ -15,18 +15,12 @@ export function checkDate(date, time) {
 }
 
 export function getTournamentDay(date) {
-  const currentYear = new Date().getFullYear();
-
   const inputDate = new Date(date).toLocaleDateString("ru-RU", { weekday: 'short' });
-  console.log('inputDate', inputDate);
-
   return inputDate
 }
-// function getDayName(dateStr, locale)
-// {
-//     var date = new Date(dateStr);
-//     return date.toLocaleDateString(locale, { weekday: 'long' });
-// }
 
-// var dateStr = '05/23/2014';
-// var day = getDayName(dateStr, "nl-NL");
+export function getTournamentDate(date) {
+  const options = { day: 'numeric', month: 'long' };
+  const inputDate = new Date(date).toLocaleDateString("ru-RU", options);
+  return inputDate
+}

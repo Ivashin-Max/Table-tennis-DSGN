@@ -1,100 +1,27 @@
-//Стор для хранения АДРЕСА текущей выведенной таблицы
+//Стор для хранения ID текущей выведенной таблицы
 const neededTable = {
-  neededDivisionId: '',
-  neededTournamentName: '',
+  neededDivisionId: null,
+  neededTournamentId: null,
 }
 
 const SET_TABLE = 'SET_TABLE';
 
-export const setTable = (payload) => {
+export const setTable = (payload: any) => {
   return {
     type: SET_TABLE,
     payload
   }
 }
 
-export function reducerTable(state = neededTable, action) {
+export function reducerTable(state = neededTable, action: any) {
   switch (action.type) {
     case 'SET_TABLE':
-      return { ...state, neededDivisionId: action.payload.neededDivisionId, neededTournamentName: action.payload.neededTournamentName }
+      return { ...state, neededDivisionId: action.payload.neededDivisionId, neededTournamentId: action.payload.neededTournamentId }
     default:
       return state;
   }
 }
 
-//Стор для хранения ссылок на таблицы (получаем из настроечной при ините апа и больше не трогаем)
-const spreadsheetsIds = {
-  free: '',
-  first: '',
-  second: '',
-  third: '',
-  high: '',
-  ttClub: ''
-}
-
-const SET_Ids = 'SET_Ids';
-
-export const setIds = (payload) => {
-  return {
-    type: SET_Ids,
-    payload
-  }
-}
-
-export function reducerSpreadsheetsIds(state = spreadsheetsIds, action) {
-  switch (action.type) {
-    case 'SET_Ids':
-      return {
-        ...state,
-        free: action.payload.free,
-        first: action.payload.first,
-        second: action.payload.second,
-        third: action.payload.third,
-        high: action.payload.high,
-        ttClub: action.payload.ttClub,
-      }
-    default:
-      return state;
-  }
-}
-
-//Стор для хранения данных по турнирам (получаем из настроечной при ините апа и больше не трогаем)
-const spreadsheets = {
-  free: {},
-  first: {},
-  second: {},
-  third: {},
-  high: {},
-  ttClub: {},
-  links: []
-}
-
-const SET_spreadsheets = 'SET_spreadsheets';
-
-export const setSpreadsheets = (payload) => {
-  return {
-    type: SET_spreadsheets,
-    payload
-  }
-}
-
-export function reducerSpreadsheets(state = spreadsheets, action) {
-  switch (action.type) {
-    case SET_spreadsheets:
-      return {
-        ...state,
-        free: { url: action.payload.free.url, tournaments: action.payload.free.tournaments },
-        first: { url: action.payload.first.url, tournaments: action.payload.first.tournaments },
-        second: { url: action.payload.second.url, tournaments: action.payload.second.tournaments },
-        third: { url: action.payload.third.url, tournaments: action.payload.third.tournaments },
-        high: { url: action.payload.high.url, tournaments: action.payload.high.tournaments },
-        ttClub: { url: action.payload.ttClub.url, tournaments: action.payload.ttClub.tournaments },
-        links: action.payload.links
-      }
-    default:
-      return state;
-  }
-}
 
 //Стор для хранения ДАННЫХ текущей выведенной таблицы
 const fetchedData = {
@@ -108,19 +35,20 @@ const fetchedData = {
   tableTime: '',
   tableTotal: '',
   tableFio: [],
-  tableZapas: []
+  tableZapas: [],
+  team: null
 }
 
 const SET_DATA = 'SET_DATA';
 
-export const setData = (payload) => {
+export const setData = (payload: any) => {
   return {
     type: SET_DATA,
     payload
   }
 }
 
-export function reducerData(state = fetchedData, action) {
+export function reducerData(state = fetchedData, action: any) {
   switch (action.type) {
     case 'SET_DATA':
       return {
@@ -136,6 +64,7 @@ export function reducerData(state = fetchedData, action) {
         tableTotal: action.payload.tableTotal,
         tableFio: action.payload.tableFio,
         tableZapas: action.payload.tableZapas,
+        team: action.payload.team,
       }
     default:
       return state;
@@ -147,19 +76,16 @@ const date = {
   isLate: false
 }
 
-const SET_DATE = 'SET_DATE';
-
-
-export const setDateFlag = (payload) => {
+export const setDateFlag = (payload: any) => {
   return {
-    type: SET_DATE,
+    type: 'SET_DATE',
     payload
   }
 }
 
-export function reducerDate(state = date, action) {
+export function reducerDate(state = date, action: any) {
   switch (action.type) {
-    case SET_DATE:
+    case 'SET_DATE':
       return {
         ...state,
         isLate: action.payload.isLate,
@@ -173,26 +99,45 @@ export function reducerDate(state = date, action) {
 
 //-------------------------
 //Стор для хранения данных по турнирам (получаем при ините апа и больше не трогаем)
-const divisons = {
-  divisions: []
-}
+const divisons: any[] = [];
 
 const SET_DIVISIONS = 'SET_DIVISIONS';
 
-export const setDivisions = (payload) => {
+export const setDivisions = (payload: any) => {
   return {
     type: SET_DIVISIONS,
     payload
   }
 }
 
-export function reducerDivisions(state = divisons, action) {
+export function reducerDivisions(state = divisons, action: any) {
   switch (action.type) {
     case SET_DIVISIONS:
       return {
         ...state,
-        divisions: action.payload,
+        ...action.payload,
       }
+    default:
+      return state;
+  }
+}
+
+//Стор для хранения роли пользователя
+const role = {
+  isAdmin: false
+}
+
+export const setRole = (payload: any) => {
+  return {
+    type: 'SET_ROLE',
+    payload
+  }
+}
+
+export function reducerRole(state = role, action: any) {
+  switch (action.type) {
+    case 'SET_ROLE':
+      return { ...state, isAdmin: action.payload.isAdmin }
     default:
       return state;
   }

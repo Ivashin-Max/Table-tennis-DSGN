@@ -7,7 +7,7 @@ import logoPingPongLoader from '../styles/img/ping-pong-loader.svg'
 import person from '../styles/img/personBlue.svg'
 import logoVkBlack from '../styles/img/VK_Compact_Logo_Black.svg'
 import { getSheet } from '../actions/google';
-import { fetchTableData } from '../actions/fetchTableData';
+// import { fetchTableData } from '../actions/fetchTableData';
 import { useDispatch } from 'react-redux';
 import { removeStorageItem, checkStoragedId, addFioToStorage, getPromptFio, getPromptTell, setId, addTellToStorage } from '../actions/localStorage';
 import InputMask from 'react-input-mask';
@@ -15,7 +15,8 @@ import Tooltip from 'rc-tooltip';
 
 import { ReactComponent as ClearStorageIcon } from '../styles/img/x-svgrepo-com.svg';
 import classNames from 'classnames';
-
+import { useCurrentTournament } from '../hooks/useCurrentTournament';
+import { addParticipant, deleteParticipantDB, getParticipants } from '../actions/fetchDB';
 
 
 const alignConfig = {
@@ -38,14 +39,14 @@ const Form = () => {
   const [promptTell, setpromptTell] = useState(false)
   const dispatch = useDispatch();
   const storeData = useSelector(state => state.data)
+
   const storeDate = useSelector(state => state.date)
-  const links = useSelector(state => state.test.links)
-  const neededTournament = useSelector(state => state.table)
   const [fio, setFio] = useState('');
+  const [fio2, setFio2] = useState('');
   const [tell, setTell] = useState('')
   const [modal, setModal] = useState(false);
   const [modalMsg, setModalMsg] = useState("");
-  const DATA_STARTS_FROM_CELL = 2;
+  const currentTournament = useCurrentTournament();
 
   let classNameGreen = classNames({
     "buttons_disabled": storeDate.isLate,
@@ -65,173 +66,72 @@ const Form = () => {
     }
   }, [])
 
-
-
-  const findParticipant = (sheet, findingFio, findingTell) => {
-    // let rowNumber = null;
-    let participant = {
-      name: false,
-      tell: false,
-      rowNumber: null
-    }
-    for (let i = DATA_STARTS_FROM_CELL; i < 70; i++) {
-      if (sheet.getCellByA1(`B${i}`).value !== null) {
-        let element = sheet.getCellByA1(`B${i}`).value.trim().toLocaleLowerCase();
-
-        if (element === findingFio) {
-          participant.name = true
-          let tell = sheet.getCellByA1(`C${i}`).value.trim()
-
-          if (tell.toString() === findingTell) {
-            participant.tell = true;
-            participant.rowNumber = i
-            break
-          }
-        }
-      }
-    }
-    console.log(`Participant`, participant);
-    return participant
-  }
-
-
-  const deleteParticipant = async (e) => {
-    e.preventDefault();
-    setLoading(true)
+  const checkEmptyInputs = () => {
     const vkId = checkStoragedId();
 
     if (fio.trim() === '') {
       showModalMsg('Введите ФИО');
       setLoading(false)
+      return false
     }
     else if (tell.length !== 17 && !vkId) {
       showModalMsg('Введите телефон в корректном формате');
       setLoading(false)
+      return false
     }
-
-    else {
-      let neededCell = '';
-
-      const neededSheet = await getSheet(neededTournament.neededDivisionId, neededTournament.neededTournamentName, 'B1:C70');
-
-      if (vkId) neededCell = findParticipant(neededSheet, fio.trim().toLocaleLowerCase(), vkId);
-      else neededCell = findParticipant(neededSheet, fio.trim().toLocaleLowerCase(), tell);
+  }
 
 
+  const deleteParticipant = async (e) => {
+    e.preventDefault();
+    const emptyInputs = checkEmptyInputs();
 
-      if (neededCell.name === false) {
-        showModalMsg(`Участник с таким именем не зарегистрирован`)
-        setLoading(false)
+    if (emptyInputs !== false) {
+      const vkId = checkStoragedId();
+      const participant = {
+        tournamentId: currentTournament.id,
+        name: fio,
+        name_2: currentTournament.team ? fio2 : "",
+        password: vkId ? vkId : tell
       }
-      else if (neededCell.tell === false) {
-        showModalMsg(`Участник с таким именем зарегистрирован под другим номером телефона`)
-        setLoading(false)
+      const response = await deleteParticipantDB(participant);
+      if (response.success) {
+        await dispatch(getParticipants(currentTournament.id));
+        showModalMsg('Успешно удален');
       }
-      else {
-        console.log(`Нашли cовпадение по имени:${fio} и телефону ${tell} в строке №${neededCell.rowNumber}`);
-
-        neededSheet.getCellByA1(`B${neededCell.rowNumber}`).value = null;
-        neededSheet.getCellByA1(`C${neededCell.rowNumber}`).value = undefined;
-        console.log('1', neededSheet._cells);
-        await neededSheet.saveUpdatedCells()
-
-        //FIXME:
-        // ДЕСТРУКТУРИЗАЦИЯ,мы взяли именно 3й элемент массива,пздец, переделывать
-
-        const nonEmpty = neededSheet._cells.filter(([, , cell]) => !!cell.value).map(([, , cell]) => cell.value)
-        const nonEmpty1 = neededSheet._cells.filter(([, q,]) => !!q.value).map(([, q,]) => q.value);
-        console.log(nonEmpty1);
-        let i = 0;
-        let j = 0
-        neededSheet._cells.forEach(([, , cell]) => {
-          const cellS = neededSheet.getCell(cell._row, cell._column);
-          cellS.value = nonEmpty[i];
-          i++;
-        });
-
-        neededSheet._cells.forEach(([, q,]) => {
-          const cellS = neededSheet.getCell(q._row, q._column);
-          cellS.value = nonEmpty1[j];
-          j++;
-        });
-
-
-
-        await neededSheet.saveUpdatedCells()
-        await dispatch(fetchTableData(neededSheet));
-        if (vkId) neededCell = findParticipant(neededSheet, fio.trim().toLocaleLowerCase(), vkId).rowNumber;
-        else neededCell = findParticipant(neededSheet, fio.trim().toLocaleLowerCase(), tell).rowNumber;
-        if (neededCell === null) {
-          showModalMsg(`Удаление прошло успешно`);
-
-        }
-        setpromptFio(false)
-        setpromptTell(false)
-        setLoading(false)
-      }
+      else showModalMsg(`Ошибка удаления, ${response.data}`)
+      console.log(response)
     }
-
-
-    console.groupEnd();
   }
 
 
 
   const newParticipant = async (e) => {
     e.preventDefault();
-    const vkId = checkStoragedId();
-    const newFio = fio;
-    if (fio.trim() === '') {
-      showModalMsg('Для добавления участника необходимо ввести ФИО');
-      setLoading(false)
-    }
-    else if (tell.trim().length !== 17 && !vkId) {
-      showModalMsg('Для добавления участника необходимо ввести корректный формат номера или авторизоваться Вконтакте');
-      setLoading(false)
-    }
-    else {
-      // console.log(tell.trim(), tell.trim().length);
+    const emptyInputs = checkEmptyInputs();
+
+    if (emptyInputs !== false) {
       setLoading(true)
-
-      const neededSheet = await getSheet(neededTournament.neededDivisionId, neededTournament.neededTournamentName, 'B1:C60');
       const vkId = checkStoragedId();
-
-      console.log(`Хотим добавить челика фио: ${fio}, tell: ${tell} -  в эту таблу`, neededSheet);
-
-      for (let i = DATA_STARTS_FROM_CELL; i < 70; i++) {
-        let element = neededSheet.getCellByA1(`B${i}`).value
-        if (element) {
-          if (element.trim().toLocaleLowerCase() === fio.trim().toLocaleLowerCase()) {
-            showModalMsg('Нельзя! Такой участник уже зарегистрировался');
-            setLoading(false)
-            break
-          }
-        }
-
-        if (element === null) {
-          neededSheet.getCellByA1(`B${i}`).value = fio;
-
-          if (vkId) neededSheet.getCellByA1(`C${i}`).value = vkId
-          else neededSheet.getCellByA1(`C${i}`).value = tell
-
-          await neededSheet.saveUpdatedCells();
-          const fioArr = await dispatch(fetchTableData());
-          console.log(fioArr.includes(newFio));
-
-          if (fioArr.includes(newFio)) showModalMsg("Участник добавлен успешно")
-          else showModalMsg("Ошибка добавления! Попробуйте ещё раз");
-
-          addFioToStorage(fio);
-          addTellToStorage(tell);
-          setpromptFio(false)
-          setpromptTell(false)
-          setLoading(false)
-
-          break
-        }
+      const newParticipant = {
+        tournamentId: currentTournament.id,
+        name: fio,
+        name_2: currentTournament.team ? fio2 : "",
+        password: vkId ? vkId : tell
       }
+      const response = await addParticipant(newParticipant);
+      if (response.success) {
+        await dispatch(getParticipants(currentTournament.id));
+        showModalMsg('Успешно добавлен');
+      }
+      else showModalMsg(`Ошибка добавления, ${response.data}`)
+
+      console.log('response', response)
+
+      setLoading(false)
     }
   }
+
   const closeModalMsg = () => {
     setModal(false)
   }
@@ -268,6 +168,7 @@ const Form = () => {
     setDisabled(true);
     setLoading(false);
   }
+
   const auth = (e) => {
     e.preventDefault();
     setLoading(true)
@@ -390,6 +291,25 @@ const Form = () => {
               />
               <label >Ваше ФИО</label>
             </div>
+
+
+
+            {currentTournament?.team !== null && currentTournament?.team === 1 &&
+              <div className="placeholder-container">
+                <input
+                  type="text"
+                  placeholder=' '
+                  id="newParticipantName"
+                  autoComplete='off'
+                  value={fio2}
+                  onChange={event => setFio2(event.target.value)}
+                />
+                <label >ФИО второго участника</label>
+              </div>
+            }
+
+
+
             {!disabled &&
               <div className="placeholder-container">
 
@@ -421,7 +341,7 @@ const Form = () => {
               </div>}
           </div>
           <div className="price">
-            Стоимость участия {storeData.tournamentPrice}
+            Стоимость участия {storeData.tournamentPrice} рублей
           </div>
 
 
@@ -445,9 +365,9 @@ const Form = () => {
               Удалиться с турнира
             </button>
           </div>
-          <p id="tournamentRating">
-            {storeData.tournamentRate}
-          </p>
+          {<p id="tournamentRating">
+            <span>Рейтинг: </span>{storeData.tournamentRate}
+          </p>}
 
           <div className="line"></div>
 
@@ -456,7 +376,7 @@ const Form = () => {
         <input className="drop_input" name='chacor' type="checkbox" id="chacor1" />
         <div className="drop_links">
           <div>
-            {links.map((link) => {
+            {[].map((link) => {
               const linkName = Object.entries(link)[0][0];
               const linkHttp = Object.entries(link)[0][1];
               return <a
@@ -471,7 +391,7 @@ const Form = () => {
 
         </div>
         <label className='drop' htmlFor="chacor1">Важные ссылки</label>
-      </div>
+      </div >
 
 
     </>

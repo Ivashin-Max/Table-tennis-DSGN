@@ -1,29 +1,24 @@
-import React, { useEffect } from 'react'
+import React, { useEffect, useLayoutEffect } from 'react'
 import SubMenu from './SubMenu';
 import { useSelector } from 'react-redux';
 import { useDispatch } from 'react-redux';
 
 import classNames from 'classnames';
-import url from '../static/url.json';
-import axios from 'axios';
-import { setDivisions } from '../store/reducer';
+import { getDivisionsInfo } from '../actions/fetchDB';
+import { setRole } from '../store/reducer';
+import { useNavigate } from 'react-router-dom';
 
-
-const MyHeader = () => {
+const MyHeader = ({ adminMode }) => {
   const [isShown, setIsShown] = React.useState(true);
-  const mySelector = useSelector(state => state.test);
-  const divisions = useSelector(state => state.divisions);
+  let navigate = useNavigate();
+
+  const state = useSelector(state => state.divisions).divisions;
+  const adminState = useSelector(state => state.role);
   const dispatch = useDispatch();
   const hideModal = () => setIsShown(false);
 
-  useEffect(() => {
-    axios.get(url.back + url.endpoints.divisions)
-      .then(({ data }) => {
-        console.log('Axios', data);
-        dispatch(setDivisions({ divisions: data }))
-      });
-
-
+  useLayoutEffect(() => {
+    dispatch(getDivisionsInfo())
   }, [])
 
 
@@ -49,24 +44,37 @@ const MyHeader = () => {
         <div className="header__left">
           <div className="header__left_round"></div>
           <div>
-            <p>Форма регистрации</p>
-            <p>Любительская Лига НиНо</p>
+            {adminMode ?
+              <>
+                <p>Админка</p>
+              </> :
+              <>
+                <p>Форма регистрации</p>
+                <p>Любительская Лига НиНо</p>
+              </>
+            }
+            <button onClick={() => dispatch(setRole({ isAdmin: true }))}>РОль админа вкл</button>
+            <br />
+            <button onClick={() => console.log('rol', adminState)}>         /чек</button>
+            <br />
+            <button onClick={() => navigate('/admin')}>         /Админка го</button>
           </div>
         </div>
-        <div className="header__navbar">
+        {state && <div className="header__navbar">
           <ul className={className} >
-            {divisions.divisions.divisions && divisions.divisions.divisions.map((division) => {
-              return <li>{division.division_name}
+            {state.map((division) => {
+              return <li key={division.id}>{division.division_name}
                 <SubMenu
-                  url={1}
+                  divisionId={division.id}
                   tournaments={division.tournaments}
                   onPress={hideModal}
+                  adminMode={adminMode}
                 />
               </li >
             })}
 
           </ul>
-        </div>
+        </div>}
       </div>
     </>
   )

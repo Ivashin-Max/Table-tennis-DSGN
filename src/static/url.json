@@ -2,6 +2,10 @@
   "settingsURL": "1PKVkuDeCrDG4wLFiM6DhPVXrlvmFk8fcfROXi4WNcoE",
   "back": "http://localhost:5000",
   "endpoints": {
-    "divisions": "/division/get"
+    "addTournament": "/tournament/add",
+    "divisions": "/division/get",
+    "getParticipants": "/participant/get?id=",
+    "addParticipant": "/participant/add",
+    "deleteParticipant": "/participant/drop"
   }
 }
