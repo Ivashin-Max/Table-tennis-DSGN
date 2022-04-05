@@ -1,5 +1,4 @@
 {
-  "settingsURL": "1PKVkuDeCrDG4wLFiM6DhPVXrlvmFk8fcfROXi4WNcoE",
   "back": "http://localhost:5000",
   "endpoints": {
     "addTournament": "/tournament/add",
