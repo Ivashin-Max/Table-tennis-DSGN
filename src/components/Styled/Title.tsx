@@ -3,6 +3,7 @@ import styled from 'styled-components';
 
 const STitle = styled.p`
   margin-bottom: 14px;
+  text-align:center;
 `
 
 const Title = (props: any) => {

@@ -6,14 +6,15 @@ const neededTable = {
 
 const SET_TABLE = 'SET_TABLE';
 
-export const setTable = (payload: any) => {
+
+export const setTable = (payload) => {
   return {
     type: SET_TABLE,
     payload
   }
 }
 
-export function reducerTable(state = neededTable, action: any) {
+export function reducerTable(state = neededTable, action) {
   switch (action.type) {
     case 'SET_TABLE':
       return { ...state, neededDivisionId: action.payload.neededDivisionId, neededTournamentId: action.payload.neededTournamentId }
@@ -24,7 +25,7 @@ export function reducerTable(state = neededTable, action: any) {
 
 
 //Стор для хранения ДАННЫХ текущей выведенной таблицы
-const fetchedData = {
+const initialState = {
   tournamentPlace: '',
   tournamentTell: '',
   tournamentOrgFio: '',
@@ -38,19 +39,28 @@ const fetchedData = {
   tableZapas: [],
   team: null
 }
+const fetchedData = { ...initialState }
+
 
 const SET_DATA = 'SET_DATA';
+const SET_EMPTY_DATA = 'SET_EMPTY_DATA';
 
-export const setData = (payload: any) => {
+export const setData = (payload) => {
   return {
     type: SET_DATA,
     payload
   }
 }
 
-export function reducerData(state = fetchedData, action: any) {
+export const setEmptyData = () => {
+  return {
+    type: SET_EMPTY_DATA,
+  }
+}
+
+export function reducerData(state = fetchedData, action) {
   switch (action.type) {
-    case 'SET_DATA':
+    case SET_DATA:
       return {
         ...state,
         tournamentPlace: action.payload.tournamentPlace,
@@ -66,6 +76,11 @@ export function reducerData(state = fetchedData, action: any) {
         tableZapas: action.payload.tableZapas,
         team: action.payload.team,
       }
+    case SET_EMPTY_DATA:
+      return {
+        ...state,
+        ...initialState
+      }
     default:
       return state;
   }
@@ -76,14 +91,14 @@ const date = {
   isLate: false
 }
 
-export const setDateFlag = (payload: any) => {
+export const setDateFlag = (payload) => {
   return {
     type: 'SET_DATE',
     payload
   }
 }
 
-export function reducerDate(state = date, action: any) {
+export function reducerDate(state = date, action) {
   switch (action.type) {
     case 'SET_DATE':
       return {
@@ -99,18 +114,18 @@ export function reducerDate(state = date, action: any) {
 
 //-------------------------
 //Стор для хранения данных по турнирам (получаем при ините апа и больше не трогаем)
-const divisons: any[] = [];
+const divisons = [];
 
 const SET_DIVISIONS = 'SET_DIVISIONS';
 
-export const setDivisions = (payload: any) => {
+export const setDivisions = (payload) => {
   return {
     type: SET_DIVISIONS,
     payload
   }
 }
 
-export function reducerDivisions(state = divisons, action: any) {
+export function reducerDivisions(state = divisons, action) {
   switch (action.type) {
     case SET_DIVISIONS:
       return {
@@ -127,17 +142,58 @@ const role = {
   isAdmin: false
 }
 
-export const setRole = (payload: any) => {
+export const setAdminRole = (payload) => {
   return {
-    type: 'SET_ROLE',
+    type: 'SET_ADMIN',
     payload
   }
 }
 
-export function reducerRole(state = role, action: any) {
+export function reducerRole(state = role, action) {
   switch (action.type) {
-    case 'SET_ROLE':
-      return { ...state, isAdmin: action.payload.isAdmin }
+    case 'SET_ADMIN':
+      return { ...state, isAdmin: true }
+    default:
+      return state;
+  }
+}
+
+//Стор для модалки
+const modal = {
+  active: false,
+  title: '',
+  modalMsg: ''
+}
+
+export const openModal = (payload) => {
+  return {
+    type: 'OPEN_MODAL',
+    payload
+  }
+}
+
+export const closeModal = (payload) => {
+  return {
+    type: 'CLOSE_MODAL',
+    payload
+  }
+}
+
+export function reducerModal(state = modal, action) {
+  switch (action.type) {
+    case 'OPEN_MODAL':
+      return {
+        ...state,
+        active: true,
+        title: action.payload.title,
+        modalMsg: action.payload.modalMsg
+      }
+    case 'CLOSE_MODAL':
+      return {
+        ...state,
+        active: false,
+        modalMsg: state.modalMsg
+      }
     default:
       return state;
   }

@@ -1,27 +1,26 @@
-import React from 'react'
 import Tooltip from 'rc-tooltip';
-import { useCurrentTournament } from '../hooks/useCurrentTournament';
-import { useTypedSelector } from '../hooks/useTypedSelector'
-import { deleteParticipantDB } from '../actions/fetchDB';
-
+import { deleteParticipantAdmin } from '../actions/Admin/adminRequests';
+import { useDispatch } from 'react-redux';
+import { TableFioProps } from '../types/props';
 
 
 
 const alignConfig = {
   offset: [-175, 5],            // the offset sourceNode by 10px in x and 20px in y,
-  targetOffset: ['30%', '40%'], // the offset targetNode by 30% of targetNode width in x and 40% of targetNode height in y,
+  targetOffset: [80, 13], // the offset targetNode by 30% of targetNode width in x and 40% of targetNode height in y,
   overflow: { adjustX: true, adjustY: true }, // auto adjust position when sourceNode is overflowed
 };
 
-const TableFio = ({ participant, currentTournament, zapas }) => {
-  const isAdmin = useTypedSelector(state => state.role).isAdmin
+const TableFio = ({ currentTournament, participant, adminMode, zapas }: TableFioProps) => {
+
+
+
   const zapasClassName = zapas ? 'neTable__row zapas' : 'neTable__row';
-
-
-
+  const dispatch = useDispatch();
 
   return (
     <>
+
 
       <Tooltip placement="right"
         overlay={
@@ -40,9 +39,9 @@ const TableFio = ({ participant, currentTournament, zapas }) => {
           </div>
         </div>
       </Tooltip>
-      {isAdmin && <div className="neTable__row_fio" >
+      {adminMode === true && <div className="neTable__row_fio" >
         <button>ред</button>
-        <button onClick={() => deleteParticipantDB(participant)}>|удалить</button>
+        <button onClick={() => dispatch(deleteParticipantAdmin(participant.name, currentTournament))}>|удалить</button>
       </div>
       }
     </>

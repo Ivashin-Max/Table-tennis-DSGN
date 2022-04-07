@@ -1,12 +1,19 @@
 {
   "back": "http://localhost:5000",
   "endpoints": {
-    "addTournament": "/tournament/add",
     "divisions": "/division/get",
     "getParticipants": "/participant/get?id=",
     "addParticipant": "/participant/add",
     "deleteParticipant": "/participant/drop",
     "addProfile": "/profile/create",
-    "authProfile": "/auth"
+    "authProfile": "/auth",
+    "getProfileInfo": "/profile/get?id=",
+    "getAllNames": "/participant/names/get",
+    "admin": {
+      "deleteParticipant": "/admin/participant/drop",
+      "addTournament": "/admin/tournament/add",
+      "deleteTournament": "/admin/tournament/drop?id=",
+      "patchTournament": "/admin/tournament/edit"
+    }
   }
 }

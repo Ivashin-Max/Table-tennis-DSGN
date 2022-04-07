@@ -1,11 +1,8 @@
 import * as React from 'react';
 import Button from '@mui/material/Button';
 import Dialog from '@mui/material/Dialog';
-import DialogActions from '@mui/material/DialogActions';
 import DialogContent from '@mui/material/DialogContent';
-import DialogContentText from '@mui/material/DialogContentText';
-import DialogTitle from '@mui/material/DialogTitle';
-import BasicTabs from './ModalTabs';
+
 import AuthForm from '../Authorization/AuthForm';
 import RegistrationForm from '../Authorization/RegistrationForm';
 import { useState } from 'react';
@@ -13,7 +10,9 @@ import { useState } from 'react';
 
 export default function AuthModal() {
   const [open, setOpen] = useState(false);
-  const [register, setRegister] = useState(false)
+  const [register, setRegister] = useState(false);
+
+
 
   const handleClickOpen = () => {
     setOpen(true);
@@ -22,6 +21,11 @@ export default function AuthModal() {
   const handleClose = () => {
     setOpen(false);
   };
+  const changeForm = () => {
+    setRegister(prev => !prev)
+  };
+
+
 
   return (
     <div>
@@ -34,11 +38,8 @@ export default function AuthModal() {
       >
 
         <DialogContent>
-          {!register && <AuthForm onClick={() => setRegister(prev => !prev)} />}
-          {register && <RegistrationForm onClick={() => setRegister(prev => !prev)} />}
-          {/* <AuthForm /> */}
-          {/* <Auth /> */}
-          {/* <BasicTabs /> */}
+          {!register && <AuthForm closeFormModal={handleClose} changeForm={changeForm} />}
+          {register && <RegistrationForm closeFormModal={handleClose} changeForm={changeForm} />}
         </DialogContent>
       </Dialog>
     </div>

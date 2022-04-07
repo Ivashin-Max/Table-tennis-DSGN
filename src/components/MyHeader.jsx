@@ -1,25 +1,27 @@
-import React, { useEffect, useLayoutEffect } from 'react'
+import React, { useEffect } from 'react'
 import SubMenu from './SubMenu';
 import { useSelector } from 'react-redux';
 import { useDispatch } from 'react-redux';
-
+import { getUser } from '../actions/localStorage';
 import classNames from 'classnames';
 import { getDivisionsInfo } from '../actions/fetchDB';
-import { setRole } from '../store/reducer';
+import { getRegistrationNames, profileInfo } from '../actions/Profile/profileRequests';
 import { useNavigate } from 'react-router-dom';
 import AuthModal from './AuthModule/Modal/Modal';
 
 const MyHeader = ({ adminMode }) => {
   const [isShown, setIsShown] = React.useState(true);
   let navigate = useNavigate();
-
+  const isAdmin = !!sessionStorage.getItem('admin');
   const state = useSelector(state => state.divisions).divisions;
-  const adminState = useSelector(state => state.role);
+  // const adminState = useSelector(state => state.role);
+  const profileId = getUser()?.id
   const dispatch = useDispatch();
   const hideModal = () => setIsShown(false);
 
-  useLayoutEffect(() => {
+  useEffect(() => {
     dispatch(getDivisionsInfo())
+
   }, [])
 
 
@@ -32,6 +34,7 @@ const MyHeader = ({ adminMode }) => {
     <>
       <div className="header">
         {isShown &&
+
           <><div className="modal"></div>
             <div id="scroll-down">
               <span className="arrow-down">
@@ -43,7 +46,7 @@ const MyHeader = ({ adminMode }) => {
           </>
         }
         <div className="header__left">
-          <div className="header__left_round" ></div>
+          <div className="header__left_round" onClick={() => navigate('/user')} ></div>
           <AuthModal />
           <div>
             {adminMode ?
@@ -55,11 +58,16 @@ const MyHeader = ({ adminMode }) => {
                 <p>Любительская Лига НиНо</p>
               </>
             }
-            <button onClick={() => dispatch(setRole({ isAdmin: true }))}>РОль админа вкл</button>
+            <button onClick={() => {
+
+              // if (profileId) return profileInfo(44).then((res) => console.log(res))
+              getRegistrationNames().then(res => console.log(res))
+            }}>profil</button>
             <br />
-            <button onClick={() => console.log('rol', adminState)}>         /чек</button>
+
             <br />
-            <button onClick={() => navigate('/admin')}>         /Админка го</button>
+            {isAdmin && <button onClick={() => navigate('/admin')}>         /Админка го</button>}
+
           </div>
         </div>
         {state && <div className="header__navbar">

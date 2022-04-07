@@ -1,103 +1,301 @@
-import React from "react";
-import { useForm, SubmitHandler } from "react-hook-form";
-import { addTournament } from "../../actions/fetchDB";
-import { useCurrentDivision } from "../../hooks/useCurrentTournament";
-import { useTypedSelector } from "../../hooks/useTypedSelector";
-import { ITournamentAdd } from "../../types/fetch";
-import AdminFormSelect from "./AdminFormCheckbox";
+
+import { useEffect, useState } from "react";
+import { useForm } from "react-hook-form";
+import { useCurrentDivision, useCurrentTournament } from "../../hooks/useCurrentTournament";
+import Input from "../Styled/Input";
+import Form from "../Styled/Form";
+import * as React from 'react';
+import TextField from '@mui/material/TextField';
+import DateTimePicker from '@mui/lab/DateTimePicker';
+
+import * as yup from "yup";
+import { yupResolver } from "@hookform/resolvers/yup";
+import { ITournamentAdd, ITournamentPatch } from "../../types/fetch";
+import Checkbox from "../Styled/Checkbox";
+import { setSeconds, subMinutes, compareAsc, parseISO } from 'date-fns'
+import { addTournament, deleteTournament, patchTournament } from "../../actions/Admin/adminRequests";
+import { useDispatch } from "react-redux";
+import { openModal } from "../../store/reducer";
+import { getDivisionsInfo } from "../../actions/fetchDB";
+
+// validation
+const AddTournamentSchema = yup.object().shape({
+
+  cost: yup
+    .number().transform((value) => (isNaN(value) ? 0 : value)).nullable()
 
 
+});
+
+export const AdminForm = () => {
+  const currentDivisionName = useCurrentDivision()?.division_name;
+  const currentDivisionId = useCurrentDivision()?.id;
+  const currentTournament = useCurrentTournament();
+  const [isPaid, setIsPaid] = useState(false);
+  const [isRate, setIsRate] = useState(false);
+  const [clearParticipants, setClearParticipants] = useState(false);
+  const [date, setDate] = React.useState<Date | null>(setSeconds(new Date(), 0));
+  const dispatch = useDispatch();
+  useEffect(() => {
+    console.log('currentTournament', currentTournament)
+    console.log('currentDivisionId', currentDivisionId)
+    if (currentTournament) {
+      console.log(1111)
+      let tournamentValues = {
+        cost: currentTournament.cost,
+        location: currentTournament.location,
+        organizer: currentTournament.organizer,
+        phone: currentTournament.phone,
+        rating_range: currentTournament.rating_range,
+        reserve: currentTournament.reserve,
+        team: currentTournament.team,
+        tournament_name: currentTournament.tournament_name,
+      };
+
+      setDate(new Date(currentTournament.date_time))
+      console.log(currentTournament.rating_range)
+      if (currentTournament.rating_range !== '0') setIsRate(true)
+      else setIsRate(false)
+      if (currentTournament.cost !== 0) setIsPaid(true)
+      else setIsPaid(false)
+
+      reset({ ...tournamentValues });
+    }
+    else {
+      setIsRate(false);
+      setIsPaid(false);
+      let tournamentValues = {
+        cost: 0,
+        location: '',
+        organizer: '',
+        phone: '',
+        rating_range: '',
+        reserve: 0,
+        team: 0,
+        tournament_name: '',
+      };
+      setDate(new Date())
+      reset({ ...tournamentValues });
+    }
+  }, [currentTournament, currentDivisionName])
 
 
-const AdminForm = () => {
-  const currentDivisionId: number = useTypedSelector(state => state.table).neededDivisionId;
-  const currentDivisionName = useCurrentDivision();
+  const {
+    register,
+    handleSubmit,
+    reset,
+    formState: { errors }
+  } = useForm<ITournamentPatch>({ resolver: yupResolver(AddTournamentSchema), mode: 'onSubmit', });
 
+  const onSubmit = (data: ITournamentPatch) => {
+    data.cost = isPaid ? +data.cost : 0;
+    data.reserve = +data.reserve;
+    data.rating_range = isRate ? data.rating_range : "0";
+    // if (date) {
+    //   if (new Date() > date) return
+    // }
+    // console.log(date)
+    data.date_time = date?.toJSON().slice(0, 16).replace('T', ' ')
 
-  const { register, handleSubmit, formState: { errors } } = useForm<ITournamentAdd>({
-
-  });
-  const onSubmit: SubmitHandler<ITournamentAdd> = data => {
-    data.division = currentDivisionId;
-
-    // addTournament(data)
+    data.division = currentDivisionId
     console.log(data)
+    if (currentTournament) {
+      data.tournament_id = currentTournament.id
+
+      patchTournament(data)
+        .then(res => {
+          console.log(11111, res)
+          dispatch(openModal({
+            title: 'Успешно',
+            modalMsg: res.data
+          }))
+        })
+        .then(() => {
+          dispatch(getDivisionsInfo())
+        })
+        .catch(e => {
+
+          dispatch(openModal({
+            title: 'Ошибка',
+            modalMsg: e.message
+          }))
+          console.log('qwqwqw', e.message)
+        })
+    }
+    else {
+      addTournament(data)
+        .then(res => {
+          console.log(11111, res)
+          dispatch(openModal({
+            title: 'Успешно',
+            modalMsg: res.data
+          }))
+        })
+        .then(() => {
+          dispatch(getDivisionsInfo())
+        })
+        .catch(e => {
+          dispatch(openModal({
+            title: 'Ошибка',
+            modalMsg: e.message
+          }))
+          console.log('qwqwqw', e.message)
+        })
+    }
+
+
   };
 
+  const handleDelete = () => {
+    if (currentTournament) {
+      deleteTournament(currentTournament.id)
+        .then(res => {
+          console.log(11111, res)
+          dispatch(openModal({
+            title: 'Успешно',
+            modalMsg: res.data
+          }))
+        })
+        .then(() => {
+          dispatch(getDivisionsInfo())
+        })
+        .catch(e => {
+          dispatch(openModal({
+            title: 'Ошибка',
+            modalMsg: e.message
+          }))
+          console.log('qwqwqw', e.message)
+        })
+    }
+  }
+
+  const getFormTitle = () => {
+    let title;
+    if (currentTournament) title = `Редактирование турнира ${currentTournament.tournament_name}`
+    else title = `Добавление турнира в ${currentDivisionName} дивизион`
+    return title
+
+  }
 
   return (
-
     <>
-      <div className="form_wrap">
-        <button onClick={() => console.log(currentDivisionName)}>asdadads</button>
-        <form onSubmit={handleSubmit(onSubmit)} className="form">
-          <section className="form_header">
-            <div>
-              <p id="tournamentAdress">
-                Добавление турнира в дивизион: {currentDivisionName?.division_name}
-              </p>
-            </div>
-          </section>
-          <div className="inputs">
-            <div className="placeholder-container">
-              <input required placeholder="Название турнира"  {...register('tournament_name')} />
-            </div>
 
-            <div className="placeholder-container">
-              <input placeholder="Место проведения" {...register('location')} />
+      <Form
+        largeForm
+        formTitle={getFormTitle()}
+        buttonLabel={currentTournament ? 'Редактировать турнир' : 'Добавить турнир'}
+        register={register}
+        handleSubmit={handleSubmit}
+        onSubmit={onSubmit}
+      >
+        {currentTournament && <button type="button" onClick={handleDelete}>Удалить турнир</button>}
+        <Input
+          name="tournament_name"
+          placeholder="Название турнира"
+          error={errors.tournament_name?.message}
 
-            </div>
-            <div className="placeholder-container">
-              <input placeholder="ФИО организатора" {...register('organizer')} />
-
-            </div>
-            <div className="placeholder-container">
-              <input placeholder="Телефон организатора" {...register('phone')} />
-
-            </div>
-            <div className="placeholder-container">
-              <input placeholder="Стоимость" {...register('cost')} />
-
-            </div>
-            <div className="placeholder-container">
-              <input placeholder="Рейтинг" {...register('rating_range')} />
-
-            </div>
-            <div className="placeholder-container">
-              <input placeholder="Запас" {...register('reserve')} />
-
-            </div>
-            <div className="placeholder-container">
-              <input placeholder="Дата время" {...register('date_time')} />
-
-            </div>
-            <div >
-              <input type='checkbox' placeholder="Командный?" {...register('team')} id='team' />
-              <label htmlFor="team">Командный?</label>
-            </div>
+        />
+        <Input
+          name="location"
+          placeholder="Место проведения"
+        // // error={errors.location?.message}
+        />
+        <Input
+          name="phone"
+          placeholder="Номер тлф"
+        // // error={errors.phone?.message}
+        />
 
 
-            {/* errors will return when field validation fails  */}
-            {/* {errors.exampleRequired && <span>This field is required</span>} */}
-            <div className="buttons">
-              <button type="submit" className="buttons_green" >Создать новый турнир</button>
-            </div>
-          </div>
+        <Input
+          name="organizer"
+          placeholder="ФИО организатора"
+        // // error={errors.organizer?.message}
+        />
+        <Input
+          name="reserve"
+          type='number'
+          placeholder="Запас"
+        // // error={errors.reserve?.message}
+        />
+        <div>
+          <input type="checkbox" name="paid" id="rate" checked={isRate} onChange={() => setIsRate(prev => !prev)} />
+          <label htmlFor="rate">Ограничен по рейтингу?</label>
+        </div>
+
+        {isRate && <Input
+          name="rating_range"
+          placeholder="Рейтинг"
+        // // error={errors.rating_range?.message}
+        />}
+        <div>
+          <input type="checkbox" name="paid" id="paid" checked={isPaid} onChange={() => setIsPaid(prev => !prev)} />
+          <label htmlFor="paid">Платный?</label>
+        </div>
+
+        {isPaid && <Input
+          name="cost"
+          type='number'
+          placeholder="Стоимость турнира"
+        // // error={errors.cost?.message}
+        />}
+
+        <DateTimePicker
+          renderInput={(params) => <TextField {...params} />}
+          label="Дата"
+          value={date}
+          mask='__.__.____ __:__'
+          onChange={(newValue) => {
+            setDate(newValue);
+          }}
+          minDateTime={subMinutes(new Date(), 10)}
+        />
+        {/* <div>
+          <input type="checkbox" name="delete" id="delete" checked={clearParticipants} onChange={() => setClearParticipants(prev => !prev)} />
+          <label htmlFor="delete">Очистить участников?</label>
+        </div> */}
+
+        {
+          currentTournament &&
+          <Checkbox
+            name="dropParticipants"
+            label="Очистить?"
+
+          // // error={errors.team?.message}
+          />
+        }
 
 
+        <Checkbox
+          name="team"
+          label="Командный?"
 
+        // // error={errors.team?.message}
+        />
 
-
-        </form>
-      </div>
-
-
-
+      </Form>
     </>
   );
-}
+};
 
-export default AdminForm
+export default AdminForm;
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 

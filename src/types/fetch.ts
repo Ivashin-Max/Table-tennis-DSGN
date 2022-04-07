@@ -5,6 +5,13 @@ export interface IParticipantAdd {
   password: string
 }
 
+
+
+export interface IAdminParticipantDelete {
+  tournamentId: number,
+  name: string
+}
+
 export interface IParticipantGet {
   name: string,
   name_2?: string,
@@ -14,13 +21,18 @@ export interface IParticipantGet {
 
 export interface ITournamentAdd {
   cost: number,
-  date_time: Date,
-  division: number,
+  date_time: any,
+  division: string,
   location: string,
   organizer: string,
   phone: string,
   rating_range: string,
   reserve: number,
   tournament_name: string,
-  team: boolean
+  team: number
+}
+
+export interface ITournamentPatch extends ITournamentAdd {
+  tournament_id: number;
+  dropParticipants: boolean
 }

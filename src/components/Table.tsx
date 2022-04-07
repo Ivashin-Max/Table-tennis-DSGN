@@ -1,17 +1,28 @@
 import React, { useState } from 'react';
-import { useSelector } from 'react-redux';
 import copyIcon from '../styles/img/file-svgrepo-com.svg'
 import classNames from 'classnames';
 
 import TableFio from './TableFio'
+import { useTypedSelector } from '../hooks/useTypedSelector';
 
-const Table = ({ adminMode }) => {
+const Table = ({ adminMode }: any) => {
   const [none, setNone] = useState(true);
+  const copyToClip = (arr: any[]) => {
+    let stringsArr = []
+    for (let i = 0; i < arr.length; i++) {
+      const element = arr[i];
 
+      stringsArr.push(element.name)
+      if (element.name_2) stringsArr.push(element.name_2)
 
-  const selector = useSelector(state => state.data)
-  const currentTournament = useSelector(state => state.table.neededTournamentId)
-  console.log(`Данные по турниру ${currentTournament}`, selector);
+    }
+
+    return stringsArr.join('\n')
+  }
+
+  const selector = useTypedSelector(state => state.data)
+  const currentTournament = useTypedSelector(state => state.table.neededTournamentId)
+  // console.log(`Данные по турниру ${currentTournament}`, selector);
 
 
   let classNameNone = classNames({
@@ -40,8 +51,9 @@ const Table = ({ adminMode }) => {
       <div className="neTable__header_line"></div>
 
       <div className="neTable__main" >
-        {selector.tableFio?.map((participant) => (
+        {selector.tableFio?.map((participant: any) => (
           <TableFio
+            adminMode={adminMode}
             participant={participant}
             currentTournament={currentTournament}
             key={participant.name + currentTournament}
@@ -55,7 +67,8 @@ const Table = ({ adminMode }) => {
           title='Скопировать участников'
           onClick={() => {
             showCopy()
-            navigator.clipboard.writeText(selector.tableFio.join('\n'))
+
+            navigator.clipboard.writeText(copyToClip(selector.tableFio))
           }}
         // className= {classNameNone}
         >
@@ -67,9 +80,15 @@ const Table = ({ adminMode }) => {
 
       <p>Запас</p>
       <div id="neTable__total" className="neTable__zapas">
-        {selector.tableZapas?.map((participant) => {
+        {selector.tableZapas?.map((participant: any) => {
 
-          return <TableFio zapas={true} participant={participant} currentTournament={currentTournament} key={participant.name + currentTournament} />
+          return <TableFio
+            zapas
+            participant={participant}
+            adminMode={adminMode}
+            currentTournament={currentTournament}
+            key={participant.name + currentTournament}
+          />
         })
         }
       </div>

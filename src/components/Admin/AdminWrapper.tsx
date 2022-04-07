@@ -1,15 +1,14 @@
-import React, { useEffect } from 'react';
+import { useEffect } from 'react';
 import MyHeader from '../MyHeader';
 import Table from '../Table';
-import Form from '../Form';
-import AdminForm from './AdminForm';
+// import AdminForm from './AdminForm';
 import { useNavigate } from 'react-router-dom';
-import { useSelector } from 'react-redux';
-import { useTypedSelector } from '../../hooks/useTypedSelector';
+import AdminForm from './AdminForm';
+
 
 const AdminWrapper = () => {
   let navigate = useNavigate();
-  const isAdmin = useTypedSelector(state => state.role).isAdmin
+  const isAdmin = !!sessionStorage.getItem('admin')
 
   useEffect(() => {
     if (isAdmin !== true) {
@@ -25,7 +24,7 @@ const AdminWrapper = () => {
     <>
       <MyHeader adminMode />
       <main>
-        <Table adminMode />
+        <Table adminMode={true} />
         <AdminForm />
       </main>
     </>

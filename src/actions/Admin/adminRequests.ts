@@ -1,13 +1,12 @@
 import url from "../../static/url.json"
 import axios from 'axios';
-import { IAdminParticipantDelete } from "../../types/fetch";
 import { getUser } from "../localStorage";
-import { useCurrentTournament } from "../../hooks/useCurrentTournament";
 import { getParticipants } from "../fetchDB";
-import { useDispatch } from "react-redux";
+import { openModal } from "../../store/reducer";
+import { ITournamentAdd, ITournamentPatch } from "../../types/fetch";
 
 
-export const deleteParticipantAdmin = async (name: string, tournamentId: number, dispatch: any) => {
+export const deleteParticipantAdmin = (name: string, tournamentId: number,) => async (dispatch: any) => {
   const userJWT = getUser().jwt;
 
   const participant = {
@@ -17,16 +16,57 @@ export const deleteParticipantAdmin = async (name: string, tournamentId: number,
   const apiUrl = url.back + url.endpoints.admin.deleteParticipant;
   console.log(9999)
   let response = null;
-  await axios.delete(apiUrl, {
+  axios.delete(apiUrl, {
     data: participant,
     headers: { Authorization: userJWT }
   })
-    .then(async (data) => {
+    .then(data => {
       response = { success: true, data: data }
-      await dispatch(getParticipants(tournamentId))
+      dispatch(getParticipants(tournamentId))
+    })
+    .then(() => {
+      dispatch(openModal({
+        title: 'Успешно',
+        modalMsg: 'Успешное удаление'
+      }))
+    })
+    .catch((e) => {
+      dispatch(openModal({
+        title: 'Ошибка',
+        modalMsg: e.message
+      }))
     })
 
     .catch((error) => { response = { success: false, data: error.response.data } });
 
   return response
+}
+
+export const addTournament = async (tournament: ITournamentAdd) => {
+  const userJWT = getUser().jwt;
+
+  console.log('tournamentToAdd', tournament)
+  const apiUrl = url.back + url.endpoints.admin.addTournament;
+  return await axios.post(apiUrl, tournament, {
+    headers: { Authorization: userJWT }
+  })
+}
+
+export const patchTournament = async (tournament: ITournamentPatch) => {
+  const userJWT = getUser().jwt;
+
+  console.log('tournamentToPatch', tournament)
+  const apiUrl = url.back + url.endpoints.admin.patchTournament;
+  return await axios.patch(apiUrl, tournament, {
+    headers: { Authorization: userJWT }
+  })
+}
+
+export const deleteTournament = async (tournamentId: number) => {
+  const userJWT = getUser().jwt;
+
+  const apiUrl = url.back + url.endpoints.admin.deleteTournament + tournamentId.toString();
+  return await axios.delete(apiUrl, {
+    headers: { Authorization: userJWT }
+  })
 }

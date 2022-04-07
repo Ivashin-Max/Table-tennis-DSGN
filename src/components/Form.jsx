@@ -6,13 +6,12 @@ import logoVk from '../styles/img/VK_Compact_Logo.svg'
 import logoPingPongLoader from '../styles/img/ping-pong-loader.svg'
 import person from '../styles/img/personBlue.svg'
 import logoVkBlack from '../styles/img/VK_Compact_Logo_Black.svg'
-import { getSheet } from '../actions/google';
 // import { fetchTableData } from '../actions/fetchTableData';
 import { useDispatch } from 'react-redux';
-import { removeStorageItem, checkStoragedId, addFioToStorage, getPromptFio, getPromptTell, setId, addTellToStorage } from '../actions/localStorage';
+import { removeStorageItem, checkStoragedId, getPromptFio, getPromptTell, setId } from '../actions/localStorage';
 import InputMask from 'react-input-mask';
 import Tooltip from 'rc-tooltip';
-
+import { openModal } from '../store/reducer';
 import { ReactComponent as ClearStorageIcon } from '../styles/img/x-svgrepo-com.svg';
 import classNames from 'classnames';
 import { useCurrentTournament } from '../hooks/useCurrentTournament';
@@ -44,8 +43,6 @@ const Form = () => {
   const [fio, setFio] = useState('');
   const [fio2, setFio2] = useState('');
   const [tell, setTell] = useState('')
-  const [modal, setModal] = useState(false);
-  const [modalMsg, setModalMsg] = useState("");
   const currentTournament = useCurrentTournament();
 
   let classNameGreen = classNames({
@@ -70,12 +67,13 @@ const Form = () => {
     const vkId = checkStoragedId();
 
     if (fio.trim() === '') {
-      showModalMsg('Введите ФИО');
+      dispatch(openModal({ title: 'Ошибка!', modalMsg: 'Введите ФИО' }));
+
       setLoading(false)
       return false
     }
     else if (tell.length !== 17 && !vkId) {
-      showModalMsg('Введите телефон в корректном формате');
+      dispatch(openModal({ title: 'Ошибка!', modalMsg: 'Введите телефон в корректном формате' }));
       setLoading(false)
       return false
     }
@@ -95,11 +93,17 @@ const Form = () => {
         password: vkId ? vkId : tell
       }
       const response = await deleteParticipantDB(participant);
-      if (response.success) {
+      if (response.success === true) {
         await dispatch(getParticipants(currentTournament.id));
-        showModalMsg('Успешно удален');
+        dispatch(openModal({
+          title: 'Успешно',
+          modalMsg: currentTournament.team ?
+            `Участники ${fio}, ${fio2} удалены успешно` :
+            `Участник ${fio} удален успешно`
+        }));
       }
-      else showModalMsg(`Ошибка удаления, ${response.data}`)
+      else dispatch(openModal({ title: 'Ошибка!', modalMsg: `Ошибка удаления: ${response.data}` }));
+
       console.log(response)
     }
   }
@@ -120,11 +124,19 @@ const Form = () => {
         password: vkId ? vkId : tell
       }
       const response = await addParticipant(newParticipant);
-      if (response.success) {
+      if (response.success === true) {
         await dispatch(getParticipants(currentTournament.id));
-        showModalMsg('Успешно добавлен');
+        dispatch(openModal({
+          title: 'Успешно',
+          modalMsg: currentTournament.team ?
+            `Участники ${fio}, ${fio2} добавлены успешно` :
+            `Участник ${fio} добавлен успешно`
+        }));
       }
-      else showModalMsg(`Ошибка добавления, ${response.data}`)
+      else {
+        dispatch(openModal({ title: 'Ошибка!', modalMsg: `Ошибка добавления: ${response.data}` }))
+      }
+
 
       console.log('response', response)
 
@@ -132,14 +144,7 @@ const Form = () => {
     }
   }
 
-  const closeModalMsg = () => {
-    setModal(false)
-  }
 
-  const showModalMsg = (msg) => {
-    setModalMsg(msg)
-    setModal(true)
-  }
 
   const showpromptFio = () => {
     setpromptFio(true)
@@ -182,7 +187,7 @@ const Form = () => {
         if (r.session) {
           successAuth(r.session.mid)
         } else {
-          showModalMsg("Ошибка авторизации");
+          // showModalMsg("Ошибка авторизации");
           console.log("Ошибка авторизации ВК", r);
           setLoading(false);
         }
@@ -212,10 +217,6 @@ const Form = () => {
 
   return (
     <>
-      {modal && <div className="modal_msg">
-        <div onClick={closeModalMsg} className="modal_msg_close">&times;</div>
-        <div className="modal_msg_text">{modalMsg}</div>
-      </div>}
       <a className="plus radius" href="#form"> </a>
       <div className="form_wrap">
         <form action="#" id="form" className="form" >

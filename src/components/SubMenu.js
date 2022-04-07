@@ -1,20 +1,17 @@
-import React, { useEffect } from 'react'
+import React from 'react'
 import { useDispatch } from 'react-redux';
 import { setTable } from '../store/reducer.js';
-import { fetchParticipants } from '../actions/fetchTableData';
 import { ReactComponent as PersonIcon } from '../styles/img/personWhite.svg';
 import { ReactComponent as CalendarIcon } from '../styles/img/calendar-svgrepo-com (1).svg';
 import { getTournamentDay, getTournamentDate } from '../actions/date';
-import { useSelector } from 'react-redux';
 import { getParticipants } from '../actions/fetchDB';
-import { useTypedSelector } from '../hooks/useTypedSelector';
 
 //Подменю хедера, которые мы создаём при ините
 const SubMenu = ({ divisionId, tournaments, onPress, adminMode }) => {
   const [isShown, setIsShown] = React.useState(false);
   const dispatch = useDispatch();
 
-  const newTournamentButton = 0;
+  // const newTournamentButton = 0;
 
   const onClick = React.useCallback((id) => async () => {
 
@@ -24,11 +21,9 @@ const SubMenu = ({ divisionId, tournaments, onPress, adminMode }) => {
       neededDivisionId: divisionId,
       neededTournamentId: id
     }))
-    if (id !== 0) {
-      await dispatch(getParticipants(id));
-      // console.log('storeTable', storeTable)
+    await dispatch(getParticipants(id));
+    // console.log('storeTable', storeTable)
 
-    }
     onPress();
     setIsShown(false);
 
