@@ -1,23 +1,26 @@
 import React, { useState } from 'react'
 import { useSelector } from 'react-redux';
 import logoPingPong from '../styles/img/ping-pong.svg'
-import logoVk from '../styles/img/VK_Compact_Logo.svg'
+
 
 import logoPingPongLoader from '../styles/img/ping-pong-loader.svg'
 import person from '../styles/img/personBlue.svg'
-import logoVkBlack from '../styles/img/VK_Compact_Logo_Black.svg'
+import logoTelegramm from '../styles/img/telegram-svgrepo-com.svg'
 // import { fetchTableData } from '../actions/fetchTableData';
 import { useDispatch } from 'react-redux';
-import { removeStorageItem, checkStoragedId, getPromptFio, getPromptTell, setId } from '../actions/localStorage';
+import { removeStorageItem, checkStoragedId, getPromptFio, getPromptTell, addFioToStorage } from '../actions/localStorage';
 import InputMask from 'react-input-mask';
 import Tooltip from 'rc-tooltip';
 import { openModal } from '../store/reducer';
 import { ReactComponent as ClearStorageIcon } from '../styles/img/x-svgrepo-com.svg';
 import classNames from 'classnames';
 import { useCurrentTournament } from '../hooks/useCurrentTournament';
-import { addParticipant, deleteParticipantDB, getParticipants } from '../actions/fetchDB';
-
-
+import { addParticipant, deleteParticipantDB, getLinks, getParticipants } from '../actions/fetchDB';
+import { useTypedSelector } from '../hooks/useTypedSelector';
+import { checkDate } from '../actions/date';
+import { motion } from 'framer-motion/dist/framer-motion';
+import url from '../static/url.json';
+import { promptAnimate } from '../styles/animations/formAnimations';
 const alignConfig = {
   // the offset sourceNode by 10px in x and 20px in y,
   targetOffset: ['60%', '-200%'], // the offset targetNode by 30% of targetNode width in x and 40% of targetNode height in y,
@@ -36,9 +39,12 @@ const Form = () => {
   const [disabled, setDisabled] = useState(false);
   const [promptFio, setpromptFio] = useState(false)
   const [promptTell, setpromptTell] = useState(false)
+  const [isLate, setIsLate] = useState(true);
+  const authFio = useTypedSelector(state => state.auth.fio)
   const dispatch = useDispatch();
   const storeData = useSelector(state => state.data)
 
+  const [links, setLinks] = useState([])
   const storeDate = useSelector(state => state.date)
   const [fio, setFio] = useState('');
   const [fio2, setFio2] = useState('');
@@ -46,22 +52,36 @@ const Form = () => {
   const currentTournament = useCurrentTournament();
 
   let classNameGreen = classNames({
-    "buttons_disabled": storeDate.isLate,
-    "buttons_green": !storeDate.isLate
+    "buttons_disabled": isLate,
+    "buttons_green": !isLate
   });
   let classNameRed = classNames({
-    "buttons_disabled": storeDate.isLate,
-    "buttons_red": !storeDate.isLate
+    "buttons_disabled": isLate,
+    "buttons_red": !isLate
   });
 
 
   React.useEffect(() => {
-    let vkId = checkStoragedId();
-    console.log(`В локалСторадж хранится id: ${vkId}`);
-    if (!!vkId) {
-      setDisabled(true);
+    console.log(currentTournament);
+    if (currentTournament) {
+      setIsLate(checkDate(currentTournament.date_time))
     }
+  }, [currentTournament])
+
+  React.useEffect(() => {
+    getLinks()
+      .then(
+        ({ data }) => {
+          console.log('Links', data)
+          setLinks(data)
+        })
+      .catch(function (error) {
+        console.log(error.toJSON());
+        setLinks([{ id: 1, title: 'Ошибка загрузки ссылок', link: '#' }])
+      });
+
   }, [])
+
 
   const checkEmptyInputs = () => {
     const vkId = checkStoragedId();
@@ -116,13 +136,13 @@ const Form = () => {
 
     if (emptyInputs !== false) {
       setLoading(true)
-      const vkId = checkStoragedId();
       const newParticipant = {
         tournamentId: currentTournament.id,
         name: fio,
         name_2: currentTournament.team ? fio2 : "",
-        password: vkId ? vkId : tell
+        password: tell
       }
+      addFioToStorage(fio)
       const response = await addParticipant(newParticipant);
       if (response.success === true) {
         await dispatch(getParticipants(currentTournament.id));
@@ -168,41 +188,10 @@ const Form = () => {
     hidepromptTell()
   }
 
-  const successAuth = function (id) {
-    setId(id);
-    setDisabled(true);
-    setLoading(false);
-  }
-
-  const auth = (e) => {
-    e.preventDefault();
-    setLoading(true)
 
 
-    const fetchVk = () => {
-      // eslint-disable-next-line no-undef
-      VK.Auth.login((r) => {
 
-        console.log('Ответ от вк авторизации', r);
-        if (r.session) {
-          successAuth(r.session.mid)
-        } else {
-          // showModalMsg("Ошибка авторизации");
-          console.log("Ошибка авторизации ВК", r);
-          setLoading(false);
-        }
-      })
-    };
-    fetchVk();
-  }
 
-  const noAuth = (e) => {
-    e.preventDefault();
-    setLoading(true)
-    removeStorageItem('vkId')
-    setDisabled(false);
-    setLoading(false);
-  }
 
   if (loading) {
     return (
@@ -219,21 +208,19 @@ const Form = () => {
     <>
       <a className="plus radius" href="#form"> </a>
       <div className="form_wrap">
+
         <form action="#" id="form" className="form" >
+
+
           <section className="form_header">
-            {disabled && <div
-              onClick={noAuth}
-              className="form_header_vk">
-              <img className="form_header_img left" src={logoVkBlack} alt="vk Logo" />
-              <span className="span black">Выйти</span>
-            </div>
-            }
-            {!disabled && <div
-              onClick={auth}
-              className="form_header_vk">
-              <img className="form_header_img left" src={logoVk} alt="vk Logo" />
-              <span className="span">Войти</span>
-            </div>}
+            <a
+              href={url.bot}
+              target='_blank'
+              className="form_header_vk" rel="noreferrer">
+              <img className="form_header_img left" src={logoTelegramm} alt="telegram Logo" />
+              <span className="span black">Бот</span>
+            </a>
+
             <div>
               <p id="tournamentAdress">
                 {storeData.tournamentPlace}
@@ -267,18 +254,34 @@ const Form = () => {
                 <ClearStorageIcon className='clearStorage_icon' title='Очистить историю' />
 
               </div>
-              {promptFio && <div className="fioPrompt">
+              {promptFio && <motion.div animate={{ height: 'auto' }} initial={{ height: 0 }} className="fioPrompt">
+                {authFio && <motion.div
+                  initial='hidden'
+                  animate='visible'
+                  custom={1}
+                  variants={promptAnimate}
+                  onMouseDown={autoCompleteFio}
+                >
+                  {authFio}
+                </motion.div>}
                 {
-                  getPromptFio().map((name) => (
-                    <div
-                      key={name}
-                      onMouseDown={autoCompleteFio}
-                    >
-                      {name}
-                    </div>
-                  ))
+                  getPromptFio().map((name, index) => {
+                    if (name === authFio) return <div />
+                    else return (
+                      <motion.div
+                        initial='hidden'
+                        animate='visible'
+                        custom={index + 2}
+                        variants={promptAnimate}
+                        key={name}
+                        onMouseDown={autoCompleteFio}
+                      >
+                        {name}
+                      </motion.div>
+                    )
+                  })
                 }
-              </div>}
+              </motion.div>}
 
               <input
                 type="text"
@@ -342,7 +345,7 @@ const Form = () => {
               </div>}
           </div>
           <div className="price">
-            Стоимость участия {storeData.tournamentPrice} рублей
+            Стоимость участия: {storeData.tournamentPrice > 0 ? `${storeData.tournamentPrice} рублей` : "бесплатно"}
           </div>
 
 
@@ -352,39 +355,38 @@ const Form = () => {
 
               className={classNameGreen}
               onClick={newParticipant}
-              disabled={storeDate.isLate}
+              disabled={isLate}
             >
-              {storeDate.isLate === false && <span>Записаться на турнир</span>}
-              {storeDate.isLate === true && <span>Регистрация окончена</span>}
+              {isLate === false && <span>Записаться на турнир</span>}
+              {isLate === true && <span>Регистрация окончена</span>}
             </button>
             <button
               className={classNameRed}
 
               onClick={deleteParticipant}
-              disabled={storeDate.isLate}
+              disabled={isLate}
             >
               Удалиться с турнира
             </button>
           </div>
           {<p id="tournamentRating">
-            <span>Рейтинг: </span>{storeData.tournamentRate}
+            <span>Рейтинг: </span>{storeData.tournamentRate > 0 ? storeData.tournamentRate : "Без ограничений"}
           </p>}
 
           <div className="line"></div>
+
 
 
         </form>
         <input className="drop_input" name='chacor' type="checkbox" id="chacor1" />
         <div className="drop_links">
           <div>
-            {[].map((link) => {
-              const linkName = Object.entries(link)[0][0];
-              const linkHttp = Object.entries(link)[0][1];
+            {links.map((link) => {
               return <a
-                key={linkHttp + linkName}
-                href={linkHttp}
+                key={link.id}
+                href={link.link}
                 target="_blank" rel="noreferrer"
-              >{linkName}
+              >{link.title}
               </a>
             }
             )}

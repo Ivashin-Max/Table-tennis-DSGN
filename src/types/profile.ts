@@ -10,6 +10,16 @@ export interface IAuthProfileRequest {
   username: string,
   password: string
 }
+
+export interface IPatchProfileRequest {
+  telegram_id: number,
+  rttf_id: number
+}
+
+export interface INewProfileResponse {
+  data: string
+}
+
 export interface IAuthProfileResponse {
   access_token: string,
   admin: number,

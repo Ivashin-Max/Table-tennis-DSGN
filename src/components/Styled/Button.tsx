@@ -1,7 +1,7 @@
 import React from 'react';
 import styled from 'styled-components';
 
-const SButton = styled.button`
+const SButton = styled.button<any>`
    height: 41px;
    width: 240px;
    display: block;
@@ -20,6 +20,11 @@ const SButton = styled.button`
      transition: background-color 0.4s ease;
      border: 2px solid #39AEA9;
    }
+   ${props => props.small && `
+    height: 30px;
+    width: 140px;
+    margin: 0 auto 10px;
+   `}
 `
 
 const Button = (props: any) => {

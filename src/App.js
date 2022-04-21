@@ -6,6 +6,9 @@ import logoPingPong from './styles/img/ping-pong-loader.svg'
 import UserWrapper from './components/UserWrapper';
 import AdminWrapper from './components/Admin/AdminWrapper';
 import MessageModal from './components/Modal/MessageModal';
+import BackdropLoader from './components/Styled/Backdrop';
+import { initApp } from './actions/initApp';
+import { getUser } from './actions/localStorage';
 
 function App() {
 
@@ -14,8 +17,9 @@ function App() {
 
   React.useEffect(() => {
     (async () => {
+      const user = getUser();
       setLoading(true);
-      // await dispatch(initApp());
+      await dispatch(initApp(user));
       setLoading(false);
     })()
   }, [dispatch])
@@ -37,6 +41,7 @@ function App() {
   return (
     <div className="App">
       <MessageModal />
+      <BackdropLoader />
       <BrowserRouter>
         <Routes>
           <Route path='*' element={<Navigate to="/user" replace />} />

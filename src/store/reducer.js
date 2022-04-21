@@ -198,3 +198,59 @@ export function reducerModal(state = modal, action) {
       return state;
   }
 }
+//Стор для backdrop
+const loading = {
+  isLoading: false
+}
+
+export const setLoading = (payload) => {
+  return {
+    type: 'SET_LOADING',
+    payload
+  }
+}
+
+export function reducerLoading(state = loading, action) {
+  switch (action.type) {
+    case 'SET_LOADING':
+      return {
+        ...state,
+        isLoading: action.payload.isLoading
+      }
+    default:
+      return state;
+  }
+}
+
+//Стор для auth
+const auth = {
+  isAuthorized: false,
+  fio: '',
+  rate_value: 0,
+  tournamentsId: [],
+  userInfo: {}
+
+}
+
+export const setAuth = (payload) => {
+  return {
+    type: 'SET_AUTH',
+    payload
+  }
+}
+
+export function reducerAuth(state = auth, action) {
+  switch (action.type) {
+    case 'SET_AUTH':
+      return {
+        ...state,
+        isAuthorized: action.payload.isAuthorized,
+        fio: action.payload.fio,
+        rate_value: action.payload.rate_value,
+        tournamentsId: action.payload.tournamentsId,
+        userInfo: action.payload.userInfo,
+      }
+    default:
+      return state;
+  }
+}

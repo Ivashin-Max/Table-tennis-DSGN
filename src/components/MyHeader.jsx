@@ -1,28 +1,19 @@
-import React, { useEffect } from 'react'
+import React from 'react'
 import SubMenu from './SubMenu';
 import { useSelector } from 'react-redux';
-import { useDispatch } from 'react-redux';
-import { getUser } from '../actions/localStorage';
 import classNames from 'classnames';
-import { getDivisionsInfo } from '../actions/fetchDB';
-import { getRegistrationNames, profileInfo } from '../actions/Profile/profileRequests';
 import { useNavigate } from 'react-router-dom';
-import AuthModal from './AuthModule/Modal/Modal';
+import ModalAuth from './AuthModule/Modal/Modal';
+
 
 const MyHeader = ({ adminMode }) => {
-  const [isShown, setIsShown] = React.useState(true);
+  const [isShown, setIsShown] = React.useState(false);
   let navigate = useNavigate();
   const isAdmin = !!sessionStorage.getItem('admin');
   const state = useSelector(state => state.divisions).divisions;
-  // const adminState = useSelector(state => state.role);
-  const profileId = getUser()?.id
-  const dispatch = useDispatch();
+
   const hideModal = () => setIsShown(false);
 
-  useEffect(() => {
-    dispatch(getDivisionsInfo())
-
-  }, [])
 
 
   let className = classNames({
@@ -47,7 +38,7 @@ const MyHeader = ({ adminMode }) => {
         }
         <div className="header__left">
           <div className="header__left_round" onClick={() => navigate('/user')} ></div>
-          <AuthModal />
+
           <div>
             {adminMode ?
               <>
@@ -58,14 +49,7 @@ const MyHeader = ({ adminMode }) => {
                 <p>Любительская Лига НиНо</p>
               </>
             }
-            <button onClick={() => {
 
-              // if (profileId) return profileInfo(44).then((res) => console.log(res))
-              getRegistrationNames().then(res => console.log(res))
-            }}>profil</button>
-            <br />
-
-            <br />
             {isAdmin && <button onClick={() => navigate('/admin')}>         /Админка го</button>}
 
           </div>
@@ -85,6 +69,7 @@ const MyHeader = ({ adminMode }) => {
 
           </ul>
         </div>}
+        <ModalAuth />
       </div>
     </>
   )

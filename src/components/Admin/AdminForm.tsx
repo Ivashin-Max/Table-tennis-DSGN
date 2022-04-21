@@ -10,13 +10,15 @@ import DateTimePicker from '@mui/lab/DateTimePicker';
 
 import * as yup from "yup";
 import { yupResolver } from "@hookform/resolvers/yup";
-import { ITournamentAdd, ITournamentPatch } from "../../types/fetch";
+import { ILink, ILinksAdd, ITournamentPatch } from "../../types/fetch";
 import Checkbox from "../Styled/Checkbox";
-import { setSeconds, subMinutes, compareAsc, parseISO } from 'date-fns'
+import { setSeconds, subMinutes } from 'date-fns'
 import { addTournament, deleteTournament, patchTournament } from "../../actions/Admin/adminRequests";
 import { useDispatch } from "react-redux";
 import { openModal } from "../../store/reducer";
-import { getDivisionsInfo } from "../../actions/fetchDB";
+import { getDivisionsInfo, getLinks } from "../../actions/fetchDB";
+import AdminLinks from "./LinksForm/AdminLinksAdd";
+import AdminLinksWrapper from "./LinksForm/AdminLinksWrapper";
 
 // validation
 const AddTournamentSchema = yup.object().shape({
@@ -33,7 +35,8 @@ export const AdminForm = () => {
   const currentTournament = useCurrentTournament();
   const [isPaid, setIsPaid] = useState(false);
   const [isRate, setIsRate] = useState(false);
-  const [clearParticipants, setClearParticipants] = useState(false);
+
+
   const [date, setDate] = React.useState<Date | null>(setSeconds(new Date(), 0));
   const dispatch = useDispatch();
   useEffect(() => {
@@ -80,12 +83,16 @@ export const AdminForm = () => {
   }, [currentTournament, currentDivisionName])
 
 
+
+
   const {
     register,
     handleSubmit,
     reset,
     formState: { errors }
   } = useForm<ITournamentPatch>({ resolver: yupResolver(AddTournamentSchema), mode: 'onSubmit', });
+
+
 
   const onSubmit = (data: ITournamentPatch) => {
     data.cost = isPaid ? +data.cost : 0;
@@ -146,6 +153,7 @@ export const AdminForm = () => {
 
   };
 
+
   const handleDelete = () => {
     if (currentTournament) {
       deleteTournament(currentTournament.id)
@@ -179,101 +187,114 @@ export const AdminForm = () => {
 
   return (
     <>
+      <div className="form_wrap">
 
-      <Form
-        largeForm
-        formTitle={getFormTitle()}
-        buttonLabel={currentTournament ? 'Редактировать турнир' : 'Добавить турнир'}
-        register={register}
-        handleSubmit={handleSubmit}
-        onSubmit={onSubmit}
-      >
-        {currentTournament && <button type="button" onClick={handleDelete}>Удалить турнир</button>}
-        <Input
-          name="tournament_name"
-          placeholder="Название турнира"
-          error={errors.tournament_name?.message}
+        <Form
+          largeForm
+          formTitle={getFormTitle()}
+          buttonLabel={currentTournament ? 'Редактировать турнир' : 'Добавить турнир'}
+          register={register}
+          handleSubmit={handleSubmit}
+          onSubmit={onSubmit}
+        >
+          {currentTournament && <button type="button" className='admin__deleteButton' onClick={handleDelete}>Удалить турнир</button>}
+          <Input
+            name="tournament_name"
+            placeholder="Название турнира"
+            error={errors.tournament_name?.message}
 
-        />
-        <Input
-          name="location"
-          placeholder="Место проведения"
-        // // error={errors.location?.message}
-        />
-        <Input
-          name="phone"
-          placeholder="Номер тлф"
-        // // error={errors.phone?.message}
-        />
+          />
+          <Input
+            name="location"
+            placeholder="Место проведения"
+          // // error={errors.location?.message}
+          />
+          <Input
+            name="phone"
+            placeholder="Номер тлф"
+          // // error={errors.phone?.message}
+          />
 
 
-        <Input
-          name="organizer"
-          placeholder="ФИО организатора"
-        // // error={errors.organizer?.message}
-        />
-        <Input
-          name="reserve"
-          type='number'
-          placeholder="Запас"
-        // // error={errors.reserve?.message}
-        />
-        <div>
-          <input type="checkbox" name="paid" id="rate" checked={isRate} onChange={() => setIsRate(prev => !prev)} />
-          <label htmlFor="rate">Ограничен по рейтингу?</label>
-        </div>
+          <Input
+            name="organizer"
+            placeholder="ФИО организатора"
+          // // error={errors.organizer?.message}
+          />
+          <Input
+            name="reserve"
+            type='number'
+            placeholder="Запас"
+          // // error={errors.reserve?.message}
+          />
+          <div className="admin__checkbox">
+            <input type="checkbox" name="paid" id="rate" checked={isRate} onChange={() => setIsRate(prev => !prev)} />
+            <label htmlFor="rate">Ограничен по рейтингу?</label>
+          </div>
 
-        {isRate && <Input
-          name="rating_range"
-          placeholder="Рейтинг"
-        // // error={errors.rating_range?.message}
-        />}
-        <div>
-          <input type="checkbox" name="paid" id="paid" checked={isPaid} onChange={() => setIsPaid(prev => !prev)} />
-          <label htmlFor="paid">Платный?</label>
-        </div>
+          {isRate && <Input
+            name="rating_range"
+            placeholder="Рейтинг"
+          // // error={errors.rating_range?.message}
+          />}
+          <div className="admin__checkbox">
+            <input type="checkbox" name="paid" id="paid" checked={isPaid} onChange={() => setIsPaid(prev => !prev)} />
+            <label htmlFor="paid">Платный?</label>
+          </div>
 
-        {isPaid && <Input
-          name="cost"
-          type='number'
-          placeholder="Стоимость турнира"
-        // // error={errors.cost?.message}
-        />}
+          {isPaid && <Input
+            name="cost"
+            type='number'
+            placeholder="Стоимость турнира"
+          // // error={errors.cost?.message}
+          />}
 
-        <DateTimePicker
-          renderInput={(params) => <TextField {...params} />}
-          label="Дата"
-          value={date}
-          mask='__.__.____ __:__'
-          onChange={(newValue) => {
-            setDate(newValue);
-          }}
-          minDateTime={subMinutes(new Date(), 10)}
-        />
-        {/* <div>
+          <DateTimePicker
+            renderInput={(params) => <TextField sx={{ mb: 1 }} {...params} />}
+            label="Дата"
+            value={date}
+            mask='__.__.____ __:__'
+            onChange={(newValue) => {
+              setDate(newValue);
+            }}
+
+            minDateTime={subMinutes(new Date(), 10)}
+          />
+          {/* <div>
           <input type="checkbox" name="delete" id="delete" checked={clearParticipants} onChange={() => setClearParticipants(prev => !prev)} />
           <label htmlFor="delete">Очистить участников?</label>
         </div> */}
-
-        {
-          currentTournament &&
           <Checkbox
-            name="dropParticipants"
-            label="Очистить?"
-
+            name="team"
+            label="Командный?"
+            className="admin__checkbox"
           // // error={errors.team?.message}
           />
-        }
+
+          {
+            currentTournament &&
+            <Checkbox
+              name="dropParticipants"
+              label="Очистить?"
+              className="admin__checkbox"
+            // // error={errors.team?.message}
+            />
+          }
 
 
-        <Checkbox
-          name="team"
-          label="Командный?"
 
-        // // error={errors.team?.message}
-        />
 
-      </Form>
+        </Form>
+
+        <AdminLinksWrapper />
+
+
+
+        <div className="profileCard__line" />
+        <label className='drop' htmlFor="chacor1">Важные ссылки</label>
+      </div>
+
+
     </>
   );
 };

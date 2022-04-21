@@ -3,7 +3,7 @@ import axios from 'axios';
 import { getUser } from "../localStorage";
 import { getParticipants } from "../fetchDB";
 import { openModal } from "../../store/reducer";
-import { ITournamentAdd, ITournamentPatch } from "../../types/fetch";
+import { ILink, ILinksAdd, ITournamentAdd, ITournamentPatch } from "../../types/fetch";
 
 
 export const deleteParticipantAdmin = (name: string, tournamentId: number,) => async (dispatch: any) => {
@@ -66,6 +66,32 @@ export const deleteTournament = async (tournamentId: number) => {
   const userJWT = getUser().jwt;
 
   const apiUrl = url.back + url.endpoints.admin.deleteTournament + tournamentId.toString();
+  return await axios.delete(apiUrl, {
+    headers: { Authorization: userJWT }
+  })
+}
+
+export const addLink = async (link: ILinksAdd) => {
+  const userJWT = getUser().jwt;
+
+  const apiUrl = url.back + url.endpoints.links;
+  return await axios.post(apiUrl, link, {
+    headers: { Authorization: userJWT }
+  })
+}
+
+export const patchLink = async (link: ILink) => {
+  const userJWT = getUser().jwt;
+  const apiUrl = url.back + url.endpoints.links;
+  return await axios.patch(apiUrl, link, {
+    headers: { Authorization: userJWT }
+  })
+}
+
+export const deleteLink = async (linkId: number) => {
+  const userJWT = getUser().jwt;
+
+  const apiUrl = url.back + url.endpoints.admin.deleteLink + linkId;
   return await axios.delete(apiUrl, {
     headers: { Authorization: userJWT }
   })

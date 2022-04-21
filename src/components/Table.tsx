@@ -38,7 +38,6 @@ const Table = ({ adminMode }: any) => {
 
   return (
     <div id="neTable" className='neTable'>
-      <button onClick={() => console.log('selector', selector)}>fsdfsdfsdf</button>
       <div className="neTable__header_head">
         <div className="neTable__header_name">
           {selector.tableDivisionName}
@@ -72,7 +71,7 @@ const Table = ({ adminMode }: any) => {
           }}
         // className= {classNameNone}
         >
-          <img src={copyIcon} alt="" className='copy' />
+          <img src={copyIcon} alt="Иконка файла" className='copy' />
 
         </div>
         <div className={classNameNone}> Участники скопированы</div>

@@ -5,15 +5,17 @@
     "getParticipants": "/participant/get?id=",
     "addParticipant": "/participant/add",
     "deleteParticipant": "/participant/drop",
-    "addProfile": "/profile/create",
+    "profile": "/profile",
     "authProfile": "/auth",
-    "getProfileInfo": "/profile/get?id=",
     "getAllNames": "/participant/names/get",
+    "links": "/links",
     "admin": {
       "deleteParticipant": "/admin/participant/drop",
       "addTournament": "/admin/tournament/add",
       "deleteTournament": "/admin/tournament/drop?id=",
-      "patchTournament": "/admin/tournament/edit"
+      "patchTournament": "/admin/tournament/edit",
+      "deleteLink": "/links?id="
     }
-  }
+  },
+  "bot": "https://t.me/TT_CLUB_bot"
 }

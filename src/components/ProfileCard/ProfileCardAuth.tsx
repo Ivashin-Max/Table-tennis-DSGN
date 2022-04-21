@@ -1,4 +1,4 @@
-import React, { ReactEventHandler, useEffect, useState } from 'react'
+import React, { ReactEventHandler, useEffect, useRef, useState } from 'react'
 import { useTypedSelector } from '../../hooks/useTypedSelector';
 import star from '../../styles/img/star-svgrepo-com.svg';
 import { motion, animate, AnimatePresence } from 'framer-motion/dist/framer-motion';
@@ -6,37 +6,40 @@ import { useExactTournaments } from '../../hooks/useAllTournaments';
 import { getTournamentDate, getTournamentDay, getTournamentTime } from '../../actions/date';
 import { ReactComponent as PersonIcon } from '../../styles/img/personWhite.svg';
 import { ReactComponent as CalendarIcon } from '../../styles/img/calendar-svgrepo-com (1).svg';
+import { ReactComponent as StarIcon } from '../../styles/img/star-svgrepo-com.svg';
 import { useDispatch } from 'react-redux';
 import { getParticipants } from '../../actions/fetchDB';
 import { setLoading, setTable } from '../../store/reducer';
 import { patchProfile } from '../../actions/Profile/profileRequests';
 import EditableTitle from '../Styled/EditableTitle';
 import ForwardedInput from '../Styled/EditableTitle';
+import Button from '../Styled/Button';
+import EditableInput from './ProfileCardEditableInput';
+import { getDivisionName } from '../../actions/divisions';
 
 const ProfileCardAuth = () => {
   const user = useTypedSelector(state => state.auth);
   const allDivisions = useTypedSelector(state => state.divisions).divisions;
   const myTournaments = useExactTournaments(user.tournamentsId)
   const dispatch = useDispatch();
-  const lastNameName = user.fio.split(' ')[0] + ' ' + user.fio.split(' ')[1];
+
+  const lastName = user.fio.split(' ')[0]
+  const name = user.fio.split(' ')[1];
+
+  const lastNameName = lastName + ' ' + (name ? name : '');
   const [telegramId, setTelegramId] = useState('');
   const [rttfId, setRttfId] = useState('');
-  const [settings, setSettings] = useState(false)
+  const [settings, setSettings] = useState(false);
+  const [telegramState, setTelegrammState] = useState(true)
+  const [rttfState, setRttfState] = useState(true)
 
   const starAnimation = {
     hover: { scale: [1.1, 1.2, 1.1], transition: { repeat: Infinity } },
     tap: { scale: 0.8 }
   };
-  const getDivisionName = (divisionId: number) => {
 
-    const neededDivision = allDivisions.find((el: any) => el.id === divisionId)
-    console.log(divisionId)
-    return neededDivision.division_name
-  }
 
   const onClick = React.useCallback((tournament) => async () => {
-
-    // setIsShown(true);
 
     await dispatch(setTable({
       neededDivisionId: tournament.division,
@@ -82,8 +85,19 @@ const ProfileCardAuth = () => {
     console.log('Submit', newValues)
   }
 
+  useEffect(() => {
+    console.log(!!user.userInfo.telegram_id)
+    if (!!user.userInfo.rttf_id) setRttfState(false)
+    if (!!user.userInfo.telegram_id) setTelegrammState(false)
+  }, [])
 
 
+  const handleSettings = () => {
+
+    setRttfState(!user.userInfo.rttf_id ? true : !settings)
+    setTelegrammState(!user.userInfo.telegram_id ? true : !settings)
+    setSettings(prev => !prev)
+  }
 
 
   return (
@@ -92,39 +106,53 @@ const ProfileCardAuth = () => {
       <div className="profileCard__header">
         <div className="profileCard__text">{lastNameName}</div>
         <div className='profileCard__rating'>
-          <motion.img
-            variants={starAnimation}
-            whileHover="hover"
-            whileTap="tap"
-            className='neTable__star'
-            src={star}
-            alt="personIcon" />
+          <StarIcon className='svg__star_red svg__star' />
           <motion.span initial={{}}>{user.rate_value}</motion.span>
         </div>
       </div>
       <div className="profileCard__line"></div>
-      {!user.userInfo.telegram_id && <div className="profileCard__telegram">
-        <span className="profileCard__text">Telegram</span>
-        <input type="number" placeholder='Введите ID'
-          value={telegramId}
-          onChange={(e) => setTelegramId(e.currentTarget.value)}
-        />
-      </div>}
-      {!user.userInfo.rttf_id && <div className="profileCard__telegram">
-        <span className="profileCard__text">RTTF id</span>
-        <input type="number" placeholder='Введите ID'
-          value={rttfId}
-          onChange={(e) => setRttfId(e.currentTarget.value)} />
+      {telegramState && <>
+        {user.userInfo.telegram_id ?
+          <>
+            <div className="profileCard__telegram">
+              <EditableInput title='telegram' id={user.userInfo.telegram_id} user={user.userInfo} />
+            </div>
+          </> :
+          <>
+            <div className="profileCard__telegram">
+              <EditableInput editable title='telegram' id={user.userInfo.telegram_id} user={user.userInfo} />
+            </div>
+          </>
+        }
+      </>}
 
-      </div>}
-      {!user.userInfo.rttf_id || !user.userInfo.telegram_id && <div >
-        <button onClick={handleClick}> Сохранить</button>
-        <div className="profileCard__line"></div>
-      </div>}
+      {rttfState && <>
+        {user.userInfo.rttf_id ?
+          <>
+            <div className="profileCard__telegram">
+              <EditableInput title='rttf' id={user.userInfo.rttf_id} user={user.userInfo} />
+            </div>
+          </>
+          :
+          <>
+            <div className="profileCard__telegram">
+              <EditableInput editable title='rttf' id={user.userInfo.rttf_id} user={user.userInfo} />
+            </div>
+          </>
+        }
+      </>
+      }
+      {/* 
+      {(rttfState || telegramState) &&
+        <div >
+          <Button onClick={handleClick} small>Сохранить </Button>
+          <div className="profileCard__line"></div>
+        </div>
+      } */}
 
       <div className="profileCard__tournaments">
         <div className="profileCard__text">Мои турниры</div>
-        <ul className="">
+        <ul>
 
           {myTournaments.map((tournament) => (
             <li
@@ -139,7 +167,7 @@ const ProfileCardAuth = () => {
               </div>
               <div>
                 {tournament.tournament_name}
-                |{getDivisionName(tournament.division)}
+                |{getDivisionName(tournament.division, allDivisions)}
               </div>
 
             </li>
@@ -162,50 +190,8 @@ const ProfileCardAuth = () => {
             {!!user?.userInfo?.play_status_vd && <div> Высший дивизон  +</div>}
           </div>
         </>}
-      <div className="profileCard__arrow" onClick={() => setSettings(!settings)}>{settings ? '+' : '-'}</div>
-      <AnimatePresence>
-        {settings &&
+      <div className="profileCard__arrow" onClick={handleSettings}>{settings ? '+' : '-'}</div>
 
-
-          <motion.div
-            initial={{ height: 0, opacity: 0 }}
-            animate={{ height: 'auto', opacity: 1 }}
-            exit={{ height: 0, opacity: 0, overflow: 'hidden' }}
-          >
-
-            {/* <div className="profileCard__telegram">
-              <span className="profileCard__text">Telegram</span>
-              <span>{telegramId} </span>
-              <input type="number" placeholder={user.userInfo.telegram_id}
-                value={telegramId}
-                onChange={(e) => setTelegramId(e.currentTarget.value)}
-              />
-            </div> */}
-            <div className="profileCard__telegram">
-              <ForwardedInput title={user.userInfo.telegram_id} label='Telegram' />
-
-            </div>
-            <div className="profileCard__telegram">
-              <ForwardedInput title={user.userInfo.rttf_id} label='RTTF' />
-
-            </div>
-            {/* <div className="profileCard__telegram">
-              <span className="profileCard__text">RTTF id</span>
-
-              <input type="number" placeholder='Введите ID'
-                value={rttfId}
-                onChange={(e) => setRttfId(e.currentTarget.value)} />
-
-            </div> */}
-            <div >
-              <button onClick={handleClick}> Сохранить</button>
-              <div className="profileCard__line"></div>
-            </div>
-          </motion.div>
-
-
-        }
-      </AnimatePresence>
     </div>
   )
 }

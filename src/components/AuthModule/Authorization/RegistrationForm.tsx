@@ -40,13 +40,22 @@ const RegistrationForm = (props: IAuthFormsProps) => {
     console.log(profile)
     newProfile(profile)
       .then(response => {
-        dispatch(openModal({
-          title: 'Успешно',
-          modalMsg: response.data.data
-        }))
-        props.closeFormModal();
         console.log(response)
+        if (response.status === 200) {
+          dispatch(openModal({
+            title: 'Успешно',
+            modalMsg: response.data
+          }))
+        }
+        props.closeFormModal();
 
+      })
+      .catch(e => {
+        console.log(e)
+        dispatch(openModal({
+          title: 'Ошибка!',
+          modalMsg: e.message
+        }))
       })
 
   }
@@ -81,7 +90,7 @@ const RegistrationForm = (props: IAuthFormsProps) => {
           error={errors.password?.message}
         />
 
-        <Title onClick={props.changeForm}>Вход</Title>
+        <Title onClick={props.changeForm} pointer fz='12px'>Вход</Title>
 
       </Form>
 

@@ -22,7 +22,7 @@ export interface IParticipantGet {
 export interface ITournamentAdd {
   cost: number,
   date_time: any,
-  division: string,
+  division: string | number,
   location: string,
   organizer: string,
   phone: string,
@@ -32,7 +32,50 @@ export interface ITournamentAdd {
   team: number
 }
 
+export type DivisionsName = "Первый" | "Второй" | "Третий" | "Высший" | "Свободный";
+
+export interface ITournamentGet extends ITournamentAdd {
+  count: number
+  id: number
+}
+
+
 export interface ITournamentPatch extends ITournamentAdd {
   tournament_id: number;
   dropParticipants: boolean
+}
+
+
+
+export interface IProfileGet {
+  0: {
+    birth_year: string
+    fio: string
+    id: number
+    is_payed: number
+    payment_date: null | string
+    play_comment: null | string
+    play_status_1d: 0
+    play_status_2d: 0
+    play_status_3d: 0
+    play_status_etc: 0
+    play_status_vd: 0
+    rate_time: "0000-00-00 00:00:00"
+    rate_value: number
+    rttf_id: number
+    telegramId: null | string
+    text_comment: null | string
+    value: null | string,
+    tournaments: number[]
+  }
+
+}
+
+export interface ILinksAdd {
+  link: string
+  title: string
+}
+
+export interface ILink extends ILinksAdd {
+  id: number
 }

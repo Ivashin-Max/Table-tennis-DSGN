@@ -4,6 +4,7 @@ import Table from '../Table';
 // import AdminForm from './AdminForm';
 import { useNavigate } from 'react-router-dom';
 import AdminForm from './AdminForm';
+import ProfileCardWrapper from '../ProfileCard/ProfileCardWrapper';
 
 
 const AdminWrapper = () => {
@@ -26,6 +27,7 @@ const AdminWrapper = () => {
       <main>
         <Table adminMode={true} />
         <AdminForm />
+        <ProfileCardWrapper />
       </main>
     </>
   )

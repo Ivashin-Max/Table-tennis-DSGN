@@ -1,5 +1,5 @@
 import { createStore, applyMiddleware, combineReducers } from 'redux';
-import { reducerTable, reducerData, reducerDate, reducerDivisions, reducerRole, reducerModal } from './reducer.js';
+import { reducerTable, reducerData, reducerDate, reducerDivisions, reducerRole, reducerModal, reducerAuth, reducerLoading } from './reducer.js';
 import ReduxThunk from 'redux-thunk';
 import thunk from 'redux-thunk';
 // export const store = createStore(reducerTable);
@@ -15,7 +15,7 @@ export const getMiddleware = (config = middlewareConfig()) => (
 
 
 
-export const rootReducer = combineReducers({ table: reducerTable, data: reducerData, date: reducerDate, divisions: reducerDivisions, role: reducerRole, modal: reducerModal })
+export const rootReducer = combineReducers({ table: reducerTable, data: reducerData, date: reducerDate, divisions: reducerDivisions, role: reducerRole, modal: reducerModal, auth: reducerAuth, loading: reducerLoading })
 
 export const store = createStore(
   rootReducer,

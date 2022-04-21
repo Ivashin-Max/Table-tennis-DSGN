@@ -2,11 +2,12 @@ import Tooltip from 'rc-tooltip';
 import { deleteParticipantAdmin } from '../actions/Admin/adminRequests';
 import { useDispatch } from 'react-redux';
 import { TableFioProps } from '../types/props';
+import { ReactComponent as StarIcon } from '../styles/img/star-svgrepo-com.svg';
 
-
+import star from '../styles/img/star-svgrepo-com.svg'
 
 const alignConfig = {
-  offset: [-175, 5],            // the offset sourceNode by 10px in x and 20px in y,
+  offset: [-215, 5],            // the offset sourceNode by 10px in x and 20px in y,
   targetOffset: [80, 13], // the offset targetNode by 30% of targetNode width in x and 40% of targetNode height in y,
   overflow: { adjustX: true, adjustY: true }, // auto adjust position when sourceNode is overflowed
 };
@@ -25,23 +26,42 @@ const TableFio = ({ currentTournament, participant, adminMode, zapas }: TableFio
       <Tooltip placement="right"
         overlay={
           <>
-            <div className="neTable__row_fio" >{participant.rating}{participant.name} </div>
-            <div className="neTable__row_fio" >{participant.rating_2}{participant.name_2} </div>
+            <div className="neTable__row_fio" >{participant.name}
+              <img className='neTable__star' src={star} alt="personIcon" />
+              {participant.rating}
+            </div>
+            <div className="neTable__row_fio" >
+              {participant.name_2}
+              {participant.name_2 && <img className='neTable__star' src={star} alt="personIcon" />}
+              {participant.rating_2}
+            </div>
           </>
         }
         trigger={['hover']} mouseLeaveDelay={0} align={alignConfig}
       >
         <div className={zapasClassName} key={participant.name + currentTournament} id="sdfsfqweqwe" >
-          <div className="neTable__row_square" ></div>
-          <div>
-            <div className="neTable__row_fio" >{participant.rating}{participant.name} </div>
-            <div className="neTable__row_fio" >{participant.rating_2}{participant.name_2} </div>
+          <div className="neTable__row_square"></div>
+          <div className="neTable__row_column">
+            <div className="neTable__row_new">
+              <div className="neTable__row_hidden">{participant.name}</div>
+              <div>
+                <StarIcon className='svg__star svg__star_red' />
+                <span>{participant.rating}</span>
+              </div>
+            </div>
+            <div className="neTable__row_new">
+              <div className="neTable__row_hidden">{participant.name_2}</div>
+              <div>
+                {participant.name_2 && <img className='neTable__star' src={star} alt="personIcon" />}
+                <span>{participant.rating_2}</span>
+              </div>
+
+            </div>
           </div>
         </div>
       </Tooltip>
       {adminMode === true && <div className="neTable__row_fio" >
-        <button>ред</button>
-        <button onClick={() => dispatch(deleteParticipantAdmin(participant.name, currentTournament))}>|удалить</button>
+        <button className='admin__deleteButton' onClick={() => dispatch(deleteParticipantAdmin(participant.name, currentTournament))}>Удалить</button>
       </div>
       }
     </>

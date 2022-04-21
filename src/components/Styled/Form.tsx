@@ -11,7 +11,7 @@ const SRegistrationForm = styled.form<LargeForm>`
 
     ${props => props.largeForm && `
         box-shadow: 0px 3px 10px rgb(0 0 0 / 25%);
-        margin-left: 129px;
+
 
         background-color: white;
         border-top-left-radius: 10px;

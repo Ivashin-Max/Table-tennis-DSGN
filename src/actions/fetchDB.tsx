@@ -1,10 +1,9 @@
 
 import url from "../static/url.json"
 import axios from 'axios';
-import { setDivisions, setEmptyData } from '../store/reducer.js';
+import { setDivisions, setEmptyData, setLoading } from '../store/reducer.js';
 import { setData, setDateFlag } from '../store/reducer.js';
-import { IParticipantAdd, IParticipantGet, ITournamentAdd } from '../types/fetch';
-import { disconnect } from "process";
+import { ILink, IParticipantAdd, IParticipantGet, ITournamentAdd } from '../types/fetch';
 
 
 
@@ -24,7 +23,9 @@ export const getParticipants = (tournamentId: number) => async (dispatch: any, g
     dispatch(setEmptyData());
   }
   else {
+    dispatch(setLoading({ isLoading: true }))
     const currentTable = getState().table;
+
     const neededDivision = getState().divisions.divisions.find((el: any) => el.id === currentTable.neededDivisionId);
     const neededTournament = neededDivision.tournaments.find((el: any) => el.id === tournamentId);
     // console.log('neededTournament', neededTournament)
@@ -53,6 +54,7 @@ export const getParticipants = (tournamentId: number) => async (dispatch: any, g
           team: neededTournament.team
         }))
       });
+    dispatch(setLoading({ isLoading: false }))
   }
 
 }
@@ -88,3 +90,9 @@ export const deleteParticipantDB = async (participant: IParticipantAdd) => {
 
 //   return response
 // }
+
+export const getLinks = () => {
+  const apiUrl = url.back + url.endpoints.links;
+
+  return axios.get<ILink[]>(apiUrl)
+}

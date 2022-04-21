@@ -26,6 +26,7 @@ const SInput = styled.input<InputProps>`
   `} 
 `
 
+
 export const FreeSolo: React.FC<InputProps> = ({
   register,
   name,
@@ -46,14 +47,14 @@ export const FreeSolo: React.FC<InputProps> = ({
   return (
     <>
       <Autocomplete
-
+        sx={{ mb: 1, boxShadow: "inset 0px 4px 4px rgba(0, 0, 0, 0.082)" }}
         id="free-solo-demo"
         freeSolo
         options={names.map((participant) => participant.fio)}
         renderInput={(params) => <TextField {...params} error={error}
           autoComplete="off"
           {...register(name)}
-          {...rest} label="Введите ФИО" />}
+          {...rest} label="ФИО*" />}
       />
     </>
   );
