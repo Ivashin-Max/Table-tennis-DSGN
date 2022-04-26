@@ -266,7 +266,7 @@ body {
 }
 .header__navbar_menu_sub li {
   display: block;
-  min-width: max-content;
+  min-width: 100px;
   font-size: 14px;
   height: 23px;
   display: flex;
@@ -444,6 +444,7 @@ body {
 }
 .calendar__headerRow {
   display: flex;
+  margin-bottom: 10px;
 }
 .calendar__table {
   display: flex;
@@ -453,10 +454,10 @@ body {
   display: flex;
   flex-direction: column;
   min-height: 400px;
-  border-right: 1px solid #CEC7C8;
+  border-right: 1px solid #2B476A;
 }
 .calendar__column:last-child {
-  border-right: 0px solid red;
+  border-right: 1px solid #ffffff;
 }
 .calendar__row {
   display: flex;

@@ -107,7 +107,6 @@ const MyCalendar = () => {
   return (
     <div className="calendar__wrapper">
 
-      <Title fz='20px'> Календарь турниров</Title>
       <div className="calendar__table">
         {days.map(day => (
           <div className="calendar__column">
