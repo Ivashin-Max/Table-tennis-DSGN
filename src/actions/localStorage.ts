@@ -2,10 +2,6 @@ import { reactLocalStorage } from 'reactjs-localstorage';
 import { localStorageUser } from '../types/localStorage';
 
 
-export const setId = (vkId: string) => {
-  console.log(`Получил ID: ${vkId}, кладу в ЛокалСторадж`);
-  return reactLocalStorage.set('vkId', vkId)
-}
 
 export const setUser = (user: localStorageUser) => {
   console.log(`Получил юзера, кладу в ЛокалСторадж`, user);
@@ -25,7 +21,7 @@ export const removeStorageItem = (itemKey: string) => {
   reactLocalStorage.remove(itemKey)
 }
 
-export const checkStoragedId = (): string => reactLocalStorage.get('vkId')
+
 
 export const addFioToStorage = (fio: string) => {
   const isFio = reactLocalStorage.get('fio')

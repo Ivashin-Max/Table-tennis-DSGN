@@ -84,7 +84,7 @@ const Form = () => {
 
 
   const checkEmptyInputs = () => {
-    const vkId = checkStoragedId();
+    // const vkId = checkStoragedId();
 
     if (fio.trim() === '') {
       dispatch(openModal({ title: 'Ошибка!', modalMsg: 'Введите ФИО' }));
@@ -92,7 +92,9 @@ const Form = () => {
       setLoading(false)
       return false
     }
-    else if (tell.length !== 17 && !vkId) {
+    else if (tell.length !== 17
+      // &&       !vkId
+    ) {
       dispatch(openModal({ title: 'Ошибка!', modalMsg: 'Введите телефон в корректном формате' }));
       setLoading(false)
       return false
@@ -105,12 +107,14 @@ const Form = () => {
     const emptyInputs = checkEmptyInputs();
 
     if (emptyInputs !== false) {
-      const vkId = checkStoragedId();
+      // const vkId = checkStoragedId();
       const participant = {
         tournamentId: currentTournament.id,
         name: fio,
         name_2: currentTournament.team ? fio2 : "",
-        password: vkId ? vkId : tell
+        password:
+          // vkId ? vkId :
+          tell
       }
       const response = await deleteParticipantDB(participant);
       if (response.success === true) {
