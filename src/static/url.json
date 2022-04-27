@@ -1,5 +1,5 @@
 {
-  "back": "http://localhost:5000",
+  "back": "http://ttreg.llntnino.ru",
   "endpoints": {
     "divisions": "/division/get",
     "getParticipants": "/participant/get?id=",

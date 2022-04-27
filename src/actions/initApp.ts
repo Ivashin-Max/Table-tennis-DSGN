@@ -3,7 +3,7 @@ import { getDivisionsInfo } from "./fetchDB"
 
 import { profileInfo } from "./Profile/profileRequests"
 
-export const initApp = (user: any) => async (dispatch: any, getState: any) => {
+export const initApp = (user: any) => async (dispatch: any) => {
 
   console.log('userRRR', user)
   await dispatch(getDivisionsInfo())
@@ -18,6 +18,7 @@ export const initApp = (user: any) => async (dispatch: any, getState: any) => {
 
         }))
       })
+      .catch(e => console.log(e.toJSON()))
 
   }
 }

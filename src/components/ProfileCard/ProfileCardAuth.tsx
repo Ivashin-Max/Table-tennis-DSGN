@@ -6,7 +6,9 @@ import { useExactTournaments } from '../../hooks/useAllTournaments';
 import { getTournamentDate, getTournamentDay, getTournamentTime } from '../../actions/date';
 import { ReactComponent as PersonIcon } from '../../styles/img/personWhite.svg';
 import { ReactComponent as CalendarIcon } from '../../styles/img/calendar-svgrepo-com (1).svg';
+import { ReactComponent as SettingsIcon } from '../../styles/img/fast-forward-svgrepo-com.svg'
 import { ReactComponent as StarIcon } from '../../styles/img/star-svgrepo-com.svg';
+import { ReactComponent as XIcon } from '../../styles/img/x-svgrepo-com.svg';
 import { useDispatch } from 'react-redux';
 import { getParticipants } from '../../actions/fetchDB';
 import { setLoading, setTable } from '../../store/reducer';
@@ -33,10 +35,12 @@ const ProfileCardAuth = () => {
   const [telegramState, setTelegrammState] = useState(true)
   const [rttfState, setRttfState] = useState(true)
 
-  const starAnimation = {
-    hover: { scale: [1.1, 1.2, 1.1], transition: { repeat: Infinity } },
-    tap: { scale: 0.8 }
+  const settingsAnimation = {
+    initial: { height: 0 },
+    animate: { height: 'auto' },
+    exit: { height: 0 }
   };
+
 
 
   const onClick = React.useCallback((tournament) => async () => {
@@ -72,19 +76,6 @@ const ProfileCardAuth = () => {
     else return rttfId
   }
 
-  const handleClick = (e: any) => {
-    e.preventDefault();
-    const tlg = validateTlg();
-    const rttf = validateRttf();
-    const newValues = {
-      telegram_id: +tlg,
-      rttf_id: +rttf
-    }
-    patchProfile(newValues)
-      .then(res => console.log(1111, res))
-    console.log('Submit', newValues)
-  }
-
   useEffect(() => {
     console.log(!!user.userInfo.telegram_id)
     if (!!user.userInfo.rttf_id) setRttfState(false)
@@ -107,48 +98,58 @@ const ProfileCardAuth = () => {
         <div className="profileCard__text">{lastNameName}</div>
         <div className='profileCard__rating'>
           <StarIcon className='svg__star_red svg__star' />
-          <motion.span initial={{}}>{user.rate_value}</motion.span>
+          <span >{user.rate_value}</span>
         </div>
       </div>
       <div className="profileCard__line"></div>
-      {telegramState && <>
-        {user.userInfo.telegram_id ?
-          <>
-            <div className="profileCard__telegram">
-              <EditableInput title='telegram' id={user.userInfo.telegram_id} user={user.userInfo} />
-            </div>
-          </> :
-          <>
-            <div className="profileCard__telegram">
-              <EditableInput editable title='telegram' id={user.userInfo.telegram_id} user={user.userInfo} />
-            </div>
-          </>
-        }
-      </>}
+      <div className="overflow">
 
-      {rttfState && <>
-        {user.userInfo.rttf_id ?
-          <>
-            <div className="profileCard__telegram">
-              <EditableInput title='rttf' id={user.userInfo.rttf_id} user={user.userInfo} />
-            </div>
-          </>
-          :
-          <>
-            <div className="profileCard__telegram">
-              <EditableInput editable title='rttf' id={user.userInfo.rttf_id} user={user.userInfo} />
-            </div>
-          </>
-        }
-      </>
-      }
-      {/* 
-      {(rttfState || telegramState) &&
-        <div >
-          <Button onClick={handleClick} small>Сохранить </Button>
-          <div className="profileCard__line"></div>
-        </div>
-      } */}
+        <AnimatePresence>
+          {telegramState && <motion.div
+            initial='initial'
+            animate='animate'
+            exit='exit'
+            variants={settingsAnimation}
+          >
+            {user.userInfo.telegram_id ?
+              <>
+                <div className="profileCard__telegram">
+                  <EditableInput title='telegram' id={user.userInfo.telegram_id} user={user.userInfo} />
+                </div>
+              </> :
+              <>
+                <div className="profileCard__telegram">
+                  <EditableInput editable title='telegram' id={user.userInfo.telegram_id} user={user.userInfo} />
+                </div>
+              </>
+            }
+          </motion.div>}
+        </AnimatePresence>
+
+        <AnimatePresence>
+          {rttfState && <motion.div
+            initial='initial'
+            animate='animate'
+            exit='exit'
+            variants={settingsAnimation}
+          >
+            {user.userInfo.rttf_id ?
+              <>
+                <div className="profileCard__telegram">
+                  <EditableInput title='rttf' id={user.userInfo.rttf_id} user={user.userInfo} />
+                </div>
+              </>
+              :
+              <>
+                <div className="profileCard__telegram">
+                  <EditableInput editable title='rttf' id={user.userInfo.rttf_id} user={user.userInfo} />
+                </div>
+              </>
+            }
+          </motion.div>
+          }
+        </AnimatePresence>
+      </div>
 
       <div className="profileCard__tournaments">
         <div className="profileCard__text">Мои турниры</div>
@@ -156,18 +157,20 @@ const ProfileCardAuth = () => {
 
           {myTournaments.map((tournament) => (
             <li
-              onClick={onClick(tournament)}
+
               key={tournament.id}
             >
-              <div className='profileCard__tornamentRow'>
-                <span>{getTournamentDate(tournament.date_time)}</span>
-                |<CalendarIcon className='person' /> <span>{getTournamentDay(tournament.date_time)}</span>
-                |<span>{getTournamentTime(tournament.date_time)}</span>
-                | <PersonIcon className='person' />  {tournament.count}
-              </div>
-              <div>
-                {tournament.tournament_name}
-                |{getDivisionName(tournament.division, allDivisions)}
+              <div onClick={onClick(tournament)} >
+                <div className='profileCard__tornamentRow'>
+                  <span>{getTournamentDate(tournament.date_time)}</span>
+                  |<CalendarIcon className='person' /> <span>{getTournamentDay(tournament.date_time)}</span>
+                  |<span>{getTournamentTime(tournament.date_time)}</span>
+                  | <PersonIcon className='person' />  {tournament.count}
+                </div>
+                <div>
+                  {tournament.tournament_name}
+                  |{getDivisionName(tournament.division, allDivisions)}
+                </div>
               </div>
 
             </li>
@@ -190,7 +193,7 @@ const ProfileCardAuth = () => {
             {!!user?.userInfo?.play_status_vd && <div> Высший дивизон  +</div>}
           </div>
         </>}
-      <div className="profileCard__arrow" onClick={handleSettings}>{settings ? '+' : '-'}</div>
+      <div className="profileCard__arrow" onClick={handleSettings}>{settings ? <SettingsIcon className='svg__settingsArrows svg__settingsArrows_bottom' /> : <SettingsIcon className='svg__settingsArrows svg__settingsArrows_up' />}</div>
 
     </div>
   )

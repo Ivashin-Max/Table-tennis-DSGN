@@ -26,7 +26,7 @@ const alignConfig = {
 
 
 
-const MyCalendar = () => {
+const MyCalendar = ({ flipCard }: any) => {
   const allDivisions = useTypedSelector(state => state.divisions).divisions;
   const dispatch = useDispatch();
   const [events, setEvents] = useState<CalendarEvent[]>([])
@@ -40,6 +40,7 @@ const MyCalendar = () => {
       neededTournamentId: tournament.id
     }))
     await dispatch(getParticipants(tournament.id));
+    flipCard();
     // console.log('storeTable', storeTable)
   }
 
@@ -242,8 +243,6 @@ const MyCalendar = () => {
                       <div>{getTournamentTime(neededEvent.tournamentInfo.date_time)}
                         <PersonIcon className='person' />                      {neededEvent.tournamentInfo.count}</div>
                       <div><StarIcon className='svg__star_table svg__star' />{neededEvent.tournamentInfo.rating_range}</div>
-
-
                     </div>
                   </Tooltip>
                 ))}

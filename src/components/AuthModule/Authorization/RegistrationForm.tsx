@@ -9,6 +9,7 @@ import { yupResolver } from "@hookform/resolvers/yup";
 import { useDispatch } from 'react-redux'
 import { openModal } from '../../../store/reducer'
 import { FreeSolo } from '../../Test/Test';
+import { useState } from 'react'
 
 const AuthSchema = yup.object().shape({
   // name: yup
@@ -25,6 +26,7 @@ const AuthSchema = yup.object().shape({
 
 const RegistrationForm = (props: IAuthFormsProps) => {
   const dispatch = useDispatch();
+  const [loading, setLoading] = useState(false);
   const {
     register,
     handleSubmit,
@@ -38,6 +40,7 @@ const RegistrationForm = (props: IAuthFormsProps) => {
   const onSubmit = (profile: RegistrationFormValues) => {
 
     console.log(profile)
+    setLoading(true)
     newProfile(profile)
       .then(response => {
         console.log(response)
@@ -47,11 +50,13 @@ const RegistrationForm = (props: IAuthFormsProps) => {
             modalMsg: response.data
           }))
         }
+        setLoading(false)
         props.closeFormModal();
 
       })
       .catch(e => {
         console.log(e)
+        setLoading(false)
         dispatch(openModal({
           title: 'Ошибка!',
           modalMsg: e.message
@@ -65,6 +70,7 @@ const RegistrationForm = (props: IAuthFormsProps) => {
       <Form
         formTitle="Регистрация"
         buttonLabel="Зарегистрироваться"
+        disabled={loading}
         register={register}
         handleSubmit={handleSubmit}
         onSubmit={onSubmit}

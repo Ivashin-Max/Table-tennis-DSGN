@@ -7,7 +7,7 @@ import { InputProps } from '../../types/props';
 import styled from 'styled-components';
 
 const SInput = styled.input<InputProps>`
-   display:block;
+  display:block;
   margin-bottom: 14px;
   width: 240px;
     height: 33px;
@@ -50,6 +50,8 @@ export const FreeSolo: React.FC<InputProps> = ({
         sx={{ mb: 1, boxShadow: "inset 0px 4px 4px rgba(0, 0, 0, 0.082)" }}
         id="free-solo-demo"
         freeSolo
+        loading={true}
+        loadingText='Загрузка участников'
         options={names.map((participant) => participant.fio)}
         renderInput={(params) => <TextField {...params} error={error}
           autoComplete="off"

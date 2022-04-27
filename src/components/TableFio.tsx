@@ -26,13 +26,15 @@ const TableFio = ({ currentTournament, participant, adminMode, zapas }: TableFio
       <Tooltip placement="right"
         overlay={
           <>
-            <div className="neTable__row_fio" >{participant.name}
-              <img className='neTable__star' src={star} alt="personIcon" />
-              {participant.rating}
+            <div className="neTable__row_fio" >
+              <span>{participant.name}</span>
+              <StarIcon className='svg__star svg__star_red' />
+              <span>{participant.rating}</span>
+
             </div>
             <div className="neTable__row_fio" >
               {participant.name_2}
-              {participant.name_2 && <img className='neTable__star' src={star} alt="personIcon" />}
+              {participant.name_2 && <StarIcon className='svg__star svg__star_red' />}
               {participant.rating_2}
             </div>
           </>

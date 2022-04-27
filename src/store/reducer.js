@@ -222,6 +222,30 @@ export function reducerLoading(state = loading, action) {
   }
 }
 
+//Стор для flipCalendar
+const calendarMode = {
+  calendarMode: true
+}
+
+export const setCalendarMode = (payload) => {
+  return {
+    type: 'SET_CALENDAR',
+    payload
+  }
+}
+
+export function reducerCalendarMode(state = calendarMode, action) {
+  switch (action.type) {
+    case 'SET_CALENDAR':
+      return {
+        ...state,
+        calendarMode: action.payload.calendarMode
+      }
+    default:
+      return state;
+  }
+}
+
 //Стор для auth
 const auth = {
   isAuthorized: false,

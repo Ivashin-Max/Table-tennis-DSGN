@@ -112,10 +112,13 @@ export const AdminForm = () => {
       patchTournament(data)
         .then(res => {
           console.log(11111, res)
-          dispatch(openModal({
-            title: 'Успешно',
-            modalMsg: res.data
-          }))
+          if (res.status === 200) {
+            dispatch(openModal({
+              title: 'Успешно!',
+              modalMsg: 'Турнир отредактирован'
+            }))
+          }
+
         })
         .then(() => {
           dispatch(getDivisionsInfo())
@@ -134,7 +137,7 @@ export const AdminForm = () => {
         .then(res => {
           console.log(11111, res)
           dispatch(openModal({
-            title: 'Успешно',
+            title: 'Успешно!',
             modalMsg: res.data
           }))
         })
@@ -180,9 +183,8 @@ export const AdminForm = () => {
   const getFormTitle = () => {
     let title;
     if (currentTournament) title = `Редактирование турнира ${currentTournament.tournament_name}`
-    else title = `Добавление турнира в ${currentDivisionName} дивизион`
+    else title = currentDivisionName ? `Добавление турнира в ${currentDivisionName} дивизион` : `Выбери дивизион`
     return title
-
   }
 
   return (

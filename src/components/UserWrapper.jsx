@@ -17,16 +17,7 @@ const UserWrapper = () => {
       <MyHeader />
       <main>
         <Table />
-        {
-          currentTournament && <Form />
-        }
-        {!currentTournament && <MyCalendar />}
-
-
-
-
-        {/* <MyCalendar /> */}
-
+        <Form />
         <ProfileCardWrapper />
       </main>
     </>

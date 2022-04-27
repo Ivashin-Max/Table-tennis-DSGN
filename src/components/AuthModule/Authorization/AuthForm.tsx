@@ -17,6 +17,7 @@ import { IAuthProfileRequest } from '../../../types/profile'
 import { localStorageUser } from '../../../types/localStorage'
 import { IAuthFormsProps } from '../../../types/forms'
 import { useNavigate } from 'react-router-dom'
+import { useState } from 'react'
 
 
 // validation
@@ -33,6 +34,8 @@ const AuthSchema = yup.object().shape({
 export const AuthForm = (props: IAuthFormsProps) => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
+  const [loading, setLoading] = useState(false);
+
   const {
     register,
     handleSubmit,
@@ -42,6 +45,7 @@ export const AuthForm = (props: IAuthFormsProps) => {
   const onSubmit = (profile: IAuthProfileRequest) => {
 
     console.log(profile);
+    setLoading(true);
     authProfile(profile)
       .then(res => {
         console.log(11111, res)
@@ -67,11 +71,14 @@ export const AuthForm = (props: IAuthFormsProps) => {
           tournamentsId: data.data[0].tournaments,
           userInfo: data.data[0]
         }))
+        setLoading(false)
         props.closeFormModal();
+
       }
 
       )
       .catch(e => {
+        setLoading(false)
         dispatch(openModal({
           title: 'Ошибка',
           modalMsg: e.message
@@ -88,6 +95,7 @@ export const AuthForm = (props: IAuthFormsProps) => {
     <Form
       formTitle="Вход в систему"
       buttonLabel="Войти"
+      disabled={loading}
       register={register}
       handleSubmit={handleSubmit}
       onSubmit={onSubmit}

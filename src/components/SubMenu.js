@@ -1,6 +1,6 @@
 import React from 'react'
 import { useDispatch } from 'react-redux';
-import { setTable } from '../store/reducer.js';
+import { setCalendarMode, setTable } from '../store/reducer.js';
 import { ReactComponent as PersonIcon } from '../styles/img/personWhite.svg';
 import { ReactComponent as CalendarIcon } from '../styles/img/calendar-svgrepo-com (1).svg';
 import { getTournamentDay, getTournamentDate } from '../actions/date';
@@ -26,7 +26,7 @@ const SubMenu = ({ divisionId, tournaments, onPress, adminMode }) => {
 
     onPress();
     setIsShown(false);
-
+    dispatch(setCalendarMode({ calendarMode: false }))
 
   }, [dispatch, divisionId, onPress])
 

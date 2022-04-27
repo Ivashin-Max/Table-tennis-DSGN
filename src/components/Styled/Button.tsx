@@ -25,6 +25,12 @@ const SButton = styled.button<any>`
     width: 140px;
     margin: 0 auto 10px;
    `}
+
+   &:disabled{
+    pointer-events: none;
+    background-color: #CEC7C8
+    
+   }
 `
 
 const Button = (props: any) => {

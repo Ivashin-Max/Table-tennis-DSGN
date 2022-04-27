@@ -190,6 +190,10 @@ body {
   }
 }
 
+.overflow {
+  overflow: hidden;
+}
+
 .header {
   & ul {
     background: #fff;
@@ -482,6 +486,9 @@ body {
 
 
     & li {
+      display: flex;
+      align-items: center;
+      justify-content: center;
       margin-bottom: 10px;
       width: 100%;
       text-align: center;
@@ -842,10 +849,18 @@ main {
     }
 
     &_fio {
-      cursor: default;
+
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
       font-size: 13px;
       font-weight: 500;
-      text-align: left
+      text-align: left;
+
+      & span {
+        cursor: default;
+        margin-right: 3px;
+      }
     }
   }
 
@@ -953,6 +968,37 @@ main {
     width: 15px;
     height: 15px;
     margin-right: 5px;
+  }
+
+  &__xIcon {
+    color: @color_red;
+    width: 17px;
+    height: 17px;
+    margin-left: 2px;
+  }
+
+  &__calendar {
+    cursor: pointer;
+    width: 20px;
+    margin-left: 10px;
+    fill: @color_text;
+  }
+
+  &__settingsArrows {
+    cursor: pointer;
+    width: 10px;
+    margin: 10px;
+    fill: @color_text;
+
+    &_bottom {
+      transform: rotateZ(-90deg);
+    }
+
+    &_up {
+      transform: rotateZ(90deg);
+    }
+
+    // transform: rotateZ(90deg);
   }
 }
 

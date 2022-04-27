@@ -57,7 +57,8 @@ export interface IFormProps {
   register?: any;
   className?: classNameType;
   largeForm?: boolean
-  formTitle?: string
+  formTitle?: string,
+  disabled?: boolean;
 }
 
 

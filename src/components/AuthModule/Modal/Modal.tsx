@@ -36,6 +36,8 @@ export default function AuthModal() {
     removeStorageItem('user');
     sessionStorage.clear();
     dispatch(setAuth({ isAuthorized: false }))
+
+    window.location.reload();
   };
 
   useEffect(() => {

@@ -39,6 +39,7 @@ const Form: FC<IFormProps> = ({
   onSubmit,
   handleSubmit,
   register,
+  disabled,
   ...rest
 }) => {
 
@@ -62,7 +63,7 @@ const Form: FC<IFormProps> = ({
           })
           : children}
       </>
-      <Button>{buttonLabel}</Button>
+      <Button disabled={disabled}>{buttonLabel}</Button>
     </SRegistrationForm>
   );
 };
