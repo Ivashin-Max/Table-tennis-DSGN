@@ -1,19 +1,9 @@
-import React, { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 
 
-import format from 'date-fns/format'
-import parse from 'date-fns/parse'
-import startOfWeek from 'date-fns/startOfWeek'
-import getDay from 'date-fns/getDay'
-import { ru } from "date-fns/locale";
-import addHours from 'date-fns/addHours'
-import startOfHour from 'date-fns/startOfHour'
-import { useAllTournaments } from '../../hooks/useAllTournaments';
-import { ITournamentGet } from '../../types/fetch';
 import { CalendarDate, CalendarEvent } from '../../types/calendar';
 import { useTypedSelector } from '../../hooks/useTypedSelector';
-import { getNextWeek, getTournamentDate, getTournamentDay, getTournamentTime } from '../../actions/date';
-import Title from '../Styled/Title';
+import { getNextWeek, getTournamentDate, getTournamentTime } from '../../actions/date';
 import { getDivisionName } from '../../actions/divisions';
 import { ReactComponent as PersonIcon } from '../../styles/img/personWhite.svg';
 import { ReactComponent as StarIcon } from '../../styles/img/star-svgrepo-com.svg';
@@ -24,11 +14,7 @@ import { setTable } from '../../store/reducer';
 import { getParticipants } from '../../actions/fetchDB';
 
 
-const now = new Date()
 
-const endOfHour = (date: Date) => addHours(startOfHour(date), 1)
-const start = endOfHour(now)
-const end = addHours(start, 2)
 
 
 const alignConfig = {
@@ -42,7 +28,6 @@ const alignConfig = {
 
 const MyCalendar = () => {
   const allDivisions = useTypedSelector(state => state.divisions).divisions;
-  const qqq = useTypedSelector(state => state);
   const dispatch = useDispatch();
   const [events, setEvents] = useState<CalendarEvent[]>([])
   const [tournaments, setTournaments] = useState<any[]>([])
@@ -64,7 +49,7 @@ const MyCalendar = () => {
 
   const tournamentsToEvents = (tournaments: any[]) => {
     const eventsFromTournaments = tournaments.map(tournamet => {
-      console.log('tournamet', tournamet)
+      // console.log('tournamet', tournamet)
       const tourDate = new Date(tournamet.date_time)
       const tourDateString = getTournamentDate(new Date(tournamet.date_time))
       const tourTitle = tournamet.tournament_name;
@@ -109,7 +94,7 @@ const MyCalendar = () => {
 
       <div className="calendar__table">
         {days.map(day => (
-          <div className="calendar__column">
+          <div className="calendar__column" key={day.dateString}>
             <div className="calendar__headerRow">
               <div className="calendar__headerCell">
                 <div>{day.dateString}</div>
@@ -120,7 +105,7 @@ const MyCalendar = () => {
               <div className="calendar__headerCell">
 
                 {events.filter(event => (event.tourDateString === day.compareDate) && (event.date.getHours() <= 12)).map(neededEvent => (
-                  <Tooltip placement="right"
+                  <Tooltip placement="right" key={neededEvent.title}
                     overlay={
                       <>
                         <div>
