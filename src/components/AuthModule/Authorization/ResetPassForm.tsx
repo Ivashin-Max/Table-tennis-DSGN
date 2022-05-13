@@ -131,7 +131,7 @@ const ResetPassForm = (props: ResetPassFormProps) => {
 
       {!props.sendEmail &&
         <>
-          <button type='button' onClick={() => console.log(location.search.split('=')[1])}>++++++++</button>
+
           <Form
             formTitle="Введите новый пароль"
             buttonLabel="Сохранить новый пароль"
