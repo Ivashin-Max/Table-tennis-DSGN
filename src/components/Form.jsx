@@ -96,7 +96,15 @@ const Form = () => {
 
   const prizesParse = () => {
     // debugger
-    const prizesObj = Object.entries(JSON.parse(storeData.tournamentPrizes))
+    let prizesObj = [];
+
+    try {
+      prizesObj = Object.entries(JSON.parse(storeData.tournamentPrizes))
+    }
+    catch (e) {
+      console.log('prizes Error', e)
+    }
+
 
     return (
 

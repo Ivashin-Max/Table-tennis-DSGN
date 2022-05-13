@@ -10,7 +10,7 @@ import { useDispatch } from 'react-redux'
 import { openModal } from '../../../store/reducer'
 import { FreeSolo } from '../../Test/Test';
 import { useState } from 'react'
-import { useLocation } from 'react-router-dom'
+import { useLocation, useNavigate } from 'react-router-dom'
 
 const AuthSchema = yup.object().shape({
   // name: yup
@@ -33,6 +33,7 @@ const ResetShema = yup.object().shape({
 const ResetPassForm = (props: ResetPassFormProps) => {
   const dispatch = useDispatch();
   const location = useLocation();
+  const navigate = useNavigate();
   const [loading, setLoading] = useState(false);
   const {
     register,
@@ -76,7 +77,7 @@ const ResetPassForm = (props: ResetPassFormProps) => {
   }
 
   const onSubmitReset = (newPassValue: newPassValue) => {
-    const jwt = 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJyZXNldF9wYXNzd29yZCI6InRlc3RvdmljaC0xOTc1QG1haWwucnUiLCJyZXNldCI6InllcyIsImV4cCI6MTY1MjM0NTYwNi4wNDMzNjQ1fQ.jtMtIsM5fu9wdVLnifGSndaeyoFyhkH3VaU8O3McHhM'
+
     const jwtt = location.search.split('=')[1]
     console.log(newPassValue)
     console.log(jwtt)
@@ -89,6 +90,7 @@ const ResetPassForm = (props: ResetPassFormProps) => {
             title: 'Успешно',
             modalMsg: `Пароль изменён`
           }))
+          navigate('/user')
         }
         setLoading(false)
         // props.closeFormModal();
@@ -147,7 +149,6 @@ const ResetPassForm = (props: ResetPassFormProps) => {
               error={resetErrors.newPass?.message}
 
             />
-            <Title onClick={() => console.log(location)} pointer fz='12px'>Вход</Title>
           </Form>
         </>
       }
