@@ -31,6 +31,7 @@ const initialState = {
   tournamentOrgFio: '',
   tournamentRate: '',
   tournamentPrice: '',
+  tournamentPrizes: '{}',
   tableDivisionName: '',
   tableDate: '',
   tableTime: '',
@@ -68,6 +69,7 @@ export function reducerData(state = fetchedData, action) {
         tournamentOrgFio: action.payload.tournamentOrgFio,
         tournamentRate: action.payload.tournamentRate,
         tournamentPrice: action.payload.tournamentPrice,
+        tournamentPrizes: action.payload.tournamentPrizes,
         tableDivisionName: action.payload.tableDivisionName,
         tableDate: action.payload.tableDate,
         tableTime: action.payload.tableTime,
@@ -139,7 +141,8 @@ export function reducerDivisions(state = divisons, action) {
 
 //Стор для хранения роли пользователя
 const role = {
-  isAdmin: false
+  isAdmin: false,
+  isEditor: false
 }
 
 export const setAdminRole = (payload) => {
@@ -149,10 +152,19 @@ export const setAdminRole = (payload) => {
   }
 }
 
+export const setEditorRole = (payload) => {
+  return {
+    type: 'SET_EDITOR',
+    payload
+  }
+}
+
 export function reducerRole(state = role, action) {
   switch (action.type) {
     case 'SET_ADMIN':
-      return { ...state, isAdmin: true }
+      return { ...state, isAdmin: true, isEditor: false }
+    case 'SET_EDITOR':
+      return { ...state, isEditor: true, isAdmin: false }
     default:
       return state;
   }

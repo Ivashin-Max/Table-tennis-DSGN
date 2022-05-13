@@ -7,6 +7,14 @@ export type RegistrationFormValues = {
   name?: string;
 }
 
+export type ResetPassValues = {
+  mail: string
+}
+
+export type newPassValue = {
+  password: string
+}
+
 export type TournamentFormValues = {
   cost: number,
   date_time: Date,
@@ -15,10 +23,12 @@ export type TournamentFormValues = {
   organizer: string,
   phone: string,
   rating_range: string,
-  reserve: number,
+  reserve: number | string,
   tournament_name: string,
   team: 0
 }
+
+export type ModalSteps = "auth" | "register" | "reset";
 
 export type AuthFormValues = {
   login: string;
@@ -26,9 +36,15 @@ export type AuthFormValues = {
 }
 
 export interface IAuthFormsProps {
-  changeForm: () => void;
+  changeForm: (step: ModalSteps) => void
   closeFormModal: () => void;
 }
+
+export interface ResetPassFormProps extends IAuthFormsProps {
+  sendEmail: boolean
+}
+
+
 
 export type RegistrationFormStyleProps = {
   placeholder: string;

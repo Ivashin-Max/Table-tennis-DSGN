@@ -513,7 +513,27 @@ body {
 
   }
 
+  &__square {
+    width: 10px;
+    height: 10px;
+    background-color: @color_green;
+    border-radius: 2px;
+    margin-right: 13px;
+  }
+
+  &__division {
+    margin-top: 5px;
+    font-family: 'OpenSans';
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+
   &__rights {
+    padding: 10px;
+
+
+
     & .profileCard__text {
       text-align: center;
     }
@@ -977,9 +997,15 @@ main {
     margin-left: 2px;
   }
 
+  &__prize {
+    width: 30px;
+    margin-left: 10px;
+    fill: @color_text;
+  }
+
   &__calendar {
     cursor: pointer;
-    width: 20px;
+    width: 30px;
     margin-left: 10px;
     fill: @color_text;
   }
@@ -1115,7 +1141,9 @@ main {
 
 }
 
-
+.location {
+  position: relative;
+}
 
 .fioPrompt {
 
@@ -1137,6 +1165,21 @@ main {
       background-color: #e9e9e985;
     }
   }
+
+  &__location {
+    top: -15px;
+    left: -120px;
+    border: 1px solid #535e692a;
+  }
+}
+
+.center {
+  width: 100vw;
+  height: 100vh;
+  padding: 10px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
 .clearStorage {
@@ -1144,6 +1187,11 @@ main {
   position: absolute;
   top: 5px;
   right: -25px;
+
+  &__admin {
+    top: -40px;
+    right: -145px;
+  }
 
   &_icon {
     color: #535e692a;
@@ -1421,11 +1469,56 @@ li {
 
 
 
+.prizes {
+  &__row {
+    position: relative;
+  }
 
+  &__block {
+    display: flex;
+    justify-content: space-between;
+  }
+
+  &__toltip {
+    width: 1300px;
+    height: 300px;
+  }
+
+  &__button {
+    display: flex;
+    color: white;
+    justify-content: center;
+    align-items: center;
+    width: 126px;
+    height: 35px;
+    border-radius: 10px;
+    background-color: @color_green;
+    font-family: 'OpenSans';
+    font-style: normal;
+    font-weight: 600;
+    font-size: 14px;
+    line-height: 21px;
+    text-transform: capitalize;
+    margin-top: 10px;
+  }
+}
 
 
 .inputs {
+
   // min-height: 80px;
+  &__prizes {
+    position: relative;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+
+    & input {
+      margin-left: 5px;
+      width: 200px !important;
+    }
+  }
 
   & input {
     width: 240px;

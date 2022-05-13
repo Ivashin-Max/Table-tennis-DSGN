@@ -16,6 +16,10 @@ export interface IPatchProfileRequest {
   rttf_id: number
 }
 
+export interface INewPass {
+  password: string
+}
+
 export interface INewProfileResponse {
   data: string
 }

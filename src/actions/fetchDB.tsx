@@ -1,7 +1,7 @@
 
 import url from "../static/url.json"
 import axios from 'axios';
-import { setDivisions, setEmptyData, setLoading } from '../store/reducer.js';
+import { openModal, setDivisions, setEmptyData, setLoading } from '../store/reducer.js';
 import { setData, setDateFlag } from '../store/reducer.js';
 import { ILink, IParticipantAdd, IParticipantGet, ITournamentAdd } from '../types/fetch';
 
@@ -15,7 +15,12 @@ export const getDivisionsInfo = () => (dispatch: any) => {
     .then(({ data }) => {
       console.log('Axios', data);
       dispatch(setDivisions({ divisions: data }))
-    });
+    })
+    .catch(e => {
+
+      console.log(e.toJSON())
+      dispatch(openModal({ title: 'Ошибка!', modalMsg: `Ошибка начальной загрузки` }));
+    })
 }
 
 export const getParticipants = (tournamentId: number) => async (dispatch: any, getState: any) => {
@@ -45,6 +50,7 @@ export const getParticipants = (tournamentId: number) => async (dispatch: any, g
           tournamentRate: neededTournament.rating_range,
           tournamentPrice: neededTournament.cost,
           tournamentOrgFio: neededTournament.organizer,
+          tournamentPrizes: neededTournament.prize,
           tableDivisionName: neededTournament.tournament_name,
           tableDate: tableDate,
           tableTime: tableTime,

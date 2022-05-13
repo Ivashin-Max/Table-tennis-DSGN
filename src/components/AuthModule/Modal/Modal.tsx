@@ -13,14 +13,17 @@ import { useEffect } from 'react';
 import { useTypedSelector } from '../../../hooks/useTypedSelector';
 import { useDispatch } from 'react-redux';
 import { setAuth } from '../../../store/reducer';
+import { ModalSteps } from '../../../types/forms';
+import ResetPassForm from '../Authorization/ResetPassForm';
 
 export default function AuthModal() {
   const [open, setOpen] = useState(false);
   const [register, setRegister] = useState(false);
+  const [modalStep, setModalStep] = useState<ModalSteps>('auth');
   const isAuthorized = useTypedSelector(state => state.auth.isAuthorized)
   const dispatch = useDispatch();
   const handleClickOpen = () => {
-    setRegister(false)
+    setModalStep('auth')
     setOpen(true);
   };
 
@@ -28,8 +31,8 @@ export default function AuthModal() {
     setOpen(false);
 
   };
-  const changeForm = () => {
-    setRegister(prev => !prev)
+  const changeForm = (step: ModalSteps) => () => {
+    setModalStep(step)
   };
 
   const handleClickExit = () => {
@@ -41,10 +44,10 @@ export default function AuthModal() {
   };
 
   useEffect(() => {
-    setRegister(false)
+    setModalStep('auth')
 
     return () => {
-      setRegister(false)
+      setModalStep('auth')
     }
   }, [])
 
@@ -64,8 +67,11 @@ export default function AuthModal() {
           >
 
             <DialogContent>
-              {!register && <AuthForm closeFormModal={handleClose} changeForm={changeForm} />}
-              {register && <RegistrationForm closeFormModal={handleClose} changeForm={changeForm} />}
+              {/* {!register && <AuthForm closeFormModal={handleClose} changeForm={changeForm('register')} />}
+              {register && <RegistrationForm closeFormModal={handleClose} changeForm={changeForm('auth')} />} */}
+              {modalStep === 'auth' && <AuthForm closeFormModal={handleClose} changeForm={changeForm} />}
+              {modalStep === 'register' && <RegistrationForm closeFormModal={handleClose} changeForm={changeForm} />}
+              {modalStep === 'reset' && <ResetPassForm sendEmail closeFormModal={handleClose} changeForm={changeForm} />}
             </DialogContent>
           </Dialog>
         </>}

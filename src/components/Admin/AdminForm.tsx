@@ -1,5 +1,5 @@
 
-import { useEffect, useState } from "react";
+import { useEffect, useState, useRef } from "react";
 import { useForm } from "react-hook-form";
 import { useCurrentDivision, useCurrentTournament } from "../../hooks/useCurrentTournament";
 import Input from "../Styled/Input";
@@ -10,19 +10,25 @@ import DateTimePicker from '@mui/lab/DateTimePicker';
 
 import * as yup from "yup";
 import { yupResolver } from "@hookform/resolvers/yup";
-import { ILink, ILinksAdd, ITournamentPatch } from "../../types/fetch";
+import { ITournamentPatch } from "../../types/fetch";
 import Checkbox from "../Styled/Checkbox";
 import { setSeconds, subMinutes } from 'date-fns'
 import { addTournament, deleteTournament, patchTournament } from "../../actions/Admin/adminRequests";
 import { useDispatch } from "react-redux";
 import { openModal } from "../../store/reducer";
-import { getDivisionsInfo, getLinks } from "../../actions/fetchDB";
-import AdminLinks from "./LinksForm/AdminLinksAdd";
+import { getDivisionsInfo } from "../../actions/fetchDB";
 import AdminLinksWrapper from "./LinksForm/AdminLinksWrapper";
-
+import { motion } from 'framer-motion/dist/framer-motion';
+import { ReactComponent as ClearStorageIcon } from '../../styles/img/x-svgrepo-com.svg';
+import { promptAnimate } from "../../styles/animations/formAnimations";
+import { addLocationToStorage, getPromptLocation, removeStorageItem } from "../../actions/localStorage";
+import { DynamicPrizes } from '../Test/DynamicPrizes'
 // validation
 const AddTournamentSchema = yup.object().shape({
-
+  location: yup
+    .string()
+  // .required()
+  ,
   cost: yup
     .number().transform((value) => (isNaN(value) ? 0 : value)).nullable()
 
@@ -34,7 +40,24 @@ export const AdminForm = () => {
   const currentDivisionId = useCurrentDivision()?.id;
   const currentTournament = useCurrentTournament();
   const [isPaid, setIsPaid] = useState(false);
+  const child = useRef<any>();
+
+
   const [isRate, setIsRate] = useState(false);
+  const [isPrized, setIsPrized] = useState(false);
+  const [promptLocation, setPromptLocation] = useState(false)
+
+  const showpromptLocation = () => {
+    setPromptLocation(true)
+  }
+  const hidepromptLocation = () => {
+    setPromptLocation(false)
+  }
+
+  const setLocation = (event: any) => {
+    setValue('location', event.target.textContent);
+    hidepromptLocation()
+  }
 
 
   const [date, setDate] = React.useState<Date | null>(setSeconds(new Date(), 0));
@@ -52,13 +75,17 @@ export const AdminForm = () => {
         rating_range: currentTournament.rating_range,
         reserve: currentTournament.reserve,
         team: currentTournament.team,
+        prize: currentTournament.prize,
         tournament_name: currentTournament.tournament_name,
+        dropParticipants: false
       };
 
       setDate(new Date(currentTournament.date_time))
       console.log(currentTournament.rating_range)
       if (currentTournament.rating_range !== '0') setIsRate(true)
       else setIsRate(false)
+      if (currentTournament.prize !== null) setIsPrized(true)
+      else setIsPrized(false)
       if (currentTournament.cost !== 0) setIsPaid(true)
       else setIsPaid(false)
 
@@ -67,13 +94,14 @@ export const AdminForm = () => {
     else {
       setIsRate(false);
       setIsPaid(false);
+      setIsPrized(false);
       let tournamentValues = {
         cost: 0,
         location: '',
         organizer: '',
         phone: '',
         rating_range: '',
-        reserve: 0,
+        reserve: '',
         team: 0,
         tournament_name: '',
       };
@@ -88,6 +116,7 @@ export const AdminForm = () => {
   const {
     register,
     handleSubmit,
+    setValue,
     reset,
     formState: { errors }
   } = useForm<ITournamentPatch>({ resolver: yupResolver(AddTournamentSchema), mode: 'onSubmit', });
@@ -98,14 +127,20 @@ export const AdminForm = () => {
     data.cost = isPaid ? +data.cost : 0;
     data.reserve = +data.reserve;
     data.rating_range = isRate ? data.rating_range : "0";
-    // if (date) {
-    //   if (new Date() > date) return
-    // }
-    // console.log(date)
     data.date_time = date?.toJSON().slice(0, 16).replace('T', ' ')
 
     data.division = currentDivisionId
+    data.prize = '{}'
+
+
+
+    if (child.current) {
+      const jsonPrize = JSON.stringify(child.current.submit())
+      data.prize = jsonPrize
+    }
+
     console.log(data)
+    addLocationToStorage(data.location)
     if (currentTournament) {
       data.tournament_id = currentTournament.id
 
@@ -129,7 +164,7 @@ export const AdminForm = () => {
             title: 'Ошибка',
             modalMsg: e.message
           }))
-          console.log('qwqwqw', e.message)
+          console.log('qwqwqw', e.toJSON())
         })
     }
     else {
@@ -155,6 +190,9 @@ export const AdminForm = () => {
 
 
   };
+
+
+
 
 
   const handleDelete = () => {
@@ -195,6 +233,7 @@ export const AdminForm = () => {
           largeForm
           formTitle={getFormTitle()}
           buttonLabel={currentTournament ? 'Редактировать турнир' : 'Добавить турнир'}
+          disabled={currentDivisionId ? false : true}
           register={register}
           handleSubmit={handleSubmit}
           onSubmit={onSubmit}
@@ -206,11 +245,39 @@ export const AdminForm = () => {
             error={errors.tournament_name?.message}
 
           />
+
           <Input
             name="location"
             placeholder="Место проведения"
-          // // error={errors.location?.message}
+            className="location"
+            onClick={showpromptLocation}
+          // error={errors.location?.message}
           />
+          <div className="location">
+            <div onMouseDown={() => { removeStorageItem("location"); hidepromptLocation() }} className="clearStorage clearStorage__admin">
+              <ClearStorageIcon className='clearStorage_icon' title='Очистить историю' />
+
+            </div>
+            {promptLocation && <motion.div animate={{ height: 'auto' }} initial={{ height: 0 }} className="fioPrompt fioPrompt__location">
+              {
+                getPromptLocation().map((location, index) => {
+                  return (
+                    <motion.div
+                      initial='hidden'
+                      animate='visible'
+                      custom={index + 2}
+                      variants={promptAnimate}
+                      key={location}
+                      onMouseDown={setLocation}
+                    >
+                      {location}
+                    </motion.div>
+                  )
+                })
+              }
+            </motion.div>}
+          </div>
+
           <Input
             name="phone"
             placeholder="Номер тлф"
@@ -239,6 +306,24 @@ export const AdminForm = () => {
             placeholder="Рейтинг"
           // // error={errors.rating_range?.message}
           />}
+
+          <div className="admin__checkbox">
+            <input type="checkbox" name="prize" id="prize" checked={isPrized} onChange={() => setIsPrized(prev => !prev)} />
+            <label htmlFor="prize">Приз?</label>
+          </div>
+
+          {isPrized &&
+
+            <>
+              <DynamicPrizes
+                // formFields={true}
+                ref={child} />
+            </>
+
+
+          }
+
+
           <div className="admin__checkbox">
             <input type="checkbox" name="paid" id="paid" checked={isPaid} onChange={() => setIsPaid(prev => !prev)} />
             <label htmlFor="paid">Платный?</label>
@@ -251,6 +336,7 @@ export const AdminForm = () => {
           // // error={errors.cost?.message}
           />}
 
+
           <DateTimePicker
             renderInput={(params) => <TextField sx={{ mb: 1 }} {...params} />}
             label="Дата"
@@ -262,10 +348,7 @@ export const AdminForm = () => {
 
             minDateTime={subMinutes(new Date(), 10)}
           />
-          {/* <div>
-          <input type="checkbox" name="delete" id="delete" checked={clearParticipants} onChange={() => setClearParticipants(prev => !prev)} />
-          <label htmlFor="delete">Очистить участников?</label>
-        </div> */}
+
           <Checkbox
             name="team"
             label="Командный?"
@@ -287,7 +370,6 @@ export const AdminForm = () => {
 
 
         </Form>
-
         <AdminLinksWrapper />
 
 

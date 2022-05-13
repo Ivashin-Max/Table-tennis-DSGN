@@ -12,7 +12,7 @@ import Title from '../../Styled/Title'
 import * as yup from "yup";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { useDispatch } from 'react-redux'
-import { openModal, setAdminRole, setAuth } from '../../../store/reducer'
+import { openModal, setAdminRole, setAuth, setEditorRole } from '../../../store/reducer'
 import { IAuthProfileRequest } from '../../../types/profile'
 import { localStorageUser } from '../../../types/localStorage'
 import { IAuthFormsProps } from '../../../types/forms'
@@ -41,7 +41,31 @@ export const AuthForm = (props: IAuthFormsProps) => {
     handleSubmit,
     formState: { errors }
   } = useForm({ resolver: yupResolver(AuthSchema) });
+  const setRole = (roleInt: number) => {
+    switch (roleInt) {
+      case 0:
+        console.log('user');
+        sessionStorage.clear();
+        break;
 
+      case 1:
+        console.log('admin');
+        dispatch(setAdminRole())
+        sessionStorage.setItem('admin', '1');
+        navigate('/admin')
+        break;
+
+      case 2:
+        console.log('editor');
+        dispatch(setEditorRole())
+        sessionStorage.setItem('editor', '1');
+        navigate('/editor')
+        break;
+
+      default:
+        break;
+    }
+  }
   const onSubmit = (profile: IAuthProfileRequest) => {
 
     console.log(profile);
@@ -54,13 +78,14 @@ export const AuthForm = (props: IAuthFormsProps) => {
           id: res.data.id
         }
         setUser(user);
-        console.log(`Admin? ${!!res.data.admin}`)
-        if (!!res.data.admin) {
-          dispatch(setAdminRole())
-          sessionStorage.setItem('admin', '1');
-          navigate('/admin')
-        }
-        else sessionStorage.clear();
+        setRole(res.data.admin);
+        // console.log(`Admin? ${!!res.data.admin}`)
+        // if (!!res.data.admin) {
+        //   dispatch(setAdminRole())
+        //   sessionStorage.setItem('admin', '1');
+        //   navigate('/admin')
+        // }
+        // else sessionStorage.clear();
 
         return res.data.id
       })
@@ -112,7 +137,8 @@ export const AuthForm = (props: IAuthFormsProps) => {
         placeholder="Пароль"
         error={errors.password?.message}
       />
-      <Title onClick={props.changeForm} pointer fz='12px' >Нет акаунта? Зарегистрируйтесь</Title>
+      <Title onClick={props.changeForm('reset')} pointer fz='12px' >Забыли пароль?</Title>
+      <Title onClick={props.changeForm('register')} pointer fz='12px' >Нет акаунта? Зарегистрируйтесь</Title>
 
     </Form>
   );

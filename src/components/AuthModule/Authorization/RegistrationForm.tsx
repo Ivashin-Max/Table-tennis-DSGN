@@ -96,7 +96,7 @@ const RegistrationForm = (props: IAuthFormsProps) => {
           error={errors.password?.message}
         />
 
-        <Title onClick={props.changeForm} pointer fz='12px'>Вход</Title>
+        <Title onClick={props.changeForm('auth')} pointer fz='12px'>Вход</Title>
 
       </Form>
 

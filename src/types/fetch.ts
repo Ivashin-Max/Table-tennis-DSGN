@@ -27,9 +27,10 @@ export interface ITournamentAdd {
   organizer: string,
   phone: string,
   rating_range: string,
-  reserve: number,
+  reserve: number | string,
   tournament_name: string,
-  team: number
+  team: number,
+  prize: string | null
 }
 
 export type DivisionsName = "Первый" | "Второй" | "Третий" | "Высший" | "Свободный";

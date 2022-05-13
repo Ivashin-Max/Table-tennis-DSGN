@@ -15,6 +15,7 @@ import Tooltip from 'rc-tooltip';
 import { openModal, setCalendarMode } from '../store/reducer';
 import ReactCardFlip from 'react-card-flip';
 import { ReactComponent as ClearStorageIcon } from '../styles/img/x-svgrepo-com.svg';
+import { ReactComponent as PrizeIcon } from '../styles/img/prize-svgrepo-com.svg';
 import classNames from 'classnames';
 import { useCurrentTournament } from '../hooks/useCurrentTournament';
 import { addParticipant, deleteParticipantDB, getLinks, getParticipants } from '../actions/fetchDB';
@@ -30,10 +31,6 @@ const alignConfig = {
   overflow: { adjustX: true, adjustY: true }, // auto adjust position when sourceNode is overflowed
 };
 
-
-
-//FIXME:
-// Добавить визуальный эффект, после нажатия кнопки Добавить/Удалить, не дублируя весь код
 
 
 
@@ -97,7 +94,41 @@ const Form = () => {
   }, [authState])
 
 
+  const prizesParse = () => {
+    // debugger
+    const prizesObj = Object.entries(JSON.parse(storeData.tournamentPrizes))
 
+    return (
+
+      <>
+        <span>Призовой фонд</span>
+        {prizesObj.map(titleArr => {
+          console.log(5, titleArr)
+          if (titleArr[1].length === 0) return null
+          if (titleArr[0] === 'formFields') return null
+          return (
+            <div >
+              <p>{titleArr[0]}</p>
+              <div>
+                {titleArr[1].map(prize => (
+                  <div className='prizes__block'>
+                    <div>
+                      {prize.name}
+                    </div>
+                    <div>
+                      {prize.prize}
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </div >
+          )
+        })}
+
+      </>
+
+    )
+  }
 
   const checkEmptyInputs = () => {
 
@@ -267,8 +298,6 @@ const Form = () => {
         <div className="form_wrap">
 
           <form action="#" id="form" className="form" >
-            <button onClick={() => console.log('authState', authState)}>+++</button>
-
             <section className="form_header">
               <a
                 href={url.bot}
@@ -427,6 +456,22 @@ const Form = () => {
               </button>
             </div>
             <p id="tournamentRating">
+              <Tooltip placement="top"
+                overlay={
+                  <div className='prizes__tooltip'>
+                    {prizesParse()}
+                  </div>
+                }
+                trigger={['hover']}
+                mouseLeaveDelay={0}
+                align={alignConfig}
+                className='prizes__tooltip'
+              >
+                <PrizeIcon className='svg__prize' />
+              </Tooltip>
+
+
+
               <span>Рейтинг: </span>{storeData.tournamentRate > 0 ? storeData.tournamentRate : "Без ограничений"}
               <CalendarIcon className='svg__calendar' onClick={flipForm} />
             </p>

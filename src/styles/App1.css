@@ -404,6 +404,23 @@ body {
 .profileCard__tournaments .profileCard__text {
   text-align: center;
 }
+.profileCard__square {
+  width: 10px;
+  height: 10px;
+  background-color: #39aea8;
+  border-radius: 2px;
+  margin-right: 13px;
+}
+.profileCard__division {
+  margin-top: 5px;
+  font-family: 'OpenSans';
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+.profileCard__rights {
+  padding: 10px;
+}
 .profileCard__rights .profileCard__text {
   text-align: center;
 }
@@ -764,9 +781,14 @@ main {
   height: 17px;
   margin-left: 2px;
 }
+.svg__prize {
+  width: 30px;
+  margin-left: 10px;
+  fill: #2B476A;
+}
 .svg__calendar {
   cursor: pointer;
-  width: 20px;
+  width: 30px;
   margin-left: 10px;
   fill: #2B476A;
 }
@@ -858,6 +880,9 @@ p {
   font-weight: 600;
   font-family: 'OpenSans';
 }
+.location {
+  position: relative;
+}
 .fioPrompt {
   position: absolute;
   opacity: 1;
@@ -876,11 +901,28 @@ p {
 .fioPrompt div:hover {
   background-color: #e9e9e985;
 }
+.fioPrompt__location {
+  top: -15px;
+  left: -120px;
+  border: 1px solid #535e692a;
+}
+.center {
+  width: 100vw;
+  height: 100vh;
+  padding: 10px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
 .clearStorage {
   cursor: pointer;
   position: absolute;
   top: 5px;
   right: -25px;
+}
+.clearStorage__admin {
+  top: -40px;
+  right: -145px;
 }
 .clearStorage_icon {
   color: #535e692a;
@@ -1099,6 +1141,45 @@ p {
 li {
   display: inline-block;
   cursor: pointer;
+}
+.prizes__row {
+  position: relative;
+}
+.prizes__block {
+  display: flex;
+  justify-content: space-between;
+}
+.prizes__toltip {
+  width: 1300px;
+  height: 300px;
+}
+.prizes__button {
+  display: flex;
+  color: white;
+  justify-content: center;
+  align-items: center;
+  width: 126px;
+  height: 35px;
+  border-radius: 10px;
+  background-color: #39aea8;
+  font-family: 'OpenSans';
+  font-style: normal;
+  font-weight: 600;
+  font-size: 14px;
+  line-height: 21px;
+  text-transform: capitalize;
+  margin-top: 10px;
+}
+.inputs__prizes {
+  position: relative;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+}
+.inputs__prizes input {
+  margin-left: 5px;
+  width: 200px !important;
 }
 .inputs input {
   width: 240px;

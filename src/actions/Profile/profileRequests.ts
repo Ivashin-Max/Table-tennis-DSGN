@@ -1,7 +1,7 @@
 import axios from "axios";
 import url from '../../static/url.json'
 import { IProfileGet } from "../../types/fetch";
-import { IAuthProfileRequest, IAuthProfileResponse, INewProfile, INewProfileResponse, IPatchProfileRequest } from "../../types/profile";
+import { IAuthProfileRequest, IAuthProfileResponse, INewPass, INewProfile, INewProfileResponse, IPatchProfileRequest } from "../../types/profile";
 import { getUser } from "../localStorage";
 
 export const newProfile = async (newProfile: INewProfile) => {
@@ -39,3 +39,18 @@ export const getRegistrationNames = async () => {
   const apiUrl = url.back + url.endpoints.getAllNames;
   return await axios.get(apiUrl)
 }
+
+export const sendEmailToResetPass = async (email: string) => {
+  const apiUrl = url.back + url.endpoints.sendResetEmail + email;
+  return await axios.get(apiUrl)
+}
+
+export const newPass = async (newPass: INewPass, jwt: string) => {
+  const apiUrl = url.back + url.endpoints.newPass;
+  return await axios.post(apiUrl, newPass, {
+    headers: {
+      Authorization: jwt
+    }
+  })
+}
+

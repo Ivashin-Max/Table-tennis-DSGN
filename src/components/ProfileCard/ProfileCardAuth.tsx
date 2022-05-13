@@ -24,7 +24,10 @@ const ProfileCardAuth = () => {
   const allDivisions = useTypedSelector(state => state.divisions).divisions;
   const myTournaments = useExactTournaments(user.tournamentsId)
   const dispatch = useDispatch();
-
+  const rights = !!user?.userInfo?.play_status_1d ||
+    !!user?.userInfo?.play_status_2d ||
+    !!user?.userInfo?.play_status_3d ||
+    !!user?.userInfo?.play_status_vd;
   const lastName = user.fio.split(' ')[0]
   const name = user.fio.split(' ')[1];
 
@@ -93,7 +96,6 @@ const ProfileCardAuth = () => {
 
   return (
     <div className='profileCard_Auth'>
-
       <div className="profileCard__header">
         <div className="profileCard__text">{lastNameName}</div>
         <div className='profileCard__rating'>
@@ -179,20 +181,19 @@ const ProfileCardAuth = () => {
 
         </ul >
       </div>
-      {!!user?.userInfo?.play_status_1d &&
-        !!user?.userInfo?.play_status_2d &&
-        !!user?.userInfo?.play_status_3d &&
-        !!user?.userInfo?.play_status_vd && <>
+      {rights &&
+        <>
 
           <div className="profileCard__line"></div>
           <div className="profileCard__rights">
             <div className="profileCard__text">Права на посещение</div>
-            {!!user?.userInfo?.play_status_1d && <div> I Дивизон  +</div>}
-            {!!user?.userInfo?.play_status_2d && <div> II Дивизон +</div>}
-            {!!user?.userInfo?.play_status_3d && <div> III Дивизон   +</div>}
-            {!!user?.userInfo?.play_status_vd && <div> Высший дивизон  +</div>}
+            {!!user?.userInfo?.play_status_1d && <div className='profileCard__division'><div> I Дивизон</div>  <div className='profileCard__square'></div></div>}
+            {!!user?.userInfo?.play_status_2d && <div className='profileCard__division'><div>II Дивизон</div>  <div className='profileCard__square'></div></div>}
+            {!!user?.userInfo?.play_status_3d && <div className='profileCard__division'><div>III Дивизон</div>    <div className='profileCard__square'></div></div>}
+            {!!user?.userInfo?.play_status_vd && <div className='profileCard__division'><div>Высший дивизон</div>   <div className='profileCard__square'></div></div>}
           </div>
-        </>}
+        </>
+      }
       <div className="profileCard__arrow" onClick={handleSettings}>{settings ? <SettingsIcon className='svg__settingsArrows svg__settingsArrows_bottom' /> : <SettingsIcon className='svg__settingsArrows svg__settingsArrows_up' />}</div>
 
     </div>

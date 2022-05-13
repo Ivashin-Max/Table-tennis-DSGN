@@ -5,10 +5,13 @@ import { useDispatch } from 'react-redux';
 import logoPingPong from './styles/img/ping-pong-loader.svg'
 import UserWrapper from './components/UserWrapper';
 import AdminWrapper from './components/Admin/AdminWrapper';
+import EditorWrapper from './components/Editor/EditorWrapper';
 import MessageModal from './components/Modal/MessageModal';
 import BackdropLoader from './components/Styled/Backdrop';
 import { initApp } from './actions/initApp';
 import { getUser } from './actions/localStorage';
+import ResetPass from './components/AuthModule/ResetPass';
+
 
 function App() {
 
@@ -47,6 +50,13 @@ function App() {
           <Route path='*' element={<Navigate to="/user" replace />} />
           <Route path="/user" element={<UserWrapper />} />
           <Route path="/admin" element={<AdminWrapper />} />
+          <Route path="/editor" element={<EditorWrapper />} />
+
+
+
+          <Route path="/reset" element={<ResetPass />} />
+
+
           <Route path='*' element={<Navigate to="/" replace />} />
         </Routes>
       </BrowserRouter>

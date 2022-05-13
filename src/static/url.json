@@ -9,6 +9,8 @@
     "authProfile": "/auth",
     "getAllNames": "/participant/names/get",
     "links": "/links",
+    "sendResetEmail": "/reset?email=",
+    "newPass": "/reset",
     "admin": {
       "deleteParticipant": "/admin/participant/drop",
       "addTournament": "/admin/tournament/add",

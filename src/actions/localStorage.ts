@@ -51,6 +51,24 @@ export const getPromptFio = () => {
   else { return reactLocalStorage.get('fio').split(',') }
 }
 
+
+export const addLocationToStorage = (location: string) => {
+  const isLocation = reactLocalStorage.get('location')
+  if (!isLocation) {
+    reactLocalStorage.set('location', location)
+  }
+  else {
+    if (isLocation.split(',').includes(location)) console.log('takoy yzhe est"')
+    else reactLocalStorage.set('location', `${isLocation},${location}`)
+  }
+}
+
+export const getPromptLocation = (): (string[] | []) => {
+
+  if (!reactLocalStorage.get('location')) return []
+  else { return reactLocalStorage.get('location').split(',') }
+}
+
 export const getPromptTell = () => {
 
   if (!reactLocalStorage.get('tell')) return []
