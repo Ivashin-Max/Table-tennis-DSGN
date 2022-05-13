@@ -9,8 +9,7 @@ import ResetPassForm from './Authorization/ResetPassForm';
 
 
 const ResetPass = () => {
-  let navigate = useNavigate();
-  const isAdmin = !!sessionStorage.getItem('admin')
+
 
 
 

@@ -80,32 +80,33 @@ const ResetPassForm = (props: ResetPassFormProps) => {
     const jwtt = location.search.split('=')[1]
     console.log(newPassValue)
     console.log(jwtt)
-    // setLoading(true)
-    // newPass(newPassValue, jwt)
-    //   .then(response => {
-    //     console.log(response)
-    //     if (response.status === 200) {
-    //       dispatch(openModal({
-    //         title: 'Успешно',
-    //         modalMsg: `Пароль изменён`
-    //       }))
-    //     }
-    //     setLoading(false)
-    //     // props.closeFormModal();
-    //   })
-    //   .catch(e => {
-    //     console.log(e)
-    //     setLoading(false)
-    //     dispatch(openModal({
-    //       title: 'Ошибка!',
-    //       modalMsg: e.message
-    //     }))
-    //   })
+    setLoading(true)
+    newPass(newPassValue, jwtt)
+      .then(response => {
+        console.log(response)
+        if (response.status === 200) {
+          dispatch(openModal({
+            title: 'Успешно',
+            modalMsg: `Пароль изменён`
+          }))
+        }
+        setLoading(false)
+        // props.closeFormModal();
+      })
+      .catch(e => {
+        console.log(e.toJSON())
+        setLoading(false)
+        dispatch(openModal({
+          title: 'Ошибка!',
+          modalMsg: e.message
+        }))
+      })
 
   }
 
   return (
     <>
+
       {props.sendEmail &&
         <>
           <Form
@@ -130,6 +131,7 @@ const ResetPassForm = (props: ResetPassFormProps) => {
 
       {!props.sendEmail &&
         <>
+          <button type='button' onClick={() => console.log(location.search.split('=')[1])}>++++++++</button>
           <Form
             formTitle="Введите новый пароль"
             buttonLabel="Сохранить новый пароль"
