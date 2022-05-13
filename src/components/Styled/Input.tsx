@@ -39,7 +39,7 @@ const Input: FC<InputProps> = ({
         autoComplete='off'
         {...register(name)}
         {...rest} />
-      {error && <Typography align='left' color='red'>{error}</Typography>}
+      {error && <Typography align='left' color='red' fz='12px'>{error}</Typography>}
 
     </>
   )

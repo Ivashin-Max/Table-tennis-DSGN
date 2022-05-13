@@ -18,10 +18,15 @@ const AuthSchema = yup.object().shape({
   // username: yup
   //   .string()
   //   .required("Обязательное поле"),
+  username: yup
+    .string()
+    .email('Неправильный формат почты ')
+    .required("Обязательное поле")
+  ,
   password: yup
     .string()
     .min(2, "Минимум 2 символа")
-    .required("Password is required")
+    .required("Обязательное поле")
 });
 
 const RegistrationForm = (props: IAuthFormsProps) => {
@@ -85,7 +90,7 @@ const RegistrationForm = (props: IAuthFormsProps) => {
         /> */}
         <Input
           name="username"
-          placeholder="Логин*"
+          placeholder="E-mail*"
           error={errors.username?.message}
 
         />

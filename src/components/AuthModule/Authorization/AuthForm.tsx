@@ -24,11 +24,12 @@ import { useState } from 'react'
 const AuthSchema = yup.object().shape({
   username: yup
     .string()
-    .required("username is required"),
+    .email('Неправильный формат почты ')
+    .required("Обязательное поле"),
   password: yup
     .string()
-    .min(1, "Min password length is 2")
-    .required("Password is required")
+    .min(4, "Минимальная длинна 4 символа")
+    .required("Обязательное поле")
 });
 
 export const AuthForm = (props: IAuthFormsProps) => {
@@ -127,14 +128,14 @@ export const AuthForm = (props: IAuthFormsProps) => {
     >
       <Input
         name="username"
-        placeholder="Логин"
+        placeholder="E-mail*"
         error={errors.username?.message}
         autoFocus
       />
       <Input
         name="password"
         type="password"
-        placeholder="Пароль"
+        placeholder="Пароль*"
         error={errors.password?.message}
       />
       <Title onClick={props.changeForm('reset')} pointer fz='12px' >Забыли пароль?</Title>
