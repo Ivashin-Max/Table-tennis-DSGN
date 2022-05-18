@@ -66,25 +66,18 @@ export const getParticipants = (tournamentId: number) => async (dispatch: any, g
 }
 
 export const addParticipant = async (participant: IParticipantAdd) => {
-  console.log('111111111111', url)
+  // console.log('111111111111', url)
   const apiUrl = url.back + url.endpoints.addParticipant;
-  let response = null;
-  await axios.post(apiUrl, participant)
-    .then(data => response = { success: true, data: data })
-    .catch((error) => { response = { success: false, data: error.response.data } });
 
-  return response
+  return await axios.post(apiUrl, participant)
 }
 
 export const deleteParticipantDB = async (participant: IParticipantAdd) => {
   console.log(participant)
   const apiUrl = url.back + url.endpoints.deleteParticipant;
-  let response = null;
-  await axios.delete(apiUrl, { data: participant })
-    .then(data => response = { success: true, data: data })
-    .catch((error) => { response = { success: false, data: error.response.data } });
 
-  return response
+  return await axios.delete(apiUrl, { data: participant })
+
 }
 
 // export const addTournament = async (tournament: ITournamentAdd) => {

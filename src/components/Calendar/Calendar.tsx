@@ -7,6 +7,8 @@ import { getNextWeek, getTournamentDate, getTournamentTime } from '../../actions
 import { getDivisionName } from '../../actions/divisions';
 import { ReactComponent as PersonIcon } from '../../styles/img/personWhite.svg';
 import { ReactComponent as StarIcon } from '../../styles/img/star-svgrepo-com.svg';
+import { ReactComponent as PrizeIcon } from '../../styles/img/gift-svgrepo-com.svg';
+import { ReactComponent as GroupIcon } from '../../styles/img/group-svgrepo-com.svg';
 
 import Tooltip from 'rc-tooltip';
 import { useDispatch } from 'react-redux';
@@ -145,6 +147,7 @@ const MyCalendar = ({ flipCard }: any) => {
 
 
 
+
                           </div>
                         </>
                       }
@@ -152,9 +155,31 @@ const MyCalendar = ({ flipCard }: any) => {
                     >
                       <div className={classNameEvent} onClick={clickHandler(neededEvent.tournamentInfo)}>
 
-                        <div>{getTournamentTime(neededEvent.tournamentInfo.date_time)}
-                          <PersonIcon className='person' />                      {neededEvent.tournamentInfo.count}</div>
-                        <div><StarIcon className='svg__star_table svg__star' />{neededEvent.tournamentInfo.rating_range}</div>
+
+                        {neededEvent.tournamentInfo.team ?
+
+                          <div>{getTournamentTime(neededEvent.tournamentInfo.date_time)}
+                            <GroupIcon className='person' />
+                            {neededEvent.tournamentInfo.count}</div>
+                          :
+
+                          <div>{getTournamentTime(neededEvent.tournamentInfo.date_time)}
+                            <PersonIcon className='person' />{neededEvent.tournamentInfo.count}</div>
+                        }
+
+                        <div className='calendar__starRow'><StarIcon className='svg__star_table svg__star' />
+                          {
+                            neededEvent.tournamentInfo.rating_range === '0' ?
+                              <span className='infinite'>∞</span> :
+                              neededEvent.tournamentInfo.rating_range
+                          }
+
+
+
+                        </div>
+                        {neededEvent.tournamentInfo.prize === '{}' ? null :
+                          <div><PrizeIcon className='svg__calendarPrize svg__calendarPrize_colored' /></div>
+                        }
 
 
                       </div>

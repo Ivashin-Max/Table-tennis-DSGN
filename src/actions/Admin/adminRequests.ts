@@ -1,14 +1,14 @@
 import url from "../../static/url.json"
 import axios from 'axios';
 import { getUser } from "../localStorage";
-import { getParticipants } from "../fetchDB";
-import { openModal } from "../../store/reducer";
+import { getDivisionsInfo, getParticipants } from "../fetchDB";
+import { openModal, setLoading } from "../../store/reducer";
 import { ILink, ILinksAdd, ITournamentAdd, ITournamentPatch } from "../../types/fetch";
 
 
 export const deleteParticipantAdmin = (name: string, tournamentId: number,) => async (dispatch: any) => {
   const userJWT = getUser().jwt;
-
+  dispatch(setLoading({ isLoading: true }))
   const participant = {
     tournamentId: tournamentId,
     name: name
@@ -23,6 +23,7 @@ export const deleteParticipantAdmin = (name: string, tournamentId: number,) => a
     .then(data => {
       response = { success: true, data: data }
       dispatch(getParticipants(tournamentId))
+      dispatch(getDivisionsInfo())
     })
     .then(() => {
       dispatch(openModal({

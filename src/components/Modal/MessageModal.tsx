@@ -5,13 +5,15 @@ import { useDispatch } from 'react-redux';
 import { useTypedSelector } from '../../hooks/useTypedSelector';
 import { closeModal } from '../../store/reducer';
 import styled from 'styled-components';
+import Button from '../Styled/Button';
 
 const SModal = styled.div`
   min-height: 200px;
   min-width: 400px;
   display:flex;
+  flex-direction:column;
   align-items:center;
-  justify-content:center;
+  justify-content:space-around;
 `
 
 const STitle = styled.h1`
@@ -36,10 +38,16 @@ export default function MessageModal() {
         onClose={handleClose}
       >
         <DialogContent>
-          <STitle>{title}</STitle>
-          <SModal>
 
-            <p>{modalMsg}</p>
+          <SModal>
+            <STitle>{title}</STitle>
+            <div>
+              <p>{modalMsg}</p>
+            </div>
+            <div>
+              <Button onClick={handleClose} type="button">Ок</Button>
+
+            </div>
           </SModal>
         </DialogContent>
       </Dialog>

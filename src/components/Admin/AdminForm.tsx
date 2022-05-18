@@ -16,7 +16,7 @@ import { setSeconds, subMinutes } from 'date-fns'
 import { addTournament, deleteTournament, patchTournament } from "../../actions/Admin/adminRequests";
 import { useDispatch } from "react-redux";
 import { openModal } from "../../store/reducer";
-import { getDivisionsInfo } from "../../actions/fetchDB";
+import { getDivisionsInfo, getParticipants } from "../../actions/fetchDB";
 import AdminLinksWrapper from "./LinksForm/AdminLinksWrapper";
 import { motion } from 'framer-motion/dist/framer-motion';
 import { ReactComponent as ClearStorageIcon } from '../../styles/img/x-svgrepo-com.svg';
@@ -25,13 +25,17 @@ import { addLocationToStorage, getPromptLocation, removeStorageItem } from "../.
 import { DynamicPrizes } from '../Test/DynamicPrizes'
 // validation
 const AddTournamentSchema = yup.object().shape({
+  cost: yup
+    .number().transform((value) => (isNaN(value) ? 0 : value)).nullable(),
+
   location: yup
     .string()
-  // .required()
-  ,
-  cost: yup
-    .number().transform((value) => (isNaN(value) ? 0 : value)).nullable()
+    .required('Обязательное поле'),
 
+  tournament_name: yup
+    .string()
+    .required('Обязательное поле')
+  ,
 
 });
 
@@ -140,6 +144,7 @@ export const AdminForm = () => {
     }
 
     console.log(data)
+
     addLocationToStorage(data.location)
     if (currentTournament) {
       data.tournament_id = currentTournament.id
@@ -157,6 +162,7 @@ export const AdminForm = () => {
         })
         .then(() => {
           dispatch(getDivisionsInfo())
+          if (data.dropParticipants) dispatch(getParticipants(data.tournament_id))
         })
         .catch(e => {
 
@@ -293,7 +299,7 @@ export const AdminForm = () => {
           <Input
             name="reserve"
             type='number'
-            placeholder="Запас"
+            placeholder="Лимит участников"
           // // error={errors.reserve?.message}
           />
           <div className="admin__checkbox">

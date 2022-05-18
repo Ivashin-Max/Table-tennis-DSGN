@@ -1,5 +1,5 @@
 {
-  "back": "http://ttreg.llntnino.ru",
+  "back": "https://ttreg.llntnino.ru",
   "endpoints": {
     "divisions": "/division/get",
     "getParticipants": "/participant/get?id=",

@@ -24,7 +24,7 @@ import { useState } from 'react'
 const AuthSchema = yup.object().shape({
   username: yup
     .string()
-    .email('Неправильный формат почты ')
+    // .email('Неправильный формат почты ')
     .required("Обязательное поле"),
   password: yup
     .string()

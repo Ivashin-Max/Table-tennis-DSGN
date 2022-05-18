@@ -5,6 +5,7 @@ import { ReactComponent as PersonIcon } from '../styles/img/personWhite.svg';
 import { ReactComponent as CalendarIcon } from '../styles/img/calendar-svgrepo-com (1).svg';
 import { getTournamentDay, getTournamentDate } from '../actions/date';
 import { getParticipants } from '../actions/fetchDB';
+import { ReactComponent as GroupIcon } from '../styles/img/group-svgrepo-com.svg';
 
 //Подменю хедера, которые мы создаём при ините
 const SubMenu = ({ divisionId, tournaments, onPress, adminMode }) => {
@@ -22,7 +23,6 @@ const SubMenu = ({ divisionId, tournaments, onPress, adminMode }) => {
       neededTournamentId: id
     }))
     await dispatch(getParticipants(id));
-    // console.log('storeTable', storeTable)
 
     onPress();
     setIsShown(false);
@@ -47,7 +47,17 @@ const SubMenu = ({ divisionId, tournaments, onPress, adminMode }) => {
           >
             {tournament.tournament_name} | <span>{getTournamentDate(tournament.date_time)}</span> |<CalendarIcon className='person' />
             <span>{getTournamentDay(tournament.date_time)}</span>
-            |  <PersonIcon className='person' />  {tournament.count}
+            |  {
+              !!tournament.team ?
+                <>
+                  <GroupIcon className='svg__group' />  {tournament.count}
+                </>
+
+                :
+                <>
+                  <PersonIcon className='person' />  {tournament.count}
+                </>
+            }
           </li>
         ))
         }

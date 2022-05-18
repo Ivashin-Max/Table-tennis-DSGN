@@ -3,11 +3,10 @@ import { deleteParticipantAdmin } from '../actions/Admin/adminRequests';
 import { useDispatch } from 'react-redux';
 import { TableFioProps } from '../types/props';
 import { ReactComponent as StarIcon } from '../styles/img/star-svgrepo-com.svg';
-
-import star from '../styles/img/star-svgrepo-com.svg'
+import { ReactComponent as XIcon } from '../styles/img/x-svgrepo-com.svg';
 
 const alignConfig = {
-  offset: [-215, 5],            // the offset sourceNode by 10px in x and 20px in y,
+  offset: [-210, 5],            // the offset sourceNode by 10px in x and 20px in y,
   targetOffset: [80, 13], // the offset targetNode by 30% of targetNode width in x and 40% of targetNode height in y,
   overflow: { adjustX: true, adjustY: true }, // auto adjust position when sourceNode is overflowed
 };
@@ -41,8 +40,20 @@ const TableFio = ({ currentTournament, participant, adminMode, zapas }: TableFio
         }
         trigger={['hover']} mouseLeaveDelay={0} align={alignConfig}
       >
-        <div className={zapasClassName} key={participant.name + currentTournament} id="sdfsfqweqwe" >
-          <div className="neTable__row_square"></div>
+        <div className={zapasClassName} key={participant.name + currentTournament}  >
+
+          {adminMode ?
+            <>
+              <div onClick={() => dispatch(deleteParticipantAdmin(participant.name, currentTournament))} >
+                <XIcon className='svg__xIcon_big svg__xIcon' title='Удалить участника' />
+              </div>
+            </>
+            :
+            <>
+              <div className="neTable__row_square"></div>
+            </>
+          }
+
           <div className="neTable__row_column">
             <div className="neTable__row_new">
               <div className="neTable__row_hidden">{participant.name}</div>
@@ -62,10 +73,7 @@ const TableFio = ({ currentTournament, participant, adminMode, zapas }: TableFio
           </div>
         </div>
       </Tooltip>
-      {adminMode === true && <div className="neTable__row_fio" >
-        <button className='admin__deleteButton' onClick={() => dispatch(deleteParticipantAdmin(participant.name, currentTournament))}>Удалить</button>
-      </div>
-      }
+
     </>
   )
 }

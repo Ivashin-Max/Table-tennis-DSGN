@@ -53,6 +53,7 @@ export const getPromptFio = () => {
 
 
 export const addLocationToStorage = (location: string) => {
+
   const isLocation = reactLocalStorage.get('location')
   if (!isLocation) {
     reactLocalStorage.set('location', location)

@@ -152,6 +152,9 @@ body {
 .overflow {
   overflow: hidden;
 }
+.infinite {
+  font-size: 18px;
+}
 .header {
   font-size: 17px;
   display: flex;
@@ -284,6 +287,9 @@ body {
 .header__navbar_menu_sub li:hover .person {
   fill: #fff;
 }
+.header__navbar_menu_sub li:hover .svg__group {
+  fill: #fff;
+}
 .header__navbar_menu_sub li:hover::after,
 .header__navbar_menu_sub li:hover::before {
   content: '';
@@ -401,6 +407,9 @@ body {
 .profileCard__tournaments li:hover .person {
   fill: #fff;
 }
+.profileCard__tournaments li:hover .svg__group {
+  color: #fff;
+}
 .profileCard__tournaments .profileCard__text {
   text-align: center;
 }
@@ -448,6 +457,11 @@ body {
   width: 100%;
   height: 1px;
   background-color: #E8E9E9;
+}
+.calendar__starRow {
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 .calendar__wrapper {
   transition: ease 1s;
@@ -575,6 +589,7 @@ main {
   min-width: 330px;
   max-width: 350px;
   transition: 1s ease-in-out;
+  z-index: 100;
 }
 .neTable__star {
   width: 15px;
@@ -659,6 +674,12 @@ main {
   transform: rotateZ(45deg) scale(1.2);
   transition: 0.6s ease;
 }
+.neTable__row:hover .neTable__row_adminSquare {
+  background-color: #AE393F;
+  width: 50px;
+  transform: width;
+  transition: 0.6s ease;
+}
 .neTable__row_square {
   min-width: 10px;
   height: 10px;
@@ -673,14 +694,14 @@ main {
   padding: 0.55rem 1rem;
   color: #000;
   border-radius: 10px;
-  background-color: #fff;
+  background-color: red;
   box-shadow: 0 15px 35px rgba(50, 50, 93, 0.1), 0 5px 15px rgba(0, 0, 0, 0.07);
   pointer-events: none;
   -webkit-user-select: none;
   -moz-user-select: none;
   -ms-user-select: none;
   user-select: none;
-  border: 1px solid #39aea8;
+  border: 1px solid red;
 }
 .neTable__row_fio {
   display: flex;
@@ -739,6 +760,10 @@ main {
   -ms-user-select: none;
   user-select: none;
   width: max-content;
+  z-index: 999;
+}
+.rc-tooltip .prizes__tooltip {
+  padding: 10px;
 }
 .rc-tooltip-hidden {
   display: none;
@@ -781,10 +806,30 @@ main {
   height: 17px;
   margin-left: 2px;
 }
+.svg__xIcon_big {
+  width: 20px;
+  height: 20px;
+}
 .svg__prize {
   width: 30px;
-  margin-left: 10px;
   fill: #2B476A;
+}
+.svg__prize_empty {
+  width: 30px;
+  margin-left: 10px;
+}
+.svg__group {
+  width: 12px;
+  margin: 0 3px;
+  fill: #2B476A;
+}
+.svg__calendarPrize {
+  width: 12px;
+  height: 12px;
+  margin-top: 2px;
+}
+.svg__calendarPrize_colored {
+  color: #2B476A;
 }
 .svg__calendar {
   cursor: pointer;
@@ -949,12 +994,13 @@ p {
   height: 35px;
   width: 230px;
   position: absolute;
-  top: -10px;
-  left: 315px;
+  top: -15px;
+  left: 335px;
   background-color: #fff;
   color: #2B476A;
   border: 1px solid #39aea8;
   border-radius: 5px;
+  z-index: 99999;
 }
 .copy_popup_none {
   display: none;
@@ -1098,6 +1144,11 @@ p {
   font-family: 'OpenSans';
   font-size: 18px;
   font-weight: 400;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 27px;
+  width: 100%;
 }
 .line {
   width: 100%;
@@ -1169,6 +1220,13 @@ li {
   line-height: 21px;
   text-transform: capitalize;
   margin-top: 10px;
+}
+.prizes__header {
+  display: flex;
+  justify-content: center;
+}
+.prizes__name {
+  margin-right: 10px;
 }
 .inputs__prizes {
   position: relative;

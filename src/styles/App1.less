@@ -194,6 +194,10 @@ body {
   overflow: hidden;
 }
 
+.infinite {
+  font-size: 18px;
+}
+
 .header {
   & ul {
     background: #fff;
@@ -357,6 +361,10 @@ body {
             fill: #fff;
           }
 
+          & .svg__group {
+            fill: #fff;
+          }
+
           &::after,
           &::before {
             .beforeAfter;
@@ -503,6 +511,10 @@ body {
         & .person {
           fill: #fff;
         }
+
+        & .svg__group {
+          color: #fff;
+        }
       }
     }
 
@@ -570,6 +582,12 @@ body {
 }
 
 .calendar {
+  &__starRow {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
   &__wrapper {
     transition: ease 1s;
     box-shadow: 0px 3px 10px rgb(0 0 0 / 25%);
@@ -728,6 +746,7 @@ main {
   max-width: 350px;
   // overflow-x: hidden;
   transition: 1s ease-in-out;
+  z-index: 100;
 
   &__star {
 
@@ -835,6 +854,13 @@ main {
         transition: .6s ease;
       }
 
+      .neTable__row_adminSquare {
+        background-color: @color_red;
+        width: 50px;
+        transform: width;
+        transition: .6s ease;
+      }
+
     }
 
     &_square {
@@ -847,6 +873,7 @@ main {
       transition: transform .6s ease;
     }
 
+
     &_tooltip {
 
       // display: none;
@@ -854,7 +881,7 @@ main {
       padding: .55rem 1rem;
       color: #000;
       border-radius: 10px;
-      background-color: #fff;
+      background-color: red;
       box-shadow: 0 15px 35px rgba(50, 50, 93, 0.1),
         0 5px 15px rgba(0, 0, 0, 0.07);
       pointer-events: none;
@@ -862,7 +889,7 @@ main {
       -moz-user-select: none;
       -ms-user-select: none;
       user-select: none;
-      border: 1px solid #39aea8;
+      border: 1px solid red;
 
 
 
@@ -940,7 +967,11 @@ main {
   -ms-user-select: none;
   user-select: none;
   width: max-content;
+  z-index: 999;
 
+  & .prizes__tooltip {
+    padding: 10px;
+  }
 }
 
 .rc-tooltip-hidden {
@@ -995,12 +1026,38 @@ main {
     width: 17px;
     height: 17px;
     margin-left: 2px;
+
+    &_big {
+      width: 20px;
+      height: 20px;
+    }
   }
 
   &__prize {
     width: 30px;
-    margin-left: 10px;
+    // margin-left: 10px;
     fill: @color_text;
+
+    &_empty {
+      width: 30px;
+      margin-left: 10px;
+    }
+  }
+
+  &__group {
+    width: 12px;
+    margin: 0 3px;
+    fill: @color_text;
+  }
+
+  &__calendarPrize {
+    width: 12px;
+    height: 12px;
+    margin-top: 2px;
+
+    &_colored {
+      color: @color_text;
+    }
   }
 
   &__calendar {
@@ -1222,12 +1279,14 @@ main {
     height: 35px;
     width: 230px;
     position: absolute;
-    top: -10px;
-    left: 315px;
+    top: -15px;
+    left: 335px;
     background-color: #fff;
     color: @color_text;
     border: 1px solid @color_green;
     border-radius: 5px;
+
+    z-index: 99999;
 
     &_none {
       display: none;
@@ -1402,6 +1461,11 @@ main {
   font-family: 'OpenSans';
   font-size: 18px;
   font-weight: 400;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 27px;
+  width: 100%;
 }
 
 .line {
@@ -1500,6 +1564,15 @@ li {
     line-height: 21px;
     text-transform: capitalize;
     margin-top: 10px;
+  }
+
+  &__header {
+    display: flex;
+    justify-content: center;
+  }
+
+  &__name {
+    margin-right: 10px;
   }
 }
 

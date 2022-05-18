@@ -85,7 +85,7 @@ export const DynamicPrizes = forwardRef((props, ref) => {
   return (
     <div className="inputs inputs__prizes">
 
-      <form onSubmit={submit} className=''>
+      <form onSubmit={submit} >
         {formFields.map((form, index) => {
           return (
             <div key={index} className='prizes__row'>

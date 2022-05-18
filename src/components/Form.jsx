@@ -9,13 +9,13 @@ import logoTelegramm from '../styles/img/telegram-svgrepo-com.svg'
 // import { fetchTableData } from '../actions/fetchTableData';
 import { useDispatch } from 'react-redux';
 import { removeStorageItem, getPromptFio, getPromptTell, addFioToStorage } from '../actions/localStorage';
-import { ReactComponent as CalendarIcon } from '../styles/img/calendar-svgrepo-com (1).svg';
+import { ReactComponent as CalendarIcon } from '../styles/img/calendar-new.svg';
 import InputMask from 'react-input-mask';
 import Tooltip from 'rc-tooltip';
 import { openModal, setCalendarMode } from '../store/reducer';
 import ReactCardFlip from 'react-card-flip';
 import { ReactComponent as ClearStorageIcon } from '../styles/img/x-svgrepo-com.svg';
-import { ReactComponent as PrizeIcon } from '../styles/img/prize-svgrepo-com.svg';
+import { ReactComponent as PrizeIcon } from '../styles/img/gift-svgrepo-com.svg';
 import classNames from 'classnames';
 import { useCurrentTournament } from '../hooks/useCurrentTournament';
 import { addParticipant, deleteParticipantDB, getLinks, getParticipants } from '../actions/fetchDB';
@@ -95,7 +95,7 @@ const Form = () => {
 
 
   const prizesParse = () => {
-    // debugger
+
     let prizesObj = [];
 
     try {
@@ -109,18 +109,18 @@ const Form = () => {
     return (
 
       <>
-        <span>Призовой фонд</span>
+        <div className="prizes__header">Призовой фонд</div>
+
         {prizesObj.map(titleArr => {
-          console.log(5, titleArr)
           if (titleArr[1].length === 0) return null
           if (titleArr[0] === 'formFields') return null
           return (
-            <div >
-              <p>{titleArr[0]}</p>
+            <div key={titleArr[1]}>
+              <p>{titleArr[0] === 'rest' ? '' : titleArr[0]}</p>
               <div>
                 {titleArr[1].map(prize => (
-                  <div className='prizes__block'>
-                    <div>
+                  <div className='prizes__block' key={prize.prize}>
+                    <div className='prizes__name'>
                       {prize.name}
                     </div>
                     <div>
@@ -151,6 +151,12 @@ const Form = () => {
       setLoading(false)
       return false
     }
+    else if (!!currentTournament.team && fio2.trim() === '') {
+      dispatch(openModal({ title: 'Ошибка!', modalMsg: 'Введите ФИО второго участника' }));
+      setLoading(false)
+      return false
+
+    }
   }
 
   const getPassword = () => {
@@ -174,25 +180,9 @@ const Form = () => {
         name_2: currentTournament.team ? fio2 : "",
         password: getPassword()
       }
-      const response = await deleteParticipantDB(participant);
-      if (response.success === true) {
-        await dispatch(getParticipants(currentTournament.id));
-        dispatch(openModal({
-          title: 'Успешно',
-          modalMsg: currentTournament.team ?
-            `Участники ${fio}, ${fio2} удалены успешно` :
-            `Участник ${fio} удален успешно`
-        }));
-      }
-      else {
-        const participant = {
-          tournamentId: currentTournament.id,
-          name: fio,
-          name_2: currentTournament.team ? fio2 : "",
-          password: authState.userInfo.id
-        }
-        const response = await deleteParticipantDB(participant)
-        if (response.success === true) {
+      try {
+        const response = await deleteParticipantDB(participant);
+        if (response.status === 200) {
           await dispatch(getParticipants(currentTournament.id));
           dispatch(openModal({
             title: 'Успешно',
@@ -201,16 +191,49 @@ const Form = () => {
               `Участник ${fio} удален успешно`
           }));
         }
-        else {
-          dispatch(openModal({ title: 'Ошибка!', modalMsg: `Ошибка удаления: ${response.data}` }));
-        }
-
       }
-      ;
-
-
-
-      console.log(response)
+      catch (e) {
+        const errorJSON = e.toJSON();
+        if (authState.isAuthorized) {
+          const participant = {
+            tournamentId: currentTournament.id,
+            name: fio,
+            name_2: currentTournament.team ? fio2 : "",
+            password: authState.userInfo.id
+          }
+          try {
+            const response = await deleteParticipantDB(participant)
+            if (response.status === 200) {
+              await dispatch(getParticipants(currentTournament.id));
+              dispatch(openModal({
+                title: 'Успешно',
+                modalMsg: currentTournament.team ?
+                  `Участники ${fio}, ${fio2} удалены успешно` :
+                  `Участник ${fio} удален успешно`
+              }));
+            }
+          }
+          catch (e) {
+            const errorJSON = e.toJSON();
+            if (errorJSON.status === 404) {
+              console.warn('Ошибка удаления:', errorJSON)
+              dispatch(openModal({ title: 'Ошибка!', modalMsg: `Ошибка удаления: участник не найден` }));
+            }
+            else {
+              console.warn('Ошибка удаления:', errorJSON)
+              dispatch(openModal({ title: 'Ошибка!', modalMsg: `Ошибка удаления:${errorJSON.message}` }));
+            }
+          }
+        }
+        if (errorJSON.status === 404) {
+          console.warn('Ошибка удаления:', errorJSON)
+          dispatch(openModal({ title: 'Ошибка!', modalMsg: `Ошибка удаления: участник не найден` }));
+        }
+        else {
+          console.warn('Ошибка удаления:', errorJSON)
+          dispatch(openModal({ title: 'Ошибка!', modalMsg: `Ошибка удаления:${errorJSON.message}` }));
+        }
+      }
     }
   }
 
@@ -231,23 +254,30 @@ const Form = () => {
       }
       console.log('newParticipant', newParticipant)
       addFioToStorage(fio)
-      const response = await addParticipant(newParticipant);
 
-      if (response.success === true) {
-        await dispatch(getParticipants(currentTournament.id));
-        dispatch(openModal({
-          title: 'Успешно',
-          modalMsg: currentTournament.team ?
-            `Участники ${fio}, ${fio2} добавлены успешно` :
-            `Участник ${fio} добавлен успешно`
-        }));
+      try {
+        const response = await addParticipant(newParticipant);
+
+        if (response.status === 200) {
+          await dispatch(getParticipants(currentTournament.id));
+          dispatch(openModal({
+            title: 'Успешно',
+            modalMsg: currentTournament.team ?
+              `Участники ${fio}, ${fio2} добавлены успешно` :
+              `Участник ${fio} добавлен успешно`
+          }));
+        }
       }
-      else {
-        dispatch(openModal({ title: 'Ошибка!', modalMsg: `Ошибка добавления: ${response.data}` }))
+      catch (e) {
+        const errorJSON = e.toJSON();
+        if (errorJSON.status === 406) {
+          dispatch(openModal({ title: 'Ошибка!', modalMsg: `Ошибка добавления: такой участник уже зарегистрирован` }))
+        }
+        else {
+          console.warn('Ошибка добавления', errorJSON)
+          dispatch(openModal({ title: 'Ошибка!', modalMsg: `Ошибка добавления:${errorJSON.message}` }))
+        }
       }
-
-
-      console.log('response', response)
 
       setLoading(false)
     }
@@ -304,7 +334,6 @@ const Form = () => {
       <a className="plus radius" href="#form"> </a>
       <ReactCardFlip isFlipped={calendarMode} flipDirection="horizontal">
         <div className="form_wrap">
-
           <form action="#" id="form" className="form" >
             <section className="form_header">
               <a
@@ -346,7 +375,6 @@ const Form = () => {
               <div className="placeholder-container">
                 <div onMouseDown={() => { removeStorageItem("fio"); removeStorageItem("tell") }} className="clearStorage">
                   <ClearStorageIcon className='clearStorage_icon' title='Очистить историю' />
-
                 </div>
                 {promptFio && <motion.div animate={{ height: 'auto' }} initial={{ height: 0 }} className="fioPrompt">
                   {authState.fio && <motion.div
@@ -462,25 +490,35 @@ const Form = () => {
               >
                 Удалиться с турнира
               </button>
+
             </div>
             <p id="tournamentRating">
-              <Tooltip placement="top"
-                overlay={
-                  <div className='prizes__tooltip'>
-                    {prizesParse()}
-                  </div>
-                }
-                trigger={['hover']}
-                mouseLeaveDelay={0}
-                align={alignConfig}
-                className='prizes__tooltip'
-              >
-                <PrizeIcon className='svg__prize' />
-              </Tooltip>
+              {storeData.tournamentPrizes === '{}' ?
+                <>
+                  <div className="svg__prize_empty"></div>
+                </>
+
+
+                : <Tooltip placement="top"
+                  overlay={
+                    <div className='prizes__tooltip'>
+                      {prizesParse()}
+                    </div>
+                  }
+                  trigger={['hover']}
+                  mouseLeaveDelay={0}
+                  align={alignConfig}
+                  className='prizes__tooltip'
+                >
+                  <PrizeIcon className='svg__prize' />
+                </Tooltip>}
 
 
 
-              <span>Рейтинг: </span>{storeData.tournamentRate > 0 ? storeData.tournamentRate : "Без ограничений"}
+              <div>
+                <span>Рейтинг: </span>{storeData.tournamentRate === '0' ? "Без ограничений" : storeData.tournamentRate}
+
+              </div>
               <CalendarIcon className='svg__calendar' onClick={flipForm} />
             </p>
 

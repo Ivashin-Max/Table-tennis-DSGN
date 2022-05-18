@@ -36,6 +36,7 @@ const Table = ({ adminMode }: any) => {
   }
 
 
+
   return (
     <div id="neTable" className='neTable'>
       <div className="neTable__header_head">
@@ -66,10 +67,9 @@ const Table = ({ adminMode }: any) => {
           title='Скопировать участников'
           onClick={() => {
             showCopy()
-
             navigator.clipboard.writeText(copyToClip(selector.tableFio))
           }}
-        // className= {classNameNone}
+
         >
           <img src={copyIcon} alt="Иконка файла" className='copy' />
 
