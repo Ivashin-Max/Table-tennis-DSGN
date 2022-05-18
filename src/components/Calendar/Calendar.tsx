@@ -8,6 +8,7 @@ import { getDivisionName } from '../../actions/divisions';
 import { ReactComponent as PersonIcon } from '../../styles/img/personWhite.svg';
 import { ReactComponent as StarIcon } from '../../styles/img/star-svgrepo-com.svg';
 import { ReactComponent as PrizeIcon } from '../../styles/img/gift-svgrepo-com.svg';
+import { ReactComponent as CalendarPrizeIcon } from '../../styles/img/filled-gift-svgrepo-com.svg';
 import { ReactComponent as GroupIcon } from '../../styles/img/group-svgrepo-com.svg';
 
 import Tooltip from 'rc-tooltip';
@@ -178,7 +179,7 @@ const MyCalendar = ({ flipCard }: any) => {
 
                         </div>
                         {neededEvent.tournamentInfo.prize === '{}' ? null :
-                          <div><PrizeIcon className='svg__calendarPrize svg__calendarPrize_colored' /></div>
+                          <div><CalendarPrizeIcon className='svg__calendarPrize svg__calendarPrize_colored' /></div>
                         }
 
 

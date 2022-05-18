@@ -830,6 +830,7 @@ main {
 }
 .svg__calendarPrize_colored {
   color: #2B476A;
+  fill: #2B476A;
 }
 .svg__calendar {
   cursor: pointer;
