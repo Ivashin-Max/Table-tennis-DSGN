@@ -18,7 +18,7 @@ export const addLocalStorageItem = (key: string, newValue: string) => {
   const existingValues = reactLocalStorage.get(key)
   if (existingValues) {
     if (existingValues.split(',').includes(newValue)) console.log(`В локалсторадж уже хранится ${newValue} по ключу ${key}`)
-    else reactLocalStorage.set('fio', `${existingValues},${newValue}`)
+    else reactLocalStorage.set(key, `${existingValues},${newValue}`)
   }
   else {
     reactLocalStorage.set(key, newValue)
