@@ -8,7 +8,7 @@ import person from '../styles/img/personBlue.svg'
 import logoTelegramm from '../styles/img/telegram-svgrepo-com.svg'
 // import { fetchTableData } from '../actions/fetchTableData';
 import { useDispatch } from 'react-redux';
-import { removeStorageItem, getPromptFio, getPromptTell, addFioToStorage } from '../actions/localStorage';
+import { removeStorageItem, addLocalStorageItem, getPromptFromLocalStorage } from '../actions/localStorage';
 import { ReactComponent as CalendarIcon } from '../styles/img/calendar-new.svg';
 import InputMask from 'react-input-mask';
 import Tooltip from 'rc-tooltip';
@@ -37,8 +37,6 @@ const alignConfig = {
 const Form = () => {
   const [loading, setLoading] = useState(false);
   const [promptFio, setpromptFio] = useState(false)
-  const [promptTell, setpromptTell] = useState(false);
-
   const [isLate, setIsLate] = useState(true);
 
 
@@ -253,7 +251,7 @@ const Form = () => {
         password: getPassword()
       }
       console.log('newParticipant', newParticipant)
-      addFioToStorage(fio)
+      addLocalStorageItem('fio', fio)
 
       try {
         const response = await addParticipant(newParticipant);
@@ -297,25 +295,11 @@ const Form = () => {
   const hidepromptFio = () => {
     setpromptFio(false)
   }
-  const showpromptTell = () => {
-    setpromptTell(true)
-  }
-  const hidepromptTell = () => {
-    setpromptTell(false)
-  }
 
   const autoCompleteFio = event => {
     setFio(event.target.textContent)
     hidepromptFio()
   }
-  const autoCompleteTell = event => {
-    setTell(event.target.textContent)
-    hidepromptTell()
-  }
-
-
-
-
 
 
   if (loading) {
@@ -387,7 +371,7 @@ const Form = () => {
                     {authState.fio}
                   </motion.div>}
                   {
-                    getPromptFio().map((name, index) => {
+                    getPromptFromLocalStorage('fio').map((name, index) => {
                       if (name === authState.fio) return null
                       else return (
                         <motion.div
@@ -438,19 +422,6 @@ const Form = () => {
 
               {!authState.isAuthorized &&
                 <div className="placeholder-container">
-
-                  {promptTell && <div className="fioPrompt">
-                    {
-                      getPromptTell().map((name) => (
-                        <div
-                          key={name}
-                          onMouseDown={autoCompleteTell}
-                        >
-                          {name}
-                        </div>
-                      ))
-                    }
-                  </div>}
                   <InputMask
                     mask="+7\(999)-999-99-99"
                     maskChar=""
@@ -458,8 +429,6 @@ const Form = () => {
                     autoComplete='off'
                     placeholder=' '
                     value={tell}
-                    onClick={showpromptTell}
-                    onBlur={hidepromptTell}
                     onChange={event => setTell(event.target.value)}
                   />
 
@@ -546,12 +515,7 @@ const Form = () => {
         </div >
 
         <MyCalendar flipCard={flipCalendar} />
-
-
       </ReactCardFlip>
-
-
-
     </>
   )
 }

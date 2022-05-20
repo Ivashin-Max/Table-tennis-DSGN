@@ -57,7 +57,7 @@ const TableFio = ({ currentTournament, participant, adminMode, zapas }: TableFio
           <div className="neTable__row_column">
             <div className="neTable__row_new">
               <div className="neTable__row_hidden">{participant.name}</div>
-              <div>
+              <div className="neTable__starDiv">
                 <StarIcon className='svg__star svg__star_red' />
                 <span>{participant.rating}</span>
               </div>

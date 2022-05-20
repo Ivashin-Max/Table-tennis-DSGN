@@ -30,10 +30,6 @@ const SubMenu = ({ divisionId, tournaments, onPress, adminMode }) => {
 
   }, [dispatch, divisionId, onPress])
 
-  // useEffect(() => {
-  //   console.log('tournaments', tournaments)
-  // }, [])
-
 
   return (
     <>{isShown &&
@@ -52,7 +48,6 @@ const SubMenu = ({ divisionId, tournaments, onPress, adminMode }) => {
                 <>
                   <GroupIcon className='svg__group' />  {tournament.count}
                 </>
-
                 :
                 <>
                   <PersonIcon className='person' />  {tournament.count}

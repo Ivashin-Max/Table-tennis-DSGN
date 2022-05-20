@@ -1,11 +1,11 @@
 import { setAuth } from "../store/reducer"
+import { localStorageUser } from "../types/localStorage"
 import { getDivisionsInfo } from "./fetchDB"
 
 import { profileInfo } from "./Profile/profileRequests"
 
-export const initApp = (user: any) => async (dispatch: any) => {
+export const initApp = (user: (localStorageUser | null)) => async (dispatch: any) => {
 
-  console.log('userRRR', user)
   await dispatch(getDivisionsInfo())
   if (user?.id) {
     await profileInfo(user.id)

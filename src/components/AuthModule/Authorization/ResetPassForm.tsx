@@ -1,6 +1,6 @@
 import { useForm } from 'react-hook-form'
-import { newPass, newProfile, sendEmailToResetPass } from '../../../actions/Profile/profileRequests'
-import { IAuthFormsProps, newPassValue, RegistrationFormValues, ResetPassFormProps, ResetPassValues } from '../../../types/forms'
+import { newPass, sendEmailToResetPass } from '../../../actions/Profile/profileRequests'
+import { newPassValue, ResetPassFormProps, ResetPassValues } from '../../../types/forms'
 import Form from '../../Styled/Form'
 import Input from '../../Styled/Input'
 import Title from '../../Styled/Title';
@@ -8,14 +8,11 @@ import * as yup from "yup";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { useDispatch } from 'react-redux'
 import { openModal } from '../../../store/reducer'
-import { FreeSolo } from '../../Test/Test';
 import { useState } from 'react'
 import { useLocation, useNavigate } from 'react-router-dom'
 
 const AuthSchema = yup.object().shape({
-  // name: yup
-  //   .string()
-  //   .required("Обязательное поле"),
+
 
   mail: yup
     .string()
@@ -63,7 +60,6 @@ const ResetPassForm = (props: ResetPassFormProps) => {
           }))
         }
         setLoading(false)
-        // props.closeFormModal();
       })
       .catch(e => {
         console.log(e)
@@ -93,7 +89,7 @@ const ResetPassForm = (props: ResetPassFormProps) => {
           navigate('/user')
         }
         setLoading(false)
-        // props.closeFormModal();
+
       })
       .catch(e => {
         console.log(e.toJSON())

@@ -1,4 +1,3 @@
-import { useSelector } from "react-redux"
 import { useTypedSelector } from "./useTypedSelector";
 
 export const useCurrentTournament = () => {

@@ -80,14 +80,6 @@ export const AuthForm = (props: IAuthFormsProps) => {
         }
         setUser(user);
         setRole(res.data.admin);
-        // console.log(`Admin? ${!!res.data.admin}`)
-        // if (!!res.data.admin) {
-        //   dispatch(setAdminRole())
-        //   sessionStorage.setItem('admin', '1');
-        //   navigate('/admin')
-        // }
-        // else sessionStorage.clear();
-
         return res.data.id
       })
       .then(id => profileInfo(id))
@@ -99,7 +91,6 @@ export const AuthForm = (props: IAuthFormsProps) => {
         }))
         setLoading(false)
         props.closeFormModal();
-
       }
 
       )

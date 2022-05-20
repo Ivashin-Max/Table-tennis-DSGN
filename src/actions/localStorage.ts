@@ -1,8 +1,6 @@
 import { reactLocalStorage } from 'reactjs-localstorage';
 import { localStorageUser } from '../types/localStorage';
 
-
-
 export const setUser = (user: localStorageUser) => {
   console.log(`Получил юзера, кладу в ЛокалСторадж`, user);
   return reactLocalStorage.setObject('user', user)
@@ -12,66 +10,22 @@ export const getUser = () => {
   return reactLocalStorage.getObject('user');
 }
 
-
-export const clearStorage = () => {
-  reactLocalStorage.clear();
-}
-
 export const removeStorageItem = (itemKey: string) => {
   reactLocalStorage.remove(itemKey)
 }
 
-
-
-export const addFioToStorage = (fio: string) => {
-  const isFio = reactLocalStorage.get('fio')
-  if (!isFio) {
-    reactLocalStorage.set('fio', fio)
+export const addLocalStorageItem = (key: string, newValue: string) => {
+  const existingValues = reactLocalStorage.get(key)
+  if (existingValues) {
+    if (existingValues.split(',').includes(newValue)) console.log(`В локалсторадж уже хранится ${newValue} по ключу ${key}`)
+    else reactLocalStorage.set('fio', `${existingValues},${newValue}`)
   }
   else {
-    if (isFio.split(',').includes(fio)) console.log('takoy yzhe est"')
-    else reactLocalStorage.set('fio', `${isFio},${fio}`)
+    reactLocalStorage.set(key, newValue)
   }
 }
 
-export const addTellToStorage = (tell: string) => {
-  const isTell = reactLocalStorage.get('tell')
-  if (!isTell) {
-    reactLocalStorage.set('tell', tell)
-  }
-  else {
-    if (isTell.split(',').includes(tell)) console.log('takoy yzhe est"')
-    else reactLocalStorage.set('tell', `${isTell},${tell}`)
-  }
-}
-
-export const getPromptFio = () => {
-
-  if (!reactLocalStorage.get('fio')) return []
-  else { return reactLocalStorage.get('fio').split(',') }
-}
-
-
-export const addLocationToStorage = (location: string) => {
-
-  const isLocation = reactLocalStorage.get('location')
-  if (!isLocation) {
-    reactLocalStorage.set('location', location)
-  }
-  else {
-    if (isLocation.split(',').includes(location)) console.log('takoy yzhe est"')
-    else reactLocalStorage.set('location', `${isLocation},${location}`)
-  }
-}
-
-export const getPromptLocation = (): (string[] | []) => {
-
-  if (!reactLocalStorage.get('location')) return []
-  else { return reactLocalStorage.get('location').split(',') }
-}
-
-export const getPromptTell = () => {
-
-  if (!reactLocalStorage.get('tell')) return []
-  else { return reactLocalStorage.get('tell').split(',') }
+export const getPromptFromLocalStorage = (key: string): ([] | string[]) => {
+  if (!reactLocalStorage.get(key)) return []
+  else return reactLocalStorage.get(key).split(',')
 }

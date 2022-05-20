@@ -21,8 +21,9 @@ import AdminLinksWrapper from "./LinksForm/AdminLinksWrapper";
 import { motion } from 'framer-motion/dist/framer-motion';
 import { ReactComponent as ClearStorageIcon } from '../../styles/img/x-svgrepo-com.svg';
 import { promptAnimate } from "../../styles/animations/formAnimations";
-import { addLocationToStorage, getPromptLocation, removeStorageItem } from "../../actions/localStorage";
-import { DynamicPrizes } from '../Test/DynamicPrizes'
+import { addLocalStorageItem, getPromptFromLocalStorage, removeStorageItem } from "../../actions/localStorage";
+import { DynamicPrizes } from './DynamicPrizes'
+
 // validation
 const AddTournamentSchema = yup.object().shape({
   cost: yup
@@ -145,7 +146,8 @@ export const AdminForm = () => {
 
     console.log(data)
 
-    addLocationToStorage(data.location)
+
+    addLocalStorageItem('location', data.location)
     if (currentTournament) {
       data.tournament_id = currentTournament.id
 
@@ -266,7 +268,7 @@ export const AdminForm = () => {
             </div>
             {promptLocation && <motion.div animate={{ height: 'auto' }} initial={{ height: 0 }} className="fioPrompt fioPrompt__location">
               {
-                getPromptLocation().map((location, index) => {
+                getPromptFromLocalStorage('location').map((location, index) => {
                   return (
                     <motion.div
                       initial='hidden'

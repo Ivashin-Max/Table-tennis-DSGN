@@ -1,21 +1,15 @@
-import React, { ReactEventHandler, useEffect, useRef, useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { useTypedSelector } from '../../hooks/useTypedSelector';
-import star from '../../styles/img/star-svgrepo-com.svg';
-import { motion, animate, AnimatePresence } from 'framer-motion/dist/framer-motion';
+import { motion, AnimatePresence } from 'framer-motion/dist/framer-motion';
 import { useExactTournaments } from '../../hooks/useAllTournaments';
 import { getTournamentDate, getTournamentDay, getTournamentTime } from '../../actions/date';
 import { ReactComponent as PersonIcon } from '../../styles/img/personWhite.svg';
 import { ReactComponent as CalendarIcon } from '../../styles/img/calendar-svgrepo-com (1).svg';
 import { ReactComponent as SettingsIcon } from '../../styles/img/fast-forward-svgrepo-com.svg'
 import { ReactComponent as StarIcon } from '../../styles/img/star-svgrepo-com.svg';
-import { ReactComponent as XIcon } from '../../styles/img/x-svgrepo-com.svg';
 import { useDispatch } from 'react-redux';
 import { getParticipants } from '../../actions/fetchDB';
-import { setLoading, setTable } from '../../store/reducer';
-import { patchProfile } from '../../actions/Profile/profileRequests';
-import EditableTitle from '../Styled/EditableTitle';
-import ForwardedInput from '../Styled/EditableTitle';
-import Button from '../Styled/Button';
+import { setTable } from '../../store/reducer';
 import EditableInput from './ProfileCardEditableInput';
 import { getDivisionName } from '../../actions/divisions';
 

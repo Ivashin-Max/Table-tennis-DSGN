@@ -2,8 +2,8 @@
 import url from "../static/url.json"
 import axios from 'axios';
 import { openModal, setDivisions, setEmptyData, setLoading } from '../store/reducer.js';
-import { setData, setDateFlag } from '../store/reducer.js';
-import { ILink, IParticipantAdd, IParticipantGet, ITournamentAdd } from '../types/fetch';
+import { setData } from '../store/reducer.js';
+import { ILink, IParticipantAdd, IParticipantGet } from '../types/fetch';
 
 
 

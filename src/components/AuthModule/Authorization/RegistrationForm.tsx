@@ -8,16 +8,11 @@ import * as yup from "yup";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { useDispatch } from 'react-redux'
 import { openModal } from '../../../store/reducer'
-import { FreeSolo } from '../../Test/Test';
+import { AutocompleteFio } from './AutocompleteFio';
 import { useState } from 'react'
 
 const AuthSchema = yup.object().shape({
-  // name: yup
-  //   .string()
-  //   .required("Обязательное поле"),
-  // username: yup
-  //   .string()
-  //   .required("Обязательное поле"),
+
   username: yup
     .string()
     .email('Неправильный формат почты ')
@@ -39,8 +34,6 @@ const RegistrationForm = (props: IAuthFormsProps) => {
   } = useForm({ resolver: yupResolver(AuthSchema) });
 
 
-  // const validateEmailRegExp = new RegExp(/^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/)
-
 
   const onSubmit = (profile: RegistrationFormValues) => {
 
@@ -60,12 +53,14 @@ const RegistrationForm = (props: IAuthFormsProps) => {
 
       })
       .catch(e => {
-        console.log(e)
+        const JSONerror = e.toJSON()
+        console.warn(`Ошибка регистрации:`, JSONerror)
         setLoading(false)
-        dispatch(openModal({
-          title: 'Ошибка!',
-          modalMsg: e.message
-        }))
+        if (JSONerror.status === 409)
+          dispatch(openModal({
+            title: 'Ошибка!',
+            modalMsg: 'Профиль уже существует'
+          }))
       })
 
   }
@@ -81,13 +76,8 @@ const RegistrationForm = (props: IAuthFormsProps) => {
         onSubmit={onSubmit}
         className="Войти"
       >
-        <FreeSolo name="name" />
-        {/* <Input
-          name="name"
-          placeholder="Фио*"
-          error={errors.name?.message}
-          autoFocus
-        /> */}
+        <AutocompleteFio name="name" />
+
         <Input
           name="username"
           placeholder="E-mail*"

@@ -1,4 +1,4 @@
-import React from 'react';
+import { useState, useEffect } from 'react';
 import './styles/App1.css';
 import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 import { useDispatch } from 'react-redux';
@@ -16,9 +16,9 @@ import ResetPass from './components/AuthModule/ResetPass';
 function App() {
 
   const dispatch = useDispatch();
-  const [loading, setLoading] = React.useState(true);
+  const [loading, setLoading] = useState(true);
 
-  React.useEffect(() => {
+  useEffect(() => {
     (async () => {
       const user = getUser();
       setLoading(true);
@@ -27,9 +27,6 @@ function App() {
     })()
   }, [dispatch])
 
-  //TODO:
-  //Сначала инитим апп, потом отрисовываемся, может даже лоадер?
-  //useState для хранения була лоадинг
 
   if (loading) {
     return (
@@ -38,7 +35,6 @@ function App() {
       </div>
     )
   }
-
 
 
   return (
@@ -51,11 +47,7 @@ function App() {
           <Route path="/user" element={<UserWrapper />} />
           <Route path="/admin" element={<AdminWrapper />} />
           <Route path="/editor" element={<EditorWrapper />} />
-
-
-
           <Route path="/reset" element={<ResetPass />} />
-
 
           <Route path='*' element={<Navigate to="/" replace />} />
         </Routes>

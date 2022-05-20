@@ -591,6 +591,9 @@ main {
   transition: 1s ease-in-out;
   z-index: 100;
 }
+.neTable__starDiv {
+  margin-left: 5px;
+}
 .neTable__star {
   width: 15px;
   margin: 0 3px;

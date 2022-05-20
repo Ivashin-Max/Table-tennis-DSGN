@@ -38,7 +38,6 @@ export default function MessageModal() {
         onClose={handleClose}
       >
         <DialogContent>
-
           <SModal>
             <STitle>{title}</STitle>
             <div>
