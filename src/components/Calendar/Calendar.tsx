@@ -16,6 +16,7 @@ import { useDispatch } from 'react-redux';
 import { setTable } from '../../store/reducer';
 import { getParticipants } from '../../actions/fetchDB';
 import classNames from 'classnames';
+import { useSearchParams } from 'react-router-dom';
 
 
 
@@ -32,6 +33,7 @@ const alignConfig = {
 const MyCalendar = ({ flipCard }: any) => {
   const allDivisions = useTypedSelector(state => state.divisions).divisions;
   const myTournamentsId = useTypedSelector<number[]>(state => state.auth.tournamentsId);
+  let [searchParams, setSearchParams] = useSearchParams();
   const dispatch = useDispatch();
   const [events, setEvents] = useState<CalendarEvent[]>([])
   const [tournaments, setTournaments] = useState<any[]>([])
@@ -53,6 +55,7 @@ const MyCalendar = ({ flipCard }: any) => {
       neededDivisionId: tournament.division,
       neededTournamentId: tournament.id
     }))
+    setSearchParams({ tournament: tournament.id, division: tournament.division })
     await dispatch(getParticipants(tournament.id));
     flipCard();
     // console.log('storeTable', storeTable)

@@ -11,7 +11,7 @@ import { ILink, IParticipantAdd, IParticipantGet } from '../types/fetch';
 export const getDivisionsInfo = () => (dispatch: any) => {
   const apiUrl = url.back + url.endpoints.divisions;
 
-  axios.get(apiUrl)
+  return axios.get(apiUrl)
     .then(({ data }) => {
       console.log('Axios', data);
       dispatch(setDivisions({ divisions: data }))
@@ -30,36 +30,48 @@ export const getParticipants = (tournamentId: number) => async (dispatch: any, g
   else {
     dispatch(setLoading({ isLoading: true }))
     const currentTable = getState().table;
+    try {
 
-    const neededDivision = getState().divisions.divisions.find((el: any) => el.id === currentTable.neededDivisionId);
-    const neededTournament = neededDivision.tournaments.find((el: any) => el.id === tournamentId);
-    // console.log('neededTournament', neededTournament)
-    const apiUrl = url.back + url.endpoints.getParticipants + tournamentId
-    await axios.get<IParticipantGet[]>(apiUrl)
-      .then(({ data }) => {
+      const neededDivision = getState().divisions.divisions.find((el: any) => el.id === currentTable.neededDivisionId);
+      const neededTournament = neededDivision.tournaments.find((el: any) => el.id === tournamentId);
+      // console.log('neededTournament', neededTournament)
+      const apiUrl = url.back + url.endpoints.getParticipants + tournamentId;
+      axios.get<IParticipantGet[]>(apiUrl)
+        .then(({ data }) => {
+          const date = new Date(neededTournament.date_time);
+          const tableFio = data.filter((participant) => !participant.reserve)
+          const tableZapas = data.filter((participant) => participant.reserve)
+          const tableDate = date.toLocaleDateString("ru-RU", { day: '2-digit', month: "2-digit" })
+          const tableTime = date.toLocaleDateString("ru-RU", { hour: "2-digit", minute: "2-digit" }).split(',')[1]
 
-        const date = new Date(neededTournament.date_time);
-        const tableFio = data.filter((participant) => !participant.reserve)
-        const tableZapas = data.filter((participant) => participant.reserve)
-        const tableDate = date.toLocaleDateString("ru-RU", { day: '2-digit', month: "2-digit" })
-        const tableTime = date.toLocaleDateString("ru-RU", { hour: "2-digit", minute: "2-digit" }).split(',')[1]
+          dispatch(setData({
+            tournamentPlace: neededTournament.location,
+            tournamentTell: neededTournament.phone,
+            tournamentRate: neededTournament.rating_range,
+            tournamentPrice: neededTournament.cost,
+            tournamentOrgFio: neededTournament.organizer,
+            tournamentPrizes: neededTournament.prize,
+            tableDivisionName: neededTournament.tournament_name,
+            tableDate: tableDate,
+            tableTime: tableTime,
+            tableTotal: neededTournament.reserve,
+            tableFio: tableFio,
+            tableZapas: tableZapas,
+            team: neededTournament.team
+          }))
+        })
+        .catch(e => {
+          console.log('Error:', e)
 
-        dispatch(setData({
-          tournamentPlace: neededTournament.location,
-          tournamentTell: neededTournament.phone,
-          tournamentRate: neededTournament.rating_range,
-          tournamentPrice: neededTournament.cost,
-          tournamentOrgFio: neededTournament.organizer,
-          tournamentPrizes: neededTournament.prize,
-          tableDivisionName: neededTournament.tournament_name,
-          tableDate: tableDate,
-          tableTime: tableTime,
-          tableTotal: neededTournament.reserve,
-          tableFio: tableFio,
-          tableZapas: tableZapas,
-          team: neededTournament.team
-        }))
-      });
+        })
+
+    }
+    catch (e) {
+      console.log(111111111111111, e)
+      dispatch(openModal({ title: 'Ошибка!', modalMsg: `Ошибка загрузки турнира по ссылке, выберите вручную` }));
+    }
+
+
     dispatch(setLoading({ isLoading: false }))
   }
 

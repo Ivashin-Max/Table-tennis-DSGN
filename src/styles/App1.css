@@ -663,7 +663,7 @@ main {
   justify-content: space-between;
 }
 .neTable__row_hidden {
-  width: 250px;
+  width: 240px;
   overflow: hidden;
   text-align: left;
 }

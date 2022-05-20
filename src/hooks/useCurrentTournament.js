@@ -4,10 +4,13 @@ export const useCurrentTournament = () => {
   let currentTournament = null;
   const currentTable = useTypedSelector(state => state.table);
 
-  const divisions = useTypedSelector(state => state.divisions).divisions
-  if (currentTable.neededDivisionId) {
-    const neededDivision = divisions.find(el => el.id === currentTable.neededDivisionId)
-    currentTournament = neededDivision.tournaments.find(el => el.id === currentTable.neededTournamentId);
+  const divisions = useTypedSelector(state => state.divisions)?.divisions
+  if (divisions) {
+    if (currentTable.neededDivisionId) {
+      // console.log('TEST', divisions)
+      const neededDivision = divisions.find(el => el.id === currentTable.neededDivisionId)
+      currentTournament = neededDivision?.tournaments.find(el => el.id === currentTable.neededTournamentId);
+    }
   }
   return currentTournament;
 }

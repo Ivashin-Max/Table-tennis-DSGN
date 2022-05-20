@@ -7,35 +7,22 @@ import ModalAuth from './AuthModule/Modal/Modal';
 
 
 const MyHeader = ({ adminMode }) => {
-  const [isShown, setIsShown] = React.useState(false);
+
   let navigate = useNavigate();
   const isAdmin = !!sessionStorage.getItem('admin');
   const state = useSelector(state => state.divisions).divisions;
 
-  const hideModal = () => setIsShown(false);
 
 
 
   let className = classNames({
     "header__navbar_menu": true,
-    "green": isShown
+
   });
 
   return (
     <>
       <div className="header">
-        {isShown &&
-
-          <><div className="modal"></div>
-            <div id="scroll-down">
-              <span className="arrow-down">
-              </span>
-              <span id="scroll-title">
-                Выбери дивизион
-              </span>
-            </div>
-          </>
-        }
         <div className="header__left">
           <div className="header__left_round" onClick={() => navigate('/user')} ></div>
 
@@ -61,7 +48,6 @@ const MyHeader = ({ adminMode }) => {
                 <SubMenu
                   divisionId={division.id}
                   tournaments={division.tournaments}
-                  onPress={hideModal}
                   adminMode={adminMode}
                 />
               </li >

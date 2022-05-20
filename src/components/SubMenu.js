@@ -6,17 +6,19 @@ import { ReactComponent as CalendarIcon } from '../styles/img/calendar-svgrepo-c
 import { getTournamentDay, getTournamentDate } from '../actions/date';
 import { getParticipants } from '../actions/fetchDB';
 import { ReactComponent as GroupIcon } from '../styles/img/group-svgrepo-com.svg';
+import { useLocation, useSearchParams } from 'react-router-dom';
 
 //Подменю хедера, которые мы создаём при ините
 const SubMenu = ({ divisionId, tournaments, onPress, adminMode }) => {
-  const [isShown, setIsShown] = React.useState(false);
+
   const dispatch = useDispatch();
+  const location = useLocation();
+  let [searchParams, setSearchParams] = useSearchParams();
 
   // const newTournamentButton = 0;
 
   const onClick = React.useCallback((id) => async () => {
 
-    setIsShown(true);
 
     await dispatch(setTable({
       neededDivisionId: divisionId,
@@ -24,16 +26,16 @@ const SubMenu = ({ divisionId, tournaments, onPress, adminMode }) => {
     }))
     await dispatch(getParticipants(id));
 
-    onPress();
-    setIsShown(false);
+    setSearchParams({ tournament: id, division: divisionId })
+
     dispatch(setCalendarMode({ calendarMode: false }))
 
-  }, [dispatch, divisionId, onPress])
+  }, [dispatch, divisionId])
 
 
   return (
-    <>{isShown &&
-      <div className="modal"></div>}
+    <>
+
       <ul className="header__navbar_menu_sub">
 
         {tournaments.map((tournament) => (

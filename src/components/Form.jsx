@@ -95,23 +95,29 @@ const Form = () => {
   const prizesParse = () => {
 
     let prizesObj = [];
-
+    let counter = 0;
     try {
-      prizesObj = Object.entries(JSON.parse(storeData.tournamentPrizes))
+      prizesObj = (Object.entries(JSON.parse(storeData.tournamentPrizes))).filter((el) => el[0] !== 'formFields')
     }
     catch (e) {
       console.log('prizes Error', e)
     }
 
 
+    for (let i = 0; i < prizesObj.length; i++) {
+      const element = prizesObj[i];
+      if (element[1].length > 0) counter++;
+    }
+    if (counter === 0) return false
     return (
 
       <>
         <div className="prizes__header">Призовой фонд</div>
 
         {prizesObj.map(titleArr => {
+
+
           if (titleArr[1].length === 0) return null
-          if (titleArr[0] === 'formFields') return null
           return (
             <div key={titleArr[1]}>
               <p>{titleArr[0] === 'rest' ? '' : titleArr[0]}</p>
@@ -462,7 +468,7 @@ const Form = () => {
 
             </div>
             <p id="tournamentRating">
-              {storeData.tournamentPrizes === '{}' ?
+              {storeData.tournamentPrizes === '{}' || !prizesParse() ?
                 <>
                   <div className="svg__prize_empty"></div>
                 </>
