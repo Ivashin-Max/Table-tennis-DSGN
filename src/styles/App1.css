@@ -593,6 +593,7 @@ main {
 }
 .neTable__starDiv {
   margin-left: 5px;
+  margin-right: 5px;
 }
 .neTable__star {
   width: 15px;
@@ -630,20 +631,22 @@ main {
 }
 .neTable__main {
   padding: 0 0 0 18px;
-  min-height: 575px;
-  max-height: 575px;
+  min-height: 585px;
+  max-height: 585px;
   overflow-y: scroll;
   overflow-x: hidden;
 }
 .neTable__main::-webkit-scrollbar {
-  width: 10px;
+  width: 5px;
 }
 .neTable__main::-webkit-scrollbar-thumb {
   border-radius: 5px;
   background-color: #39aea8;
+  margin-left: 10px;
 }
 .neTable__main::-webkit-scrollbar-track {
   border-radius: 10px;
+  margin-left: 10px;
 }
 .neTable__row {
   box-sizing: content-box;

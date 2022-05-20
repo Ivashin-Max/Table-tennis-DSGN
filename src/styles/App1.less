@@ -750,6 +750,7 @@ main {
 
   &__starDiv {
     margin-left: 5px;
+    margin-right: 5px;
   }
 
   &__star {
@@ -800,21 +801,23 @@ main {
 
   &__main {
     padding: 0 0 0 18px;
-    min-height: 575px;
-    max-height: 575px;
+    min-height: 585px;
+    max-height: 585px;
     overflow-y: scroll;
     overflow-x: hidden;
 
     &::-webkit-scrollbar {
-      width: 10px;
+      width: 5px;
 
       &-thumb {
         border-radius: 5px;
         background-color: @color_green;
+        margin-left: 10px;
       }
 
       &-track {
         border-radius: 10px;
+        margin-left: 10px;
       }
     }
 
