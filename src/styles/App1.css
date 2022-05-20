@@ -594,6 +594,11 @@ main {
 .neTable__starDiv {
   margin-left: 5px;
   margin-right: 5px;
+  cursor: default;
+  font-size: 14px;
+  font-weight: 500;
+  display: flex;
+  align-items: center;
 }
 .neTable__star {
   width: 15px;
@@ -630,7 +635,7 @@ main {
   justify-content: space-between;
 }
 .neTable__main {
-  padding: 0 0 0 18px;
+  padding: 0 0 0 10px;
   min-height: 585px;
   max-height: 585px;
   overflow-y: scroll;
@@ -666,9 +671,12 @@ main {
   justify-content: space-between;
 }
 .neTable__row_hidden {
-  width: 240px;
+  width: 253px;
   overflow: hidden;
   text-align: left;
+  cursor: default;
+  font-size: 14px;
+  font-weight: 500;
 }
 .neTable__row_column {
   display: flex;
@@ -794,8 +802,8 @@ main {
   color: #dab600;
 }
 .svg__star {
-  width: 15px;
-  height: 15px;
+  width: 12px;
+  height: 12px;
   margin-right: 5px;
 }
 .svg__star_red {

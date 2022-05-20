@@ -6,7 +6,7 @@ import { ReactComponent as StarIcon } from '../styles/img/star-svgrepo-com.svg';
 import { ReactComponent as XIcon } from '../styles/img/x-svgrepo-com.svg';
 
 const alignConfig = {
-  offset: [-210, 5],            // the offset sourceNode by 10px in x and 20px in y,
+  offset: [-230, 5],            // the offset sourceNode by 10px in x and 20px in y,
   targetOffset: [80, 13], // the offset targetNode by 30% of targetNode width in x and 40% of targetNode height in y,
   overflow: { adjustX: true, adjustY: true }, // auto adjust position when sourceNode is overflowed
 };

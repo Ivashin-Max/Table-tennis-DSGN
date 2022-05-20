@@ -1,7 +1,7 @@
 
 import url from "../static/url.json"
 import axios from 'axios';
-import { openModal, setDivisions, setEmptyData, setLoading } from '../store/reducer.js';
+import { openModal, setCalendarMode, setDivisions, setEmptyData, setLoading } from '../store/reducer.js';
 import { setData } from '../store/reducer.js';
 import { ILink, IParticipantAdd, IParticipantGet } from '../types/fetch';
 
@@ -33,7 +33,9 @@ export const getParticipants = (tournamentId: number) => async (dispatch: any, g
     try {
 
       const neededDivision = getState().divisions.divisions.find((el: any) => el.id === currentTable.neededDivisionId);
+
       const neededTournament = neededDivision.tournaments.find((el: any) => el.id === tournamentId);
+      if (!neededDivision || !neededTournament) throw new Error('error')
       // console.log('neededTournament', neededTournament)
       const apiUrl = url.back + url.endpoints.getParticipants + tournamentId;
       axios.get<IParticipantGet[]>(apiUrl)
@@ -67,8 +69,10 @@ export const getParticipants = (tournamentId: number) => async (dispatch: any, g
 
     }
     catch (e) {
-      console.log(111111111111111, e)
+
+
       dispatch(openModal({ title: 'Ошибка!', modalMsg: `Ошибка загрузки турнира по ссылке, выберите вручную` }));
+
     }
 
 
