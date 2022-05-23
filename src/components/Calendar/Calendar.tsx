@@ -65,6 +65,9 @@ const MyCalendar = ({ flipCard }: any) => {
 
 
 
+
+
+
   const tournamentsToEvents = (tournaments: any[]) => {
     const eventsFromTournaments = tournaments.map(tournamet => {
       // console.log('tournamet', tournamet)
@@ -103,7 +106,61 @@ const MyCalendar = ({ flipCard }: any) => {
 
   }, [tournaments])
 
-
+  const EventsRow = (neededEvent: CalendarEvent, index: number) => {
+    return (
+      <Tooltip placement="right" key={index}
+        overlay={
+          <>
+            <div>
+              <div className="calender__tooltipRow">
+                Дивизион: {getDivisionName(neededEvent.tournamentInfo.division, allDivisions)}
+              </div>
+              <div className="calender__tooltipRow">
+                Цена: {neededEvent.tournamentInfo.cost}
+              </div>
+              <div className="calender__tooltipRow">
+                Локейшн: {neededEvent.tournamentInfo.location}
+              </div>
+              <div className="calender__tooltipRow">
+                Рейтинг: {neededEvent.tournamentInfo.rating_range}
+              </div>
+              <div className="calender__tooltipRow">
+                Название: {neededEvent.tournamentInfo.tournament_name}
+              </div>
+              <div className="calender__tooltipRow">
+                Дата:  {getTournamentDate(neededEvent.tournamentInfo.date_time)}
+              </div>
+              <div className="calender__tooltipRow">
+                Время: {getTournamentTime(neededEvent.tournamentInfo.date_time)}
+              </div>
+            </div>
+          </>
+        }
+        trigger={['hover']} mouseLeaveDelay={0} align={alignConfig}
+      >
+        <div className={classNameEvent} onClick={clickHandler(neededEvent.tournamentInfo)}>
+          {neededEvent.tournamentInfo.team ?
+            <div>{getTournamentTime(neededEvent.tournamentInfo.date_time)}
+              <GroupIcon className='person' />
+              {neededEvent.tournamentInfo.count}</div>
+            :
+            <div>{getTournamentTime(neededEvent.tournamentInfo.date_time)}
+              <PersonIcon className='person' />{neededEvent.tournamentInfo.count}</div>
+          }
+          <div className='calendar__starRow'><StarIcon className='svg__star_table svg__star' />
+            {
+              neededEvent.tournamentInfo.rating_range === '0' ?
+                <span className='infinite'>∞</span> :
+                neededEvent.tournamentInfo.rating_range
+            }
+          </div>
+          {neededEvent.tournamentInfo.prize === '{}' ? null :
+            <div><CalendarPrizeIcon className='svg__calendarPrize svg__calendarPrize_colored' /></div>
+          }
+        </div>
+      </Tooltip>
+    )
+  }
 
 
   return (
@@ -120,172 +177,24 @@ const MyCalendar = ({ flipCard }: any) => {
             </div>
             <div className="calendar__row">
               <div className="calendar__headerCell">
-
                 {events.filter(event => (event.tourDateString === day.compareDate) && (event.date.getHours() <= 12))
                   .map((neededEvent, index) => (
-                    <Tooltip placement="right" key={index}
-                      overlay={
-                        <>
-                          <div>
-                            <div className="calender__tooltipRow">
-                              Дивизион: {getDivisionName(neededEvent.tournamentInfo.division, allDivisions)}
-                            </div>
-                            <div className="calender__tooltipRow">
-                              Цена: {neededEvent.tournamentInfo.cost}
-                            </div>
-                            <div className="calender__tooltipRow">
-                              Локейшн: {neededEvent.tournamentInfo.location}
-                            </div>
-                            <div className="calender__tooltipRow">
-                              Рейтинг: {neededEvent.tournamentInfo.rating_range}
-                            </div>
-                            <div className="calender__tooltipRow">
-                              Название: {neededEvent.tournamentInfo.tournament_name}
-                            </div>
-                            <div className="calender__tooltipRow">
-                              Дата:  {getTournamentDate(neededEvent.tournamentInfo.date_time)}
-                            </div>
-                            <div className="calender__tooltipRow">
-                              Время: {getTournamentTime(neededEvent.tournamentInfo.date_time)}
-                            </div>
-
-
-
-
-                          </div>
-                        </>
-                      }
-                      trigger={['hover']} mouseLeaveDelay={0} align={alignConfig}
-                    >
-                      <div className={classNameEvent} onClick={clickHandler(neededEvent.tournamentInfo)}>
-
-
-                        {neededEvent.tournamentInfo.team ?
-
-                          <div>{getTournamentTime(neededEvent.tournamentInfo.date_time)}
-                            <GroupIcon className='person' />
-                            {neededEvent.tournamentInfo.count}</div>
-                          :
-
-                          <div>{getTournamentTime(neededEvent.tournamentInfo.date_time)}
-                            <PersonIcon className='person' />{neededEvent.tournamentInfo.count}</div>
-                        }
-
-                        <div className='calendar__starRow'><StarIcon className='svg__star_table svg__star' />
-                          {
-                            neededEvent.tournamentInfo.rating_range === '0' ?
-                              <span className='infinite'>∞</span> :
-                              neededEvent.tournamentInfo.rating_range
-                          }
-
-
-
-                        </div>
-                        {neededEvent.tournamentInfo.prize === '{}' ? null :
-                          <div><CalendarPrizeIcon className='svg__calendarPrize svg__calendarPrize_colored' /></div>
-                        }
-
-
-                      </div>
-                    </Tooltip>
+                    EventsRow(neededEvent, index)
                   ))}
               </div>
             </div>
             <div className="calendar__row">
               <div className="calendar__headerCell">
-                {events.filter(event => (event.tourDateString === day.compareDate) && (event.date.getHours() <= 17 && event.date.getHours() > 12)).map(neededEvent => (
-
-                  <Tooltip placement="right"
-                    overlay={
-                      <>
-                        <div>
-                          <div className="calender__tooltipRow">
-                            Дивизион: {getDivisionName(neededEvent.tournamentInfo.division, allDivisions)}
-                          </div>
-                          <div className="calender__tooltipRow">
-                            Цена: {neededEvent.tournamentInfo.cost}
-                          </div>
-                          <div className="calender__tooltipRow">
-                            Локейшн: {neededEvent.tournamentInfo.location}
-                          </div>
-                          <div className="calender__tooltipRow">
-                            Рейтинг: {neededEvent.tournamentInfo.rating_range}
-                          </div>
-                          <div className="calender__tooltipRow">
-                            Название: {neededEvent.tournamentInfo.tournament_name}
-                          </div>
-                          <div className="calender__tooltipRow">
-                            Дата:  {getTournamentDate(neededEvent.tournamentInfo.date_time)}
-                          </div>
-                          <div className="calender__tooltipRow">
-                            Время: {getTournamentTime(neededEvent.tournamentInfo.date_time)}
-                          </div>
-
-
-
-                        </div>
-                      </>
-                    }
-                    trigger={['hover']} mouseLeaveDelay={0} align={alignConfig}
-                  >
-                    <div className={classNameEvent} onClick={clickHandler(neededEvent.tournamentInfo)}>
-
-                      <div>{getTournamentTime(neededEvent.tournamentInfo.date_time)}
-                        <PersonIcon className='person' />                      {neededEvent.tournamentInfo.count}</div>
-                      <div><StarIcon className='svg__star_table svg__star' />{neededEvent.tournamentInfo.rating_range}</div>
-
-
-                    </div>
-                  </Tooltip>
+                {events.filter(event => (event.tourDateString === day.compareDate) && (event.date.getHours() <= 17 && event.date.getHours() > 12)).map((neededEvent, index) => (
+                  EventsRow(neededEvent, index)
                 ))}
 
               </div>
             </div>
             <div className="calendar__row">
               <div className="calendar__headerCell">
-
-                {events.filter(event => (event.tourDateString === day.compareDate) && (event.date.getHours() > 17)).map(neededEvent => (
-                  <Tooltip placement="right"
-                    overlay={
-                      <>
-                        <div>
-                          <div className="calender__tooltipRow">
-                            Дивизион: {getDivisionName(neededEvent.tournamentInfo.division, allDivisions)}
-                          </div>
-                          <div className="calender__tooltipRow">
-                            Цена: {neededEvent.tournamentInfo.cost}
-                          </div>
-                          <div className="calender__tooltipRow">
-                            Локейшн: {neededEvent.tournamentInfo.location}
-                          </div>
-                          <div className="calender__tooltipRow">
-                            Рейтинг: {neededEvent.tournamentInfo.rating_range}
-                          </div>
-                          <div className="calender__tooltipRow">
-                            Название: {neededEvent.tournamentInfo.tournament_name}
-                          </div>
-                          <div className="calender__tooltipRow">
-                            Дата:  {getTournamentDate(neededEvent.tournamentInfo.date_time)}
-                          </div>
-                          <div className="calender__tooltipRow">
-                            Время: {getTournamentTime(neededEvent.tournamentInfo.date_time)}
-                          </div>
-
-
-
-                        </div>
-                      </>
-                    }
-                    trigger={['hover']} mouseLeaveDelay={0} align={alignConfig}
-                  >
-                    <div className={classNameEvent} onClick={clickHandler(neededEvent.tournamentInfo)}>
-
-                      <div>{getTournamentTime(neededEvent.tournamentInfo.date_time)}
-                        <PersonIcon className='person' />                      {neededEvent.tournamentInfo.count}</div>
-                      <div><StarIcon className='svg__star_table svg__star' />{neededEvent.tournamentInfo.rating_range}</div>
-                    </div>
-                  </Tooltip>
-                ))}
+                {events.filter(event => (event.tourDateString === day.compareDate) && (event.date.getHours() > 17)).map((neededEvent, index) => EventsRow(neededEvent, index)
+                )}
               </div>
             </div>
 

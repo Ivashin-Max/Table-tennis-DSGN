@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useRef, useState } from 'react'
 import { useSelector } from 'react-redux';
 import logoPingPong from '../styles/img/ping-pong.svg'
 
@@ -38,6 +38,7 @@ const Form = () => {
   const [loading, setLoading] = useState(false);
   const [promptFio, setpromptFio] = useState(false)
   const [isLate, setIsLate] = useState(true);
+  const fioInput = useRef();
 
 
   const authState = useTypedSelector(state => state.auth)
@@ -101,6 +102,7 @@ const Form = () => {
     }
     catch (e) {
       console.log('prizes Error', e)
+      flipCalendar()
     }
 
 
@@ -400,6 +402,7 @@ const Form = () => {
                   placeholder=' '
                   id="newParticipantName"
                   autoComplete='off'
+                  ref={fioInput}
                   value={fio}
                   onChange={event => setFio(event.target.value)}
                   onClick={showpromptFio}

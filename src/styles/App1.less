@@ -36,12 +36,14 @@ html,
 body {
   height: 100%;
   width: 100%;
-  font-size: 100%;
   line-height: 1;
-  font-size: 14px;
   -ms-text-size-adjust: 100%;
   -moz-text-size-adjust: 100%;
   -webkit-text-size-adjust: 100%;
+}
+
+html {
+  font-size: 14px;
 }
 
 input,
@@ -168,9 +170,8 @@ input[type=number] {
 body {
 
   color: #2B476A;
-  font-size: 16px;
+  // font-size: 1.5rem;
   font-family: 'Montserrat', sans-serif;
-  ;
   background: #FBFAF5;
   margin: 0 auto;
   width: 1287px;
@@ -206,12 +207,12 @@ body {
 
   }
 
-  font-size: 17px;
+  font-size: 1.21rem;
   display: flex;
   align-items: center;
   justify-content: space-between;
-  height: 50px;
-  margin-top: 24px;
+  height: 3.57rem;
+  margin-top: 1.71rem;
   width: 100%;
   font-weight: 600;
 
@@ -226,11 +227,11 @@ body {
     }
 
     &_round {
-      min-width: 39px;
-      height: 39px;
+      min-width: 2.785rem;
+      height: 2.785rem;
       background-color: @color_red;
       border-radius: 50%;
-      margin-right: 22px;
+      margin-right: 1.57rem;
 
 
     }
@@ -259,11 +260,11 @@ body {
 
   &__right {
     z-index: 102;
-    margin-right: 40px;
+    margin-right: 2.86rem;
     background-color: #39AEA9;
     border-radius: 50%;
-    min-width: 39px;
-    height: 39px;
+    min-width: 2.785rem;
+    height: 2.785rem;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -273,7 +274,7 @@ body {
   &__navbar_menu {
     // 	font-weight: 400;
     position: relative;
-    height: 46px;
+    height: 3.285rem;
     padding: 0 10px;
     display: flex;
     justify-content: space-between;
@@ -288,7 +289,7 @@ body {
     }
 
     &~li:last-child {
-      left: -50px;
+      left: -3.57rem;
     }
 
     &>li {
@@ -301,8 +302,8 @@ body {
         content: '';
         display: block;
         width: 100%;
-        height: 30px;
-        top: 30px;
+        height: 2.142rem;
+        top: 2.142rem;
       }
 
       &:hover .header__navbar_menu_sub {
@@ -399,7 +400,7 @@ body {
       display: flex;
       justify-content: space-around;
       width: 126px;
-      height: 46px;
+      height: 3.285rem;
       border-radius: 10px;
       background-color: @color_green;
       font-family: 'Montserrat';
@@ -475,7 +476,7 @@ body {
     padding: 10px;
     align-items: center;
     justify-content: space-between;
-    min-height: 50px;
+    min-height: 3.57rem;
 
     & .profileCard__text {
       justify-self: center;
@@ -552,7 +553,7 @@ body {
   }
 
   &__telegram {
-    min-height: 50px;
+    min-height: 3.57rem;
     display: flex;
     align-items: center;
     justify-content: space-between;
@@ -704,8 +705,8 @@ body {
 
     &_text {
       background-color: #fff;
-      width: 550px;
-      height: 250px;
+      width: 53.57rem;
+      height: 23.57rem;
       display: flex;
       align-items: center;
       justify-content: center;
@@ -716,10 +717,10 @@ body {
     &_close {
       position: relative;
       top: 61px;
-      left: 250px;
+      left: 23.57rem;
       padding: 20px;
       cursor: pointer;
-      font-size: 30px;
+      font-size: 2.142rem;
 
       &:hover {
         color: red;
@@ -743,7 +744,7 @@ main {
   min-height: 779px;
   max-height: 779px;
   min-width: 330px;
-  max-width: 350px;
+  max-width: 33.57rem;
   // overflow-x: hidden;
   transition: 1s ease-in-out;
   z-index: 100;
@@ -871,7 +872,7 @@ main {
 
       .neTable__row_adminSquare {
         background-color: @color_red;
-        width: 50px;
+        width: 3.57rem;
         transform: width;
         transition: .6s ease;
       }
@@ -1049,12 +1050,12 @@ main {
   }
 
   &__prize {
-    width: 30px;
+    width: 2.142rem;
     // margin-left: 10px;
     fill: @color_text;
 
     &_empty {
-      width: 30px;
+      width: 2.142rem;
       margin-left: 10px;
     }
   }
@@ -1078,7 +1079,7 @@ main {
 
   &__calendar {
     cursor: pointer;
-    width: 30px;
+    width: 2.142rem;
     margin-left: 10px;
     fill: @color_text;
   }
@@ -1172,7 +1173,7 @@ main {
       display: inline-block;
       // width: 48px;
       height: 48px;
-      // margin:0 20px 0 40px;
+      // margin:0 20px 0 2.86rem;
     }
 
     &_vk {
@@ -1228,7 +1229,7 @@ main {
   z-index: 10;
   background-color: white;
   width: max-content;
-  min-width: 240px;
+  min-width: 22.86rem;
 
   & div {
     padding: 7px;
@@ -1262,7 +1263,7 @@ main {
   right: -25px;
 
   &__admin {
-    top: -40px;
+    top: -2.86rem;
     right: -145px;
   }
 
@@ -1405,8 +1406,8 @@ main {
   animation: rotation 1s linear infinite;
 
   &_rocket {
-    width: 50px;
-    height: 50px;
+    width: 3.57rem;
+    height: 3.57rem;
     top: 45%;
     position: relative;
 
@@ -1610,7 +1611,7 @@ li {
   }
 
   & input {
-    width: 240px;
+    width: 22.86rem;
     height: 33px;
     border: 1px solid #535e692a;
     box-shadow: inset 0px 4px 4px rgba(0, 0, 0, 0.082);
@@ -1984,12 +1985,20 @@ a {
   #scroll-down {
     display: none;
   }
+
+  html {
+    font-size: 12px;
+  }
 }
 
 @media only screen and (max-width: 500px) {
   body {
     width: auto;
     padding: 5px 5px;
+  }
+
+  html {
+    font-size: 12px;
   }
 
   #scroll-down {
@@ -2000,7 +2009,9 @@ a {
 
   .header {
     font-size: 11px;
-    //   width: 350px;
+    //   width: 33.57rem;
+    flex-direction: column-reverse;
+    padding-top: 75px;
   }
 
   .header__left {
@@ -2010,15 +2021,16 @@ a {
   .header__navbar {
     margin: 0 auto;
     font-weight: 600;
-    width: 100%;
+    // width: 100%;
+    padding-top: 10px;
   }
 
   .header__navbar_menu>li {
     padding: 16px 4.5px;
 
-    &:hover {
-      color: red;
-    }
+    // &:hover {
+    //   color: red;
+    // }
   }
 
   .header__navbar_menu_sub {
@@ -2043,7 +2055,7 @@ a {
   .form {
     top: 10px;
     margin-top: 0;
-    min-width: 200px;
+    min-width: 350px;
     margin: 0 auto;
   }
 
@@ -2053,6 +2065,7 @@ a {
 
   main {
     flex-direction: column;
+    align-items: center;
   }
 
   .drop {
@@ -2060,16 +2073,16 @@ a {
 
     &_links {
       margin-left: 5px;
-      width: max-content;
+      width: calc(100% - 10px);
     }
   }
 
   .plus {
     position: fixed;
     bottom: 35px;
-    right: 44%;
-    width: 50px;
-    height: 50px;
+    // right: 44%;
+    width: 3.57rem;
+    height: 3.57rem;
     background: linear-gradient(#fff, #fff),
       linear-gradient(#fff, #fff), #39aea8;
     background-position: center;
@@ -2078,11 +2091,22 @@ a {
     background-repeat: no-repeat;
     display: block;
     border-radius: 7px;
+    z-index: 1000;
+  }
+
+  .calendar {
+    &__headerCell {
+      width: 50px;
+    }
+
+    &__wrapper {
+      min-width: fit-content;
+    }
   }
 
   .header__navbar_menu>li:hover .header__navbar_menu_sub {
     position: fixed;
-    top: 85px;
+    top: 110px;
     left: 12%;
   }
 
