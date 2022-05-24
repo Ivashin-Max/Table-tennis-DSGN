@@ -37,11 +37,22 @@ export const AutocompleteFio: React.FC<InputProps> = ({
         id="free-solo-demo"
         freeSolo
         loading={loading}
+        // key={option => option.id}
         loadingText='Загрузка...'
-        options={names.map((participant) => participant.fio)}
+        options={names}
+        getOptionLabel={option => option.fio}
+        renderOption={(props, option) => {
+          return (
+            <span {...props} key={option.id}>
+              {option.fio}
+            </span>
+          );
+        }}
+
         renderInput={(params) => <TextField {...params}
           autoComplete="off"
           {...register(name)}
+
           {...rest} label="ФИО*"
           sx={{ boxShadow: "inset 0px 4px 4px rgba(0, 0, 0, 0.082)", height: 1 }}
         />}
