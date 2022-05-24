@@ -71,7 +71,7 @@ const ProfileCardAuth = () => {
     <div className='profileCard_Auth'>
       <div className="profileCard__header">
         <div className="profileCard__text">{lastNameName}</div>
-        <div className='profileCard__rating'>
+        <div className='profileCard__rating profileCard__text'>
           <StarIcon className='svg__star_red svg__star' />
           <span >{user.rate_value}</span>
         </div>

@@ -364,6 +364,9 @@ body {
   font-weight: 600;
   font-size: 16px;
   line-height: 20px;
+  display: flex;
+  align-items: baseline;
+  justify-content: center;
 }
 .profileCard__text_thin {
   padding: 3px;
@@ -740,19 +743,21 @@ main {
 .neTable__zapas {
   min-height: 80px;
   max-height: 80px;
-  padding: 0 18px;
+  padding: 0 10px;
   overflow-y: scroll;
   overflow-x: hidden;
 }
 .neTable__zapas::-webkit-scrollbar {
-  width: 10px;
+  width: 5px;
 }
 .neTable__zapas::-webkit-scrollbar-thumb {
   border-radius: 5px;
   background-color: #39aea8;
+  margin-left: 10px;
 }
 .neTable__zapas::-webkit-scrollbar-track {
   border-radius: 10px;
+  margin-left: 10px;
 }
 .zapas {
   margin-top: 5px !important;

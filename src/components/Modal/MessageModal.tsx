@@ -9,7 +9,7 @@ import Button from '../Styled/Button';
 
 const SModal = styled.div`
   min-height: 200px;
-  min-width: 400px;
+  min-width: 100px;
   display:flex;
   flex-direction:column;
   align-items:center;

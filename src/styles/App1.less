@@ -460,6 +460,9 @@ body {
     font-weight: 600;
     font-size: 16px;
     line-height: 20px;
+    display: flex;
+    align-items: baseline;
+    justify-content: center;
 
     &_thin {
       padding: 3px;
@@ -939,20 +942,22 @@ main {
   &__zapas {
     min-height: 80px;
     max-height: 80px;
-    padding: 0 18px;
+    padding: 0 10px;
     overflow-y: scroll;
     overflow-x: hidden;
 
     &::-webkit-scrollbar {
-      width: 10px;
+      width: 5px;
 
       &-thumb {
         border-radius: 5px;
         background-color: @color_green;
+        margin-left: 10px;
       }
 
       &-track {
         border-radius: 10px;
+        margin-left: 10px;
       }
     }
 

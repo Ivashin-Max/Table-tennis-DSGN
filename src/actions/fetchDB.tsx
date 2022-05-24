@@ -1,7 +1,7 @@
 
 import url from "../static/url.json"
 import axios from 'axios';
-import { openModal, setDivisions, setEmptyData, setLoading } from '../store/reducer.js';
+import { openModal, setCalendarMode, setDivisions, setEmptyData, setLoading } from '../store/reducer.js';
 import { setData } from '../store/reducer.js';
 import { ILink, IParticipantAdd, IParticipantGet } from '../types/fetch';
 
@@ -68,6 +68,7 @@ export const getParticipants = (tournamentId: number) => async (dispatch: any, g
     }
     catch (e) {
       dispatch(openModal({ title: 'Ошибка!', modalMsg: `Ошибка загрузки турнира по ссылке, выберите вручную` }));
+
     }
     dispatch(setLoading({ isLoading: false }))
   }
