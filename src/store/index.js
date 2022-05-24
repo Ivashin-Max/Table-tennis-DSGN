@@ -2,7 +2,6 @@ import { createStore, applyMiddleware, combineReducers } from 'redux';
 import { reducerTable, reducerData, reducerDate, reducerDivisions, reducerRole, reducerModal, reducerAuth, reducerLoading, reducerCalendarMode } from './reducer.js';
 import ReduxThunk from 'redux-thunk';
 import thunk from 'redux-thunk';
-// export const store = createStore(reducerTable);
 
 const middlewareConfig = () => [
   { condition: true, middleware: ReduxThunk },

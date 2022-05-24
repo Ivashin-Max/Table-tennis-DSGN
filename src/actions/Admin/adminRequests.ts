@@ -14,7 +14,6 @@ export const deleteParticipantAdmin = (name: string, tournamentId: number,) => a
     name: name
   }
   const apiUrl = url.back + url.endpoints.admin.deleteParticipant;
-  console.log(9999)
   let response = null;
   axios.delete(apiUrl, {
     data: participant,

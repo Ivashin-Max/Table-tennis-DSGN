@@ -65,23 +65,17 @@ export const getParticipants = (tournamentId: number) => async (dispatch: any, g
           console.log('Error:', e)
 
         })
-
     }
     catch (e) {
-
-
       dispatch(openModal({ title: 'Ошибка!', modalMsg: `Ошибка загрузки турнира по ссылке, выберите вручную` }));
-
     }
-
-
     dispatch(setLoading({ isLoading: false }))
   }
 
 }
 
 export const addParticipant = async (participant: IParticipantAdd) => {
-  // console.log('111111111111', url)
+
   const apiUrl = url.back + url.endpoints.addParticipant;
 
   return await axios.post(apiUrl, participant)

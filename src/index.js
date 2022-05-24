@@ -13,11 +13,6 @@ import ruLocale from "date-fns/locale/ru"
 
 
 
-
-
-
-
-
 ReactDOM.render(
   <LocalizationProvider dateAdapter={AdapterDateFns} locale={ruLocale}>
     <Provider store={store}>

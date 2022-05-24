@@ -61,7 +61,7 @@ export interface IProfileGet {
     play_status_3d: 0
     play_status_etc: 0
     play_status_vd: 0
-    rate_time: "0000-00-00 00:00:00"
+    rate_time: string
     rate_value: number
     rttf_id: number
     telegramId: null | string
