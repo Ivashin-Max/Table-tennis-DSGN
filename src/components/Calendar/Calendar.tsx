@@ -53,11 +53,31 @@ const MyCalendar = ({ flipCard }: any) => {
     setSearchParams({ tournament: tournament.id, division: tournament.division })
     await dispatch(getParticipants(tournament.id));
     flipCard();
-    // console.log('storeTable', storeTable)
   }
 
 
+  const prizesParse = (prize: any) => {
 
+    if (prize === '{}') return false
+
+    let prizesObj: any = [];
+    let counter = 0;
+    try {
+      prizesObj = (Object.entries(JSON.parse(prize))).filter((el) => el[0] !== 'formFields')
+    }
+    catch (e) {
+      console.log('prizes Error', e)
+      return false
+    }
+
+
+    for (let i = 0; i < prizesObj.length; i++) {
+      const element = prizesObj[i];
+      if (element[1].length > 0) counter++;
+    }
+    if (counter === 0) return false
+    else return true
+  }
 
 
 
@@ -149,8 +169,9 @@ const MyCalendar = ({ flipCard }: any) => {
                 neededEvent.tournamentInfo.rating_range
             }
           </div>
-          {neededEvent.tournamentInfo.prize === '{}' ? null :
-            <div><CalendarPrizeIcon className='svg__calendarPrize svg__calendarPrize_colored' /></div>
+          {prizesParse(neededEvent.tournamentInfo.prize)
+            ? <div><CalendarPrizeIcon className='svg__calendarPrize svg__calendarPrize_colored' /></div>
+            : null
           }
         </div>
       </Tooltip>

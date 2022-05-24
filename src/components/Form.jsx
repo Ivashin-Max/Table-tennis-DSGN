@@ -469,7 +469,7 @@ const Form = () => {
               </button>
 
             </div>
-            <p id="tournamentRating">
+            <div id="tournamentRating">
               {storeData.tournamentPrizes === '{}' || !prizesParse() ?
                 <>
                   <div className="svg__prize_empty"></div>
@@ -497,7 +497,7 @@ const Form = () => {
 
               </div>
               <CalendarIcon className='svg__calendar' onClick={flipForm} />
-            </p>
+            </div>
 
             <div className="line"></div>
 

@@ -2,7 +2,7 @@ import React, { forwardRef, useState } from 'react'
 
 const EditableTitle = (props: any, ref: any) => {
   const [edit, setEdit] = useState(false);
-  const [value, setValue] = useState('');
+  const [, setValue] = useState('');
 
 
   return (

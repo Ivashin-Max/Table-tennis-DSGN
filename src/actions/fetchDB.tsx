@@ -89,16 +89,6 @@ export const deleteParticipantDB = async (participant: IParticipantAdd) => {
 
 }
 
-// export const addTournament = async (tournament: ITournamentAdd) => {
-//   const apiUrl = url.back + url.endpoints.addTournament
-//   let response = null;
-//   await axios.post(apiUrl, tournament)
-//     .then(data => response = { success: true, data: data })
-//     .catch((error) => { response = { success: false, data: error.response.data } });
-
-//   return response
-// }
-
 export const getLinks = () => {
   const apiUrl = url.back + url.endpoints.links;
 

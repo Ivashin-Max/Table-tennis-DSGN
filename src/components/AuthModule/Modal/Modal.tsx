@@ -26,6 +26,7 @@ export default function AuthModal() {
 
   const handleClose = () => {
     setOpen(false);
+
   };
 
   const changeForm = (step: ModalSteps) => () => {
@@ -41,10 +42,15 @@ export default function AuthModal() {
   };
 
   useEffect(() => {
-    setModalStep('auth')
+    let isMounted = true; // 👈
+
+    if (!isMounted) { // 👈
+      setModalStep('auth')
+    }
+
 
     return () => {
-      setModalStep('auth')
+      isMounted = false; // 👈
     }
   }, [])
 

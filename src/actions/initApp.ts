@@ -25,8 +25,6 @@ export const initApp = (user: (localStorageUser | null)) => async (dispatch: any
     } catch (error) {
       console.log('EEEEEEEEEEEEEEEEE', error)
     }
-
-
   }
   if (user?.id) {
     await profileInfo(user.id)
@@ -40,7 +38,6 @@ export const initApp = (user: (localStorageUser | null)) => async (dispatch: any
         }))
       })
       .catch(e => console.log(e.toJSON()))
-
   }
 
 }

@@ -50,14 +50,8 @@ const EditableInput = ({ title, id, user, editable }: EditableInputProps) => {
         setEdit(prev => !prev)
       })
       .catch(e => console.log(e.toJSON()))
-
-    // data.inputName = data[inputName]
-    // // if (user.)
-    // // patchLink(data)
-    // //   .then(res => console.log(res.data))
-    // console.log(data)
-
   }
+
   useLayoutEffect(() => {
     if (editable) setEdit(true)
     console.log('id', id)

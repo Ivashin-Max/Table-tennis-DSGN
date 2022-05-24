@@ -12,12 +12,8 @@ const MyHeader = ({ adminMode }) => {
   const isAdmin = !!sessionStorage.getItem('admin');
   const state = useSelector(state => state.divisions).divisions;
 
-
-
-
   let className = classNames({
     "header__navbar_menu": true,
-
   });
 
   return (
