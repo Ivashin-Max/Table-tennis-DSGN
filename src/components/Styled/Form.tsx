@@ -1,11 +1,8 @@
-import React, { FC, createElement, ReactNode } from "react";
+import { FC, createElement, ReactNode } from "react";
 import styled from 'styled-components';
 import { IFormProps, LargeForm } from '../../types/forms';
-import { InputProps } from "../../types/props";
 import Button from "./Button";
-import Input from "./Input";
 import Title from "./Title";
-import Typography from "./Typography";
 
 const SRegistrationForm = styled.form<LargeForm>`
 
@@ -61,7 +58,9 @@ const Form: FC<IFormProps> = ({
               })
               : child;
           })
-          : children}
+          : children
+
+        }
       </>
       <Button disabled={disabled}>{buttonLabel}</Button>
     </SRegistrationForm>

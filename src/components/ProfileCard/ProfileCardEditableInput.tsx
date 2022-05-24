@@ -4,11 +4,8 @@ import { useForm } from 'react-hook-form';
 // import { ReactComponent as ClearStorageIcon } from '../../styles/img/x-svgrepo-com.svg';
 import { ReactComponent as PencilIcon } from '../../styles/img/pencil-edit-button-svgrepo-com.svg';
 import { ReactComponent as OkIcon } from '../../styles/img/Tick_Mark_icon-icons.com_69146.svg';
-import { ILink } from '../../types/fetch';
 
-import { patchLink, deleteLink } from '../../actions/Admin/adminRequests';
-import Button from '../Styled/Button';
-import { motion, animate, AnimatePresence } from 'framer-motion/dist/framer-motion';
+import { motion } from 'framer-motion/dist/framer-motion';
 import { EditableInputProps } from '../../types/props';
 import Title from '../Styled/Title';
 import { patchProfile, profileInfo } from '../../actions/Profile/profileRequests';
@@ -29,7 +26,7 @@ const EditableInput = ({ title, id, user, editable }: EditableInputProps) => {
     register,
     handleSubmit,
     reset,
-    formState: { errors }
+
   } = useForm<any>();
 
   const onSubmit = (data: any) => {
@@ -65,6 +62,7 @@ const EditableInput = ({ title, id, user, editable }: EditableInputProps) => {
     if (editable) setEdit(true)
     console.log('id', id)
     if (!id) reset({ id: '' })
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
 

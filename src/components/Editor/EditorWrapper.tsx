@@ -19,6 +19,7 @@ const EditorWrapper = () => {
       alert('Доступ запрещен')
       navigate('/')
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
 

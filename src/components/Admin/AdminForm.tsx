@@ -113,6 +113,7 @@ export const AdminForm = () => {
       setDate(new Date())
       reset({ ...tournamentValues });
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [currentTournament, currentDivisionName])
 
 

@@ -1,6 +1,5 @@
 import { FC } from "react";
 import styled from 'styled-components';
-import Typography from "./Typography";
 import { InputProps } from '../../types/props';
 
 const SCheckbox = styled.input.attrs({

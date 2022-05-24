@@ -1,9 +1,9 @@
 import { useForm } from 'react-hook-form'
-import { newPass, sendEmailToResetPass } from '../../../actions/Profile/profileRequests'
-import { newPassValue, ResetPassFormProps, ResetPassValues } from '../../../types/forms'
+import { newPass } from '../../../actions/Profile/profileRequests'
+import { newPassValue, ResetPassFormProps } from '../../../types/forms'
 import Form from '../../Styled/Form'
 import Input from '../../Styled/Input'
-import Title from '../../Styled/Title';
+
 import * as yup from "yup";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { useDispatch } from 'react-redux'
@@ -11,15 +11,6 @@ import { openModal } from '../../../store/reducer'
 import { useState } from 'react'
 import { useLocation, useNavigate } from 'react-router-dom'
 
-const AuthSchema = yup.object().shape({
-
-
-  mail: yup
-    .string()
-    .email('Неправильный формат почты ')
-    .min(2, "Минимум 2 символа")
-    .required("Password is required")
-});
 
 const ResetShema = yup.object().shape({
   password: yup
@@ -36,41 +27,8 @@ const ResetPassForm = (props: ResetPassFormProps) => {
     register,
     handleSubmit,
     formState: { errors }
-  } = useForm({ resolver: yupResolver(AuthSchema) });
-
-  const {
-    register: resetRegister,
-    handleSubmit: resetHandleSubmit,
-    formState: { errors: resetErrors }
   } = useForm({ resolver: yupResolver(ResetShema) });
 
-
-
-  const onSubmit = (mail: ResetPassValues) => {
-
-    console.log(mail)
-    setLoading(true)
-    sendEmailToResetPass(mail.mail)
-      .then(response => {
-        console.log(response)
-        if (response.status === 200) {
-          dispatch(openModal({
-            title: 'Успешно',
-            modalMsg: `Ссылка для сброса пароля отправлена на ${mail.mail}`
-          }))
-        }
-        setLoading(false)
-      })
-      .catch(e => {
-        console.log(e)
-        setLoading(false)
-        dispatch(openModal({
-          title: 'Ошибка!',
-          modalMsg: e.message
-        }))
-      })
-
-  }
 
   const onSubmitReset = (newPassValue: newPassValue) => {
 
@@ -103,54 +61,22 @@ const ResetPassForm = (props: ResetPassFormProps) => {
   }
 
   return (
-    <>
-
-      {props.sendEmail &&
-        <>
-          <Form
-            formTitle="Смена пароля"
-            buttonLabel="Отправить пароль на почту"
-            disabled={loading}
-            register={register}
-            handleSubmit={handleSubmit}
-            onSubmit={onSubmit}
-            className="Войти"
-          >
-            <Input
-              name="mail"
-              placeholder="Почта*"
-              error={errors.mail?.message}
-
-            />
-            <Title onClick={props.changeForm('auth')} pointer fz='12px'>Вход</Title>
-          </Form>
-        </>
-      }
-
-      {!props.sendEmail &&
-        <>
-
-          <Form
-            formTitle="Введите новый пароль"
-            buttonLabel="Сохранить новый пароль"
-            disabled={loading}
-            register={resetRegister}
-            handleSubmit={resetHandleSubmit}
-            onSubmit={onSubmitReset}
-            className="Войти"
-          >
-            <Input
-              name="password"
-              placeholder="Новый пароль*"
-              error={resetErrors.newPass?.message}
-
-            />
-          </Form>
-        </>
-      }
-
-
-    </>
+    <Form
+      formTitle="Введите новый пароль"
+      buttonLabel="Сохранить новый пароль"
+      disabled={loading}
+      register={register}
+      handleSubmit={handleSubmit}
+      onSubmit={onSubmitReset}
+      className="Войти"
+    >
+      <Input
+        name="password"
+        placeholder="Новый пароль*"
+        error={errors.newPass?.message}
+      />
+      <></>
+    </Form>
   )
 }
 

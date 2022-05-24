@@ -6,14 +6,14 @@ import { ReactComponent as CalendarIcon } from '../styles/img/calendar-svgrepo-c
 import { getTournamentDay, getTournamentDate } from '../actions/date';
 import { getParticipants } from '../actions/fetchDB';
 import { ReactComponent as GroupIcon } from '../styles/img/group-svgrepo-com.svg';
-import { useLocation, useSearchParams } from 'react-router-dom';
+import { useSearchParams } from 'react-router-dom';
 
 //Подменю хедера, которые мы создаём при ините
-const SubMenu = ({ divisionId, tournaments, onPress, adminMode }) => {
+const SubMenu = ({ divisionId, tournaments, adminMode }) => {
 
   const dispatch = useDispatch();
-  const location = useLocation();
-  let [searchParams, setSearchParams] = useSearchParams();
+
+  let [, setSearchParams] = useSearchParams();
 
   // const newTournamentButton = 0;
 
@@ -30,6 +30,7 @@ const SubMenu = ({ divisionId, tournaments, onPress, adminMode }) => {
 
     dispatch(setCalendarMode({ calendarMode: false }))
 
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [dispatch, divisionId])
 
 

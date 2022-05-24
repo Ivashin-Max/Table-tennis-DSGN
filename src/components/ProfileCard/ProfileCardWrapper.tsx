@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import styled from 'styled-components';
 import { useTypedSelector } from '../../hooks/useTypedSelector';
 import ProfileCardAuth from './ProfileCardAuth';
@@ -16,11 +16,6 @@ const SProfileCardWrapper = styled.section`
 const ProfileCardWrapper = () => {
   const isAuthorized = useTypedSelector(state => state.auth.isAuthorized);
 
-  useEffect(() => {
-    console.log('isAuthorized', isAuthorized)
-
-
-  }, [isAuthorized])
 
 
   return (

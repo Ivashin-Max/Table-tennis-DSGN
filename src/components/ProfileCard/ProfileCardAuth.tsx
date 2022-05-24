@@ -26,8 +26,7 @@ const ProfileCardAuth = () => {
   const name = user.fio.split(' ')[1];
 
   const lastNameName = lastName + ' ' + (name ? name : '');
-  const [telegramId, setTelegramId] = useState('');
-  const [rttfId, setRttfId] = useState('');
+
   const [settings, setSettings] = useState(false);
   const [telegramState, setTelegrammState] = useState(true)
   const [rttfState, setRttfState] = useState(true)
@@ -52,31 +51,11 @@ const ProfileCardAuth = () => {
 
   }, [dispatch])
 
-  const validateTlg = () => {
-    if (telegramId === '') {
-      if (!!user?.userInfo?.telegram_id) {
-        return user.userInfo.telegram_id
-      }
-      else return 0
-    }
-    else return telegramId
-
-  }
-
-  const validateRttf = () => {
-    if (rttfId === '') {
-      if (!!user?.userInfo?.rttf_id) {
-        return user.userInfo.rttf_id
-      }
-      else return 0
-    }
-    else return rttfId
-  }
-
   useEffect(() => {
     console.log(!!user.userInfo.telegram_id)
     if (!!user.userInfo.rttf_id) setRttfState(false)
     if (!!user.userInfo.telegram_id) setTelegrammState(false)
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
 

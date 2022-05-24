@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import './styles/App1.css';
-import { BrowserRouter, Routes, Route, Navigate, useLocation } from "react-router-dom";
+import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 import { useDispatch } from 'react-redux';
 import logoPingPong from './styles/img/ping-pong-loader.svg'
 import UserWrapper from './components/UserWrapper';
@@ -23,7 +23,6 @@ function App() {
     (async () => {
       const user = getUser();
       setLoading(true);
-      console.log(navigator)
       await dispatch(initApp(user, ''));
 
       setLoading(false);

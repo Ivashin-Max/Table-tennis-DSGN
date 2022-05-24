@@ -1,4 +1,3 @@
-import { useLocation } from "react-router-dom"
 import { setAuth, setCalendarMode, setTable } from "../store/reducer"
 import { localStorageUser } from "../types/localStorage"
 import { getDivisionsInfo, getParticipants } from "./fetchDB"
@@ -6,14 +5,14 @@ import { getDivisionsInfo, getParticipants } from "./fetchDB"
 import { profileInfo } from "./Profile/profileRequests"
 
 export const initApp = (user: (localStorageUser | null)) => async (dispatch: any) => {
-  const location = window.location.search
+  const tournamentSearch = window.location.search.includes('tournament')
+  const tournament = window.location.search;
 
   await dispatch(getDivisionsInfo())
-  if (location) {
-
+  if (tournamentSearch) {
     try {
-      const tourId = location.split('&')[0].split('=')[1]
-      const divId = location.split('&')[1].split('=')[1]
+      const tourId = tournament.split('&')[0].split('=')[1]
+      const divId = tournament.split('&')[1].split('=')[1]
       console.log(`нужен турнир ${tourId} в дивизионе ${divId}`)
       await dispatch(setTable({
         neededDivisionId: +divId,

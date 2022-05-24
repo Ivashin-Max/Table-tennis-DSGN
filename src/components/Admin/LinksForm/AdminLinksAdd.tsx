@@ -5,14 +5,9 @@ import Button from '../../Styled/Button';
 
 const AdminLinksAdd = () => {
 
-
-
-
-
   const {
     register,
     handleSubmit,
-    formState: { errors }
   } = useForm<ILinksAdd>();
 
   const onSubmit = (data: ILinksAdd) => {

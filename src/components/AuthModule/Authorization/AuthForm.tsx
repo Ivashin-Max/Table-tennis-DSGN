@@ -24,7 +24,7 @@ import { useState } from 'react'
 const AuthSchema = yup.object().shape({
   username: yup
     .string()
-    // .email('Неправильный формат почты ')
+    .email('Неправильный формат почты ')
     .required("Обязательное поле"),
   password: yup
     .string()
@@ -95,12 +95,18 @@ export const AuthForm = (props: IAuthFormsProps) => {
 
       )
       .catch(e => {
+        const errorJSON = e.toJSON();
         setLoading(false)
-        dispatch(openModal({
-          title: 'Ошибка',
-          modalMsg: e.message
-        }))
-        console.log('qwqwqw', e.message)
+        if (errorJSON.status === 401) {
+          console.warn('Ошибка авторизации:', errorJSON)
+          dispatch(openModal({
+            title: 'Ошибка!', modalMsg: `Ошибка авторизации: 
+          Не правильный пароль или пользователь с такой почтой не зарегистрирован` }));
+        }
+        else {
+          console.warn('Ошибка удаления:', errorJSON)
+          dispatch(openModal({ title: 'Ошибка!', modalMsg: `Ошибка авторизации:${errorJSON.message}` }));
+        }
       })
 
   }

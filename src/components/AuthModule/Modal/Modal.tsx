@@ -12,7 +12,7 @@ import { useTypedSelector } from '../../../hooks/useTypedSelector';
 import { useDispatch } from 'react-redux';
 import { setAuth } from '../../../store/reducer';
 import { ModalSteps } from '../../../types/forms';
-import ResetPassForm from '../Authorization/ResetPassForm';
+import ResetPassSendEmail from '../Authorization/ResetPassSendEmail';
 
 export default function AuthModal() {
   const [open, setOpen] = useState(false);
@@ -66,7 +66,7 @@ export default function AuthModal() {
             <DialogContent>
               {modalStep === 'auth' && <AuthForm closeFormModal={handleClose} changeForm={changeForm} />}
               {modalStep === 'register' && <RegistrationForm closeFormModal={handleClose} changeForm={changeForm} />}
-              {modalStep === 'reset' && <ResetPassForm sendEmail closeFormModal={handleClose} changeForm={changeForm} />}
+              {modalStep === 'reset' && <ResetPassSendEmail sendEmail closeFormModal={handleClose} changeForm={changeForm} />}
             </DialogContent>
           </Dialog>
         </>}

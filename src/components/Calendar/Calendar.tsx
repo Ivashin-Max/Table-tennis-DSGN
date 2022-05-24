@@ -7,7 +7,6 @@ import { getNextWeek, getTournamentDate, getTournamentTime } from '../../actions
 import { getDivisionName } from '../../actions/divisions';
 import { ReactComponent as PersonIcon } from '../../styles/img/personWhite.svg';
 import { ReactComponent as StarIcon } from '../../styles/img/star-svgrepo-com.svg';
-import { ReactComponent as PrizeIcon } from '../../styles/img/gift-svgrepo-com.svg';
 import { ReactComponent as CalendarPrizeIcon } from '../../styles/img/filled-gift-svgrepo-com.svg';
 import { ReactComponent as GroupIcon } from '../../styles/img/group-svgrepo-com.svg';
 
@@ -32,21 +31,17 @@ const alignConfig = {
 
 const MyCalendar = ({ flipCard }: any) => {
   const allDivisions = useTypedSelector(state => state.divisions).divisions;
-  const myTournamentsId = useTypedSelector<number[]>(state => state.auth.tournamentsId);
-  let [searchParams, setSearchParams] = useSearchParams();
+  let [, setSearchParams] = useSearchParams();
   const dispatch = useDispatch();
   const [events, setEvents] = useState<CalendarEvent[]>([])
   const [tournaments, setTournaments] = useState<any[]>([])
   const [days, setDays] = useState<CalendarDate[]>([])
-  const checkMyTournament = () => {
-    const res = events.filter(item => myTournamentsId.includes(item.tournamentInfo.id));
-    // console.log(222222222222222222222, res);
-  }
+
 
 
   let classNameEvent = classNames({
     'calendar__event': true,
-    'calendar__myTournament': checkMyTournament()
+
   });
 
   const clickHandler = (tournament: any) => async () => {

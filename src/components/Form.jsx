@@ -67,7 +67,6 @@ const Form = () => {
 
 
   React.useEffect(() => {
-    console.log(currentTournament);
     if (currentTournament) {
       setIsLate(checkDate(currentTournament.date_time))
     }
@@ -88,7 +87,7 @@ const Form = () => {
   }, [])
 
   React.useEffect(() => {
-    console.log('authState', authState);
+
     if (authState.isAuthorized) setFio(authState.fio)
   }, [authState])
 

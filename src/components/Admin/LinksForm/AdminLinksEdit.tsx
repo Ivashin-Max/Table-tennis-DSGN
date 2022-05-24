@@ -14,7 +14,6 @@ const AdminLinksEdit = ({ id, link, title }: ILink) => {
   const {
     register,
     handleSubmit,
-    formState: { errors }
   } = useForm<ILink>();
 
   const onSubmit = (data: ILink) => {

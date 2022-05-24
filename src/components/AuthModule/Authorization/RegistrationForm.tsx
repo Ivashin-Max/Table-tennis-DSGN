@@ -18,9 +18,13 @@ const AuthSchema = yup.object().shape({
     .email('Неправильный формат почты ')
     .required("Обязательное поле")
   ,
+  name: yup
+    .string()
+    .required("Обязательное поле")
+  ,
   password: yup
     .string()
-    .min(2, "Минимум 2 символа")
+    .min(4, "Минимальная длинна 4 символа")
     .required("Обязательное поле")
 });
 
@@ -76,7 +80,10 @@ const RegistrationForm = (props: IAuthFormsProps) => {
         onSubmit={onSubmit}
         className="Войти"
       >
-        <AutocompleteFio name="name" />
+        <AutocompleteFio
+          name="name"
+          error={errors.name?.message}
+        />
 
         <Input
           name="username"
