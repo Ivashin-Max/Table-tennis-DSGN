@@ -4,6 +4,7 @@ import classNames from 'classnames';
 
 import TableFio from './TableFio'
 import { useTypedSelector } from '../hooks/useTypedSelector';
+import { useCurrentDivision } from '../hooks/useCurrentTournament';
 
 const Table = ({ adminMode }: any) => {
   const [none, setNone] = useState(true);
@@ -21,9 +22,10 @@ const Table = ({ adminMode }: any) => {
   }
 
   const selector = useTypedSelector(state => state.data)
+  const qq = useTypedSelector(state => state)
   const currentTournament = useTypedSelector(state => state.table.neededTournamentId)
   // console.log(`Данные по турниру ${currentTournament}`, selector);
-
+  const currentDivisionName = useCurrentDivision()?.division_name;
 
   let classNameNone = classNames({
     "copy_popup": true,
@@ -35,13 +37,18 @@ const Table = ({ adminMode }: any) => {
     setTimeout(() => setNone(true), 1000)
   }
 
+  const getDivisionName = () => {
+    if (currentDivisionName && currentDivisionName !== 'TTClub') return currentDivisionName + ' дивизион'
+    else return selector.tableDivisionName
+  }
+
 
 
   return (
     <div id="neTable" className='neTable'>
       <div className="neTable__header_head">
         <div className="neTable__header_name">
-          {selector.tableDivisionName}
+          {getDivisionName()}
         </div>
         <div className="neTable__header_date">
           <div>	{selector.tableDate}</div>

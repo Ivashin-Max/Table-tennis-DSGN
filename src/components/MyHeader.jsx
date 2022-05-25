@@ -40,7 +40,8 @@ const MyHeader = ({ adminMode }) => {
         {state && <div className="header__navbar">
           <ul className={className} >
             {state.map((division) => {
-              return <li key={division.id}>{division.division_name}
+              return <li key={division.id}>
+                {division.division_name}
                 <SubMenu
                   divisionId={division.id}
                   tournaments={division.tournaments}

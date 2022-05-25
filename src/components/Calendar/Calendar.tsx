@@ -134,7 +134,7 @@ const MyCalendar = ({ flipCard }: any) => {
                 Цена: {neededEvent.tournamentInfo.cost}
               </div>
               <div className="calender__tooltipRow">
-                Локейшн: {neededEvent.tournamentInfo.location}
+                Локация: {neededEvent.tournamentInfo.location}
               </div>
               <div className="calender__tooltipRow">
                 Рейтинг: {neededEvent.tournamentInfo.rating_range}

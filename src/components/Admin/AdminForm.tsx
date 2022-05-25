@@ -236,7 +236,7 @@ export const AdminForm = () => {
 
   return (
     <>
-      <div className="form_wrap">
+      <div className="form_wrap" onMouseDown={() => { hidepromptLocation() }}>
 
         <Form
           largeForm

@@ -17,8 +17,8 @@ export const removeStorageItem = (itemKey: string) => {
 export const addLocalStorageItem = (key: string, newValue: string) => {
   const existingValues = reactLocalStorage.get(key)
   if (existingValues) {
-    if (existingValues.split(',').includes(newValue)) console.log(`В локалсторадж уже хранится ${newValue} по ключу ${key}`)
-    else reactLocalStorage.set(key, `${existingValues},${newValue}`)
+    if (existingValues.split('$').includes(newValue)) console.log(`В локалсторадж уже хранится ${newValue} по ключу ${key}`)
+    else reactLocalStorage.set(key, `${existingValues}$${newValue}`)
   }
   else {
     reactLocalStorage.set(key, newValue)
@@ -27,5 +27,5 @@ export const addLocalStorageItem = (key: string, newValue: string) => {
 
 export const getPromptFromLocalStorage = (key: string): ([] | string[]) => {
   if (!reactLocalStorage.get(key)) return []
-  else return reactLocalStorage.get(key).split(',')
+  else return reactLocalStorage.get(key).split('$')
 }
