@@ -8,7 +8,7 @@ const ProfileCardNoAuth = () => {
       </div>
       <div className="profileCard__line"></div>
       <div className="profileCard__telegram">
-        <span className="profileCard__text_thin">Тут появится ваш профиль если войти в систему</span>
+        <span className="profileCard__text_thin">Тут появится ваш профиль, если войти в систему</span>
       </div>
     </div>
   )

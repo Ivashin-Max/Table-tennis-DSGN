@@ -28,7 +28,7 @@ const AuthSchema = yup.object().shape({
     .required("Обязательное поле"),
   password: yup
     .string()
-    .min(4, "Минимальная длинна 4 символа")
+    .min(4, "Минимальная длина 4 символа")
     .required("Обязательное поле")
 });
 
@@ -136,7 +136,7 @@ export const AuthForm = (props: IAuthFormsProps) => {
         error={errors.password?.message}
       />
       <Title onClick={props.changeForm('reset')} pointer fz='12px' >Забыли пароль?</Title>
-      <Title onClick={props.changeForm('register')} pointer fz='12px' >Нет акаунта? Зарегистрируйтесь</Title>
+      <Title onClick={props.changeForm('register')} pointer fz='12px' >Нет аккаунта? Зарегистрируйтесь.</Title>
 
     </Form>
   );
