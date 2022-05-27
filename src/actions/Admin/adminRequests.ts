@@ -71,11 +71,11 @@ export const deleteTournament = async (tournamentId: number) => {
   })
 }
 
-export const addLink = async (link: ILinksAdd) => {
+export const addLink = (link: ILinksAdd) => {
   const userJWT = getUser().jwt;
 
   const apiUrl = url.back + url.endpoints.links;
-  return await axios.post(apiUrl, link, {
+  return axios.post(apiUrl, link, {
     headers: { Authorization: userJWT }
   })
 }
@@ -88,11 +88,11 @@ export const patchLink = async (link: ILink) => {
   })
 }
 
-export const deleteLink = async (linkId: number) => {
+export const deleteLink = (linkId: number) => {
   const userJWT = getUser().jwt;
 
   const apiUrl = url.back + url.endpoints.admin.deleteLink + linkId;
-  return await axios.delete(apiUrl, {
+  return axios.delete(apiUrl, {
     headers: { Authorization: userJWT }
   })
 }

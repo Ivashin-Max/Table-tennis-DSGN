@@ -1,13 +1,23 @@
 import React, { useEffect, useState } from 'react'
+import { useDispatch } from 'react-redux'
 import { getLinks } from '../../../actions/fetchDB'
+import { setLoading } from '../../../store/reducer'
 import { ILink } from '../../../types/fetch'
 import AdminLinksAdd from './AdminLinksAdd'
 import AdminLinksEdit from './AdminLinksEdit'
 
 const AdminLinksWrapper = () => {
   const [links, setLinks] = useState<ILink[]>([])
+  const [reRender, setReRender] = useState(false);
+  const dispatch = useDispatch();
+
+  const handleReRender = () => {
+
+    setReRender(!reRender);
+  };
 
   useEffect(() => {
+    dispatch(setLoading({ isLoading: true }))
     getLinks()
       .then(
         ({ data }) => {
@@ -16,8 +26,12 @@ const AdminLinksWrapper = () => {
         })
       .catch(function (error) {
         console.log(error.toJSON());
+      })
+      .finally(() => {
+        dispatch(setLoading({ isLoading: false }))
       });
-  }, [])
+
+  }, [reRender])
 
   return (
     <>
@@ -26,9 +40,12 @@ const AdminLinksWrapper = () => {
         <>
           <div className="adminLinks__title"> Редактирование ссылок</div>
           {links.map(link => (
-            <AdminLinksEdit id={link.id} title={link.title} link={link.link} key={link.id} />
+            <AdminLinksEdit
+              {...link}
+              getLinks={handleReRender}
+              key={link.id} />
           ))}
-          <AdminLinksAdd />
+          <AdminLinksAdd getLinks={handleReRender} />
         </>
       </div>
 

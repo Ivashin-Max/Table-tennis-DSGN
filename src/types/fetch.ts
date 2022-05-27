@@ -78,5 +78,11 @@ export interface ILinksAdd {
 }
 
 export interface ILink extends ILinksAdd {
-  id: number
+  id: number;
+  // getLinks?: () => void
+}
+
+export interface ILinkProps extends ILink {
+  id: number;
+  getLinks: () => void
 }
