@@ -178,11 +178,11 @@ const Form = () => {
     const emptyInputs = checkEmptyInputs();
 
     if (emptyInputs !== false) {
-
+      const { trimmedFio1, trimmedFio2 } = trimFios()
       const participant = {
         tournamentId: currentTournament.id,
-        name: fio,
-        name_2: currentTournament.team ? fio2 : "",
+        name: trimmedFio1,
+        name_2: currentTournament.team ? trimmedFio2 : "",
         password: getPassword()
       }
       try {
@@ -192,8 +192,8 @@ const Form = () => {
           dispatch(openModal({
             title: 'Успешно',
             modalMsg: currentTournament.team ?
-              `Участники ${fio}, ${fio2} удалены успешно` :
-              `Участник ${fio} удален успешно`
+              `Участники ${trimmedFio1}, ${trimmedFio2} удалены успешно` :
+              `Участник ${trimmedFio1} удален успешно`
           }));
         }
       }
@@ -213,8 +213,8 @@ const Form = () => {
               dispatch(openModal({
                 title: 'Успешно',
                 modalMsg: currentTournament.team ?
-                  `Участники ${fio}, ${fio2} удалены успешно` :
-                  `Участник ${fio} удален успешно`
+                  `Участники ${trimmedFio1}, ${trimmedFio2} удалены успешно` :
+                  `Участник ${trimmedFio1} удален успешно`
               }));
             }
           }
@@ -242,7 +242,20 @@ const Form = () => {
     }
   }
 
+  const trimFios = () => {
+    let trimmedFio1 = fio;
+    let trimmedFio2 = fio2;
 
+    try {
+      trimmedFio1 = fio.trimStart().trimEnd()
+      trimmedFio2 = fio.trimStart().trimEnd()
+    }
+    catch (e) {
+      console.log('Ошибка удаления пробелов из ФИО, функционал не поддерживается браузером')
+    }
+
+    return { trimmedFio1: trimmedFio1, trimmedFio2: trimmedFio2 }
+  }
 
 
   const newParticipant = async (e) => {
@@ -251,10 +264,11 @@ const Form = () => {
 
     if (emptyInputs !== false) {
       setLoading(true)
+      const { trimmedFio1, trimmedFio2 } = trimFios()
       const newParticipant = {
         tournamentId: currentTournament.id,
-        name: fio,
-        name_2: currentTournament.team ? fio2 : "",
+        name: trimmedFio1,
+        name_2: currentTournament.team ? trimmedFio2 : "",
         password: getPassword()
       }
       console.log('newParticipant', newParticipant)
