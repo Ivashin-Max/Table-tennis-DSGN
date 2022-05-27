@@ -22,7 +22,7 @@ const Table = ({ adminMode }: any) => {
   }
 
   const selector = useTypedSelector(state => state.data)
-  const qq = useTypedSelector(state => state)
+
   const currentTournament = useTypedSelector(state => state.table.neededTournamentId)
   // console.log(`Данные по турниру ${currentTournament}`, selector);
   const currentDivisionName = useCurrentDivision()?.division_name;

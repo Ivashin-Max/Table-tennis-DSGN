@@ -779,7 +779,7 @@ main {
   -ms-user-select: none;
   user-select: none;
   width: max-content;
-  z-index: 999;
+  z-index: 1999;
 }
 .rc-tooltip .prizes__tooltip {
   padding: 10px;

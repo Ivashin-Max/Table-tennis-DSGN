@@ -1,7 +1,7 @@
 
 import url from "../static/url.json"
 import axios from 'axios';
-import { openModal, setCalendarMode, setDivisions, setEmptyData, setLoading } from '../store/reducer.js';
+import { openModal, setDivisions, setEmptyData, setLoading } from '../store/reducer.js';
 import { setData } from '../store/reducer.js';
 import { ILink, IParticipantAdd, IParticipantGet } from '../types/fetch';
 
