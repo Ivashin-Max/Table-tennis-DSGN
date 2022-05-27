@@ -1,4 +1,4 @@
-import { createStore, applyMiddleware, combineReducers } from 'redux';
+import { createStore, applyMiddleware, combineReducers, compose } from 'redux';
 import { reducerTable, reducerData, reducerDate, reducerDivisions, reducerRole, reducerModal, reducerAuth, reducerLoading, reducerCalendarMode } from './reducer.js';
 import ReduxThunk from 'redux-thunk';
 import thunk from 'redux-thunk';
@@ -11,12 +11,12 @@ export const getMiddleware = (config = middlewareConfig()) => (
   config.filter(el => el.condition).map(el => el.middleware)
 );
 
-
+const composeEnhancer = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
 
 
 export const rootReducer = combineReducers({ table: reducerTable, data: reducerData, date: reducerDate, divisions: reducerDivisions, role: reducerRole, modal: reducerModal, auth: reducerAuth, loading: reducerLoading, calendarMode: reducerCalendarMode })
 
 export const store = createStore(
   rootReducer,
-  applyMiddleware(thunk),
+  composeEnhancer(applyMiddleware(thunk))
 );
