@@ -38,8 +38,8 @@ const Form = () => {
   const [loading, setLoading] = useState(false);
   const [promptFio, setpromptFio] = useState(false)
   const [isLate, setIsLate] = useState(true);
-  const fioInput = useRef();
-
+  const fioInputRef = useRef();
+  const formRef = useRef();
 
   const authState = useTypedSelector(state => state.auth)
   const calendarMode = useTypedSelector(state => state.calendarMode.calendarMode)
@@ -336,10 +336,16 @@ const Form = () => {
 
   return (
     <>
-      <a className="plus radius" href="#form"> </a>
+      <button
+        className="plus radius"
+        type='button'
+        onClick={() => {
+          formRef.current.scrollIntoView();
+          fioInputRef.current.focus()
+        }}></button>
       <ReactCardFlip isFlipped={calendarMode} flipDirection="horizontal">
         <div className="form_wrap">
-          <form action="#" id="form" className="form" >
+          <form action="#" id="form" className="form" ref={formRef}>
             <section className="form_header">
               <a
                 href={url.bot}
@@ -415,7 +421,7 @@ const Form = () => {
                   placeholder=' '
                   id="newParticipantName"
                   autoComplete='off'
-                  ref={fioInput}
+                  ref={fioInputRef}
                   value={fio}
                   onChange={event => setFio(event.target.value)}
                   onClick={showpromptFio}
