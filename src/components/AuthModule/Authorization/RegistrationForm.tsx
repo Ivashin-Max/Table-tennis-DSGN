@@ -49,7 +49,7 @@ const RegistrationForm = (props: IAuthFormsProps) => {
         if (response.status === 200) {
           dispatch(openModal({
             title: 'Успешно',
-            modalMsg: response.data
+            modalMsg: `Профиль с никнеймом ${profile.username} зарегистрирован успешно`
           }))
         }
         setLoading(false)
@@ -65,7 +65,14 @@ const RegistrationForm = (props: IAuthFormsProps) => {
             title: 'Ошибка!',
             modalMsg: 'Профиль уже существует'
           }))
+        else {
+          dispatch(openModal({
+            title: 'Ошибка!',
+            modalMsg: e.message
+          }))
+        }
       })
+
 
   }
 

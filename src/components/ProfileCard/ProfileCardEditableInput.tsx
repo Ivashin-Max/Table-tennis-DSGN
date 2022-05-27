@@ -11,11 +11,25 @@ import Title from '../Styled/Title';
 import { patchProfile, profileInfo } from '../../actions/Profile/profileRequests';
 import { useDispatch } from 'react-redux';
 import { setAuth } from '../../store/reducer';
+import * as yup from "yup";
+import { yupResolver } from '@hookform/resolvers/yup';
+
 
 const spanAnimation = {
   hover: { scale: 1.5 },
   tap: { scale: 1.2 }
 };
+
+const AuthSchema = yup.object().shape({
+
+  id: yup
+    .number()
+    .typeError('Должен содержать только цифры')
+  // .matches(/^[0-9]+$/, "Must be only digits")
+
+
+});
+
 
 const EditableInput = ({ title, id, user, editable }: EditableInputProps) => {
   const [edit, setEdit] = useState(false);
@@ -25,9 +39,9 @@ const EditableInput = ({ title, id, user, editable }: EditableInputProps) => {
   const {
     register,
     handleSubmit,
+    formState: { errors },
     reset,
-
-  } = useForm<any>();
+  } = useForm<any>({ mode: 'onChange', resolver: yupResolver(AuthSchema) });
 
   const onSubmit = (data: any) => {
     const inputValue = data.id;
@@ -69,25 +83,34 @@ const EditableInput = ({ title, id, user, editable }: EditableInputProps) => {
       {edit ?
         <form onSubmit={handleSubmit(onSubmit)} className="profileCard__form" >
 
+          <div >
 
-          <input defaultValue={id} autoComplete='off' {...register('id')} placeholder='Введите ID' />
-          <motion.span
-            variants={spanAnimation}
-            whileHover="hover"
-            whileTap="tap"
-          >
-            <button>
-              <OkIcon
-                className='svg__pencil'
-                title='Редактировать'
-              />
-            </button>
+            <input
+              defaultValue={id}
+              autoComplete='off' {...register('id')}
+              placeholder='Введите ID'
+
+            />
+            <motion.span
+              variants={spanAnimation}
+              whileHover="hover"
+              whileTap="tap"
+            >
+              <button>
+                <OkIcon
+                  className='svg__pencil'
+                  title='Редактировать'
+                />
+              </button>
 
 
 
-          </motion.span>
+            </motion.span>
+          </div>
 
 
+
+          {errors.id && <p>{errors.id.message}</p>}
 
 
 

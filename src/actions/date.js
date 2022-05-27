@@ -11,6 +11,8 @@ export function checkDate(date) {
   return false
 }
 
+
+
 export function getTournamentDay(date, dayNameLength = 'short') {
   const inputDate = new Date(date).toLocaleDateString("ru-RU", { weekday: dayNameLength });
   return inputDate

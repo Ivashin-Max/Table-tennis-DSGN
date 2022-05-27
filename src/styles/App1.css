@@ -151,6 +151,7 @@ body {
 }
 .overflow {
   overflow: hidden;
+  padding-bottom: 10px;
 }
 .infinite {
   font-size: 18px;
@@ -189,7 +190,7 @@ body {
 .header__navbar {
   font-family: 'OpenSans';
   position: relative;
-  z-index: 102;
+  z-index: 9999999;
   font-weight: 400;
   color: #2B476A;
 }
@@ -354,6 +355,20 @@ body {
   display: flex;
   align-items: center;
   justify-content: center;
+  position: relative;
+}
+.profileCard__form button {
+  background-color: transparent;
+}
+.profileCard__form div {
+  display: flex;
+}
+.profileCard__form p {
+  position: absolute;
+  top: 14px;
+  color: red;
+  font-size: 0.9rem;
+  text-align: left;
 }
 .profileCard__form input {
   width: 10px;

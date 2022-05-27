@@ -193,6 +193,7 @@ body {
 
 .overflow {
   overflow: hidden;
+  padding-bottom: 10px;
 }
 
 .infinite {
@@ -241,7 +242,7 @@ body {
     font-family: 'OpenSans';
 
     position: relative;
-    z-index: 102;
+    z-index: 9999999;
     font-weight: 400;
     color: @color_text;
 
@@ -447,6 +448,26 @@ body {
     display: flex;
     align-items: center;
     justify-content: center;
+    position: relative;
+
+    & button {
+      background-color: transparent;
+    }
+
+    & div {
+      display: flex;
+
+
+    }
+
+
+    & p {
+      position: absolute;
+      top: 14px;
+      color: red;
+      font-size: .9rem;
+      text-align: left;
+    }
 
     & input {
       width: 10px;

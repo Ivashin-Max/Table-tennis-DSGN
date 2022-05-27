@@ -4,6 +4,7 @@ import { useSelector } from 'react-redux';
 import classNames from 'classnames';
 import { useNavigate } from 'react-router-dom';
 import ModalAuth from './AuthModule/Modal/Modal';
+import Button from './Styled/Button';
 
 
 const MyHeader = ({ adminMode }) => {
@@ -23,9 +24,9 @@ const MyHeader = ({ adminMode }) => {
           <div className="header__left_round" onClick={() => navigate('/user')} ></div>
 
           <div>
-            {adminMode ?
+            {isAdmin ?
               <>
-                <p>Админка</p>
+                <Button onClick={() => navigate('/admin')}>Админская панель</Button>
               </> :
               <>
                 <p>Форма регистрации</p>
@@ -33,7 +34,7 @@ const MyHeader = ({ adminMode }) => {
               </>
             }
 
-            {isAdmin && <button onClick={() => navigate('/admin')}>         /Админка го</button>}
+            {/* {isAdmin && <Button small onClick={() => navigate('/admin')}>Админская панель</Button>} */}
 
           </div>
         </div>
