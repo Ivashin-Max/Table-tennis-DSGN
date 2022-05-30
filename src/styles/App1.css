@@ -190,7 +190,7 @@ body {
 .header__navbar {
   font-family: 'OpenSans';
   position: relative;
-  z-index: 9999999;
+  z-index: 1299;
   font-weight: 400;
   color: #2B476A;
 }

@@ -12,6 +12,7 @@ import { useTypedSelector } from '../../../hooks/useTypedSelector';
 import { useDispatch } from 'react-redux';
 import { setAuth } from '../../../store/reducer';
 import { ModalSteps } from '../../../types/forms';
+import { motion, AnimatePresence } from 'framer-motion/dist/framer-motion';
 import ResetPassSendEmail from '../Authorization/ResetPassSendEmail';
 
 export default function AuthModal() {
@@ -70,9 +71,33 @@ export default function AuthModal() {
           >
 
             <DialogContent>
-              {modalStep === 'auth' && <AuthForm closeFormModal={handleClose} changeForm={changeForm} />}
-              {modalStep === 'register' && <RegistrationForm closeFormModal={handleClose} changeForm={changeForm} />}
-              {modalStep === 'reset' && <ResetPassSendEmail sendEmail closeFormModal={handleClose} changeForm={changeForm} />}
+              <AnimatePresence>
+                {modalStep === 'auth' &&
+
+                  <motion.div
+                    initial={{ opacity: 0 }}
+                    animate={{ opacity: 1 }}
+                    transition={{ duration: .5 }}
+                    exit={{ x: 1000 }}
+                  >
+                    <AuthForm closeFormModal={handleClose} changeForm={changeForm} />
+                  </motion.div>
+
+
+
+
+                }
+                {modalStep === 'register' &&
+                  <RegistrationForm closeFormModal={handleClose} changeForm={changeForm} />
+                }
+                {modalStep === 'reset' &&
+
+
+                  <ResetPassSendEmail sendEmail closeFormModal={handleClose} changeForm={changeForm} />
+
+
+                }
+              </AnimatePresence>
             </DialogContent>
           </Dialog>
         </>}
