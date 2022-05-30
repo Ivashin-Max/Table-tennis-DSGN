@@ -91,6 +91,10 @@ const Form = () => {
     if (authState.isAuthorized) setFio(authState.fio)
   }, [authState])
 
+  React.useEffect(() => {
+    fioInputRef.current.focus()
+  }, [calendarMode])
+
 
   const prizesParse = () => {
 

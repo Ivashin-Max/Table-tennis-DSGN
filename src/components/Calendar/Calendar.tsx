@@ -16,6 +16,7 @@ import { setTable } from '../../store/reducer';
 import { getParticipants } from '../../actions/fetchDB';
 import classNames from 'classnames';
 import { useSearchParams } from 'react-router-dom';
+import { ITournamentGet } from '../../types/fetch';
 
 
 
@@ -36,8 +37,8 @@ const MyCalendar = ({ flipCard }: any) => {
   const [events, setEvents] = useState<CalendarEvent[]>([])
   const [tournaments, setTournaments] = useState<any[]>([])
   const [days, setDays] = useState<CalendarDate[]>([])
-
-
+  const isMobile = window.innerWidth < 500 ? true : false
+  const [visible, setVisible] = useState(0);
 
   let classNameEvent = classNames({
     'calendar__event': true,
@@ -53,6 +54,31 @@ const MyCalendar = ({ flipCard }: any) => {
     setSearchParams({ tournament: tournament.id, division: tournament.division })
     await dispatch(getParticipants(tournament.id));
     flipCard();
+  }
+
+  const clickHandler2 = (tournament: any) => {
+    let counter = 0;
+    // debugger
+    // console.log(tournament)
+    return async () => {
+      counter += 1;
+      console.log('counter', counter)
+      setVisible(tournament.id)
+      if (!isMobile) counter = 10;
+      if (counter > 1) {
+        setVisible(0)
+        await dispatch(setTable({
+          neededDivisionId: tournament.division,
+          neededTournamentId: tournament.id
+        }))
+        setSearchParams({ tournament: tournament.id, division: tournament.division })
+        await dispatch(getParticipants(tournament.id));
+        flipCard();
+
+      }
+      // console.log('tournament.division', tournament.division)
+
+    }
   }
 
 
@@ -99,6 +125,7 @@ const MyCalendar = ({ flipCard }: any) => {
   useEffect(() => {
     const nextWeek = getNextWeek();
     setDays(nextWeek)
+    // console.log(1111, isMobile)
   }, [])
 
 
@@ -122,6 +149,7 @@ const MyCalendar = ({ flipCard }: any) => {
   }, [tournaments])
 
   const EventsRow = (neededEvent: CalendarEvent, index: number) => {
+    // console.log(6666, neededEvent.tournamentInfo.id)
     return (
       <Tooltip placement="right" key={index}
         overlay={
@@ -151,9 +179,17 @@ const MyCalendar = ({ flipCard }: any) => {
             </div>
           </>
         }
-        trigger={['hover']} mouseLeaveDelay={0} align={alignConfig}
+
+        mouseLeaveDelay={0}
+        align={alignConfig}
+
+        visible={neededEvent.tournamentInfo.id === visible ? true : false}
       >
-        <div className={classNameEvent} onClick={clickHandler(neededEvent.tournamentInfo)}>
+        <div className={classNameEvent}
+          onClick={clickHandler2(neededEvent.tournamentInfo)}
+          onMouseEnter={() => setVisible(neededEvent.tournamentInfo.id)}
+          onMouseLeave={() => setVisible(0)}
+        >
           {neededEvent.tournamentInfo.team ?
             <div>{getTournamentTime(neededEvent.tournamentInfo.date_time)}
               <GroupIcon className='person' />
