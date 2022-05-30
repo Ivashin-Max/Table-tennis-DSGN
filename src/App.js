@@ -47,7 +47,7 @@ function App() {
         <Routes>
           <Route path='*' element={<Navigate to="/user" replace />} />
           <Route path="/user" element={<UserWrapper />} />
-          <Route path="/user/*" element={<UserWrapper />} />
+          {/* <Route path="/user/*" element={<UserWrapper />} /> */}
           <Route path="/admin" element={<AdminWrapper />} />
           <Route path="/editor" element={<EditorWrapper />} />
           <Route path="/reset" element={<ResetPass />} />
