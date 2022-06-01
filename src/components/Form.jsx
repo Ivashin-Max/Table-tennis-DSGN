@@ -31,6 +31,12 @@ const alignConfig = {
   overflow: { adjustX: true, adjustY: true }, // auto adjust position when sourceNode is overflowed
 };
 
+const alignConfigTop = {
+  // the offset sourceNode by 10px in x and 20px in y,
+  targetOffset: ['-200%', '100%'], // the offset targetNode by 30% of targetNode width in x and 40% of targetNode height in y,
+  overflow: { adjustX: true, adjustY: true }, // auto adjust position when sourceNode is overflowed
+};
+
 
 
 
@@ -508,7 +514,7 @@ const Form = () => {
                   }
                   trigger={['hover']}
                   mouseLeaveDelay={0}
-                  align={alignConfig}
+                  align={alignConfigTop}
                   className='prizes__tooltip'
                 >
                   <PrizeIcon className='svg__prize' />
