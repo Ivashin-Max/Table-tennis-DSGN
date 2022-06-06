@@ -8,110 +8,114 @@ import { deleteLink, patchLink } from '../../../actions/Admin/adminRequests';
 import { useDispatch } from 'react-redux';
 import { openModal, setLoading } from '../../../store/reducer';
 import axios from 'axios';
+import { yupResolver } from '@hookform/resolvers/yup';
+import { AddLinkSchema } from './AdminLinksAdd';
+import Typography from '../../Styled/Typography';
 
 
 const AdminLinksEdit = ({ id, link, title, getLinks }: ILinkProps) => {
-  const [edit, setEdit] = useState(false);
-  const dispatch = useDispatch();
+    const [edit, setEdit] = useState(false);
+    const dispatch = useDispatch();
 
-  const {
-    register,
-    handleSubmit,
-  } = useForm<ILink>();
+    const {
+        register,
+        handleSubmit,
+        formState: { errors }
+    } = useForm<ILink>({ resolver: yupResolver(AddLinkSchema), mode: 'onSubmit' });
 
-  const onSubmit = async (data: ILink) => {
-    data.id = id;
+    const onSubmit = async (data: ILink) => {
+        data.id = id;
 
-    dispatch(setLoading({ isLoading: true }))
-    try {
-      const response = await patchLink(data);
+        dispatch(setLoading({ isLoading: true }))
+        try {
+            const response = await patchLink(data);
 
-      if (response.status === 200) {
-        dispatch(openModal({
-          title: 'Успешно',
-          modalMsg: 'Ссылка отредактирована успешно'
-        }));
-        getLinks();
-        setEdit(false)
-      }
+            if (response.status === 200) {
+                dispatch(openModal({
+                    title: 'Успешно',
+                    modalMsg: 'Ссылка отредактирована успешно'
+                }));
+                getLinks();
+                setEdit(false)
+            }
+        }
+        catch (e) {
+            if (axios.isAxiosError(e)) {
+                dispatch(openModal({ title: 'Ошибка!', modalMsg: `Ошибка редактирования ссылки` }));
+                setEdit(false)
+                console.warn('Ошибка редактирования ссылки', e.toJSON())
+            }
+            else {
+                throw new Error('Неизвестная ошибка');
+            }
+        }
+        finally {
+            dispatch(setLoading({ isLoading: false }))
+        }
     }
-    catch (e) {
-      if (axios.isAxiosError(e)) {
-        dispatch(openModal({ title: 'Ошибка!', modalMsg: `Ошибка редактирования ссылки` }));
-        setEdit(false)
-        console.warn('Ошибка редактирования ссылки', e.toJSON())
-      }
-      else {
-        throw new Error('Неизвестная ошибка');
-      }
+
+    const handleDelete = async () => {
+        // deleteLink(id)
+        dispatch(setLoading({ isLoading: true }))
+        try {
+            const response = await deleteLink(id);
+
+            if (response.status === 200) {
+                dispatch(openModal({
+                    title: 'Успешно',
+                    modalMsg: 'Ссылка удалена успешно'
+                }));
+                getLinks();
+            }
+        }
+        catch (e) {
+            if (axios.isAxiosError(e)) {
+                dispatch(openModal({ title: 'Ошибка!', modalMsg: `Ошибка удаления ссылки` }));
+                console.warn('Ошибка удаления ссылки', e.toJSON())
+            }
+            else {
+                throw new Error('Неизвестная ошибка');
+            }
+        }
+        finally {
+            dispatch(setLoading({ isLoading: false }))
+        }
     }
-    finally {
-      dispatch(setLoading({ isLoading: false }))
-    }
-  }
 
-  const handleDelete = async () => {
-    // deleteLink(id)
-    dispatch(setLoading({ isLoading: true }))
-    try {
-      const response = await deleteLink(id);
+    return (
+        <>
+            {edit ?
+                <form onSubmit={handleSubmit(onSubmit)}>
+                    <div className="inputs">
 
-      if (response.status === 200) {
-        dispatch(openModal({
-          title: 'Успешно',
-          modalMsg: 'Ссылка удалена успешно'
-        }));
-        getLinks();
-      }
-    }
-    catch (e) {
-      if (axios.isAxiosError(e)) {
-        dispatch(openModal({ title: 'Ошибка!', modalMsg: `Ошибка удаления ссылки` }));
-        console.warn('Ошибка удаления ссылки', e.toJSON())
-      }
-      else {
-        throw new Error('Неизвестная ошибка');
-      }
-    }
-    finally {
-      dispatch(setLoading({ isLoading: false }))
-    }
-  }
+                        <input defaultValue={title} autoComplete='off' {...register("title")} placeholder='Название' />
+                        <input defaultValue={link} autoComplete='off' {...register("link")} placeholder='Ссылка' />
+                        {errors.link && <Typography color='red' fz='12px'>{errors.link.message}</Typography>}
+                        <div className="adminLinks__center">
+                            <Button >Редактировать ссылку</Button>
+                        </div>
 
-  return (
-    <>
-      {edit ?
-        <form onSubmit={handleSubmit(onSubmit)}>
-          <div className="inputs">
+                    </div>
 
-            <input defaultValue={title} autoComplete='off' {...register("title")} placeholder='Название' />
-            <input defaultValue={link} autoComplete='off' {...register("link")} placeholder='Ссылка' />
+                </form>
+                : <div className='adminLinks__center'>
+                    <div >{title}</div>
+                    <PencilIcon
+                        className='svg__pencil'
+                        onClick={() => setEdit(true)}
+                        title='Редактировать ссылку'
+                    />
+                    <ClearStorageIcon
+                        className='clearStorage_icon'
+                        onClick={handleDelete}
+                        title='Удалить ссылку'
+                    />
 
-            <div className="adminLinks__center">
-              <Button >Редактировать ссылку</Button>
-            </div>
+                </div>}
 
-          </div>
+        </>
 
-        </form>
-        : <div className='adminLinks__center'>
-          <div >{title}</div>
-          <PencilIcon
-            className='svg__pencil'
-            onClick={() => setEdit(true)}
-            title='Редактировать ссылку'
-          />
-          <ClearStorageIcon
-            className='clearStorage_icon'
-            onClick={handleDelete}
-            title='Удалить ссылку'
-          />
-
-        </div>}
-
-    </>
-
-  )
+    )
 }
 
 export default AdminLinksEdit
