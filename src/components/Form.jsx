@@ -514,7 +514,7 @@ const Form = () => {
                                     }
                                     trigger={['hover']}
                                     mouseLeaveDelay={0}
-                                    align={alignConfig}
+                                    align={alignConfigTop}
                                     className='prizes__tooltip'
                                 >
                                     <PrizeIcon className='svg__prize' />
