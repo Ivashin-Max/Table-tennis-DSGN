@@ -778,6 +778,9 @@ main {
 .zapas {
   margin-top: 5px !important;
 }
+.react-card-flip {
+  display: flex;
+}
 .rc-tooltip {
   font-family: 'Montserrat';
   font-size: 1rem;
