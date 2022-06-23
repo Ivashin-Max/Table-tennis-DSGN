@@ -258,7 +258,7 @@ const Form = () => {
 
         try {
             trimmedFio1 = fio.trimStart().trimEnd()
-            trimmedFio2 = fio.trimStart().trimEnd()
+            trimmedFio2 = fio2.trimStart().trimEnd()
         }
         catch (e) {
             console.log('Ошибка удаления пробелов из ФИО, функционал не поддерживается браузером')
