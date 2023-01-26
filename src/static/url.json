@@ -1,4 +1,23 @@
 {
-  "PROD_settingsURL": "1PKVkuDeCrDG4wLFiM6DhPVXrlvmFk8fcfROXi4WNcoE",
-  "TEST_settingsURL": "1x6mTPIHz45lUEthwA7SljZvJBhgJzNYmIrQ_Y18UpXA"
+  "back": "https://ttreg.llntnino.ru",
+  "endpoints": {
+    "divisions": "/division/get",
+    "getParticipants": "/participant/get?id=",
+    "addParticipant": "/participant/add",
+    "deleteParticipant": "/participant/drop",
+    "profile": "/profile",
+    "authProfile": "/auth",
+    "getAllNames": "/participant/names/get",
+    "links": "/links",
+    "sendResetEmail": "/reset?email=",
+    "newPass": "/reset",
+    "admin": {
+      "deleteParticipant": "/admin/participant/drop",
+      "addTournament": "/admin/tournament/add",
+      "deleteTournament": "/admin/tournament/drop?id=",
+      "patchTournament": "/admin/tournament/edit",
+      "deleteLink": "/links?id="
+    }
+  },
+  "bot": "https://t.me/TT_CLUB_bot"
 }

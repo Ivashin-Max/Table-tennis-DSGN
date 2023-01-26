@@ -1,32 +1,47 @@
+import compareAsc from 'date-fns/compareAsc';
+import addDays from 'date-fns/addDays'
 
 
-export function checkDate(date, time) {
-  const currentYear = new Date().getFullYear();
-  const currentTime = new Date();
-  const correctTimeFormat = `T${time.trim()}:00`
-  const tournamentDate = new Date(`${currentYear}-${date.split('.').reverse().join('-')}${correctTimeFormat}`)
-  console.log(tournamentDate);
-  console.log(currentTime);
-  console.log(tournamentDate > currentTime ? 'турнир ещё не прошёл' : 'турнир уже прошёл');
-  if (tournamentDate > currentTime) {
-    return false
+export function checkDate(date) {
+  const currentDay = new Date();
+  // console.log('isLate?', compareAsc(new Date(date), currentDay))
+  const checkDate = compareAsc(new Date(date), currentDay)
+  // console.log(checkDate)
+  if (checkDate === -1 || checkDate === 0) return true;
+  return false
+}
+
+
+
+export function getTournamentDay(date, dayNameLength = 'short') {
+  const inputDate = new Date(date).toLocaleDateString("ru-RU", { weekday: dayNameLength });
+  return inputDate
+}
+
+export function getTournamentTime(date) {
+  const inputDate = new Date(date).toLocaleDateString("ru-RU", { hour: "2-digit", minute: "2-digit" }).split(',')[1]
+  return inputDate
+}
+
+export function getTournamentDate(date, monthNameLength = 'long') {
+  const options = { day: 'numeric', month: monthNameLength };
+  const inputDate = new Date(date).toLocaleDateString("ru-RU", options);
+  return inputDate
+}
+
+
+export function getNextWeek() {
+  const today = new Date();
+  const weekDays = [];
+  for (let i = 0; i < 7; i++) {
+    const nextDay = addDays(today, i);
+    const day = {
+      dateString: getTournamentDate(nextDay, 'numeric'),
+      dayName: getTournamentDay(nextDay, 'short'),
+      compareDate: getTournamentDate(nextDay),
+      date: nextDay
+    };
+    weekDays.push(day)
   }
-  return true
+  return weekDays
 }
-
-export function getTournamentDay(date) {
-
-  const currentYear = new Date().getFullYear();
-  const tournamentDay = new Date(`${currentYear}/${date.split('.').reverse().join('/')}`).toLocaleDateString("ru-RU", { weekday: 'short' })
-  // console.log('day', tournamentDay);
-
-  return tournamentDay
-}
-// function getDayName(dateStr, locale)
-// {
-//     var date = new Date(dateStr);
-//     return date.toLocaleDateString(locale, { weekday: 'long' });
-// }
-
-// var dateStr = '05/23/2014';
-// var day = getDayName(dateStr, "nl-NL");

@@ -1,22 +1,22 @@
-import { createStore, applyMiddleware, combineReducers } from 'redux';
-import { reducerTable, reducerSpreadsheetsIds, reducerData, reducerAuth, reducerSpreadsheets, reducerDate } from './reducer';
+import { createStore, applyMiddleware, combineReducers, compose } from 'redux';
+import { reducerTable, reducerData, reducerDate, reducerDivisions, reducerRole, reducerModal, reducerAuth, reducerLoading, reducerCalendarMode } from './reducer.js';
 import ReduxThunk from 'redux-thunk';
-
-// export const store = createStore(reducerTable);
+import thunk from 'redux-thunk';
 
 const middlewareConfig = () => [
-	{ condition: true, middleware: ReduxThunk },
+  { condition: true, middleware: ReduxThunk },
 ];
 
 export const getMiddleware = (config = middlewareConfig()) => (
-	config.filter(el => el.condition).map(el => el.middleware)
+  config.filter(el => el.condition).map(el => el.middleware)
 );
 
+const composeEnhancer = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
 
 
-const rootReducer = combineReducers({ table: reducerTable, spreadId: reducerSpreadsheetsIds, data: reducerData, date:reducerDate, test: reducerSpreadsheets })
+export const rootReducer = combineReducers({ table: reducerTable, data: reducerData, date: reducerDate, divisions: reducerDivisions, role: reducerRole, modal: reducerModal, auth: reducerAuth, loading: reducerLoading, calendarMode: reducerCalendarMode })
 
 export const store = createStore(
-	rootReducer,
-	applyMiddleware(...getMiddleware()),
+  rootReducer,
+  composeEnhancer(applyMiddleware(thunk))
 );
