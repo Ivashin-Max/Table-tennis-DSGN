@@ -11,6 +11,8 @@ import BackdropLoader from './components/Styled/Backdrop';
 import { initApp } from './actions/initApp';
 import { getUser } from './actions/localStorage';
 import ResetPass from './components/AuthModule/ResetPass';
+import Divisions from './components/Divisions/Divisions';
+import Coaches from './components/Coaches/Coaches';
 
 
 function App() {
@@ -51,6 +53,8 @@ function App() {
           <Route path="/admin" element={<AdminWrapper />} />
           <Route path="/editor" element={<EditorWrapper />} />
           <Route path="/reset" element={<ResetPass />} />
+          <Route path="/divisions" element={<Divisions />} />
+          <Route path="/coaches" element={<Coaches />} />
 
           <Route path='*' element={<Navigate to="/" replace />} />
         </Routes>

@@ -1,33 +1,34 @@
 import { InputHTMLAttributes } from "react";
 
-
 export type ModalMsgProps = {
-  message: string
-}
+  message: string;
+};
 export type AuthModalProps = {
-  isAuthorized: boolean
-}
+  isAuthorized: boolean;
+};
 
 export interface InputProps extends InputHTMLAttributes<HTMLInputElement> {
   name: string;
   label?: string;
   error?: string;
   register?: any;
+  coachCityId?: number;
+  resetField?: any;
 }
 export type EditableInputProps = {
-  editable?: boolean
-  title: string,
-  id: number,
-  user: any
-}
+  editable?: boolean;
+  title: string;
+  id: number;
+  user: any;
+};
 
 export type TableFioProps = {
   participant: any;
   currentTournament: any;
   zapas?: boolean;
   adminMode?: boolean;
-}
+};
 
 export type TableProps = {
   adminMode?: boolean;
-}
+};

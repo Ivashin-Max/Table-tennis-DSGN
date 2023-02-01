@@ -139,6 +139,32 @@ export function reducerDivisions(state = divisons, action) {
   }
 }
 
+
+//-------------------------
+//Стор для хранения текущего города 
+const city = {};
+
+const SET_CITY = 'SET_CITY';
+
+export const setCity = (payload) => {
+  return {
+    type: SET_CITY,
+    payload
+  }
+}
+
+export function reducerCity(state = city, action) {
+  switch (action.type) {
+    case SET_CITY:
+      return {
+        ...state,
+        ...action.payload,
+      }
+    default:
+      return state;
+  }
+}
+
 //Стор для хранения роли пользователя
 const role = {
   isAdmin: false,

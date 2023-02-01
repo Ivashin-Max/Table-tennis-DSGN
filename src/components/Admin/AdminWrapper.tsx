@@ -1,26 +1,23 @@
-import { useEffect } from 'react';
-import MyHeader from '../MyHeader';
-import Table from '../Table';
+import { useEffect } from "react";
+import MyHeader from "../MyHeader";
+import Table from "../Table";
 // import AdminForm from './AdminForm';
-import { useNavigate } from 'react-router-dom';
-import AdminForm from './AdminForm';
-import ProfileCardWrapper from '../ProfileCard/ProfileCardWrapper';
-
+import { useNavigate } from "react-router-dom";
+import AdminForm from "./AdminForm";
+import Coaches from "../Coaches/Coaches";
 
 const AdminWrapper = () => {
   let navigate = useNavigate();
-  const isAdmin = !!sessionStorage.getItem('admin')
+  const isAdmin = !!sessionStorage.getItem("admin");
 
   useEffect(() => {
     if (isAdmin !== true) {
-      alert('Доступ запрещен')
-      navigate('/')
+      alert("Доступ запрещен");
+      navigate("/");
     }
 
-
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [])
-
+  }, []);
 
   return (
     <>
@@ -28,10 +25,10 @@ const AdminWrapper = () => {
       <main>
         <Table adminMode={true} />
         <AdminForm />
-        <ProfileCardWrapper />
+        <Coaches />
       </main>
     </>
-  )
-}
+  );
+};
 
-export default AdminWrapper
+export default AdminWrapper;

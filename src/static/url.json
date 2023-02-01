@@ -1,5 +1,5 @@
 {
-  "back": "https://ttreg.llntnino.ru",
+  "back": "https://spinreg.llntnino.ru",
   "endpoints": {
     "divisions": "/division/get",
     "getParticipants": "/participant/get?id=",
@@ -8,6 +8,7 @@
     "profile": "/profile",
     "authProfile": "/auth",
     "getAllNames": "/participant/names/get",
+    "getCoaches": "/coaches?id=",
     "links": "/links",
     "sendResetEmail": "/reset?email=",
     "newPass": "/reset",

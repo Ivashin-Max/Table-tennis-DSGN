@@ -1,67 +1,75 @@
-import * as React from 'react';
-import TextField from '@mui/material/TextField';
+import React, { useEffect, useState } from "react";
+import TextField from "@mui/material/TextField";
 
-import Autocomplete from '@mui/material/Autocomplete';
-import { getRegistrationNames } from '../../../actions/Profile/profileRequests';
-import { InputProps } from '../../../types/props';
-import Typography from '../../Styled/Typography';
+import Autocomplete from "@mui/material/Autocomplete";
+import {
+  getRegistrationCoaches,
+  getRegistrationNames,
+} from "../../../actions/Profile/profileRequests";
+import { InputProps } from "../../../types/props";
+import Typography from "../../Styled/Typography";
 
-
-export const AutocompleteFio: React.FC<InputProps> = ({
+const AutocompleteFio: React.FC<InputProps> = ({
   register,
   name,
   error,
   label,
+  coachCityId,
   ...rest
 }) => {
-  const [names, setNames] = React.useState<any[]>([])
-  const [loading, setLoading] = React.useState(true)
-  React.useEffect(() => {
-    getRegistrationNames()
-      .then(res => {
+  const [names, setNames] = useState<any[]>([]);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    (coachCityId ? getRegistrationCoaches(coachCityId) : getRegistrationNames())
+      .then((res) => {
         setNames(res.data);
-        setLoading(false)
+        setLoading(false);
       })
-      .catch(res => {
-        console.warn('Ошибка загрузки участников', res.toJSON())
-        setLoading(false)
-      })
-
-
-  }, [])
+      .catch((res) => {
+        console.warn("Ошибка загрузки", res.toJSON());
+        setLoading(false);
+      });
+  }, [coachCityId]);
 
   return (
     <>
       <Autocomplete
-        sx={{ mb: 1, boxShadow: "inset 0px 4px 4px rgba(0, 0, 0, 0.082)", }}
-        id="free-solo-demo"
+        sx={{ mb: 1, boxShadow: "inset 0px 4px 4px rgba(0, 0, 0, 0.082)" }}
         freeSolo
         loading={loading}
         // key={option => option.id}
-        loadingText='Загрузка...'
+        loadingText="Загрузка..."
         options={names}
-        getOptionLabel={option => option.fio}
+        getOptionLabel={(option) => option.fio ?? option.name}
         renderOption={(props, option) => {
           return (
             <span {...props} key={option.id}>
-              {option.fio}
+              {option.fio ?? option.name}
             </span>
           );
         }}
-
-        renderInput={(params) => <TextField {...params}
-          autoComplete="off"
-          {...register(name)}
-
-          {...rest} label="ФИО*"
-          sx={{ boxShadow: "inset 0px 4px 4px rgba(0, 0, 0, 0.082)", height: 1 }}
-        />}
-
+        renderInput={(params) => (
+          <TextField
+            {...params}
+            autoComplete="off"
+            {...register(name)}
+            {...rest}
+            label={label}
+            sx={{
+              boxShadow: "inset 0px 4px 4px rgba(0, 0, 0, 0.082)",
+              height: 1,
+            }}
+          />
+        )}
       />
-      {error &&
-        <Typography align='left' color='red' fz='12px'>{error}</Typography>
-      }
+      {error && (
+        <Typography align="left" color="red" fz="12px">
+          {error}
+        </Typography>
+      )}
     </>
   );
-}
+};
 
+export default React.memo(AutocompleteFio);
