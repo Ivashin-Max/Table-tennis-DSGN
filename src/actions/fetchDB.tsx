@@ -34,22 +34,33 @@ export const getDivisionsInfo = () => (dispatch: any) => {
 };
 
 export const getParticipants =
-  (tournamentId: number) => async (dispatch: any, getState: any) => {
+  (
+    cityId?: number,
+    zoneId?: number,
+    divisionId?: number,
+    tournamentId?: number
+  ) =>
+  async (dispatch: any, getState: any) => {
     if (tournamentId === 0) {
       dispatch(setEmptyData());
     } else {
       dispatch(setLoading({ isLoading: true }));
-      const currentTable = getState().table;
-      try {
-        const neededDivision = getState().divisions.divisions.find(
-          (el: any) => el.id === currentTable.neededDivisionId
-        );
 
+      try {
+        const neededCity = getState().divisions.divisions.find(
+          (el: any) => el.id === cityId
+        );
+        const neededZone = neededCity?.zones.find(
+          (el: any) => el.id === zoneId
+        );
+        const neededDivision = neededZone?.divisions.find(
+          (el: any) => el.id === divisionId
+        );
         const neededTournament = neededDivision.tournaments.find(
           (el: any) => el.id === tournamentId
         );
-        if (!neededDivision || !neededTournament) throw new Error("error");
-        // console.log('neededTournament', neededTournament)
+        if (!neededCity || !neededZone || !neededDivision || !neededTournament)
+          throw new Error("error");
         const apiUrl = url.back + url.endpoints.getParticipants + tournamentId;
         axios
           .get<IParticipantGet[]>(apiUrl)
@@ -98,6 +109,7 @@ export const getParticipants =
             modalMsg: `Ошибка загрузки турнира по ссылке, выберите вручную`,
           })
         );
+        console.log(e);
       }
       dispatch(setLoading({ isLoading: false }));
     }
@@ -120,4 +132,9 @@ export const getLinks = () => {
   const apiUrl = url.back + url.endpoints.links;
 
   return axios.get<ILink[]>(apiUrl);
+};
+
+export const getCoaches = (cityId: number) => {
+  const apiUrl = url.back + url.endpoints.getCoaches + cityId;
+  return axios.get(apiUrl);
 };

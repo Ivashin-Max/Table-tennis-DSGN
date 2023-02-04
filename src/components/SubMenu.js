@@ -7,59 +7,82 @@ import { getTournamentDay, getTournamentDate } from "../actions/date";
 import { getParticipants } from "../actions/fetchDB";
 import { ReactComponent as GroupIcon } from "../styles/img/group-svgrepo-com.svg";
 import { useSearchParams } from "react-router-dom";
+import { useCurrentCity } from "../hooks/useCurrentTournament.js";
 
 //Подменю хедера, которые мы создаём при ините
-const SubMenu = ({ divisionId, tournaments, adminMode }) => {
+const SubMenu = ({ adminMode, zone }) => {
   const dispatch = useDispatch();
+  const currentCity = useCurrentCity();
 
   let [, setSearchParams] = useSearchParams();
 
   // const newTournamentButton = 0;
 
   const onClick = React.useCallback(
-    (id) => async () => {
+    (divisionId, tournamentId) => async () => {
       await dispatch(
         setTable({
           neededDivisionId: divisionId,
-          neededTournamentId: id,
+          neededTournamentId: tournamentId,
+          neededZone: zone.id,
         })
       );
-      await dispatch(getParticipants(id));
+      await dispatch(
+        getParticipants(currentCity.id, zone.id, divisionId, tournamentId)
+      );
 
-      setSearchParams({ tournament: id, division: divisionId });
+      setSearchParams({
+        tournament: tournamentId,
+        division: divisionId,
+        zone: zone.id,
+        city: currentCity.id,
+      });
 
       dispatch(setCalendarMode({ calendarMode: false }));
-
-      // eslint-disable-next-line react-hooks/exhaustive-deps
     },
-    [dispatch, divisionId]
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    [dispatch, zone]
   );
 
   return (
     <>
       <ul className="header__navbar_menu_sub">
-        {tournaments?.map((tournament, index) => (
+        {zone?.divisions?.map((division, index) => (
           <React.Fragment key={index}>
-            {tournament?.name && (
-              <li onClick={onClick(tournament.id)}>
-                {tournament.tournament_name} |{" "}
-                <span>{getTournamentDate(tournament.date_time)}</span> |
-                <CalendarIcon className="person" />
-                <span>{getTournamentDay(tournament.date_time)}</span>|{" "}
-                {!!tournament.team ? (
-                  <>
-                    <GroupIcon className="svg__group" /> {tournament.count}
-                  </>
-                ) : (
-                  <>
-                    <PersonIcon className="person" /> {tournament.count}
-                  </>
+            {adminMode && <div>{division.division_name} дивизион</div>}
+            {division?.tournaments?.map((tournament, index) => (
+              <React.Fragment key={index}>
+                {tournament?.tournament_name && (
+                  <li onClick={onClick(division.id, tournament.id)}>
+                    {tournament.tournament_name} |{" "}
+                    <span>{getTournamentDate(tournament.date_time)}</span> |
+                    <CalendarIcon className="person" />
+                    <span>{getTournamentDay(tournament.date_time)}</span>|{" "}
+                    {!!tournament.team ? (
+                      <>
+                        <GroupIcon className="svg__group" /> {tournament.count}
+                      </>
+                    ) : (
+                      <>
+                        <PersonIcon className="person" /> {tournament.count}
+                      </>
+                    )}
+                  </li>
                 )}
-              </li>
+              </React.Fragment>
+            ))}
+            {adminMode && (
+              <>
+                <li
+                  onClick={onClick(division.id, 0)}
+                  className="header__navbar_menu_sub_admin"
+                >
+                  +
+                </li>
+              </>
             )}
           </React.Fragment>
         ))}
-        {adminMode && <li onClick={onClick(0)}>+</li>}
       </ul>
     </>
   );

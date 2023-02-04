@@ -2,6 +2,7 @@
 const neededTable = {
   neededDivisionId: null,
   neededTournamentId: null,
+  neededZone:null
 }
 
 const SET_TABLE = 'SET_TABLE';
@@ -17,7 +18,7 @@ export const setTable = (payload) => {
 export function reducerTable(state = neededTable, action) {
   switch (action.type) {
     case 'SET_TABLE':
-      return { ...state, neededDivisionId: action.payload.neededDivisionId, neededTournamentId: action.payload.neededTournamentId }
+      return { ...state, neededDivisionId: action.payload.neededDivisionId, neededTournamentId: action.payload.neededTournamentId,neededZone: action.payload.neededZone }
     default:
       return state;
   }

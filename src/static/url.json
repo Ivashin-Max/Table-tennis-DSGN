@@ -14,6 +14,8 @@
     "newPass": "/reset",
     "admin": {
       "deleteParticipant": "/admin/participant/drop",
+      "deleteCoach": "/coaches?id=",
+      "addCoach": "/coaches",
       "addTournament": "/admin/tournament/add",
       "deleteTournament": "/admin/tournament/drop?id=",
       "patchTournament": "/admin/tournament/edit",

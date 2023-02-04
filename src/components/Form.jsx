@@ -33,6 +33,8 @@ import { motion } from "framer-motion/dist/framer-motion";
 import url from "../static/url.json";
 import MyCalendar from "./Calendar/Calendar";
 import { promptAnimate } from "../styles/animations/formAnimations";
+import AutocompleteFio from "./AuthModule/Authorization/AutocompleteFio";
+
 const alignConfig = {
   // the offset sourceNode by 10px in x and 20px in y,
   targetOffset: ["60%", "-200%"], // the offset targetNode by 30% of targetNode width in x and 40% of targetNode height in y,
@@ -65,6 +67,7 @@ const Form = () => {
   const [fio2, setFio2] = useState("");
   const [tell, setTell] = useState("");
   const currentTournament = useCurrentTournament();
+  const currentCity = useTypedSelector((state) => state.city).city;
 
   let classNameGreen = classNames({
     buttons_disabled: isLate,
@@ -489,24 +492,15 @@ const Form = () => {
                 <label>Ваше ФИО</label>
               </div>
 
-              {!authState?.isAuthorized && (
+              {/* {!authState?.isAuthorized && (
                 <>
-                  <div className="placeholder-container">
-                    <input
-                      type="text"
-                      placeholder=" "
-                      id="newParticipantName"
-                      autoComplete="off"
-                      ref={fioInputRef}
-                      value={fio}
-                      onChange={(event) => setFio(event.target.value)}
-                      onClick={showpromptFio}
-                      onBlur={hidepromptFio}
-                    />
-                    <label>Тренер</label>
-                  </div>
+                  <AutocompleteFio
+                    name="coach"
+                    label="Тренер*"
+                    coachCityId={currentCity.id}
+                  />
                 </>
-              )}
+              )} */}
 
               {currentTournament?.team !== null &&
                 currentTournament?.team === 1 && (

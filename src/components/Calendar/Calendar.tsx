@@ -7,7 +7,7 @@ import {
   getTournamentDate,
   getTournamentTime,
 } from "../../actions/date";
-import { getDivisionName } from "../../actions/divisions";
+
 import { ReactComponent as PersonIcon } from "../../styles/img/personWhite.svg";
 import { ReactComponent as StarIcon } from "../../styles/img/star-svgrepo-com.svg";
 import { ReactComponent as CalendarPrizeIcon } from "../../styles/img/filled-gift-svgrepo-com.svg";
@@ -20,6 +20,7 @@ import { getParticipants } from "../../actions/fetchDB";
 import classNames from "classnames";
 import { useSearchParams } from "react-router-dom";
 import { IDivision, IZone } from "../../types/fetch";
+import React from "react";
 
 const alignConfig = {
   offset: [-15, 5], // the offset sourceNode by 10px in x and 20px in y,
@@ -28,7 +29,6 @@ const alignConfig = {
 };
 
 const MyCalendar = ({ flipCard }: any) => {
-  const allCities = useTypedSelector((state) => state.divisions).divisions;
   const currentCity = useTypedSelector((state) => state.city).city;
 
   let [, setSearchParams] = useSearchParams();
@@ -56,13 +56,23 @@ const MyCalendar = ({ flipCard }: any) => {
           setTable({
             neededDivisionId: tournament.division,
             neededTournamentId: tournament.id,
+            neededZone: tournament.zoneId,
           })
         );
         setSearchParams({
           tournament: tournament.id,
           division: tournament.division,
+          zone: tournament.zoneId,
+          city: currentCity.id,
         });
-        await dispatch(getParticipants(tournament.id));
+        await dispatch(
+          getParticipants(
+            currentCity.id,
+            tournament.zoneId,
+            tournament.division,
+            tournament.id
+          )
+        );
         flipCard();
       }
     };
@@ -92,7 +102,7 @@ const MyCalendar = ({ flipCard }: any) => {
 
   const tournamentsToEvents = (tournaments: any[]) => {
     const eventsFromTournaments = tournaments.map((tournamet) => {
-      // console.log('tournamet', tournamet)
+      console.log("tournamet", tournamet);
       const tourDate = new Date(tournamet.date_time);
       const tourDateString = getTournamentDate(new Date(tournamet.date_time));
       const tourTitle = tournamet.tournament_name;
@@ -116,10 +126,21 @@ const MyCalendar = ({ flipCard }: any) => {
   useEffect(() => {
     if (currentCity) {
       const allZonesDivisions: IDivision[] = currentCity.zones
-        ?.map((zone: IZone) => zone.divisions)
+        ?.map((zone: IZone) => {
+          zone.divisions.forEach((division) => {
+            division.zoneId = zone.id;
+          });
+          return zone.divisions;
+        })
         ?.flat();
+
       const allTournaments = allZonesDivisions
-        ?.map((division) => division.tournaments)
+        ?.map((division) => {
+          division.tournaments.forEach((tournament) => {
+            tournament.zoneId = division.zoneId;
+          });
+          return division.tournaments;
+        })
         ?.flat();
 
       setTournaments(allTournaments ?? []);
@@ -134,6 +155,7 @@ const MyCalendar = ({ flipCard }: any) => {
   }, [tournaments]);
 
   const EventsRow = (neededEvent: CalendarEvent, index: number) => {
+    console.log("🚀 ~ neededEvent", neededEvent);
     return (
       <Tooltip
         placement="right"
@@ -142,11 +164,7 @@ const MyCalendar = ({ flipCard }: any) => {
           <>
             <div>
               <div className="calender__tooltipRow">
-                Дивизион:{" "}
-                {getDivisionName(
-                  neededEvent.tournamentInfo.division,
-                  allCities
-                )}
+                Название: {neededEvent.tournamentInfo.tournament_name}
               </div>
               <div className="calender__tooltipRow">
                 Цена: {neededEvent.tournamentInfo.cost}
@@ -157,9 +175,7 @@ const MyCalendar = ({ flipCard }: any) => {
               <div className="calender__tooltipRow">
                 Рейтинг: {neededEvent.tournamentInfo.rating_range}
               </div>
-              <div className="calender__tooltipRow">
-                Название: {neededEvent.tournamentInfo.tournament_name}
-              </div>
+
               <div className="calender__tooltipRow">
                 Дата: {getTournamentDate(neededEvent.tournamentInfo.date_time)}
               </div>

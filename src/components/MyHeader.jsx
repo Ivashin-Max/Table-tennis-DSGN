@@ -6,9 +6,9 @@ import ModalAuth from "./AuthModule/Modal/Modal";
 import Button from "./Styled/Button";
 import MenuItem from "@mui/material/MenuItem";
 import Select from "@mui/material/Select";
-import {
-  setCity,
-} from "../store/reducer.js";
+import { setCity } from "../store/reducer.js";
+import { useCurrentCity } from "../hooks/useCurrentTournament";
+import { useEffect } from "react";
 
 export const UNSORTED_CITY = "unsorted";
 
@@ -16,10 +16,9 @@ const MyHeader = ({ adminMode = false }) => {
   let navigate = useNavigate();
   const dispatch = useDispatch();
   const isAdmin = !!sessionStorage.getItem("admin");
-  const state = useSelector((state) => state.divisions)?.divisions?.filter(
-    (el) => el.city !== UNSORTED_CITY
-  );
-  const currentCity = useSelector((state) => state.city).city;
+  const state = useSelector((state) => state.divisions)?.divisions;
+
+  const currentCity = useCurrentCity();
 
   const handleChange = (event) => {
     dispatch(setCity({ city: event.target.value }));
@@ -67,18 +66,10 @@ const MyHeader = ({ adminMode = false }) => {
           <div className="header__navbar">
             <ul className={className}>
               {currentCity?.zones?.map((zone) => {
-                const tournaments = zone?.divisions?.map(
-                  (division) => division.tournaments
-                );
-
                 return (
                   <li key={zone.id}>
                     {zone.name}
-                    <SubMenu
-                      divisionId={zone.id}
-                      tournaments={tournaments}
-                      adminMode={adminMode}
-                    />
+                    <SubMenu adminMode={adminMode} zone={zone} />
                   </li>
                 );
               })}

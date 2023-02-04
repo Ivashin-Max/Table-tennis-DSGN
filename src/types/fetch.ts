@@ -97,4 +97,10 @@ export interface IDivision {
   division_name: string;
   id: number;
   tournaments: any[];
+  zoneId?: number;
+}
+
+export interface ICoach {
+  id: number;
+  name: string;
 }

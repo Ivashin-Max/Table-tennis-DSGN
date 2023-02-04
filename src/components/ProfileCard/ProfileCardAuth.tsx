@@ -15,11 +15,9 @@ import { useDispatch } from "react-redux";
 import { getParticipants } from "../../actions/fetchDB";
 import { setTable } from "../../store/reducer";
 import EditableInput from "./ProfileCardEditableInput";
-import { getDivisionName } from "../../actions/divisions";
 
 const ProfileCardAuth = () => {
   const user = useTypedSelector((state) => state.auth);
-  const allDivisions = useTypedSelector((state) => state.divisions).divisions;
   const myTournaments = useExactTournaments(user.tournamentsId);
   const dispatch = useDispatch();
   const rights =
@@ -35,7 +33,6 @@ const ProfileCardAuth = () => {
   const [settings, setSettings] = useState(false);
   const [telegramState, setTelegrammState] = useState(true);
   const [rttfState, setRttfState] = useState(true);
-  const [coachState, setCoachState] = useState(true);
 
   const settingsAnimation = {
     initial: { height: 0 },
@@ -60,7 +57,6 @@ const ProfileCardAuth = () => {
   useEffect(() => {
     if (!!user.userInfo.rttf_id) setRttfState(false);
     if (!!user.userInfo.telegram_id) setTelegrammState(false);
-    if (!!user.userInfo.coach) setCoachState(false);
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
@@ -151,41 +147,41 @@ const ProfileCardAuth = () => {
         </AnimatePresence>
 
         <AnimatePresence>
-          {coachState && (
-            <motion.div
-              initial="initial"
-              animate="animate"
-              exit="exit"
-              variants={settingsAnimation}
-            >
-              {user.userInfo.coachState ? (
-                <>
-                  <div className="profileCard__telegram">
-                    <EditableInput
-                      title="Тренер"
-                      id={user.userInfo.coachState}
-                      user={user.userInfo}
-                    />
-                  </div>
-                </>
-              ) : (
-                <>
-                  <div className="profileCard__telegram">
-                    <EditableInput
-                      editable
-                      title="Тренер"
-                      id={user.userInfo.coachState}
-                      user={user.userInfo}
-                    />
-                  </div>
-                </>
-              )}
-            </motion.div>
-          )}
+          <motion.div
+            initial="initial"
+            animate="animate"
+            exit="exit"
+            variants={settingsAnimation}
+          >
+            {user.userInfo.coach ? (
+              <>
+                <div className="profileCard__telegram">
+                  <EditableInput
+                    coach
+                    title="Тренер"
+                    id={user.userInfo.coach}
+                    user={user.userInfo}
+                  />
+                </div>
+              </>
+            ) : (
+              <>
+                <div className="profileCard__telegram">
+                  <EditableInput
+                    editable
+                    title="Тренер"
+                    id={user.userInfo.coachState}
+                    user={user.userInfo}
+                  />
+                </div>
+              </>
+            )}
+          </motion.div>
         </AnimatePresence>
       </div>
 
-      <div className="profileCard__tournaments">
+      {/* FIXME: онклик отвалился */}
+      {/* <div className="profileCard__tournaments">
         <div className="profileCard__text">Мои турниры</div>
         <ul>
           {myTournaments.map((tournament) => (
@@ -198,15 +194,12 @@ const ProfileCardAuth = () => {
                   <span>{getTournamentTime(tournament.date_time)}</span>
                   | <PersonIcon className="person" /> {tournament.count}
                 </div>
-                <div>
-                  {tournament.tournament_name}|
-                  {getDivisionName(tournament.division, allDivisions)}
-                </div>
+                <div>{tournament.tournament_name}</div>
               </div>
             </li>
           ))}
         </ul>
-      </div>
+      </div> */}
       {rights && (
         <>
           <div className="profileCard__line"></div>

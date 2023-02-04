@@ -46,10 +46,7 @@ export const getRegistrationNames = () => {
   return axios.get(apiUrl);
 };
 
-export const getRegistrationCoaches = (cityId: number) => {
-  const apiUrl = url.back + url.endpoints.getCoaches + cityId;
-  return axios.get(apiUrl);
-};
+
 
 export const sendEmailToResetPass = (email: string) => {
   const apiUrl = url.back + url.endpoints.sendResetEmail + email;

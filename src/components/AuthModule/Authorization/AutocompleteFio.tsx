@@ -2,12 +2,10 @@ import React, { useEffect, useState } from "react";
 import TextField from "@mui/material/TextField";
 
 import Autocomplete from "@mui/material/Autocomplete";
-import {
-  getRegistrationCoaches,
-  getRegistrationNames,
-} from "../../../actions/Profile/profileRequests";
+import { getRegistrationNames } from "../../../actions/Profile/profileRequests";
 import { InputProps } from "../../../types/props";
 import Typography from "../../Styled/Typography";
+import { getCoaches } from "../../../actions/fetchDB";
 
 const AutocompleteFio: React.FC<InputProps> = ({
   register,
@@ -21,7 +19,7 @@ const AutocompleteFio: React.FC<InputProps> = ({
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    (coachCityId ? getRegistrationCoaches(coachCityId) : getRegistrationNames())
+    (coachCityId ? getCoaches(coachCityId) : getRegistrationNames())
       .then((res) => {
         setNames(res.data);
         setLoading(false);

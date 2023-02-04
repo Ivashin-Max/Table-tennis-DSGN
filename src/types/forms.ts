@@ -5,61 +5,65 @@ export type RegistrationFormValues = {
   username: string;
   password: string;
   name?: string;
-}
+};
 
 export type ResetPassValues = {
-  mail: string
-}
+  mail: string;
+};
+
+export type NewCoachValues = {
+  name: string;
+  cityId?: string;
+};
 
 export type newPassValue = {
-  password: string
-}
+  password: string;
+};
 
 export type TournamentFormValues = {
-  cost: number,
-  date_time: Date,
-  division: number,
-  location: string,
-  organizer: string,
-  phone: string,
-  rating_range: string,
-  reserve: number | string,
-  tournament_name: string,
-  team: 0
-}
+  cost: number;
+  date_time: Date;
+  division: number;
+  location: string;
+  organizer: string;
+  phone: string;
+  rating_range: string;
+  reserve: number | string;
+  tournament_name: string;
+  team: 0;
+};
 
 export type ModalSteps = "auth" | "register" | "reset";
 
 export type AuthFormValues = {
   login: string;
   password: string;
-}
+};
 
 export interface IAuthFormsProps {
-  changeForm: (step: ModalSteps) => void
+  changeForm: (step: ModalSteps) => void;
   closeFormModal: () => void;
 }
 
 export interface ResetPassFormProps extends IAuthFormsProps {
-  sendEmail: boolean
+  sendEmail: boolean;
 }
-
-
 
 export type RegistrationFormStyleProps = {
   placeholder: string;
-}
+};
 
 export type RegistrationFormProps<T> = {
   placeholder: string;
-} & UseControllerProps<T>
-
+} & UseControllerProps<T>;
 
 export type LargeForm = {
-  onSubmit: (e?: React.BaseSyntheticEvent<object, any, any> | undefined) => Promise<void>;
+  onSubmit: (
+    e?: React.BaseSyntheticEvent<object, any, any> | undefined
+  ) => Promise<void>;
   children: ReactElement<any, any>[];
-  largeForm?: boolean
-}
+  largeForm?: boolean;
+};
 
 export type classNameType = string;
 export type childrenType = ReactNode;
@@ -72,9 +76,7 @@ export interface IFormProps {
   handleSubmit?: any;
   register?: any;
   className?: classNameType;
-  largeForm?: boolean
-  formTitle?: string,
+  largeForm?: boolean;
+  formTitle?: string;
   disabled?: boolean;
 }
-
-

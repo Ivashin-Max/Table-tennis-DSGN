@@ -1,12 +1,13 @@
 import { FC, createElement, ReactNode } from "react";
-import styled from 'styled-components';
-import { IFormProps, LargeForm } from '../../types/forms';
+import styled from "styled-components";
+import { IFormProps, LargeForm } from "../../types/forms";
 import Button from "./Button";
 import Title from "./Title";
 
 const SRegistrationForm = styled.form<LargeForm>`
-
-    ${props => props.largeForm && `
+  ${(props) =>
+    props.largeForm &&
+    `
         box-shadow: 0px 3px 10px rgb(0 0 0 / 25%);
 
 
@@ -21,17 +22,16 @@ const SRegistrationForm = styled.form<LargeForm>`
         flex-direction: column;
         align-items: center;
     `}
-    padding:10px;
-`
+  padding:10px;
+`;
 
 export type classNameType = string;
 export type childrenType = ReactNode;
 
-
 const Form: FC<IFormProps> = ({
   defaultValues,
   buttonLabel = "Submit",
-  formTitle = '',
+  formTitle = "",
   children,
   onSubmit,
   handleSubmit,
@@ -39,28 +39,25 @@ const Form: FC<IFormProps> = ({
   disabled,
   ...rest
 }) => {
-
   return (
     <SRegistrationForm onSubmit={handleSubmit(onSubmit)} {...rest} noValidate>
-      < >
+      <>
         <Title>{formTitle}</Title>
         {Array.isArray(children)
           ? children.map((child) => {
-            if (!child) return child
-            // if (!child.type) return child
-            return child.props.name
-              ? createElement(child.type, {
-                ...{
-                  ...child.props,
-                  register,
-                  key: child.props.name
-                }
-              })
-              : child;
-          })
-          : children
-
-        }
+              if (!child) return child;
+              // if (!child.type) return child
+              return child.props.name
+                ? createElement(child.type, {
+                    ...{
+                      ...child.props,
+                      register,
+                      key: child.props.name,
+                    },
+                  })
+                : child;
+            })
+          : children}
       </>
       <Button disabled={disabled}>{buttonLabel}</Button>
     </SRegistrationForm>

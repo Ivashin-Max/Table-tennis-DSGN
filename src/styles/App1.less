@@ -323,10 +323,6 @@ body {
         left: auto;
         right: 0;
       }
-
-      // &:hover:last-child .header__navbar_menu_sub{
-      // 	left: -60px;
-      // }
     }
 
     &_sub {
@@ -343,7 +339,15 @@ body {
         padding-top: 11px;
         padding-bottom: 11px;
         min-width: max-content;
+
       }
+
+      &_admin{
+        &:not(:last-child){
+            border-bottom: 1px solid;
+            margin-bottom: 10px;
+        }
+    }
 
       & li {
         display: block;
@@ -672,9 +676,10 @@ body {
     font-weight: 600;
     background-color: #fff;
     cursor: pointer;
+    transition: 1s ease;
 
     &:hover {
-      transition: 1s ease;
+
       transform: scale(1.3);
     }
 
