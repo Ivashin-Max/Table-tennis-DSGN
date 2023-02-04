@@ -34,6 +34,7 @@ import {
   removeStorageItem,
 } from "../../actions/localStorage";
 import { DynamicPrizes } from "./DynamicPrizes";
+import { useSearchParams } from "react-router-dom";
 
 // validation
 const AddTournamentSchema = yup.object().shape({
@@ -48,13 +49,10 @@ const AddTournamentSchema = yup.object().shape({
 });
 
 export const AdminForm = () => {
-  //   const currentDivisionName = useCurrentDivision()?.division_name;
+  let [searchParams, setSearchParams] = useSearchParams();
 
   const currentZoneAndDivision = useCurrentZoneAndDivision();
-  console.log("🚀 ~ currentZoneAndDivision", currentZoneAndDivision);
-  //   const currentDivisionId = useCurrentDivision()?.id;
   const currentTournament = useCurrentTournament();
-  console.log("🚀 ~ currentTournament", currentTournament);
   const [isPaid, setIsPaid] = useState(false);
   const child = useRef<any>();
 
@@ -141,6 +139,11 @@ export const AdminForm = () => {
     data.reserve = +data.reserve;
     data.rating_range = isRate ? data.rating_range : "0";
     data.date_time = date?.toJSON().slice(0, 16).replace("T", " ");
+    const zone = searchParams.get("zone");
+    if (zone) data.zone = +zone;
+
+    const city = searchParams.get("city");
+    if (city) data.city = +city;
 
     data.division = currentZoneAndDivision?.division.id;
     data.prize = "{}";

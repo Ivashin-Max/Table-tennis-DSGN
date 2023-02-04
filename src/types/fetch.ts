@@ -29,6 +29,8 @@ export interface ITournamentAdd {
   tournament_name: string;
   team: number;
   prize: string | null;
+  zone: number;
+  city: number;
 }
 
 export type DivisionsName =
