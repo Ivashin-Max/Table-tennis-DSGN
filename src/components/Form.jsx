@@ -296,6 +296,8 @@ const Form = () => {
         name: trimmedFio1,
         name_2: currentTournament.team ? trimmedFio2 : "",
         password: getPassword(),
+        // FIXME:test
+        coach: "test",
       };
       console.log("newParticipant", newParticipant);
       addLocalStorageItem("fio", fio);
