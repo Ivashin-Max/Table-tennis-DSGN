@@ -122,7 +122,6 @@ export const addParticipant = async (participant: IParticipantAdd) => {
 };
 
 export const deleteParticipantDB = async (participant: IParticipantAdd) => {
-  console.log(participant);
   const apiUrl = url.back + url.endpoints.deleteParticipant;
 
   return await axios.delete(apiUrl, { data: participant });
@@ -137,4 +136,16 @@ export const getLinks = () => {
 export const getCoaches = (cityId: number) => {
   const apiUrl = url.back + url.endpoints.getCoaches + cityId;
   return axios.get(apiUrl);
+};
+
+export const getDivisionsStructure = async () => {
+  const apiUrl = url.back + url.endpoints.divisionsStructure;
+  let result = null;
+  try {
+    result = (await axios.get(apiUrl)).data;
+  } catch (error) {
+    console.error("getDivisionsStructure error", error);
+  }
+
+  return result;
 };

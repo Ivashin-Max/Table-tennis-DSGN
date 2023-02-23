@@ -28,10 +28,9 @@ const AuthSchema = yup.object().shape({
 
 const RegistrationForm = (props: IAuthFormsProps) => {
   const [loading, setLoading] = useState(false);
-  const currentCity = useTypedSelector((state) => state.city).city;
   const dispatch = useDispatch();
 
-  const [coachCityId, setCoachCityId] = useState(currentCity.id);
+  const [cityId, setCityId] = useState(-1);
   const cities = useTypedSelector(
     (state) => state.divisions
   )?.divisions?.filter((el: any) => el.city !== UNSORTED_CITY);
@@ -42,6 +41,9 @@ const RegistrationForm = (props: IAuthFormsProps) => {
   } = useForm({ resolver: yupResolver(AuthSchema) });
 
   const onSubmit = (profile: RegistrationFormValues) => {
+    if (cityId === -1) return;
+    profile.city = cityId.toString();
+
     setLoading(true);
     newProfile(profile)
       .then((response) => {
@@ -80,7 +82,7 @@ const RegistrationForm = (props: IAuthFormsProps) => {
   };
   const handleChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
     const intValue = +e.currentTarget.value;
-    setCoachCityId(intValue);
+    setCityId(intValue);
   };
 
   return (
@@ -99,7 +101,10 @@ const RegistrationForm = (props: IAuthFormsProps) => {
           error={errors.name?.message}
           label="ФИО*"
         />
-        <select defaultValue={currentCity.city} onChange={handleChange}>
+        <select onChange={handleChange} defaultValue={-1} required>
+          <option value={-1} disabled>
+            Выберите город
+          </option>
           {cities?.map((city: any, index: number) => (
             <option value={city.id} key={index}>
               {city.city}
@@ -110,7 +115,8 @@ const RegistrationForm = (props: IAuthFormsProps) => {
           name="coach"
           error={errors.coach?.message}
           label="Тренер*"
-          coachCityId={coachCityId}
+          onlyAllowedOptions
+          coachCityId={cityId}
         />
 
         <Input

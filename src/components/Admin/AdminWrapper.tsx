@@ -22,7 +22,7 @@ const AdminWrapper = () => {
   return (
     <>
       <MyHeader adminMode />
-      <main>
+      <main className="admin">
         <Table adminMode={true} />
         <AdminForm />
         <Coaches />

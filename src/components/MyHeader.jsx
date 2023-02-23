@@ -1,28 +1,20 @@
 import SubMenu from "./SubMenu";
-import { useDispatch, useSelector } from "react-redux";
+import { useSelector } from "react-redux";
 import classNames from "classnames";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import ModalAuth from "./AuthModule/Modal/Modal";
 import Button from "./Styled/Button";
-import MenuItem from "@mui/material/MenuItem";
-import Select from "@mui/material/Select";
-import { setCity } from "../store/reducer.js";
 import { useCurrentCity } from "../hooks/useCurrentTournament";
-import { useEffect } from "react";
+import CitySelect from "./CitySelect";
 
 export const UNSORTED_CITY = "unsorted";
 
-const MyHeader = ({ adminMode = false }) => {
+const MyHeader = ({ adminMode = false, divisions = false }) => {
   let navigate = useNavigate();
-  const dispatch = useDispatch();
   const isAdmin = !!sessionStorage.getItem("admin");
   const state = useSelector((state) => state.divisions)?.divisions;
 
   const currentCity = useCurrentCity();
-
-  const handleChange = (event) => {
-    dispatch(setCity({ city: event.target.value }));
-  };
 
   let className = classNames({
     header__navbar_menu: true,
@@ -32,18 +24,12 @@ const MyHeader = ({ adminMode = false }) => {
     <>
       <div className="header">
         <div className="header__left">
-          <div
-            className="header__left_round"
-            onClick={() => navigate("/user")}
-          ></div>
-
+          <Link className="header__left_round" to={"/user"} />
           <div>
             {isAdmin ? (
-              <>
-                <Button onClick={() => navigate("/admin")}>
-                  Админская панель
-                </Button>
-              </>
+              <Button onClick={() => navigate("/admin")}>
+                Админская панель
+              </Button>
             ) : (
               <>
                 <p>Форма регистрации</p>
@@ -54,15 +40,15 @@ const MyHeader = ({ adminMode = false }) => {
             {/* {isAdmin && <Button small onClick={() => navigate('/admin')}>Админская панель</Button>} */}
           </div>
         </div>
+        {/* <div className="header__navbarWrapper"> */}
+        {!divisions && (
+          <Button onClick={() => navigate(`/divisions?city=${currentCity.id}`)}>
+            Дивизионы
+          </Button>
+        )}
+        {!divisions && <CitySelect />}
 
-        <Select value={currentCity} label="Город" onChange={handleChange}>
-          {state?.map((city, index) => (
-            <MenuItem value={city} key={index}>
-              {city.city}
-            </MenuItem>
-          ))}
-        </Select>
-        {state && (
+        {!divisions && state && (
           <div className="header__navbar">
             <ul className={className}>
               {currentCity?.zones?.map((zone) => {
@@ -76,6 +62,7 @@ const MyHeader = ({ adminMode = false }) => {
             </ul>
           </div>
         )}
+
         <ModalAuth />
       </div>
     </>

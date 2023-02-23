@@ -34,6 +34,8 @@ import url from "../static/url.json";
 import MyCalendar from "./Calendar/Calendar";
 import { promptAnimate } from "../styles/animations/formAnimations";
 import AutocompleteFio from "./AuthModule/Authorization/AutocompleteFio";
+import { useForm } from "react-hook-form";
+import { getCurrentTournamentByQuery } from "../actions";
 
 const alignConfig = {
   // the offset sourceNode by 10px in x and 20px in y,
@@ -48,6 +50,7 @@ const alignConfigTop = {
 };
 
 const Form = () => {
+  const { register, getValues } = useForm();
   const [loading, setLoading] = useState(false);
   const [promptFio, setpromptFio] = useState(false);
   const [isLate, setIsLate] = useState(true);
@@ -144,7 +147,7 @@ const Form = () => {
     );
   };
 
-  const checkEmptyInputs = () => {
+  const checkEmptyInputs = (checkCoach) => {
     if (fio.trim() === "") {
       dispatch(openModal({ title: "Ошибка!", modalMsg: "Введите ФИО" }));
 
@@ -159,15 +162,17 @@ const Form = () => {
       );
       setLoading(false);
       return false;
-    } else if (!!currentTournament.team && fio2.trim() === "") {
-      dispatch(
-        openModal({
-          title: "Ошибка!",
-          modalMsg: "Введите ФИО второго участника",
-        })
-      );
-      setLoading(false);
-      return false;
+    } else if (checkCoach) {
+      if (getValues().coach === "") {
+        dispatch(
+          openModal({
+            title: "Ошибка!",
+            modalMsg: "Выберите тренера из предложенного списка",
+          })
+        );
+        setLoading(false);
+        return false;
+      }
     }
   };
 
@@ -194,7 +199,11 @@ const Form = () => {
       try {
         const response = await deleteParticipantDB(participant);
         if (response.status === 200) {
-          await dispatch(getParticipants(currentTournament.id));
+          const query = getCurrentTournamentByQuery();
+          if (query)
+            await dispatch(
+              getParticipants(query.city, query.zone, query.div, query.tour)
+            );
           dispatch(
             openModal({
               title: "Успешно",
@@ -216,7 +225,12 @@ const Form = () => {
           try {
             const response = await deleteParticipantDB(participant);
             if (response.status === 200) {
-              await dispatch(getParticipants(currentTournament.id));
+              const query = getCurrentTournamentByQuery();
+              if (query)
+                await dispatch(
+                  getParticipants(query.city, query.zone, query.div, query.tour)
+                );
+
               dispatch(
                 openModal({
                   title: "Успешно",
@@ -286,7 +300,7 @@ const Form = () => {
 
   const newParticipant = async (e) => {
     e.preventDefault();
-    const emptyInputs = checkEmptyInputs();
+    const emptyInputs = checkEmptyInputs(true);
 
     if (emptyInputs !== false) {
       setLoading(true);
@@ -296,8 +310,7 @@ const Form = () => {
         name: trimmedFio1,
         name_2: currentTournament.team ? trimmedFio2 : "",
         password: getPassword(),
-        // FIXME:test
-        coach: "test",
+        coach: getValues().coach,
       };
       console.log("newParticipant", newParticipant);
       addLocalStorageItem("fio", fio);
@@ -306,7 +319,12 @@ const Form = () => {
         const response = await addParticipant(newParticipant);
 
         if (response.status === 200) {
-          await dispatch(getParticipants(currentTournament.id));
+          const query = getCurrentTournamentByQuery();
+          if (query)
+            await dispatch(
+              getParticipants(query.city, query.zone, query.div, query.tour)
+            );
+
           dispatch(
             openModal({
               title: "Успешно",
@@ -494,30 +512,17 @@ const Form = () => {
                 <label>Ваше ФИО</label>
               </div>
 
-              {/* {!authState?.isAuthorized && (
+              {!authState?.isAuthorized && (
                 <>
                   <AutocompleteFio
+                    register={register}
+                    onlyAllowedOptions
                     name="coach"
                     label="Тренер*"
                     coachCityId={currentCity.id}
                   />
                 </>
-              )} */}
-
-              {currentTournament?.team !== null &&
-                currentTournament?.team === 1 && (
-                  <div className="placeholder-container">
-                    <input
-                      type="text"
-                      placeholder=" "
-                      id="newParticipantName"
-                      autoComplete="off"
-                      value={fio2}
-                      onChange={(event) => setFio2(event.target.value)}
-                    />
-                    <label>ФИО второго участника</label>
-                  </div>
-                )}
+              )}
 
               {!authState.isAuthorized && (
                 <div className="placeholder-container">
@@ -548,8 +553,9 @@ const Form = () => {
                 onClick={newParticipant}
                 disabled={isLate}
               >
-                {isLate === false && <span>Записаться на турнир</span>}
-                {isLate === true && <span>Регистрация окончена</span>}
+                <span>
+                  {isLate ? "Регистрация окончена" : "Записаться на турнир"}
+                </span>
               </button>
               <button
                 className={classNameRed}

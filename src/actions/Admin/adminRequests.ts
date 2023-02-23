@@ -10,6 +10,7 @@ import {
   ITournamentPatch,
 } from "../../types/fetch";
 import { NewCoachValues } from "../../types/forms";
+import { getCurrentTournamentByQuery } from "..";
 
 export const deleteParticipantAdmin =
   (name: string, tournamentId: number) => async (dispatch: any) => {
@@ -28,7 +29,11 @@ export const deleteParticipantAdmin =
       })
       .then((data) => {
         response = { success: true, data: data };
-        dispatch(getParticipants(tournamentId));
+        const query = getCurrentTournamentByQuery();
+        if (query)
+          dispatch(
+            getParticipants(query.city, query.zone, query.div, query.tour)
+          );
         dispatch(getDivisionsInfo());
       })
       .then(() => {
@@ -124,6 +129,19 @@ export const addCoach = (coach: NewCoachValues) => {
 
   const apiUrl = url.back + url.endpoints.admin.addCoach;
   return axios.post(apiUrl, coach, {
+    headers: { Authorization: userJWT },
+  });
+};
+
+export const patchDivisionStructure = async (
+  participantsToPatchArray: {
+    id: string;
+    division_id: string;
+  }[]
+) => {
+  const userJWT = getUser().jwt;
+  const apiUrl = url.back + url.endpoints.divisionsStructure;
+  return await axios.patch(apiUrl, participantsToPatchArray, {
     headers: { Authorization: userJWT },
   });
 };

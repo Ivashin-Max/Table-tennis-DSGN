@@ -13,6 +13,7 @@ const AutocompleteFio: React.FC<InputProps> = ({
   error,
   label,
   coachCityId,
+  onlyAllowedOptions,
   ...rest
 }) => {
   const [names, setNames] = useState<any[]>([]);
@@ -34,9 +35,15 @@ const AutocompleteFio: React.FC<InputProps> = ({
     <>
       <Autocomplete
         sx={{ mb: 1, boxShadow: "inset 0px 4px 4px rgba(0, 0, 0, 0.082)" }}
-        freeSolo
+        // freeSolo
+        key={coachCityId}
+        freeSolo={!onlyAllowedOptions}
         loading={loading}
-        // key={option => option.id}
+        noOptionsText={
+          coachCityId
+            ? "Тренера с таким ФИО нет в базе, попробуйте поменять город"
+            : undefined
+        }
         loadingText="Загрузка..."
         options={names}
         getOptionLabel={(option) => option.fio ?? option.name}

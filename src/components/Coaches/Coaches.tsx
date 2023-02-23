@@ -9,6 +9,7 @@ import { ICoach } from "../../types/fetch";
 import { NewCoachValues } from "../../types/forms";
 import Form from "../Styled/Form";
 import Input from "../Styled/Input";
+import { ReactComponent as XIcon } from "../../styles/img/x-svgrepo-com.svg";
 
 const Coaches = () => {
   const currentCity = useTypedSelector((state) => state.city).city;
@@ -92,33 +93,21 @@ const Coaches = () => {
 
       <div className="neTable__main">
         {coaches?.map((coach) => (
-          <div key={coach.id}>
-            <span>{coach.name}</span>
-            <span onClick={() => handleDelete(coach.id)}>Х</span>
+          <div className="neTable__row" key={coach.id}>
+            <div onClick={() => handleDelete(coach.id)} className="pointer">
+              <XIcon
+                className="svg__xIcon_big svg__xIcon"
+                title="Удалить тренера"
+              />
+            </div>
+            <div className="neTable__row_column">
+              <div className="neTable__row_new">
+                <div className="neTable__row_hidden">{coach.name}</div>
+              </div>
+            </div>
           </div>
         ))}
-        {/* {selector.tableFio?.map((participant: any) => (
-          <TableFio
-            adminMode={adminMode}
-            participant={participant}
-            currentTournament={currentTournament}
-            key={participant.name + currentTournament}
-          />
-        ))} */}
       </div>
-      {/* <div className="neTable__total">
-        {`Total ${selector.tableTotal}`}
-        <div
-          title="Скопировать участников"
-          onClick={() => {
-            showCopy();
-            navigator.clipboard.writeText(copyToClip(selector.tableFio));
-          }}
-        >
-          <img src={copyIcon} alt="Иконка файла" className="copy" />
-        </div>
-        <div className={classNameNone}> Участники скопированы</div>
-      </div> */}
 
       <Form
         formTitle="Добавление тренера"
@@ -127,6 +116,7 @@ const Coaches = () => {
         register={register}
         handleSubmit={handleSubmit}
         onSubmit={onSubmit}
+        centered
       >
         <Input name="name" placeholder="ФИО" />
         <div />

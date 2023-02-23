@@ -93,6 +93,45 @@ export interface IZone {
   name: string;
   divisions: IDivision[];
 }
+export interface IStructureZone {
+  divisions: IStructureDivision[];
+  id: 1;
+  name: string;
+}
+
+export interface IStructureDivision {
+  division_name: string;
+  id: number;
+  participants: IStructureParticipant[];
+}
+
+export type IStructure = IStructureCity[];
+export interface IStructureCity {
+  city: string;
+  id: number;
+  unsorted: IStructureParticipant[];
+  zones: {
+    divisions: {
+      division_name: string;
+      id: number;
+      participants: IStructureParticipant[];
+    }[];
+    id: 1;
+    name: string;
+  }[];
+}
+
+interface IStructureParticipant {
+  fio: string;
+  id: number;
+  division_id: number;
+}
+
+export interface ICity {
+  id: number;
+  city: string;
+  zones: IZone[];
+}
 
 export interface IDivision {
   count: number;

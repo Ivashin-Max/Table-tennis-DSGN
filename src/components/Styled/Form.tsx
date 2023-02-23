@@ -22,6 +22,18 @@ const SRegistrationForm = styled.form<LargeForm>`
         flex-direction: column;
         align-items: center;
     `}
+
+  ${(props) =>
+    props.centered &&
+    `
+    border-top: 1px solid #E8E9E9;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    `}
+
+
+
   padding:10px;
 `;
 

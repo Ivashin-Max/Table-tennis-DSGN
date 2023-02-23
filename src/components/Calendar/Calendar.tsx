@@ -102,7 +102,6 @@ const MyCalendar = ({ flipCard }: any) => {
 
   const tournamentsToEvents = (tournaments: any[]) => {
     const eventsFromTournaments = tournaments.map((tournamet) => {
-      console.log("tournamet", tournamet);
       const tourDate = new Date(tournamet.date_time);
       const tourDateString = getTournamentDate(new Date(tournamet.date_time));
       const tourTitle = tournamet.tournament_name;
@@ -155,7 +154,6 @@ const MyCalendar = ({ flipCard }: any) => {
   }, [tournaments]);
 
   const EventsRow = (neededEvent: CalendarEvent, index: number) => {
-    console.log("🚀 ~ neededEvent", neededEvent);
     return (
       <Tooltip
         placement="right"

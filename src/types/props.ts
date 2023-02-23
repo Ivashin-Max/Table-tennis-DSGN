@@ -14,6 +14,7 @@ export interface InputProps extends InputHTMLAttributes<HTMLInputElement> {
   register?: any;
   coachCityId?: number;
   resetField?: any;
+  onlyAllowedOptions?: boolean;
 }
 export type EditableInputProps = {
   editable?: boolean;
@@ -28,6 +29,8 @@ export type TableFioProps = {
   currentTournament: any;
   zapas?: boolean;
   adminMode?: boolean;
+  division?: boolean;
+  hover?: boolean;
 };
 
 export type TableProps = {

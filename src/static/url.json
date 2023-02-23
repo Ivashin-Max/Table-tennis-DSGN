@@ -2,6 +2,7 @@
   "back": "https://spinreg.llntnino.ru",
   "endpoints": {
     "divisions": "/division/get",
+    "divisionsStructure": "/divisions/structure",
     "getParticipants": "/participant/get?id=",
     "addParticipant": "/participant/add",
     "deleteParticipant": "/participant/drop",

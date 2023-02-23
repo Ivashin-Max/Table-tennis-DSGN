@@ -35,6 +35,7 @@ import {
 } from "../../actions/localStorage";
 import { DynamicPrizes } from "./DynamicPrizes";
 import { useSearchParams } from "react-router-dom";
+import { getCurrentTournamentByQuery } from "../../actions";
 
 // validation
 const AddTournamentSchema = yup.object().shape({
@@ -49,7 +50,7 @@ const AddTournamentSchema = yup.object().shape({
 });
 
 export const AdminForm = () => {
-  let [searchParams, setSearchParams] = useSearchParams();
+  let [searchParams] = useSearchParams();
 
   const currentZoneAndDivision = useCurrentZoneAndDivision();
   const currentTournament = useCurrentTournament();
@@ -77,8 +78,6 @@ export const AdminForm = () => {
   );
   const dispatch = useDispatch();
   useEffect(() => {
-    console.log("currentTournament", currentTournament);
-    // console.log("currentDivisionId", currentDivisionId);
     if (currentTournament) {
       let tournamentValues = {
         cost: currentTournament.cost,
@@ -173,8 +172,13 @@ export const AdminForm = () => {
         })
         .then(() => {
           dispatch(getDivisionsInfo());
-          if (data.dropParticipants)
-            dispatch(getParticipants(data.tournament_id));
+          if (data.dropParticipants) {
+            const query = getCurrentTournamentByQuery();
+            if (query)
+              dispatch(
+                getParticipants(query.city, query.zone, query.div, query.tour)
+              );
+          }
         })
         .catch((e) => {
           dispatch(

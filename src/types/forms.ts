@@ -5,6 +5,7 @@ export type RegistrationFormValues = {
   username: string;
   password: string;
   name?: string;
+  city?: string;
 };
 
 export type ResetPassValues = {
@@ -63,6 +64,7 @@ export type LargeForm = {
   ) => Promise<void>;
   children: ReactElement<any, any>[];
   largeForm?: boolean;
+  centered?: boolean;
 };
 
 export type classNameType = string;
@@ -79,4 +81,5 @@ export interface IFormProps {
   largeForm?: boolean;
   formTitle?: string;
   disabled?: boolean;
+  centered?: boolean;
 }

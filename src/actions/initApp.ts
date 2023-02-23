@@ -1,3 +1,4 @@
+import { getCurrentTournamentByQuery } from ".";
 import { setAuth, setCalendarMode, setTable } from "../store/reducer";
 import { localStorageUser } from "../types/localStorage";
 import { getDivisionsInfo, getParticipants } from "./fetchDB";
@@ -6,22 +7,20 @@ import { profileInfo } from "./Profile/profileRequests";
 
 export const initApp =
   (user: localStorageUser | null) => async (dispatch: any) => {
-    const tournamentSearch = window.location.search.includes("tournament");
-    const tournament = window.location.search;
-
     await dispatch(getDivisionsInfo());
-    if (tournamentSearch) {
+    const query = getCurrentTournamentByQuery();
+    if (query) {
       try {
-        const tourId = tournament.split("&")[0].split("=")[1];
-        const divId = tournament.split("&")[1].split("=")[1];
-        console.log(`нужен турнир ${tourId} в дивизионе ${divId}`);
         await dispatch(
           setTable({
-            neededDivisionId: +divId,
-            neededTournamentId: +tourId,
+            neededDivisionId: query.div,
+            neededTournamentId: query.tour,
+            neededZone: query.zone,
           })
         );
-        await dispatch(getParticipants(+tourId));
+        await dispatch(
+          getParticipants(query.city, query.zone, query.div, query.tour)
+        );
 
         await dispatch(setCalendarMode({ calendarMode: false }));
       } catch (error) {
