@@ -1,5 +1,5 @@
 import url from "../static/url.json";
-import axios from "axios";
+import axios, { AxiosResponse } from "axios";
 import {
   openModal,
   setCity,
@@ -8,22 +8,42 @@ import {
   setLoading,
 } from "../store/reducer.js";
 import { setData } from "../store/reducer.js";
-import { ILink, IParticipantAdd, IParticipantGet } from "../types/fetch";
-import { UNSORTED_CITY } from "../components/MyHeader";
+import { ICity, ILink, IParticipantAdd, IParticipantGet } from "../types/fetch";
+import { getDefaultCity } from "./localStorage";
+
+const params: any = new Proxy(new URLSearchParams(window.location.search), {
+  get: (searchParams, prop: string) => searchParams.get(prop),
+});
 
 export const getDivisionsInfo = () => (dispatch: any) => {
   const apiUrl = url.back + url.endpoints.divisions;
 
   return axios
     .get(apiUrl)
-    .then(({ data }) => {
+    .then(({ data }: AxiosResponse<ICity[]>) => {
       dispatch(setDivisions({ divisions: data }));
 
-      const filteredCities = data.filter(
-        (el: any) => el.city !== UNSORTED_CITY
-      );
-
-      dispatch(setCity({ city: filteredCities[0] }));
+      const queryCityId = params.city;
+      if (queryCityId) {
+        const indexOfQueryCityId = data.findIndex(
+          (city) => city.id === +queryCityId
+        );
+        if (indexOfQueryCityId !== -1) {
+          dispatch(setCity({ city: data[indexOfQueryCityId] }));
+          return;
+        }
+      }
+      const defaultCityId = getDefaultCity();
+      if (defaultCityId) {
+        const indexOfDefaultCityId = data.findIndex(
+          (city) => city.id === +defaultCityId
+        );
+        if (indexOfDefaultCityId !== -1) {
+          dispatch(setCity({ city: data[indexOfDefaultCityId] }));
+          return;
+        }
+      }
+      dispatch(setCity({ city: data[0] }));
     })
     .catch((e) => {
       console.log(e.toJSON());
