@@ -150,6 +150,7 @@ const Divisions: React.FC = () => {
             <div className="neTable__header_head">
               <div className="neTable__header_name">
                 Несортированные
+              </div>
               <div className="neTable__header_date" />
             </div>
             <div className="neTable__header_line" />
