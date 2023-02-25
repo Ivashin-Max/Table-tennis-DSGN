@@ -14,20 +14,13 @@ import {
 } from "../../actions/Profile/profileRequests";
 import { useDispatch } from "react-redux";
 import { setAuth } from "../../store/reducer";
-import * as yup from "yup";
-import { yupResolver } from "@hookform/resolvers/yup";
 
 const spanAnimation = {
   hover: { scale: 1.5 },
   tap: { scale: 1.2 },
 };
 
-const AuthSchema = yup.object().shape({
-  id: yup.number().typeError("Должен содержать только цифры"),
-  // .matches(/^[0-9]+$/, "Must be only digits")
-});
-
-const EditableInput = ({ title, id, user, editable }: EditableInputProps) => {
+const EditableSelect = ({ title, id, user, editable }: EditableInputProps) => {
   const [edit, setEdit] = useState(false);
   const dispatch = useDispatch();
   const inputName = title + "_id";
@@ -37,7 +30,7 @@ const EditableInput = ({ title, id, user, editable }: EditableInputProps) => {
     handleSubmit,
     formState: { errors },
     reset,
-  } = useForm<any>({ mode: "onChange", resolver: yupResolver(AuthSchema) });
+  } = useForm<any>();
 
   const onSubmit = (data: any) => {
     const inputValue = data.id;
@@ -68,7 +61,6 @@ const EditableInput = ({ title, id, user, editable }: EditableInputProps) => {
   useLayoutEffect(() => {
     if (editable) setEdit(true);
     if (!id) reset({ id: "" });
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   return (
@@ -111,4 +103,4 @@ const EditableInput = ({ title, id, user, editable }: EditableInputProps) => {
   );
 };
 
-export default EditableInput;
+export default EditableSelect;

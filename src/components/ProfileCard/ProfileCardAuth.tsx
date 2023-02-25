@@ -15,6 +15,7 @@ import { useDispatch } from "react-redux";
 import { getParticipants } from "../../actions/fetchDB";
 import { setTable } from "../../store/reducer";
 import EditableInput from "./ProfileCardEditableInput";
+import EditableSelect from "./ProfileCardEditableSelect";
 
 const ProfileCardAuth = () => {
   const user = useTypedSelector((state) => state.auth);
@@ -35,9 +36,9 @@ const ProfileCardAuth = () => {
   const [rttfState, setRttfState] = useState(true);
 
   const settingsAnimation = {
-    initial: { height: 0 },
-    animate: { height: "auto" },
-    exit: { height: 0 },
+    initial: { height: 0, opacity: 0 },
+    animate: { height: "auto", opacity: 1 },
+    exit: { height: 0, opacity: 0 },
   };
 
   const onClick = React.useCallback(
@@ -86,28 +87,14 @@ const ProfileCardAuth = () => {
               exit="exit"
               variants={settingsAnimation}
             >
-              {user.userInfo.telegram_id ? (
-                <>
-                  <div className="profileCard__telegram">
-                    <EditableInput
-                      title="telegram"
-                      id={user.userInfo.telegram_id}
-                      user={user.userInfo}
-                    />
-                  </div>
-                </>
-              ) : (
-                <>
-                  <div className="profileCard__telegram">
-                    <EditableInput
-                      editable
-                      title="telegram"
-                      id={user.userInfo.telegram_id}
-                      user={user.userInfo}
-                    />
-                  </div>
-                </>
-              )}
+              <div className="profileCard__telegram">
+                <EditableInput
+                  editable={user.userInfo.telegram_id ? false : true}
+                  title="telegram"
+                  id={user.userInfo.telegram_id}
+                  user={user.userInfo}
+                />
+              </div>
             </motion.div>
           )}
         </AnimatePresence>
@@ -120,28 +107,14 @@ const ProfileCardAuth = () => {
               exit="exit"
               variants={settingsAnimation}
             >
-              {user.userInfo.rttf_id ? (
-                <>
-                  <div className="profileCard__telegram">
-                    <EditableInput
-                      title="rttf"
-                      id={user.userInfo.rttf_id}
-                      user={user.userInfo}
-                    />
-                  </div>
-                </>
-              ) : (
-                <>
-                  <div className="profileCard__telegram">
-                    <EditableInput
-                      editable
-                      title="rttf"
-                      id={user.userInfo.rttf_id}
-                      user={user.userInfo}
-                    />
-                  </div>
-                </>
-              )}
+              <div className="profileCard__telegram">
+                <EditableInput
+                  editable={user.userInfo.rttf_id ? false : true}
+                  title="rttf"
+                  id={user.userInfo.rttf_id}
+                  user={user.userInfo}
+                />
+              </div>
             </motion.div>
           )}
         </AnimatePresence>
@@ -153,29 +126,14 @@ const ProfileCardAuth = () => {
             exit="exit"
             variants={settingsAnimation}
           >
-            {user.userInfo.coach ? (
-              <>
-                <div className="profileCard__telegram">
-                  <EditableInput
-                    coach
-                    title="Тренер"
-                    id={user.userInfo.coach}
-                    user={user.userInfo}
-                  />
-                </div>
-              </>
-            ) : (
-              <>
-                <div className="profileCard__telegram">
-                  <EditableInput
-                    editable
-                    title="Тренер"
-                    id={user.userInfo.coachState}
-                    user={user.userInfo}
-                  />
-                </div>
-              </>
-            )}
+            <div className="profileCard__telegram">
+              <EditableSelect
+                editable={user.userInfo.coach ? false : true}
+                title="Тренер"
+                id={user.userInfo.coach}
+                user={user.userInfo}
+              />
+            </div>
           </motion.div>
         </AnimatePresence>
       </div>

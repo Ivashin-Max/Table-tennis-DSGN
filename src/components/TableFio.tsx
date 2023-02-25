@@ -4,11 +4,13 @@ import { useDispatch } from "react-redux";
 import { TableFioProps } from "../types/props";
 import { ReactComponent as StarIcon } from "../styles/img/star-svgrepo-com.svg";
 import { ReactComponent as XIcon } from "../styles/img/x-svgrepo-com.svg";
+import { motion, AnimatePresence } from "framer-motion/dist/framer-motion";
+import { adminTableFioAnimations } from "../styles/animations/formAnimations";
 
 const alignConfig = {
-  offset: [-240, 5], // the offset sourceNode by 10px in x and 20px in y,
-  targetOffset: [80, 13], // the offset targetNode by 30% of targetNode width in x and 40% of targetNode height in y,
-  overflow: { adjustX: true, adjustY: true }, // auto adjust position when sourceNode is overflowed
+  //   offset: [-240, 5],
+  targetOffset: [80, 13],
+  overflow: { adjustX: true, adjustY: true },
 };
 
 const TableFio = ({
@@ -29,7 +31,9 @@ const TableFio = ({
           <>
             <div className="neTable__row_fio">
               <span>{participant.name}</span>
-
+              {adminMode && (
+                <span>| Тренер: {participant?.coach ?? "не указан"}</span>
+              )}
               <StarIcon className="svg__star svg__star_red" />
               <span>{participant.rating}</span>
             </div>
@@ -44,7 +48,7 @@ const TableFio = ({
         }
         trigger={["hover"]}
         mouseLeaveDelay={0}
-        align={alignConfig}
+        align={{ offset: [adminMode ? -540 : -240, 5], ...alignConfig }}
       >
         <div
           className={zapasClassName}
@@ -74,9 +78,14 @@ const TableFio = ({
           <div className="neTable__row_column">
             <div className="neTable__row_new">
               <div className="neTable__row_hidden">{participant.name}</div>
-              {adminMode && hover && (
-                <span>| Тренер: {participant?.coach ?? "не указан"}</span>
-              )}
+              <AnimatePresence>
+                {adminMode && hover && (
+                  <motion.span {...adminTableFioAnimations}>
+                    | Тренер: {participant?.coach ?? "не указан"}
+                  </motion.span>
+                )}
+              </AnimatePresence>
+
               <div className="neTable__starDiv">
                 <StarIcon className="svg__star svg__star_red" />
                 <span>{participant.rating}</span>

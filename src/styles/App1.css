@@ -736,6 +736,8 @@ main.admin .neTable {
   display: flex;
   align-items: center;
   justify-content: space-between;
+  font-size: 14px;
+  font-weight: 500;
 }
 .neTable__row_hidden {
   width: 253px;
@@ -925,6 +927,7 @@ main.admin .neTable {
 .svg__xIcon_big {
   width: 20px;
   height: 20px;
+  cursor: pointer;
 }
 .svg__prize {
   width: 2.142rem;

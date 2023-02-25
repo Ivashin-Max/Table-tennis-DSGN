@@ -21,7 +21,6 @@ export type EditableInputProps = {
   title: string;
   id: number;
   user: any;
-  coach?: any;
 };
 
 export type TableFioProps = {
