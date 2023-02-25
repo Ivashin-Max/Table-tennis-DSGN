@@ -191,7 +191,6 @@ body::-webkit-scrollbar {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  height: 3.57rem;
   margin-top: 1.71rem;
   width: 100%;
   font-weight: 600;
@@ -200,6 +199,13 @@ body::-webkit-scrollbar {
   background: #fff;
   border-radius: 10px;
   box-shadow: 0px 3px 10px rgba(0, 0, 0, 0.25);
+}
+.header__flex {
+  display: flex;
+  gap: 20px;
+}
+.header__text {
+  margin-right: 20px;
 }
 .header__left {
   display: flex;
@@ -376,6 +382,12 @@ body::-webkit-scrollbar {
   transition: background-color 0.4s ease;
   border: 2px solid #39AEA9;
 }
+.select__ok {
+  position: absolute;
+  right: 10px;
+  background-color: white;
+  height: 25px;
+}
 .profileCard__arrow {
   display: flex;
   justify-content: center;
@@ -393,13 +405,16 @@ body::-webkit-scrollbar {
   display: flex;
   align-items: center;
   justify-content: center;
-  position: relative;
+}
+.profileCard__form .MuiFormControl-root {
+  margin-right: 30px!important;
 }
 .profileCard__form button {
   background-color: transparent;
 }
 .profileCard__form div {
   display: flex;
+  align-items: center;
 }
 .profileCard__form p {
   position: absolute;
@@ -736,6 +751,8 @@ main.admin .neTable {
   display: flex;
   align-items: center;
   justify-content: space-between;
+  font-size: 14px;
+  font-weight: 500;
 }
 .neTable__row_hidden {
   width: 253px;
@@ -902,6 +919,7 @@ main.admin .neTable {
   width: 15px;
   height: 15px;
   color: #dab600;
+  cursor: pointer;
 }
 .svg__star {
   width: 12px;
@@ -925,6 +943,7 @@ main.admin .neTable {
 .svg__xIcon_big {
   width: 20px;
   height: 20px;
+  cursor: pointer;
 }
 .svg__prize {
   width: 2.142rem;
@@ -1695,6 +1714,9 @@ a:hover {
 .org_tooltip_fio {
   padding-left: 5px;
 }
+.coach {
+  margin-left: 20px;
+}
 @media only screen and (max-width: 1300px) {
   #scroll-down {
     display: none;
@@ -1717,17 +1739,28 @@ a:hover {
     top: 12%;
   }
   .header {
-    font-size: 9px;
+    font-size: 1rem;
     flex-direction: column-reverse;
-    padding-top: 75px;
+    padding-top: 35px;
+    gap: 1rem;
   }
-  .header__left {
+  .header__left_round,
+  .header__text {
     display: none;
   }
   .header__navbar {
-    margin: 0 auto;
+    min-width: 50%;
     font-weight: 600;
     padding-top: 10px;
+  }
+  .header__flex {
+    order: 2;
+  }
+  .header__left {
+    order: 1;
+  }
+  .header__navbar_menu {
+    justify-content: space-around;
   }
   .header__navbar_menu > li {
     padding: 16px 4.5px;

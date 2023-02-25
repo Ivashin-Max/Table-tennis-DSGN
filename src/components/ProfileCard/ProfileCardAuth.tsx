@@ -13,8 +13,9 @@ import { ReactComponent as SettingsIcon } from "../../styles/img/fast-forward-sv
 import { ReactComponent as StarIcon } from "../../styles/img/star-svgrepo-com.svg";
 import { useDispatch } from "react-redux";
 import { getParticipants } from "../../actions/fetchDB";
-import { setTable } from "../../store/reducer";
+import { setCalendarMode, setTable } from "../../store/reducer";
 import EditableInput from "./ProfileCardEditableInput";
+import EditableSelect from "./ProfileCardEditableSelect";
 
 const ProfileCardAuth = () => {
   const user = useTypedSelector((state) => state.auth);
@@ -33,11 +34,12 @@ const ProfileCardAuth = () => {
   const [settings, setSettings] = useState(false);
   const [telegramState, setTelegrammState] = useState(true);
   const [rttfState, setRttfState] = useState(true);
+  const [coachState, setCoachState] = useState(true);
 
   const settingsAnimation = {
-    initial: { height: 0 },
-    animate: { height: "auto" },
-    exit: { height: 0 },
+    initial: { height: 0, opacity: 0 },
+    animate: { height: "auto", opacity: 1 },
+    exit: { height: 0, opacity: 0 },
   };
 
   const onClick = React.useCallback(
@@ -46,10 +48,20 @@ const ProfileCardAuth = () => {
         setTable({
           neededDivisionId: tournament.division,
           neededTournamentId: tournament.id,
+          neededZone: tournament.zone,
         })
       );
 
-      await dispatch(getParticipants(tournament.id));
+      await dispatch(setCalendarMode({ calendarMode: false }));
+
+      await dispatch(
+        getParticipants(
+          tournament.city,
+          tournament.zone,
+          tournament.division,
+          tournament.id
+        )
+      );
     },
     [dispatch]
   );
@@ -57,6 +69,7 @@ const ProfileCardAuth = () => {
   useEffect(() => {
     if (!!user.userInfo.rttf_id) setRttfState(false);
     if (!!user.userInfo.telegram_id) setTelegrammState(false);
+    if (!!user.userInfo.coach) setCoachState(false);
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
@@ -64,6 +77,8 @@ const ProfileCardAuth = () => {
   const handleSettings = () => {
     setRttfState(!user.userInfo.rttf_id ? true : !settings);
     setTelegrammState(!user.userInfo.telegram_id ? true : !settings);
+    setCoachState(!user.userInfo.coach ? true : !settings);
+
     setSettings((prev) => !prev);
   };
 
@@ -86,28 +101,14 @@ const ProfileCardAuth = () => {
               exit="exit"
               variants={settingsAnimation}
             >
-              {user.userInfo.telegram_id ? (
-                <>
-                  <div className="profileCard__telegram">
-                    <EditableInput
-                      title="telegram"
-                      id={user.userInfo.telegram_id}
-                      user={user.userInfo}
-                    />
-                  </div>
-                </>
-              ) : (
-                <>
-                  <div className="profileCard__telegram">
-                    <EditableInput
-                      editable
-                      title="telegram"
-                      id={user.userInfo.telegram_id}
-                      user={user.userInfo}
-                    />
-                  </div>
-                </>
-              )}
+              <div className="profileCard__telegram">
+                <EditableInput
+                  editable={user.userInfo.telegram_id ? false : true}
+                  title="telegram"
+                  id={user.userInfo.telegram_id}
+                  user={user.userInfo}
+                />
+              </div>
             </motion.div>
           )}
         </AnimatePresence>
@@ -120,68 +121,40 @@ const ProfileCardAuth = () => {
               exit="exit"
               variants={settingsAnimation}
             >
-              {user.userInfo.rttf_id ? (
-                <>
-                  <div className="profileCard__telegram">
-                    <EditableInput
-                      title="rttf"
-                      id={user.userInfo.rttf_id}
-                      user={user.userInfo}
-                    />
-                  </div>
-                </>
-              ) : (
-                <>
-                  <div className="profileCard__telegram">
-                    <EditableInput
-                      editable
-                      title="rttf"
-                      id={user.userInfo.rttf_id}
-                      user={user.userInfo}
-                    />
-                  </div>
-                </>
-              )}
+              <div className="profileCard__telegram">
+                <EditableInput
+                  editable={user.userInfo.rttf_id ? false : true}
+                  title="rttf"
+                  id={user.userInfo.rttf_id}
+                  user={user.userInfo}
+                />
+              </div>
             </motion.div>
           )}
         </AnimatePresence>
 
         <AnimatePresence>
-          <motion.div
-            initial="initial"
-            animate="animate"
-            exit="exit"
-            variants={settingsAnimation}
-          >
-            {user.userInfo.coach ? (
-              <>
-                <div className="profileCard__telegram">
-                  <EditableInput
-                    coach
-                    title="Тренер"
-                    id={user.userInfo.coach}
-                    user={user.userInfo}
-                  />
-                </div>
-              </>
-            ) : (
-              <>
-                <div className="profileCard__telegram">
-                  <EditableInput
-                    editable
-                    title="Тренер"
-                    id={user.userInfo.coachState}
-                    user={user.userInfo}
-                  />
-                </div>
-              </>
-            )}
-          </motion.div>
+          {coachState && (
+            <motion.div
+              initial="initial"
+              animate="animate"
+              exit="exit"
+              variants={settingsAnimation}
+            >
+              <div className="profileCard__telegram">
+                <EditableSelect
+                  editable={user.userInfo.coach ? false : true}
+                  title="Тренер"
+                  id={user.userInfo.coach}
+                  user={user.userInfo}
+                />
+              </div>
+            </motion.div>
+          )}
         </AnimatePresence>
       </div>
 
-      {/* FIXME: онклик отвалился */}
-      {/* <div className="profileCard__tournaments">
+      <div className="profileCard__tournaments">
         <div className="profileCard__text">Мои турниры</div>
         <ul>
           {myTournaments.map((tournament) => (
@@ -199,7 +172,7 @@ const ProfileCardAuth = () => {
             </li>
           ))}
         </ul>
-      </div> */}
+      </div>
       {rights && (
         <>
           <div className="profileCard__line"></div>

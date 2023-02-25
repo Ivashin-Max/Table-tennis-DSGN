@@ -2,7 +2,6 @@ import { reactLocalStorage } from "reactjs-localstorage";
 import { localStorageUser } from "../types/localStorage";
 
 export const setUser = (user: localStorageUser) => {
-  console.log(`Получил юзера, кладу в ЛокалСторадж`, user);
   return reactLocalStorage.setObject("user", user);
 };
 

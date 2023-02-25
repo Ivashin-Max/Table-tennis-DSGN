@@ -28,6 +28,13 @@ const SButton = styled.button<any>`
     margin: 0 auto 10px;
    `}
 
+  ${(props) =>
+    props.divisions &&
+    `
+    width: 140px;
+    margin: 0 auto;
+   `}
+
   &:disabled {
     pointer-events: none;
     cursor: default;
