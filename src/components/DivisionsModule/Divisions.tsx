@@ -149,8 +149,7 @@ const Divisions: React.FC = () => {
           <div className="neTable">
             <div className="neTable__header_head">
               <div className="neTable__header_name">
-                Не сортированные ЧЕЛОБАСЫ
-              </div>
+                Несортированные
               <div className="neTable__header_date" />
             </div>
             <div className="neTable__header_line" />
