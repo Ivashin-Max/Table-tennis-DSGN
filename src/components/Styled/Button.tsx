@@ -38,6 +38,10 @@ const SButton = styled.button<any>`
     border-radius: 10px 0px 0px 10px;
     margin: 0 auto;
     margin-left: 130px;
+
+    @media only screen and (max-width: 500px) {
+      margin-left: 0;
+    }
    `}
 
   &:disabled {

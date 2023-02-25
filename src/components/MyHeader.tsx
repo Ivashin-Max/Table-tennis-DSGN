@@ -122,6 +122,14 @@ const MyHeader = ({
               Дивизионы
             </Button>
           )}
+          {divisions && (
+            <Button
+              onClick={() => navigate(`/user`)}
+              divisions
+            >
+              Регистрация
+            </Button>
+          )}
           <ModalAuth />
         </div>
       </div>
