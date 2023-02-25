@@ -44,6 +44,7 @@ const EditableInput = ({ title, id, user, editable }: EditableInputProps) => {
 
     data.rttf_id = user.rttf_id;
     data.telegram_id = user.telegram_id;
+    data.coach = user.coach;
 
     delete data.id;
     data[inputName] = inputValue;

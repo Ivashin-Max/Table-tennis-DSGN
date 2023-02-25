@@ -163,7 +163,7 @@ const Form = () => {
       setLoading(false);
       return false;
     } else if (checkCoach) {
-      if (getValues().coach === "") {
+      if (getValues().coach === "" && !authState.isAuthorized) {
         dispatch(
           openModal({
             title: "Ошибка!",
@@ -310,7 +310,9 @@ const Form = () => {
         name: trimmedFio1,
         name_2: currentTournament.team ? trimmedFio2 : "",
         password: getPassword(),
-        coach: getValues().coach,
+        coach: authState.isAuthorized
+          ? authState.userInfo.coach
+          : getValues().coach,
       };
       console.log("newParticipant", newParticipant);
       addLocalStorageItem("fio", fio);

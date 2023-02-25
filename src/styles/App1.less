@@ -253,20 +253,31 @@ body::-webkit-scrollbar{
 
   }
 
+  &__flex{
+    display: flex;
+    gap:20px;
+}
+
   font-size: 1.21rem;
   display: flex;
   align-items: center;
   justify-content: space-between;
-  height: 3.57rem;
   margin-top: 1.71rem;
   width: 100%;
   font-weight: 600;
+
+  &__text{
+    margin-right:20px;
+  }
 
   &__left {
     display: flex;
     align-items: center;
     color: black;
     z-index: 102;
+
+
+
 
     & p {
       text-align: left;
@@ -473,7 +484,12 @@ body::-webkit-scrollbar{
     }
   }
 }
-
+.select__ok{
+    position: absolute;
+    right:10px;
+    background-color: white;
+    height: 25px;
+}
 .profileCard {
 
   &__arrow {
@@ -501,7 +517,10 @@ body::-webkit-scrollbar{
     display: flex;
     align-items: center;
     justify-content: center;
-    position: relative;
+
+    .MuiFormControl-root{
+        margin-right: 30px!important;
+    }
 
     & button {
       background-color: transparent;
@@ -509,9 +528,10 @@ body::-webkit-scrollbar{
 
     & div {
       display: flex;
-
+        align-items: center;
 
     }
+
 
 
     & p {
@@ -1152,6 +1172,7 @@ main {
     width: 15px;
     height: 15px;
     color: @color_yellow;
+    cursor:pointer;
   }
 
   &__star {
@@ -2133,6 +2154,10 @@ a {
   }
 }
 
+.coach{
+    margin-left: 20px;
+}
+
 @media only screen and (max-width: 1300px) {
   #scroll-down {
     display: none;
@@ -2142,6 +2167,7 @@ a {
     font-size: 12px;
   }
 }
+
 
 @media only screen and (max-width: 500px) {
   body {
@@ -2160,21 +2186,38 @@ a {
   }
 
   .header {
-    font-size: 9px;
+    font-size: 1rem;
     //   width: 33.57rem;
     flex-direction: column-reverse;
-    padding-top: 75px;
+    padding-top: 35px;
+    gap:1rem;
+
+ 
   }
 
-  .header__left {
+  .header__left_round,.header__text {
     display: none;
   }
 
   .header__navbar {
-    margin: 0 auto;
+    // margin: 0 auto;
+    min-width: 50%;
     font-weight: 600;
     // width: 100%;
     padding-top: 10px;
+
+  }
+
+  .header__flex {
+    order:2;
+  }
+
+  .header__left {
+    order:1;
+  }
+
+  .header__navbar_menu{
+    justify-content: space-around;
   }
 
   .header__navbar_menu>li {

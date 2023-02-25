@@ -38,7 +38,7 @@ const MySelect: React.FC<SelectProps> = ({
 
   return (
     <>
-      <FormControl variant="standard" sx={{ m: 1, minWidth: 120 }}>
+      <FormControl variant="standard" sx={{ m: 1, minWidth: 120 }} size="small">
         {label && <InputLabel id="Selectlabel">{label}</InputLabel>}
         <Select value={value} onChange={handleChange} labelId="Selectlabel">
           {options?.map((option) => (

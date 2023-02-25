@@ -1,4 +1,4 @@
-import { useLayoutEffect, useState } from "react";
+import { memo, useEffect, useLayoutEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 
 // import { ReactComponent as ClearStorageIcon } from '../../styles/img/x-svgrepo-com.svg';
@@ -14,6 +14,9 @@ import {
 } from "../../actions/Profile/profileRequests";
 import { useDispatch } from "react-redux";
 import { setAuth } from "../../store/reducer";
+import MySelect from "../MySelect";
+import { getCoaches } from "../../actions/fetchDB";
+import { ICoach } from "../../types/fetch";
 
 const spanAnimation = {
   hover: { scale: 1.5 },
@@ -22,24 +25,23 @@ const spanAnimation = {
 
 const EditableSelect = ({ title, id, user, editable }: EditableInputProps) => {
   const [edit, setEdit] = useState(false);
+  const [coaches, setCoaches] = useState<any[]>([]);
+  const [value, setValue] = useState("");
   const dispatch = useDispatch();
-  const inputName = title + "_id";
 
   const {
-    register,
     handleSubmit,
     formState: { errors },
     reset,
   } = useForm<any>();
 
   const onSubmit = (data: any) => {
-    const inputValue = data.id;
-
+    if (value === ("" || user.coach)) return;
     data.rttf_id = user.rttf_id;
     data.telegram_id = user.telegram_id;
 
     delete data.id;
-    data[inputName] = inputValue;
+    data.coach = value;
 
     patchProfile(data)
       .then(() => profileInfo(user.id))
@@ -63,6 +65,19 @@ const EditableSelect = ({ title, id, user, editable }: EditableInputProps) => {
     if (!id) reset({ id: "" });
   }, []);
 
+  useEffect(() => {
+    getCoaches(user.city)
+      .then((res) => {
+        const coaches = res?.data?.map((el: ICoach) => {
+          return { value: el.name, text: el.name };
+        });
+        setCoaches(coaches);
+      })
+      .catch((res) => {
+        console.warn("Ошибка загрузки", res.toJSON());
+      });
+  }, []);
+
   return (
     <>
       <Title capitalize>{title}</Title>
@@ -70,16 +85,12 @@ const EditableSelect = ({ title, id, user, editable }: EditableInputProps) => {
       {edit ? (
         <form onSubmit={handleSubmit(onSubmit)} className="profileCard__form">
           <div>
-            <input
-              defaultValue={id}
-              autoComplete="off"
-              {...register("id")}
-              placeholder="Введите ID"
-            />
+            <MySelect options={coaches} changeCallback={(e) => setValue(e)} />
             <motion.span
               variants={spanAnimation}
               whileHover="hover"
               whileTap="tap"
+              className="select__ok"
             >
               <button>
                 <OkIcon className="svg__pencil" title="Редактировать" />
@@ -90,7 +101,7 @@ const EditableSelect = ({ title, id, user, editable }: EditableInputProps) => {
           {errors.id && <p>{errors.id.message}</p>}
         </form>
       ) : (
-        <div className="adminLinks__center">
+        <div className="adminLinks__center coach">
           <div>{id}</div>
           <PencilIcon
             className="svg__pencil"
@@ -103,4 +114,4 @@ const EditableSelect = ({ title, id, user, editable }: EditableInputProps) => {
   );
 };
 
-export default EditableSelect;
+export default memo(EditableSelect);

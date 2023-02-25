@@ -12,12 +12,12 @@ import { getDivisionsStructure } from "../../actions/fetchDB";
 import { openModal, setLoading } from "../../store/reducer";
 import { IStructure } from "../../types/fetch";
 import MyHeader from "../MyHeader";
-import MySelect from "../MySelect";
+
 import Button from "../Styled/Button";
 import DivisionsFio, { DivisionsChangeParticipant } from "./DivisionsFio";
 
 const Divisions: React.FC = () => {
-  const [searchParams, setSearchParams] = useSearchParams();
+  const [searchParams] = useSearchParams();
   const [activeCityId, setActiveCityId] = useState(-1);
   const [activeZoneId, setActiveZoneId] = useState(-1);
   const [structure, setStructure] = useState<IStructure>([]);
@@ -41,43 +41,10 @@ const Divisions: React.FC = () => {
     }
   }, []);
 
-  useLayoutEffect(() => {
-    getStructure();
-  }, []);
-
-  const cities = structure
-    ?.filter((el) => {
-      if (el.id === 1 && !isAdmin) {
-        return false;
-      } else {
-        return true;
-      }
-    })
-    .map((el) => {
-      return { value: el.id, text: el.city };
-    });
-
   const activeCity = structure.find((el) => el.id === activeCityId);
   const activeZone = activeCity?.zones.find((el) => el.id === activeZoneId);
 
-  const zones = structure
-    .find((el) => el.id === activeCityId)
-    ?.zones?.map((el) => {
-      return { value: el.id, text: el.name };
-    });
-
-  const handleCityChange = (value: string | number) => {
-    setSearchParams({ city: value.toString() });
-    setActiveCityId(+value);
-  };
-
-  const handleZoneChange = (value: string | number) => {
-    city && setSearchParams({ city: city, zone: value.toString() });
-    setActiveZoneId(+value);
-  };
-
   const handleAdminPatch = async () => {
-    // console.log(refChanges.current);
     dispatch(setLoading({ isLoading: true }));
     try {
       await patchDivisionStructure(refChanges.current);
@@ -156,23 +123,13 @@ const Divisions: React.FC = () => {
     zone && setActiveZoneId(+zone);
   }, [searchParams]);
 
+  useLayoutEffect(() => {
+    getStructure();
+  }, []);
+
   return (
     <>
-      <MyHeader divisions />
-      <div className="divisions">
-        <MySelect
-          options={cities}
-          changeCallback={(e) => handleCityChange(e)}
-          label="Город"
-          pushedValue={city ? +city : undefined}
-        />
-        <MySelect
-          options={zones}
-          changeCallback={(e) => handleZoneChange(e)}
-          label="Зона"
-          pushedValue={zone ? +zone : undefined}
-        />
-      </div>
+      <MyHeader divisions structure={structure} activeCityId={activeCityId} />
 
       {isAdmin && (
         <Button
@@ -188,7 +145,7 @@ const Divisions: React.FC = () => {
           <span className="neTable__header_name">Выберите город и зону </span>
         )}
 
-        {activeCity && activeZone && isAdmin && (
+        {activeCity && activeZone && isAdmin && activeCityId !== 1 && (
           <div className="neTable">
             <div className="neTable__header_head">
               <div className="neTable__header_name">
