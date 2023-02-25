@@ -202,7 +202,7 @@ body::-webkit-scrollbar {
 }
 .header__flex {
   display: flex;
-  gap: 20px;
+  gap: 0px;
 }
 .header__text {
   margin-right: 20px;
@@ -361,6 +361,9 @@ body::-webkit-scrollbar {
   color: white !important;
   transition: background-color 0.4s ease;
   border: none !important;
+}
+.header__button .onesided {
+  border-radius: 0px 10px 10px 0px;
 }
 .header__button button {
   display: flex;
@@ -651,10 +654,12 @@ main {
   justify-content: space-between;
 }
 main.admin {
+  position: relative;
   justify-content: flex-end;
+  max-width: unset;
 }
 main.admin .neTable {
-  left: 15px;
+  left: 0px;
   max-width: unset;
 }
 .neTable {

@@ -58,7 +58,7 @@ export default function AuthModal() {
     <div className="header__button">
       {!isAuthorized && (
         <>
-          <Button variant="contained" onClick={handleClickOpen}>
+          <Button className="onesided" variant="contained" onClick={handleClickOpen}>
             Вход
             <AssignmentIndIcon />
           </Button>
@@ -100,7 +100,7 @@ export default function AuthModal() {
         <>
           <Button
             variant="contained"
-            className="header__button_grey"
+            className="header__button_grey onesided"
             onClick={handleClickExit}
           >
             Выход
