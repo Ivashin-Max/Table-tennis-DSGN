@@ -34,7 +34,25 @@ const AutocompleteFio: React.FC<InputProps> = ({
   return (
     <>
       <Autocomplete
-        sx={{ mb: 1, boxShadow: "inset 0px 4px 4px rgba(0, 0, 0, 0.082)" }}
+        size="small"
+        sx={{
+          mb: 1,
+          borderRadius: "2px", 
+          width: "23.86rem",
+          marginLeft: "-7px",
+          '& input': {
+            height: 25,
+            width: "22.86rem",
+            border: "1px solid #535e692a",
+          },
+          '& fieldset': {
+            border: "0px",
+          },
+          '& label': {
+            fontSize: "13px",
+            lineHeight: "2em",
+          },
+        }}
         // freeSolo
         key={coachCityId}
         freeSolo={!onlyAllowedOptions}
@@ -49,6 +67,7 @@ const AutocompleteFio: React.FC<InputProps> = ({
         getOptionLabel={(option) => option.fio ?? option.name}
         renderOption={(props, option) => {
           return (
+            // <TextField {...props}  key={option.id} {...option.fio ?? option.name} label="Size small" placeholder="Favorites" />
             <span {...props} key={option.id}>
               {option.fio ?? option.name}
             </span>
@@ -61,9 +80,10 @@ const AutocompleteFio: React.FC<InputProps> = ({
             {...register(name)}
             {...rest}
             label={label}
+            // variant="standart"
             sx={{
-              boxShadow: "inset 0px 4px 4px rgba(0, 0, 0, 0.082)",
-              height: 1,
+              // boxShadow: "inset 0px 4px 4px rgba(0, 0, 0, 0.082)",
+              // height: 1,
             }}
           />
         )}
