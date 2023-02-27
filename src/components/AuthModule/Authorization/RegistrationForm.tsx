@@ -115,8 +115,9 @@ const RegistrationForm = (props: IAuthFormsProps) => {
     return { value: city.id, text: city.city };
   });
 
-  const getNamesFunction = useCallback(() => {
-    getRegistrationNames();
+  const getNamesFunction = useCallback(async () => {
+    const res = await getRegistrationNames();
+    return res;
   }, []);
 
   return (
@@ -134,7 +135,7 @@ const RegistrationForm = (props: IAuthFormsProps) => {
           name="name"
           error={errors.name?.message}
           label="ФИО*"
-          optionsFetch={() => getRegistrationNames()}
+          optionsFetch={getNamesFunction}
           sx={defaultInputSx}
         />
         <AutoCompleteCity

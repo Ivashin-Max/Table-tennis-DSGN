@@ -1,4 +1,4 @@
-import React, { useRef, useState } from "react";
+import React, { useRef, useState, useCallback } from "react";
 import { useSelector } from "react-redux";
 import logoPingPong from "../styles/img/ping-pong.svg";
 
@@ -36,6 +36,7 @@ import { promptAnimate } from "../styles/animations/formAnimations";
 import AutocompleteFio from "./AuthModule/Authorization/AutocompleteFio";
 import { useForm } from "react-hook-form";
 import { getCurrentTournamentByQuery } from "../actions";
+import { getCoaches } from "../actions/fetchDB";
 
 const alignConfig = {
   // the offset sourceNode by 10px in x and 20px in y,
@@ -380,6 +381,11 @@ const Form = () => {
     hidepromptFio();
   };
 
+  const getNamesFunction = useCallback(async () => {
+    const res = await getCoaches(currentCity.id);
+    return res;
+  }, [currentCity.id]);
+
   if (loading) {
     return (
       <form action="#" id="form" className="form">
@@ -539,6 +545,7 @@ const Form = () => {
                         lineHeight: "2em",
                       },
                     }}
+                    optionsFetch={getNamesFunction}
                     coachCityId={currentCity.id}
                   />
                 </>

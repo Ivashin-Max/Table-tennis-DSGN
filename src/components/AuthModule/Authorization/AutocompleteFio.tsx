@@ -29,7 +29,7 @@ const AutocompleteFio: React.FC<InputProps> = ({
         setLoading(false);
       })
       .catch((res: any) => {
-        console.warn("Ошибка загрузки", res.toJSON());
+        console.warn("Ошибка загрузки", res);
         setLoading(false);
       });
   }, [refetchFlag, optionsFetch]);

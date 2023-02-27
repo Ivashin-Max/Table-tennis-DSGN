@@ -10,7 +10,7 @@ import { useSearchParams } from "react-router-dom";
 import { setDefaultCity } from "../actions/localStorage";
 import { useCurrentCity } from "../hooks/useCurrentTournament";
 import { useTypedSelector } from "../hooks/useTypedSelector";
-import { setCity } from "../store/reducer";
+import { setCalendarMode, setCity, setEmptyData } from "../store/reducer";
 import { ICity } from "../types/fetch";
 
 const CitySelect = () => {
@@ -24,6 +24,8 @@ const CitySelect = () => {
 
   useEffect(() => {
     setCityValue(currentCity.id);
+    dispatch(setCalendarMode({ calendarMode: true }));
+    dispatch(setEmptyData());
   }, [currentCity]);
 
   const handleChange = (event: SelectChangeEvent) => {
