@@ -102,54 +102,6 @@ input[type=number] {
   height: 1px;
   background-color: #E8E9E9;
 }
-@font-face {
-  font-family: 'Montserrat';
-  font-weight: 400;
-  src: url('font/woff2/Montserrat-Regular.woff2');
-  src: url('font/woff2/Montserrat-Regular.woff2') format('woff2'), url(font/Montserrat-Regular.ttf) format('truetype');
-  font-style: normal;
-  font-display: swap;
-}
-@font-face {
-  font-family: 'Montserrat';
-  font-weight: 700;
-  src: url('font/woff2/Montserrat-Bold.woff2');
-  src: url('font/woff2/Montserrat-Bold.woff2') format('woff2'), url(font/Montserrat-Bold.ttf) format('truetype');
-  font-style: normal;
-  font-display: swap;
-}
-@font-face {
-  font-family: 'Montserrat';
-  font-weight: 600;
-  src: url('font/woff2/Montserrat-SemiBold.woff2');
-  src: url('font/woff2/Montserrat-SemiBold.woff2') format('woff2'), url(font/Montserrat-SemiBold.ttf) format('truetype');
-  font-style: normal;
-  font-display: swap;
-}
-@font-face {
-  font-family: 'Montserrat';
-  font-weight: 500;
-  src: url('font/woff2/Montserrat-Medium.woff2');
-  src: url('font/woff2/Montserrat-Medium.woff2') format('woff2'), url(font/Montserrat-Medium.ttf) format('truetype');
-  font-style: normal;
-  font-display: swap;
-}
-@font-face {
-  font-family: 'OpenSans';
-  font-weight: 600;
-  src: url('font/woff2/OpenSans-SemiBold.woff2');
-  src: url('font/woff2/OpenSans-SemiBold.woff2') format('woff2'), url(font/OpenSans-SemiBold.ttf) format('truetype');
-  font-style: normal;
-  font-display: swap;
-}
-@font-face {
-  font-family: 'OpenSans';
-  font-weight: 400;
-  src: url('font/woff2/OpenSans-Regular.woff2');
-  src: url('font/woff2/OpenSans-Regular.woff2') format('woff2'), url(font/OpenSans-Regular.ttf) format('truetype');
-  font-style: normal;
-  font-display: swap;
-}
 body {
   color: #2B476A;
   font-family: 'Montserrat', sans-serif;
@@ -231,9 +183,9 @@ body::-webkit-scrollbar {
   font-weight: 400;
   color: #2B476A;
 }
-.header__navbar_menu > li:before {
+.header__navbar_menu > li:after {
   content: ' ';
-  position: absolute;
+  margin-top: 3px;
   display: block;
   width: 0;
   bottom: 10px;
@@ -245,7 +197,7 @@ body::-webkit-scrollbar {
 .header__navbar_menu > li:hover {
   color: #5181B8;
 }
-.header__navbar_menu > li:hover::before {
+.header__navbar_menu > li:hover::after {
   width: 100%;
 }
 .header__navbar_line {
@@ -288,10 +240,10 @@ body::-webkit-scrollbar {
   left: -3.57rem;
 }
 .header__navbar_menu > li {
-  position: relative;
-  padding: 16px 13.5px;
+  position: static;
+  padding: 16px 13.5px 13px;
 }
-.header__navbar_menu > li::after {
+.header__navbar_menu > li::before {
   position: absolute;
   content: '';
   display: block;
@@ -303,21 +255,20 @@ body::-webkit-scrollbar {
   transition: all 0.9s;
   visibility: visible;
   top: 55px;
+  opacity: 1;
 }
 .header__navbar_menu > li:hover .header__navbar_line {
   transition: width 0.9s ease;
   width: 95%;
   opacity: 1;
 }
-.header__navbar_menu > li:last-child .header__navbar_menu_sub {
-  left: auto;
-  right: 0;
-}
 .header__navbar_menu_sub {
   visibility: hidden;
   position: absolute;
+  left: 50%;
+  opacity: 0;
+  transform: translateX(-50%);
   top: 10px;
-  left: 0;
   z-index: -1;
   text-align: center;
   font-size: 14px;
@@ -1794,19 +1745,7 @@ a:hover {
     justify-content: space-around;
   }
   .header__navbar_menu > li {
-    padding: 16px 4.5px;
-  }
-  .header__navbar_menu_sub {
-    position: fixed;
-    left: 80px;
-    top: 32px;
-  }
-  .header__navbar_menu > li:hover .header__navbar_menu_sub {
-    top: 87px;
-  }
-  .header__navbar_menu > li:last-child .header__navbar_menu_sub {
-    right: auto;
-    left: 53px;
+    padding: 16px 4.5px 13px;
   }
   .copy_popup {
     display: none;
@@ -1850,21 +1789,6 @@ a:hover {
   }
   .calendar__wrapper {
     min-width: fit-content;
-  }
-  .header__navbar_menu > li:hover .header__navbar_menu_sub {
-    position: fixed;
-    top: 225px;
-    left: 5px;
-  }
-  .header__navbar_menu > li:last-child .header__navbar_menu_sub {
-    position: fixed;
-    left: 7%;
-    right: auto;
-  }
-  .header__navbar_menu_sub {
-    position: fixed;
-    top: 33px;
-    left: 10%;
   }
   .copy_popup {
     display: none;

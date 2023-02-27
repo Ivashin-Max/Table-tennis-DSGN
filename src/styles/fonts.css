@@ -1,0 +1,59 @@
+@font-face {
+    font-family: 'Montserrat';
+    font-weight: 400;
+    src: url('./font/woff2/Montserrat-Regular.woff2');
+    src: url('./font/woff2/Montserrat-Regular.woff2') format('woff2'),
+    url(./font/Montserrat-Regular.ttf) format('truetype');
+    font-style: normal;
+    font-display: swap;
+  }
+  
+  @font-face {
+    font-family: 'Montserrat';
+    font-weight: 700;
+    src: url('./font/woff2/Montserrat-Bold.woff2');
+    src: url('./font/woff2/Montserrat-Bold.woff2') format('woff2'),
+    url(./font/Montserrat-Bold.ttf) format('truetype');
+    font-style: normal;
+    font-display: swap;
+  }
+  
+  @font-face {
+    font-family: 'Montserrat';
+    font-weight: 600;
+    src: url('./font/woff2/Montserrat-SemiBold.woff2');
+    src: url('./font/woff2/Montserrat-SemiBold.woff2') format('woff2'),
+    url(./font/Montserrat-SemiBold.ttf) format('truetype');
+    font-style: normal;
+    font-display: swap;
+  }
+  
+  @font-face {
+    font-family: 'Montserrat';
+    font-weight: 500;
+    src: url('./font/woff2/Montserrat-Medium.woff2');
+    src: url('./font/woff2/Montserrat-Medium.woff2') format('woff2'),
+    url(./font/Montserrat-Medium.ttf) format('truetype');
+    font-style: normal;
+    font-display: swap;
+  }
+  
+  @font-face {
+    font-family: 'OpenSans';
+    font-weight: 600;
+    src: url('./font/woff2/OpenSans-SemiBold.woff2');
+    src: url('./font/woff2/OpenSans-SemiBold.woff2') format('woff2'),
+    url(./font/OpenSans-SemiBold.ttf) format('truetype');
+    font-style: normal;
+    font-display: swap;
+  }
+  
+  @font-face {
+    font-family: 'OpenSans';
+    font-weight: 400;
+    src: url('./font/woff2/OpenSans-Regular.woff2');
+    src: url('./font/woff2/OpenSans-Regular.woff2') format('woff2'),
+    url(./font/OpenSans-Regular.ttf) format('truetype');
+    font-style: normal;
+    font-display: swap;
+  }

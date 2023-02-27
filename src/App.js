@@ -1,4 +1,5 @@
 import { useState, useEffect } from 'react';
+import './styles/fonts.css'
 import './styles/App1.css';
 import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 import { useDispatch } from 'react-redux';
