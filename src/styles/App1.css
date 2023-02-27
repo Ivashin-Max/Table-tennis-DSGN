@@ -231,6 +231,23 @@ body::-webkit-scrollbar {
   font-weight: 400;
   color: #2B476A;
 }
+.header__navbar_menu > li:before {
+  content: ' ';
+  position: absolute;
+  display: block;
+  width: 0;
+  bottom: 10px;
+  height: 1px;
+  left: 0;
+  background: #2B476A;
+  transition: 0.4s;
+}
+.header__navbar_menu > li:hover {
+  color: #5181B8;
+}
+.header__navbar_menu > li:hover::before {
+  width: 100%;
+}
 .header__navbar_line {
   opacity: 0;
   position: relative;
@@ -305,6 +322,7 @@ body::-webkit-scrollbar {
   text-align: center;
   font-size: 14px;
   font-weight: 600;
+  color: #2B476A;
 }
 .header__navbar_menu_sub:first-child {
   padding-top: 11px;
@@ -1058,6 +1076,14 @@ main.admin .neTable {
   display: flex;
   flex-direction: column;
   align-items: center;
+}
+.form label.Mui-focused {
+  background-color: #39aea8;
+  padding: 1px 10px;
+  color: white;
+}
+.form__registration input {
+  box-shadow: inset 0px 4px 4px rgba(0, 0, 0, 0.082);
 }
 p {
   text-align: center;
@@ -1827,8 +1853,8 @@ a:hover {
   }
   .header__navbar_menu > li:hover .header__navbar_menu_sub {
     position: fixed;
-    top: 110px;
-    left: 12%;
+    top: 225px;
+    left: 5px;
   }
   .header__navbar_menu > li:last-child .header__navbar_menu_sub {
     position: fixed;

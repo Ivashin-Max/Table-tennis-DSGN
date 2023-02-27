@@ -9,9 +9,34 @@ import { yupResolver } from "@hookform/resolvers/yup";
 import { useDispatch } from "react-redux";
 import { openModal } from "../../../store/reducer";
 import AutocompleteFio from "./AutocompleteFio";
-import { useState } from "react";
+import { useCallback, useState } from "react";
 import { useTypedSelector } from "../../../hooks/useTypedSelector";
 import { UNSORTED_CITY } from "../../MyHeader";
+import { IStructureCity } from "../../../types/fetch";
+import AutoCompleteCity from "./AutoCompleteCity";
+import { InputCityOption } from "../../../types/props";
+import { getRegistrationNames } from "../../../actions/Profile/profileRequests";
+import { getCoaches } from "../../../actions/fetchDB";
+import React from "react";
+
+export const defaultInputSx = {
+  mb: 1,
+  borderRadius: "2px",
+  width: "21rem",
+  marginLeft: "-7px",
+  "& input": {
+    height: 25,
+    width: "22.86rem",
+    border: "1px solid #535e692a",
+  },
+  "& fieldset": {
+    border: "0px",
+  },
+  "& label": {
+    fontSize: "13px",
+    lineHeight: "2em",
+  },
+};
 
 const AuthSchema = yup.object().shape({
   username: yup
@@ -24,16 +49,18 @@ const AuthSchema = yup.object().shape({
     .min(4, "Минимальная длинна 4 символа")
     .required("Обязательное поле"),
   coach: yup.string().required("Обязательное поле"),
+  city: yup.string().required("Обязательное поле"),
 });
 
 const RegistrationForm = (props: IAuthFormsProps) => {
   const [loading, setLoading] = useState(false);
   const dispatch = useDispatch();
 
-  const [cityId, setCityId] = useState(-1);
+  const [cityId, setCityId] = useState<number | null>(null);
   const cities = useTypedSelector(
     (state) => state.divisions
   )?.divisions?.filter((el: any) => el.city !== UNSORTED_CITY);
+
   const {
     register,
     handleSubmit,
@@ -41,7 +68,7 @@ const RegistrationForm = (props: IAuthFormsProps) => {
   } = useForm({ resolver: yupResolver(AuthSchema) });
 
   const onSubmit = (profile: RegistrationFormValues) => {
-    if (cityId === -1) return;
+    if (!cityId) return;
     profile.city = cityId.toString();
 
     setLoading(true);
@@ -80,10 +107,17 @@ const RegistrationForm = (props: IAuthFormsProps) => {
         }
       });
   };
-  const handleChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
-    const intValue = +e.currentTarget.value;
-    setCityId(intValue);
+  const handleChange = (e: InputCityOption) => {
+    e ? setCityId(+e.value) : setCityId(null);
   };
+
+  const cityOptions = cities?.map((city: IStructureCity) => {
+    return { value: city.id, text: city.city };
+  });
+
+  const getNamesFunction = useCallback(() => {
+    getRegistrationNames();
+  }, []);
 
   return (
     <>
@@ -94,29 +128,34 @@ const RegistrationForm = (props: IAuthFormsProps) => {
         register={register}
         handleSubmit={handleSubmit}
         onSubmit={onSubmit}
-        className="Войти"
+        className="form__registration"
       >
         <AutocompleteFio
           name="name"
           error={errors.name?.message}
           label="ФИО*"
+          optionsFetch={() => getRegistrationNames()}
+          sx={defaultInputSx}
         />
-        <select onChange={handleChange} defaultValue={-1} required>
-          <option value={-1} disabled>
-            Выберите город
-          </option>
-          {cities?.map((city: any, index: number) => (
-            <option value={city.id} key={index}>
-              {city.city}
-            </option>
-          ))}
-        </select>
+        <AutoCompleteCity
+          name="city"
+          error={errors.city?.message}
+          label="Город*"
+          onlyAllowedOptions
+          options={cityOptions}
+          changeCallback={handleChange}
+          sx={defaultInputSx}
+        />
+
         <AutocompleteFio
           name="coach"
           error={errors.coach?.message}
           label="Тренер*"
           onlyAllowedOptions
+          optionsFetch={cityId ? () => getCoaches(cityId) : undefined}
+          resetOptions={!!cityId}
           coachCityId={cityId}
+          sx={defaultInputSx}
         />
 
         <Input
@@ -139,4 +178,4 @@ const RegistrationForm = (props: IAuthFormsProps) => {
   );
 };
 
-export default RegistrationForm;
+export default React.memo(RegistrationForm);

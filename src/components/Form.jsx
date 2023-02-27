@@ -521,6 +521,24 @@ const Form = () => {
                     onlyAllowedOptions
                     name="coach"
                     label="Тренер*"
+                    sx={{
+                      mb: 1,
+                      borderRadius: "2px",
+                      width: "23.86rem",
+                      marginLeft: "-7px",
+                      "& input": {
+                        height: 25,
+                        width: "22.86rem",
+                        border: "1px solid #535e692a",
+                      },
+                      "& fieldset": {
+                        border: "0px",
+                      },
+                      "& label": {
+                        fontSize: "13px",
+                        lineHeight: "2em",
+                      },
+                    }}
                     coachCityId={currentCity.id}
                   />
                 </>

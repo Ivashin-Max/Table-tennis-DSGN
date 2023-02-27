@@ -2,10 +2,8 @@ import React, { useEffect, useState } from "react";
 import TextField from "@mui/material/TextField";
 
 import Autocomplete from "@mui/material/Autocomplete";
-import { getRegistrationNames } from "../../../actions/Profile/profileRequests";
 import { InputProps } from "../../../types/props";
 import Typography from "../../Styled/Typography";
-import { getCoaches } from "../../../actions/fetchDB";
 
 const AutocompleteFio: React.FC<InputProps> = ({
   register,
@@ -14,45 +12,33 @@ const AutocompleteFio: React.FC<InputProps> = ({
   label,
   coachCityId,
   onlyAllowedOptions,
+  sx,
+  refetchFlag,
+  resetOptions,
+  optionsFetch,
   ...rest
 }) => {
   const [names, setNames] = useState<any[]>([]);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    (coachCityId ? getCoaches(coachCityId) : getRegistrationNames())
-      .then((res) => {
+    if (!optionsFetch) return;
+    optionsFetch()
+      .then((res: any) => {
         setNames(res.data);
         setLoading(false);
       })
-      .catch((res) => {
+      .catch((res: any) => {
         console.warn("Ошибка загрузки", res.toJSON());
         setLoading(false);
       });
-  }, [coachCityId]);
+  }, [refetchFlag, optionsFetch]);
 
   return (
     <>
       <Autocomplete
         size="small"
-        sx={{
-          mb: 1,
-          borderRadius: "2px", 
-          width: "23.86rem",
-          marginLeft: "-7px",
-          '& input': {
-            height: 25,
-            width: "22.86rem",
-            border: "1px solid #535e692a",
-          },
-          '& fieldset': {
-            border: "0px",
-          },
-          '& label': {
-            fontSize: "13px",
-            lineHeight: "2em",
-          },
-        }}
+        sx={sx}
         // freeSolo
         key={coachCityId}
         freeSolo={!onlyAllowedOptions}
@@ -67,7 +53,6 @@ const AutocompleteFio: React.FC<InputProps> = ({
         getOptionLabel={(option) => option.fio ?? option.name}
         renderOption={(props, option) => {
           return (
-            // <TextField {...props}  key={option.id} {...option.fio ?? option.name} label="Size small" placeholder="Favorites" />
             <span {...props} key={option.id}>
               {option.fio ?? option.name}
             </span>
@@ -81,10 +66,6 @@ const AutocompleteFio: React.FC<InputProps> = ({
             {...rest}
             label={label}
             // variant="standart"
-            sx={{
-              // boxShadow: "inset 0px 4px 4px rgba(0, 0, 0, 0.082)",
-              // height: 1,
-            }}
           />
         )}
       />

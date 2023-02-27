@@ -1,3 +1,4 @@
+import { AxiosResponse } from "axios";
 import { InputHTMLAttributes } from "react";
 
 export type ModalMsgProps = {
@@ -12,10 +13,23 @@ export interface InputProps extends InputHTMLAttributes<HTMLInputElement> {
   label?: string;
   error?: string;
   register?: any;
-  coachCityId?: number;
+  coachCityId?: number | null;
   resetField?: any;
   onlyAllowedOptions?: boolean;
+  sx?: any;
+  optionsFetch?: any;
+  refetchFlag?: unknown;
+  resetOptions?: boolean;
 }
+
+export interface InputCity
+  extends Omit<InputProps, "coachCityId" | "resetField"> {
+  options: InputCityOption[];
+  changeCallback: (value: InputCityOption) => void;
+}
+
+export type InputCityOption = { value: string; text: string };
+
 export type EditableInputProps = {
   editable?: boolean;
   title: string;

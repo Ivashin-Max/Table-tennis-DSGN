@@ -12,12 +12,14 @@ interface SelectProps {
   changeCallback: (value: string) => void;
   label?: string;
   pushedValue?: string | number | undefined;
+  sx?: any;
 }
 const MySelect: React.FC<SelectProps> = ({
   options,
   changeCallback,
   label,
   pushedValue,
+  sx,
 }) => {
   const [value, setValue] = React.useState("");
 
@@ -40,7 +42,13 @@ const MySelect: React.FC<SelectProps> = ({
     <>
       <FormControl variant="standard" sx={{ m: 1, minWidth: 120 }} size="small">
         {label && <InputLabel id="Selectlabel">{label}</InputLabel>}
-        <Select value={value} onChange={handleChange} labelId="Selectlabel">
+        <Select
+          sx={sx}
+          value={value}
+          onChange={handleChange}
+          labelId="Selectlabel"
+          variant="outlined"
+        >
           {options?.map((option) => (
             <MenuItem value={option.value} key={option.value}>
               {option.text}

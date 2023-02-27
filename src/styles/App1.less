@@ -302,6 +302,26 @@ body::-webkit-scrollbar{
     font-weight: 400;
     color: @color_text;
 
+    &_menu>li:before{
+        content:' ';
+        position: absolute;
+        display: block;
+        width: 0;
+        bottom:10px;
+        height: 1px;
+        left:0;
+        background: @color_text;
+        transition:0.4s;
+    }
+
+    &_menu>li:hover  {
+
+    color:@color_vk_blue;
+
+ &::before{
+    width: 100%;
+      }
+    }
 
     &_line {
       opacity: 0;
@@ -394,6 +414,7 @@ body::-webkit-scrollbar{
       text-align: center;
       font-size: 14px;
       font-weight: 600;
+      color:@color_text;
 
       &:first-child {
         padding-top: 11px;
@@ -1360,6 +1381,17 @@ main {
       align-items: center;
     }
   }
+
+  label.Mui-focused{
+    background-color: @color_green;
+    padding: 1px 10px;
+    color: white;
+}
+&__registration{
+    input{
+        box-shadow: inset 0px 4px 4px rgba(0,0,0,0.082);
+    }
+}
 }
 
 & p {
@@ -2256,6 +2288,9 @@ a {
     margin-top: 0;
     min-width: 350px;
     margin: 0 auto;
+
+
+
   }
 
   #tournamentAdress {
@@ -2305,8 +2340,8 @@ a {
 
   .header__navbar_menu>li:hover .header__navbar_menu_sub {
     position: fixed;
-    top: 110px;
-    left: 12%;
+    top: 225px;
+    left: 5px;
   }
 
   .header__navbar_menu>li:last-child .header__navbar_menu_sub {
