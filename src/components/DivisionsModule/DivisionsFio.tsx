@@ -62,8 +62,8 @@ const DivisionsFio = ({
               }}
             >
               <Arrow
-                className="svg__arrow svg__arrow_down"
-                title={prevDivId ? "Понизить дивизион" : ""}
+                className="svg__arrow"
+                title={nextDivId ? "Повысить дивизион" : ""}
               />
             </button>
           ) : (
@@ -91,8 +91,8 @@ const DivisionsFio = ({
                   }}
                 >
                   <Arrow
-                    className="svg__arrow"
-                    title={nextDivId ? "Повысить дивизион" : ""}
+                    className="svg__arrow svg__arrow_down"
+                    title={prevDivId ? "Понизить дивизион" : ""}
                   />
                 </button>
               )}

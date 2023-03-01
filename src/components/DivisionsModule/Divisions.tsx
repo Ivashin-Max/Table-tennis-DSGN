@@ -135,6 +135,7 @@ const Divisions: React.FC = () => {
         <Button
           onClick={handleAdminPatch}
           disabled={refChanges.current.length === 0}
+          submit="ok"
         >
           Сохранить изменения
         </Button>

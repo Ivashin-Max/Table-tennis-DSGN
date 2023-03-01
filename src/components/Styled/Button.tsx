@@ -50,6 +50,11 @@ const SButton = styled.button<any>`
     cursor: default;
     background-color: #cec7c8;
   }
+  ${(props) =>
+    props.submit &&
+    `
+    margin-top: 20px;
+   `}
 `;
 
 const Button = (props: any) => {
