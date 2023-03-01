@@ -104,12 +104,26 @@ const MyHeader = ({
               changeCallback={(e) => handleCityChange(e)}
               label="Город"
               pushedValue={city ? +city : undefined}
+              sx={{
+                "& div": {
+                  fontFamily:"OpenSans",
+                  color: "#2b476a",
+
+                },
+              }}
             />
             <MySelect
               options={zones}
               changeCallback={(e) => handleZoneChange(e)}
               label="Зона"
               pushedValue={zone ? +zone : undefined}
+              sx={{
+                "& div": {
+                  fontFamily:"OpenSans",
+                  color: "#2b476a",
+
+                },
+              }}
             />
           </>
         )}

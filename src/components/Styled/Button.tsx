@@ -13,6 +13,7 @@ const SButton = styled.button<any>`
   font-family: "OpenSans";
   font-weight: 600;
   background-color: #39aea8;
+  margin: 0 auto;
 
   &:hover {
     background-color: white;

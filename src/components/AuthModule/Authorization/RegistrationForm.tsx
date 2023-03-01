@@ -28,11 +28,16 @@ export const defaultInputSx = {
     height: 25,
     width: "22.86rem",
     border: "1px solid #535e692a",
+    fontFamily: "OpenSans"
   },
   "& fieldset": {
     border: "0px",
   },
   "& label": {
+    fontSize: "13px",
+    lineHeight: "2em",
+  },
+  "& div": {
     fontSize: "13px",
     lineHeight: "2em",
   },

@@ -189,13 +189,13 @@ body::-webkit-scrollbar {
   display: block;
   width: 0;
   bottom: 10px;
-  height: 1px;
+  height: 2px;
   left: 0;
-  background: #2B476A;
+  background: #39aea8;
   transition: 0.4s;
 }
 .header__navbar_menu > li:hover {
-  color: #5181B8;
+  color: #111;
 }
 .header__navbar_menu > li:hover::after {
   width: 100%;
@@ -1699,6 +1699,9 @@ a:hover {
 .coach {
   margin-left: 20px;
 }
+.header__flex {
+  order: 3;
+}
 @media only screen and (max-width: 1300px) {
   #scroll-down {
     display: none;
@@ -1722,7 +1725,7 @@ a:hover {
   }
   .header {
     font-size: 1rem;
-    flex-direction: column-reverse;
+    flex-direction: column;
     padding-top: 35px;
     gap: 1rem;
   }
@@ -1736,10 +1739,13 @@ a:hover {
     padding-top: 10px;
   }
   .header__flex {
-    order: 2;
+    order: 1;
   }
   .header__left {
-    order: 1;
+    order: 2;
+  }
+  .header__navbar {
+    order: 3;
   }
   .header__navbar_menu {
     justify-content: space-around;

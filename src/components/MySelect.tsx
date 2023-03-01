@@ -40,14 +40,14 @@ const MySelect: React.FC<SelectProps> = ({
 
   return (
     <>
-      <FormControl variant="standard" sx={{ m: 1, minWidth: 120 }} size="small">
+      <FormControl variant="standard" sx={{ m: 1, minWidth: 120, order: 2 }} size="small">
         {label && <InputLabel id="Selectlabel">{label}</InputLabel>}
         <Select
           sx={sx}
           value={value}
           onChange={handleChange}
           labelId="Selectlabel"
-          variant="outlined"
+          variant="standard"
         >
           {options?.map((option) => (
             <MenuItem value={option.value} key={option.value}>

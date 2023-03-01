@@ -6,7 +6,7 @@ import { InputProps } from "../../types/props";
 const SInput = styled.input<InputProps>`
   display: block;
   margin-bottom: 14px;
-  width: 240px;
+  width: 20rem;
   height: 33px;
   border: 1px solid #535e692a;
   box-shadow: inset 0px 4px 4px rgba(0, 0, 0, 0.082);
