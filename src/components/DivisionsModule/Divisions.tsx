@@ -149,9 +149,7 @@ const Divisions: React.FC = () => {
         {activeCity && activeZone && isAdmin && activeCityId !== 1 && (
           <div className="neTable">
             <div className="neTable__header_head">
-              <div className="neTable__header_name">
-                Несортированные
-              </div>
+              <div className="neTable__header_name">Несортированные</div>
               <div className="neTable__header_date" />
             </div>
             <div className="neTable__header_line" />
@@ -171,7 +169,7 @@ const Divisions: React.FC = () => {
         )}
 
         {activeZone?.divisions?.map((division, index) => (
-          <div className="neTable" key={index}>
+          <div className="neTable division" key={index}>
             <div className="neTable__header_head">
               <div className="neTable__header_name">
                 {division.division_name}
@@ -191,6 +189,15 @@ const Divisions: React.FC = () => {
                 />
               ))}
             </div>
+
+            {!!division?.participants?.length && (
+              <>
+                <div className="neTable__header_line" />
+                <div className="total">
+                  Общее количество: {division.participants.length}
+                </div>
+              </>
+            )}
           </div>
         ))}
       </div>

@@ -708,6 +708,13 @@ main.admin .neTable {
   border-radius: 10px;
   margin-left: 10px;
 }
+.neTable.division {
+  min-height: unset;
+  padding-bottom: 20px;
+}
+.neTable.division .total {
+  padding-top: 10px;
+}
 .neTable__row {
   box-sizing: content-box;
   display: flex;
