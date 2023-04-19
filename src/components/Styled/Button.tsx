@@ -7,19 +7,20 @@ const SButton = styled.button<any>`
   display: block;
   margin: 12px 0;
   border-radius: 7px;
+  border: 2px solid #39aea9;
   color: white;
   transition: 0.4s ease;
   font-size: 14px;
-  font-family: "OpenSans";
+  font-family: "Montserrat";
   font-weight: 600;
   background-color: #39aea8;
   margin: 0 auto;
+  padding: 6px 16px;
 
   &:hover {
     background-color: white;
     color: #39aea9;
     transition: background-color 0.4s ease;
-    border: 2px solid #39aea9;
   }
   ${(props) =>
     props.small &&
@@ -35,7 +36,7 @@ const SButton = styled.button<any>`
     font-size: 17px;
     box-shadow: 2px 3px 1px -2px rgb(0 0 0 / 20%), 0px 2px 2px 0px rgb(0 0 0 / 14%), 0px 1px 5px 0px rgb(0 0 0 / 12%);
     height: 3.285rem; 
-    width: 126px;
+    width: auto;
     border-radius: 10px 0px 0px 10px;
     margin: 0 auto;
     margin-left: 130px;
