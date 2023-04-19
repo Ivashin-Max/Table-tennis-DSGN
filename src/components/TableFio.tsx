@@ -3,6 +3,8 @@ import { deleteParticipantAdmin } from "../actions/Admin/adminRequests";
 import { useDispatch } from "react-redux";
 import { TableFioProps } from "../types/props";
 import { ReactComponent as StarIcon } from "../styles/img/star-svgrepo-com.svg";
+import { ReactComponent as RankIcon } from "../styles/img/rank.svg";
+
 import { ReactComponent as XIcon } from "../styles/img/x-svgrepo-com.svg";
 import { motion, AnimatePresence } from "framer-motion/dist/framer-motion";
 import { adminTableFioAnimations } from "../styles/animations/formAnimations";
@@ -92,6 +94,13 @@ const TableFio = ({
               </AnimatePresence>
 
               <div className="neTable__starDiv">
+                {participant?.rank && (
+                  <>
+                    <RankIcon className="svg__star svg__star_red svg__rank" />
+                    <span>{participant.rank}</span>
+                  </>
+                )}
+
                 <StarIcon className="svg__star svg__star_red" />
                 <span>{participant.rating}</span>
               </div>
