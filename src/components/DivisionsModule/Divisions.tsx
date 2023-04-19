@@ -19,6 +19,7 @@ import Button from "../Styled/Button";
 import Form from "../Styled/Form";
 import Input from "../Styled/Input";
 import DivisionsFio, { DivisionsChangeParticipant } from "./DivisionsFio";
+import { useTypedSelector } from "../../hooks/useTypedSelector";
 
 const Divisions: React.FC = () => {
   const [searchParams] = useSearchParams();
@@ -28,6 +29,13 @@ const Divisions: React.FC = () => {
   const isAdmin = !!sessionStorage.getItem("admin");
   const refChanges = useRef<{ id: string; division_id: string }[]>([]);
   const dispatch = useDispatch();
+  const authFio = useTypedSelector((state) => state.auth)?.fio;
+
+  useEffect(() => {
+    if (authFio) {
+      findAndShowValidNames(authFio);
+    }
+  }, [authFio]);
 
   const city = searchParams.get("city");
   const zone = searchParams.get("zone");
@@ -133,9 +141,8 @@ const Divisions: React.FC = () => {
 
   const { register, handleSubmit } = useForm();
 
-  const onSubmit = (data: { name: string }) => {
-    if (!data.name) return;
-    const dataFio = dataFioFormat(data.name);
+  const findAndShowValidNames = (name: string) => {
+    const dataFio = dataFioFormat(name);
     document
       .querySelectorAll(`[data-fio]`)
       .forEach((el) => el.classList.remove("validSearch"));
@@ -145,6 +152,11 @@ const Divisions: React.FC = () => {
 
     const firstValidName = document.querySelector(`[data-fio='${dataFio}']`);
     firstValidName?.scrollIntoView({ behavior: "smooth" });
+  };
+
+  const onSubmit = (data: { name: string }) => {
+    if (!data.name) return;
+    findAndShowValidNames(data.name);
   };
 
   return (
