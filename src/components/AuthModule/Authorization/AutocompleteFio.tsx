@@ -26,6 +26,8 @@ const AutocompleteFio: React.FC<InputProps> = ({
 
   useEffect(() => {
     if (!optionsFetch) return;
+    console.log("🚀 ~ optionsFetch:", optionsFetch);
+
     optionsFetch()
       .then((res: any) => {
         setNames(res.data);

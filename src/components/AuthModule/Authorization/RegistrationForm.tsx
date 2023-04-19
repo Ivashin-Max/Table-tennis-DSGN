@@ -56,6 +56,10 @@ const AuthSchema = yup.object().shape({
     .required("Обязательное поле"),
   coach: yup.string().required("Обязательное поле"),
   city: yup.string().required("Обязательное поле"),
+  rank: yup
+    .number()
+    .typeError("Должен содержать только цифры")
+    .required("Обязательное поле"),
 });
 
 const RegistrationForm = (props: IAuthFormsProps) => {
@@ -178,7 +182,7 @@ const RegistrationForm = (props: IAuthFormsProps) => {
           coachCityId={cityId}
           sx={defaultInputSx}
         />
-
+        <Input name="rank" placeholder="Разряд*" error={errors.rank?.message} />
         <Input
           name="username"
           placeholder="E-mail*"
