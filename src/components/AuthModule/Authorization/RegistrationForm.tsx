@@ -18,6 +18,7 @@ import { InputCityOption } from "../../../types/props";
 import { getRegistrationNames } from "../../../actions/Profile/profileRequests";
 import { getCoaches } from "../../../actions/fetchDB";
 import React from "react";
+import { useFormCoaches } from "../../../context/FormContext";
 
 export const defaultInputSx = {
   mb: 1,
@@ -28,7 +29,7 @@ export const defaultInputSx = {
     height: 25,
     width: "22.86rem",
     border: "1px solid #535e692a",
-    fontFamily: "OpenSans"
+    fontFamily: "OpenSans",
   },
   "& fieldset": {
     border: "0px",
@@ -62,6 +63,7 @@ const RegistrationForm = (props: IAuthFormsProps) => {
   const dispatch = useDispatch();
 
   const [cityId, setCityId] = useState<number | null>(null);
+  const context = useFormCoaches();
   const cities = useTypedSelector(
     (state) => state.divisions
   )?.divisions?.filter((el: any) => el.city !== UNSORTED_CITY);
@@ -69,11 +71,14 @@ const RegistrationForm = (props: IAuthFormsProps) => {
   const {
     register,
     handleSubmit,
+    watch,
     formState: { errors },
   } = useForm({ resolver: yupResolver(AuthSchema) });
 
   const onSubmit = (profile: RegistrationFormValues) => {
-    if (!cityId) return;
+    if (!cityId || !context) return;
+    if (!context.coaches.find((coach) => coach.name === profile.coach)) return;
+
     profile.city = cityId.toString();
 
     setLoading(true);
@@ -88,13 +93,12 @@ const RegistrationForm = (props: IAuthFormsProps) => {
             })
           );
         }
-        setLoading(false);
+
         props.closeFormModal();
       })
       .catch((e) => {
         const JSONerror = e.toJSON();
         console.warn(`Ошибка регистрации:`, JSONerror);
-        setLoading(false);
         if (JSONerror.status === 409)
           dispatch(
             openModal({
@@ -110,13 +114,16 @@ const RegistrationForm = (props: IAuthFormsProps) => {
             })
           );
         }
+      })
+      .finally(() => {
+        setLoading(false);
       });
   };
   const handleChange = (e: InputCityOption) => {
     e ? setCityId(+e.value) : setCityId(null);
   };
 
-  const cityOptions = cities?.map((city: IStructureCity) => {
+  const cityOptions: any[] = cities?.map((city: IStructureCity) => {
     return { value: city.id, text: city.city };
   });
 
@@ -125,12 +132,20 @@ const RegistrationForm = (props: IAuthFormsProps) => {
     return res;
   }, []);
 
+  const getCoachesFunction = useCallback(async () => {
+    if (!cityId) return undefined;
+    const res = await getCoaches(cityId);
+    return res;
+  }, [cityId]);
+
+  const validForm = watch("name") && watch("username") && watch("password");
+
   return (
     <>
       <Form
         formTitle="Регистрация"
         buttonLabel="Зарегистрироваться"
-        disabled={loading}
+        disabled={!validForm}
         register={register}
         handleSubmit={handleSubmit}
         onSubmit={onSubmit}
@@ -158,7 +173,7 @@ const RegistrationForm = (props: IAuthFormsProps) => {
           error={errors.coach?.message}
           label="Тренер*"
           onlyAllowedOptions
-          optionsFetch={cityId ? () => getCoaches(cityId) : undefined}
+          optionsFetch={getCoachesFunction}
           resetOptions={!!cityId}
           coachCityId={cityId}
           sx={defaultInputSx}

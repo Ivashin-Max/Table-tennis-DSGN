@@ -4,6 +4,7 @@ import TextField from "@mui/material/TextField";
 import Autocomplete from "@mui/material/Autocomplete";
 import { InputProps } from "../../../types/props";
 import Typography from "../../Styled/Typography";
+import { useFormCoaches } from "../../../context/FormContext";
 
 const AutocompleteFio: React.FC<InputProps> = ({
   register,
@@ -19,6 +20,8 @@ const AutocompleteFio: React.FC<InputProps> = ({
   ...rest
 }) => {
   const [names, setNames] = useState<any[]>([]);
+  const context = useFormCoaches();
+
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
@@ -27,6 +30,9 @@ const AutocompleteFio: React.FC<InputProps> = ({
       .then((res: any) => {
         setNames(res.data);
         setLoading(false);
+        if (context) {
+          context.updateCoaches(res.data);
+        }
       })
       .catch((res: any) => {
         console.warn("Ошибка загрузки", res);
@@ -51,6 +57,9 @@ const AutocompleteFio: React.FC<InputProps> = ({
         loadingText="Загрузка..."
         options={names}
         getOptionLabel={(option) => option.fio ?? option.name}
+        isOptionEqualToValue={(option: any, value: any) =>
+          value.id === option.id
+        }
         renderOption={(props, option) => {
           return (
             <span {...props} key={option.id}>

@@ -50,6 +50,7 @@ const SButton = styled.button<any>`
     pointer-events: none;
     cursor: default;
     background-color: #cec7c8;
+    border: 2px solid #cec7c8;
   }
   ${(props) =>
     props.submit &&

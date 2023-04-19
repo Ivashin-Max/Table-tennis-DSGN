@@ -14,7 +14,7 @@ import { setAuth } from "../../../store/reducer";
 import { ModalSteps } from "../../../types/forms";
 import { motion, AnimatePresence } from "framer-motion/dist/framer-motion";
 import ResetPassSendEmail from "../Authorization/ResetPassSendEmail";
-
+import FormProvider from "../../../context/FormContext";
 export default function AuthModal() {
   const [open, setOpen] = useState(false);
   const [modalStep, setModalStep] = useState<ModalSteps>("auth");
@@ -58,7 +58,11 @@ export default function AuthModal() {
     <div className="header__button">
       {!isAuthorized && (
         <>
-          <Button className="onesided" variant="contained" onClick={handleClickOpen}>
+          <Button
+            className="onesided"
+            variant="contained"
+            onClick={handleClickOpen}
+          >
             Вход
             <AssignmentIndIcon />
           </Button>
@@ -79,10 +83,12 @@ export default function AuthModal() {
                   </motion.div>
                 )}
                 {modalStep === "register" && (
-                  <RegistrationForm
-                    closeFormModal={handleClose}
-                    changeForm={changeForm}
-                  />
+                  <FormProvider>
+                    <RegistrationForm
+                      closeFormModal={handleClose}
+                      changeForm={changeForm}
+                    />
+                  </FormProvider>
                 )}
                 {modalStep === "reset" && (
                   <ResetPassSendEmail

@@ -6,6 +6,7 @@ export type RegistrationFormValues = {
   password: string;
   name?: string;
   city?: string;
+  coach?: string;
 };
 
 export type ResetPassValues = {

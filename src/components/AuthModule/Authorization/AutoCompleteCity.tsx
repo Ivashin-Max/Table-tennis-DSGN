@@ -2,7 +2,7 @@ import React from "react";
 import TextField from "@mui/material/TextField";
 
 import Autocomplete from "@mui/material/Autocomplete";
-import { InputCity } from "../../../types/props";
+import { InputCity, InputCityOption } from "../../../types/props";
 import Typography from "../../Styled/Typography";
 
 const AutocompleteCity: React.FC<InputCity> = ({
@@ -26,6 +26,10 @@ const AutocompleteCity: React.FC<InputCity> = ({
         loadingText="Загрузка..."
         options={options}
         getOptionLabel={(option) => option.text}
+        isOptionEqualToValue={(
+          option: InputCityOption,
+          value: InputCityOption
+        ) => value.value === option.value}
         renderOption={(props, option) => {
           return (
             <span {...props} key={option.value}>
