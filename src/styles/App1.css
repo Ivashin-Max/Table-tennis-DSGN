@@ -741,6 +741,7 @@ main.admin .neTable {
   cursor: default;
   font-size: 14px;
   font-weight: 500;
+  transition: 0.7s ease;
 }
 .neTable__row_column {
   display: flex;
@@ -1870,4 +1871,22 @@ a:hover {
 .font_6 {
   font-family: 'OpenSans';
   font-weight: 600;
+}
+.searchDivisionFio {
+  padding-top: 30px;
+  display: flex;
+}
+.searchDivisionFio form {
+  border: none;
+}
+.validSearch {
+  color: #39aea8;
+  scroll-margin-top: 1000px;
+}
+.validSearch::after {
+  content: url(img/redStar.svg);
+  width: 11px;
+  margin-left: 5px;
+  height: 0;
+  display: inline-block;
 }

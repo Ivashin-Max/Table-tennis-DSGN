@@ -5,8 +5,10 @@ import React, {
   useLayoutEffect,
   useCallback,
 } from "react";
+import { useForm } from "react-hook-form";
 import { useDispatch } from "react-redux";
 import { useSearchParams } from "react-router-dom";
+import { dataFioFormat } from "../../actions";
 import { patchDivisionStructure } from "../../actions/Admin/adminRequests";
 import { getDivisionsStructure } from "../../actions/fetchDB";
 import { openModal, setLoading } from "../../store/reducer";
@@ -14,6 +16,8 @@ import { IStructure } from "../../types/fetch";
 import MyHeader from "../MyHeader";
 
 import Button from "../Styled/Button";
+import Form from "../Styled/Form";
+import Input from "../Styled/Input";
 import DivisionsFio, { DivisionsChangeParticipant } from "./DivisionsFio";
 
 const Divisions: React.FC = () => {
@@ -127,6 +131,22 @@ const Divisions: React.FC = () => {
     getStructure();
   }, []);
 
+  const { register, handleSubmit } = useForm();
+
+  const onSubmit = (data: { name: string }) => {
+    if (!data.name) return;
+    const dataFio = dataFioFormat(data.name);
+    document
+      .querySelectorAll(`[data-fio]`)
+      .forEach((el) => el.classList.remove("validSearch"));
+    document
+      .querySelectorAll(`[data-fio='${dataFio}']`)
+      .forEach((el) => el.classList.add("validSearch"));
+
+    const firstValidName = document.querySelector(`[data-fio='${dataFio}']`);
+    firstValidName?.scrollIntoView({ behavior: "smooth" });
+  };
+
   return (
     <>
       <MyHeader divisions structure={structure} activeCityId={activeCityId} />
@@ -141,6 +161,20 @@ const Divisions: React.FC = () => {
         </Button>
       )}
 
+      {activeZone?.divisions && (
+        <div className="searchDivisionFio">
+          <Form
+            buttonLabel="Поиск"
+            register={register}
+            handleSubmit={handleSubmit}
+            onSubmit={onSubmit}
+            centered
+          >
+            <Input name="name" placeholder="Введите ФИО" />
+            <div />
+          </Form>
+        </div>
+      )}
       <div className="divisions">
         {!activeZone && (
           <span className="neTable__header_name">Выберите город и зону </span>

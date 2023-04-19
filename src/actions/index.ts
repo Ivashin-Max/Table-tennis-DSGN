@@ -10,3 +10,7 @@ export const getCurrentTournamentByQuery = () => {
     return { city: cityId, zone: zoneId, div: divId, tour: tourId };
   } else return null;
 };
+
+export const dataFioFormat = (fio: string) => {
+  return fio.replace(/ /g, "").toLowerCase();
+};

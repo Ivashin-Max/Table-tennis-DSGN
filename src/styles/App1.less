@@ -946,6 +946,8 @@ main {
       cursor: default;
       font-size: 14px;
       font-weight: 500;
+      transition:0.7s ease;
+
     }
 
     &_column {
@@ -2381,4 +2383,27 @@ a {
         font-family: 'OpenSans';
         font-weight: 600;
     }
+}
+.searchDivisionFio{
+    padding-top:30px;
+    display: flex;
+
+    form{
+        border:none;
+    }
+}
+
+.validSearch{
+    color:@color_green;
+    scroll-margin-top: 1000px;
+
+    &::after{
+        content:url(./img/redStar.svg);
+        width: 11px;
+        margin-left: 5px;
+        height: 0;
+        display: inline-block;
+    }
+
+
 }

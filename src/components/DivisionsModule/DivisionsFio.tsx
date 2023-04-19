@@ -1,4 +1,5 @@
 import Tooltip from "rc-tooltip";
+import { dataFioFormat } from "../../actions";
 import { ReactComponent as Arrow } from "../../styles/img/arrow.svg";
 
 const alignConfig = {
@@ -74,7 +75,12 @@ const DivisionsFio = ({
 
           <div className="neTable__row_column neTable__row_column_mrLeft">
             <div className="neTable__row_new">
-              <div className="neTable__row_hidden">{fio}</div>
+              <div
+                className="neTable__row_hidden"
+                data-fio={dataFioFormat(fio)}
+              >
+                {fio}
+              </div>
 
               {isAdmin && (
                 <button
