@@ -654,6 +654,10 @@ main.admin .neTable {
   font-size: 14px;
   font-weight: 500;
   display: flex;
+  gap: 5px;
+}
+.neTable__starDiv .svg__star.svg__star_red {
+  margin: 0;
 }
 .neTable__star {
   width: 15px;
@@ -982,6 +986,9 @@ main.admin .neTable {
 }
 .svg__arrow_down circle {
   fill: #AE393F !important;
+}
+.svg__rank {
+  fill: #5181B8;
 }
 .adminLinks__center {
   display: flex;
