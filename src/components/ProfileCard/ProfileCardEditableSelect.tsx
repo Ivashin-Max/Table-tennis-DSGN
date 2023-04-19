@@ -23,7 +23,12 @@ const spanAnimation = {
   tap: { scale: 1.2 },
 };
 
-const EditableSelect = ({ title, id, user, editable }: EditableInputProps) => {
+const EditableSelect = ({
+  title,
+  id,
+  user,
+  editable,
+}: Omit<EditableInputProps, "inputName">) => {
   const [edit, setEdit] = useState(false);
   const [coaches, setCoaches] = useState<any[]>([]);
   const [value, setValue] = useState("");

@@ -27,10 +27,16 @@ const AuthSchema = yup.object().shape({
   // .matches(/^[0-9]+$/, "Must be only digits")
 });
 
-const EditableInput = ({ title, id, user, editable }: EditableInputProps) => {
+const EditableInput = ({
+  title,
+  id,
+  user,
+  editable,
+  placeholder = "Введите ID",
+  inputName,
+}: EditableInputProps) => {
   const [edit, setEdit] = useState(false);
   const dispatch = useDispatch();
-  const inputName = title + "_id";
 
   const {
     register,
@@ -45,6 +51,7 @@ const EditableInput = ({ title, id, user, editable }: EditableInputProps) => {
     data.rttf_id = user.rttf_id;
     data.telegram_id = user.telegram_id;
     data.coach = user.coach;
+    data.rank = user.rank;
 
     delete data.id;
     data[inputName] = inputValue;
@@ -83,7 +90,7 @@ const EditableInput = ({ title, id, user, editable }: EditableInputProps) => {
               defaultValue={id}
               autoComplete="off"
               {...register("id")}
-              placeholder="Введите ID"
+              placeholder={placeholder}
             />
             <motion.span
               variants={spanAnimation}

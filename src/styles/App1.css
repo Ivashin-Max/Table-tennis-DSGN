@@ -377,6 +377,7 @@ body::-webkit-scrollbar {
   display: flex;
   align-items: center;
   justify-content: center;
+  position: relative;
 }
 .profileCard__form .MuiFormControl-root {
   margin-right: 30px!important;

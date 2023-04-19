@@ -36,6 +36,8 @@ export type EditableInputProps = {
   title: string;
   id: number;
   user: IUser;
+  placeholder?: string;
+  inputName: string;
 };
 
 interface IUser {
@@ -54,6 +56,7 @@ interface IUser {
   rttf_id: number;
   telegram_id: null;
   tournaments: any[];
+  rank?: number;
 }
 
 export type TableFioProps = {
