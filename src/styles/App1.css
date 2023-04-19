@@ -1818,3 +1818,46 @@ a:hover {
     right: 35%;
   }
 }
+.loaderRocket {
+  width: 100vw;
+  height: 100vh;
+  background: #FBFAF5;
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 10000;
+}
+.loaderRocket.loaded {
+  display: none;
+}
+.font {
+  opacity: 0;
+  height: 0;
+  visibility: hidden;
+}
+.font_1 {
+  font-family: 'Montserrat';
+  font-weight: 400;
+}
+.font_2 {
+  font-family: 'Montserrat';
+  font-weight: 500;
+}
+.font_3 {
+  font-family: 'Montserrat';
+  font-weight: 600;
+}
+.font_4 {
+  font-family: 'Montserrat';
+  font-weight: 700;
+}
+.font_5 {
+  font-family: 'OpenSans';
+  font-weight: 400;
+}
+.font_6 {
+  font-family: 'OpenSans';
+  font-weight: 600;
+}

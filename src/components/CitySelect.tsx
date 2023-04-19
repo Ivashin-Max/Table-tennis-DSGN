@@ -23,9 +23,11 @@ const CitySelect = () => {
   const [city, setCityValue] = useState("");
 
   useEffect(() => {
-    setCityValue(currentCity.id);
-    dispatch(setCalendarMode({ calendarMode: true }));
-    dispatch(setEmptyData());
+    if (currentCity?.id) {
+      setCityValue(currentCity?.id);
+      dispatch(setCalendarMode({ calendarMode: true }));
+      dispatch(setEmptyData());
+    }
   }, [currentCity]);
 
   const handleChange = (event: SelectChangeEvent) => {
@@ -44,13 +46,17 @@ const CitySelect = () => {
 
   return (
     <>
-      <FormControl variant="standard" sx={{ 
-        m: 1, minWidth: 120,
-        "& div": {
-          fontFamily:"OpenSans",
-          color: "#2b476a"
-        },
-        }}>
+      <FormControl
+        variant="standard"
+        sx={{
+          m: 1,
+          minWidth: 120,
+          "& div": {
+            fontFamily: "OpenSans",
+            color: "#2b476a",
+          },
+        }}
+      >
         <Select value={city} onChange={handleChange}>
           {cities?.map((city: ICity) => (
             <MenuItem value={city.id} key={city.id}>

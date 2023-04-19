@@ -382,9 +382,11 @@ const Form = () => {
   };
 
   const getNamesFunction = useCallback(async () => {
-    const res = await getCoaches(currentCity.id);
-    return res;
-  }, [currentCity.id]);
+    if (currentCity?.id) {
+      const res = await getCoaches(currentCity?.id);
+      return res;
+    }
+  }, [currentCity?.id]);
 
   if (loading) {
     return (
@@ -546,7 +548,7 @@ const Form = () => {
                       },
                     }}
                     optionsFetch={getNamesFunction}
-                    coachCityId={currentCity.id}
+                    coachCityId={currentCity?.id}
                   />
                 </>
               )}
