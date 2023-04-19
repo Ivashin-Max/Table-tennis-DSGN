@@ -75,7 +75,12 @@ const TableFio = ({
             </>
           )}
 
-          <div className="neTable__row_column">
+          <a
+            className="neTable__row_column"
+            href={!!participant?.rttf_id ? participant?.rttf_id : undefined}
+            target={participant?.rttf_id ? "_blank" : "_self"}
+            rel="noreferrer"
+          >
             <div className="neTable__row_new">
               <div className="neTable__row_hidden">{participant.name}</div>
               <AnimatePresence>
@@ -100,7 +105,7 @@ const TableFio = ({
                 <span>{participant.rating_2}</span>
               </div>
             </div>
-          </div>
+          </a>
         </div>
       </Tooltip>
     </>

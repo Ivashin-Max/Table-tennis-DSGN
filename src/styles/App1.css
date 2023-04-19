@@ -653,7 +653,6 @@ main.admin .neTable {
   font-size: 14px;
   font-weight: 500;
   display: flex;
-  align-items: center;
 }
 .neTable__star {
   width: 15px;
@@ -740,6 +739,8 @@ main.admin .neTable {
   display: flex;
   flex-direction: column;
   width: 100%;
+  margin-top: 0;
+  color: inherit;
 }
 .neTable__row_column_mrLeft {
   margin-left: 10px;
@@ -785,6 +786,7 @@ main.admin .neTable {
   font-size: 13px;
   font-weight: 500;
   text-align: left;
+  cursor: pointer;
 }
 .neTable__row_fio span {
   cursor: default;
@@ -1395,6 +1397,7 @@ a {
   color: black;
   display: block;
   margin-top: 15px;
+  transition: 0.4s ease;
 }
 a:hover {
   color: #39aea8;
