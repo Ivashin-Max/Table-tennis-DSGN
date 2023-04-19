@@ -40,7 +40,7 @@ export const useCurrentZoneAndDivision = () => {
   const currentTable = useTypedSelector((state) => state.table);
   const currentCity = useCurrentCity();
 
-  const neededZone = currentCity.zones.find(
+  const neededZone = currentCity?.zones?.find(
     (zone) => zone.id === currentTable.neededZone
   );
   if (neededZone) {

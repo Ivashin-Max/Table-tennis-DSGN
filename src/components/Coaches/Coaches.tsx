@@ -20,15 +20,16 @@ const Coaches = () => {
   const { register, handleSubmit } = useForm();
 
   const fetchCoaches = useCallback(() => {
-    getCoaches(currentCity.id)
-      .then((res) => {
-        if (res.status === 200) setCoaches(res.data);
-      })
-      .catch((res) => {
-        console.warn("Ошибка загрузки", res.toJSON());
-        setCoaches([]);
-      });
-  }, [currentCity.id]);
+    if (currentCity?.id)
+      getCoaches(currentCity.id)
+        .then((res) => {
+          if (res.status === 200) setCoaches(res.data);
+        })
+        .catch((res) => {
+          console.warn("Ошибка загрузки", res.toJSON());
+          setCoaches([]);
+        });
+  }, [currentCity?.id]);
 
   useEffect(() => {
     fetchCoaches();

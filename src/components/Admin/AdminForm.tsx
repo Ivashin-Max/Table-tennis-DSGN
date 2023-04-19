@@ -1,7 +1,6 @@
 import { useEffect, useState, useRef } from "react";
 import { useForm } from "react-hook-form";
 import {
-  useCurrentDivision,
   useCurrentTournament,
   useCurrentZoneAndDivision,
 } from "../../hooks/useCurrentTournament";
@@ -36,6 +35,7 @@ import {
 import { DynamicPrizes } from "./DynamicPrizes";
 import { useSearchParams } from "react-router-dom";
 import { getCurrentTournamentByQuery } from "../../actions";
+import { TimePicker } from "@mui/lab";
 
 // validation
 const AddTournamentSchema = yup.object().shape({
@@ -76,6 +76,13 @@ export const AdminForm = () => {
   const [date, setDate] = React.useState<Date | null>(
     setSeconds(new Date(), 0)
   );
+  const [warmStart, setWarmStart] = React.useState<number | null | Date>(
+    setSeconds(new Date(), 0)
+  );
+  const [registrationEndTime, setRegistrationEndTime] = React.useState<
+    number | null | Date
+  >(setSeconds(new Date(), 0));
+
   const dispatch = useDispatch();
   useEffect(() => {
     if (currentTournament) {
@@ -100,6 +107,14 @@ export const AdminForm = () => {
       else setIsPrized(false);
       if (currentTournament.cost !== 0) setIsPaid(true);
       else setIsPaid(false);
+      try {
+        if (currentTournament?.warmStart) {
+          setWarmStart(currentTournament.warmStart);
+        }
+        if (currentTournament?.registrationEndTime) {
+          setRegistrationEndTime(currentTournament.registrationEndTime);
+        }
+      } catch {}
 
       reset({ ...tournamentValues });
     } else {
@@ -138,6 +153,9 @@ export const AdminForm = () => {
     data.reserve = +data.reserve;
     data.rating_range = isRate ? data.rating_range : "0";
     data.date_time = date?.toJSON().slice(0, 16).replace("T", " ");
+    data.warmStart = warmStart;
+    data.registrationEndTime = registrationEndTime;
+
     const zone = searchParams.get("zone");
     if (zone) data.zone = +zone;
 
@@ -160,7 +178,7 @@ export const AdminForm = () => {
 
       patchTournament(data)
         .then((res) => {
-          console.log(11111, res);
+          //   console.log(11111, res);
           if (res.status === 200) {
             dispatch(
               openModal({
@@ -192,7 +210,7 @@ export const AdminForm = () => {
     } else {
       addTournament(data)
         .then((res) => {
-          console.log(11111, res);
+          //   console.log(11111, res);
           dispatch(
             openModal({
               title: "Успешно!",
@@ -411,7 +429,7 @@ export const AdminForm = () => {
           )}
 
           <DateTimePicker
-            renderInput={(params) => <TextField sx={{ mb: 1 }} {...params} />}
+            renderInput={(params) => <TextField sx={{ mb: 2 }} {...params} />}
             label="Дата"
             value={date}
             mask="__.__.____ __:__"
@@ -419,6 +437,24 @@ export const AdminForm = () => {
               setDate(newValue);
             }}
             minDateTime={subMinutes(new Date(), 10)}
+          />
+
+          <TimePicker
+            label="Время начала разминки"
+            value={warmStart}
+            onChange={(newValue) => {
+              setWarmStart(newValue);
+            }}
+            renderInput={(params) => <TextField sx={{ mb: 2 }} {...params} />}
+          />
+
+          <TimePicker
+            label="Время окончания регистрации"
+            value={registrationEndTime}
+            onChange={(newValue) => {
+              setRegistrationEndTime(newValue);
+            }}
+            renderInput={(params) => <TextField sx={{ mb: 2 }} {...params} />}
           />
 
           <Checkbox
