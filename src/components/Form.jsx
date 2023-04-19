@@ -37,6 +37,7 @@ import AutocompleteFio from "./AuthModule/Authorization/AutocompleteFio";
 import { useForm } from "react-hook-form";
 import { getCurrentTournamentByQuery } from "../actions";
 import { getCoaches } from "../actions/fetchDB";
+import { useFormCoaches } from "../context/FormContext";
 
 const alignConfig = {
   // the offset sourceNode by 10px in x and 20px in y,
@@ -57,6 +58,7 @@ const Form = () => {
   const [isLate, setIsLate] = useState(true);
   const fioInputRef = useRef();
   const formRef = useRef();
+  const formContext = useFormCoaches();
 
   const authState = useTypedSelector((state) => state.auth);
   const calendarMode = useTypedSelector(
@@ -164,7 +166,10 @@ const Form = () => {
       setLoading(false);
       return false;
     } else if (checkCoach) {
-      if (getValues().coach === "" && !authState.isAuthorized) {
+      const isValidCoach = formContext.coaches.find(
+        (coach) => coach.name === getValues().coach
+      );
+      if (!isValidCoach && !authState.isAuthorized) {
         dispatch(
           openModal({
             title: "Ошибка!",
@@ -315,7 +320,7 @@ const Form = () => {
           ? authState.userInfo.coach
           : getValues().coach,
       };
-      console.log("newParticipant", newParticipant);
+      //   console.log("newParticipant", newParticipant);
       addLocalStorageItem("fio", fio);
 
       try {
