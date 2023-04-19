@@ -813,7 +813,6 @@ main {
     font-size: 14px;
     font-weight: 500;
     display: flex;
-    align-items: center;
   }
 
   &__star {
@@ -919,6 +918,18 @@ main {
       display: flex;
       flex-direction: column;
       width: 100%;
+      margin-top: 0;
+      color:inherit;
+
+      a{
+        margin-top: 0;
+        color:inherit;
+      }
+    
+
+      &_mrLeft{
+        margin-left:10px;
+      }
     }
 
     &:hover {
@@ -977,6 +988,7 @@ main {
       font-size: 13px;
       font-weight: 500;
       text-align: left;
+      cursor:pointer;
 
       & span {
         cursor: default;
@@ -1704,6 +1716,7 @@ a {
   color: black;
   display: block;
   margin-top: 15px;
+  transition:0.4s ease;
 
   &:hover {
     color: @color_green;
@@ -2219,4 +2232,57 @@ a {
   .loader_rocket_start {
     right: 35%;
   }
+
+}
+
+.loaderRocket{
+    width:100vw;
+    height:100vh;
+    background: #FBFAF5;
+    position:fixed;
+    top:0;
+    left:0;
+    right:0;
+    bottom:0;
+    z-index:10000;
+
+    &.loaded{
+        display: none;;
+    }
+}
+
+.font{
+    opacity:0;
+    height:0;
+    visibility: hidden;
+
+    &_1{
+        font-family: 'Montserrat';
+        font-weight: 400;
+    }
+
+    &_2{
+        font-family: 'Montserrat';
+        font-weight: 500;
+    }
+
+    &_3{
+        font-family: 'Montserrat';
+        font-weight: 600;
+    }
+
+    &_4{
+        font-family: 'Montserrat';
+        font-weight: 700;
+    }
+
+    &_5{
+        font-family: 'OpenSans';
+        font-weight: 400;
+    }
+
+    &_6{
+        font-family: 'OpenSans';
+        font-weight: 600;
+    }
 }

@@ -643,7 +643,6 @@ main {
   font-size: 14px;
   font-weight: 500;
   display: flex;
-  align-items: center;
 }
 .neTable__star {
   width: 15px;
@@ -728,6 +727,15 @@ main {
   display: flex;
   flex-direction: column;
   width: 100%;
+  margin-top: 0;
+  color: inherit;
+}
+.neTable__row_column a {
+  margin-top: 0;
+  color: inherit;
+}
+.neTable__row_column_mrLeft {
+  margin-left: 10px;
 }
 .neTable__row:hover .neTable__row_square {
   background-color: #AE393F;
@@ -770,6 +778,7 @@ main {
   font-size: 13px;
   font-weight: 500;
   text-align: left;
+  cursor: pointer;
 }
 .neTable__row_fio span {
   cursor: default;
@@ -1330,6 +1339,7 @@ a {
   color: black;
   display: block;
   margin-top: 15px;
+  transition: 0.4s ease;
 }
 a:hover {
   color: #39aea8;
@@ -1740,4 +1750,47 @@ a:hover {
   .loader_rocket_start {
     right: 35%;
   }
+}
+.loaderRocket {
+  width: 100vw;
+  height: 100vh;
+  background: #FBFAF5;
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 10000;
+}
+.loaderRocket.loaded {
+  display: none;
+}
+.font {
+  opacity: 0;
+  height: 0;
+  visibility: hidden;
+}
+.font_1 {
+  font-family: 'Montserrat';
+  font-weight: 400;
+}
+.font_2 {
+  font-family: 'Montserrat';
+  font-weight: 500;
+}
+.font_3 {
+  font-family: 'Montserrat';
+  font-weight: 600;
+}
+.font_4 {
+  font-family: 'Montserrat';
+  font-weight: 700;
+}
+.font_5 {
+  font-family: 'OpenSans';
+  font-weight: 400;
+}
+.font_6 {
+  font-family: 'OpenSans';
+  font-weight: 600;
 }
