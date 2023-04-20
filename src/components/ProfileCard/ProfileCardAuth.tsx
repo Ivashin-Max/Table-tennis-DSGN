@@ -16,6 +16,7 @@ import { getParticipants } from "../../actions/fetchDB";
 import { setCalendarMode, setTable } from "../../store/reducer";
 import EditableInput from "./ProfileCardEditableInput";
 import EditableSelect from "./ProfileCardEditableSelect";
+import categoryOptions from "../../static/categoryOptions.json";
 
 const ProfileCardAuth = () => {
   const user = useTypedSelector((state) => state.auth);
@@ -34,8 +35,6 @@ const ProfileCardAuth = () => {
   const [settings, setSettings] = useState(false);
   const [telegramState, setTelegrammState] = useState(true);
   const [rttfState, setRttfState] = useState(true);
-  const [coachState, setCoachState] = useState(true);
-  const [rankState, setRankState] = useState(true);
 
   const settingsAnimation = {
     initial: { height: 0, opacity: 0 },
@@ -70,16 +69,11 @@ const ProfileCardAuth = () => {
   useEffect(() => {
     if (!!user.userInfo.rttf_id) setRttfState(false);
     if (!!user.userInfo.telegram_id) setTelegrammState(false);
-    if (!!user.userInfo.coach) setCoachState(false);
-    if (!!user.userInfo.rank) setRankState(false);
-
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const handleSettings = () => {
     setRttfState(!user.userInfo.rttf_id ? true : !settings);
     setTelegrammState(!user.userInfo.telegram_id ? true : !settings);
-    setCoachState(!user.userInfo.coach ? true : !settings);
 
     setSettings((prev) => !prev);
   };
@@ -138,45 +132,42 @@ const ProfileCardAuth = () => {
         </AnimatePresence>
 
         <AnimatePresence>
-          {rankState && (
-            <motion.div
-              initial="initial"
-              animate="animate"
-              exit="exit"
-              variants={settingsAnimation}
-            >
-              <div className="profileCard__telegram">
-                <EditableInput
-                  inputName="rank"
-                  editable={user.userInfo.rank ? false : true}
-                  title="Разряд"
-                  placeholder="Ваш разряд"
-                  id={user.userInfo.rank}
-                  user={user.userInfo}
-                />
-              </div>
-            </motion.div>
-          )}
+          <motion.div
+            initial="initial"
+            animate="animate"
+            exit="exit"
+            variants={settingsAnimation}
+          >
+            <div className="profileCard__telegram">
+              <EditableSelect
+                inputName="category"
+                editable={user.userInfo.category ? false : true}
+                title="Разряд"
+                fixedOptions={categoryOptions.options}
+                id={user.userInfo.category}
+                user={user.userInfo}
+              />
+            </div>
+          </motion.div>
         </AnimatePresence>
 
         <AnimatePresence>
-          {coachState && (
-            <motion.div
-              initial="initial"
-              animate="animate"
-              exit="exit"
-              variants={settingsAnimation}
-            >
-              <div className="profileCard__telegram">
-                <EditableSelect
-                  editable={user.userInfo.coach ? false : true}
-                  title="Тренер"
-                  id={user.userInfo.coach}
-                  user={user.userInfo}
-                />
-              </div>
-            </motion.div>
-          )}
+          <motion.div
+            initial="initial"
+            animate="animate"
+            exit="exit"
+            variants={settingsAnimation}
+          >
+            <div className="profileCard__telegram">
+              <EditableSelect
+                inputName="coach"
+                editable={user.userInfo.coach ? false : true}
+                title="Тренер"
+                id={user.userInfo.coach}
+                user={user.userInfo}
+              />
+            </div>
+          </motion.div>
         </AnimatePresence>
       </div>
 

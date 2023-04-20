@@ -1,0 +1,11 @@
+{
+  "options": [
+    { "value": "III юн", "text": "III юн" },
+    { "value": "II юн", "text": "II юн" },
+    { "value": "I юн", "text": "I юн" },
+    { "value": "III", "text": "III" },
+    { "value": "II", "text": "II" },
+    { "value": "I", "text": "I" },
+    { "value": "КМС", "text": "КМС" }
+  ]
+}

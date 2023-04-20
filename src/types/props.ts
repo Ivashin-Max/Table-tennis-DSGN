@@ -21,6 +21,7 @@ export interface InputProps extends InputHTMLAttributes<HTMLInputElement> {
   refetchFlag?: unknown;
   resetOptions?: boolean;
   optionsFetchCallback?: (optionsFetched: any[]) => void;
+  defaultOptions?: any[];
 }
 
 export interface InputCity
@@ -56,7 +57,7 @@ interface IUser {
   rttf_id: number;
   telegram_id: null;
   tournaments: any[];
-  rank?: number;
+  category?: string;
 }
 
 export type TableFioProps = {

@@ -38,6 +38,7 @@ import { useForm } from "react-hook-form";
 import { getCurrentTournamentByQuery } from "../actions";
 import { getCoaches } from "../actions/fetchDB";
 import { useFormCoaches } from "../context/FormContext";
+import categoryOptions from "../static/categoryOptions.json";
 
 const alignConfig = {
   // the offset sourceNode by 10px in x and 20px in y,
@@ -52,7 +53,7 @@ const alignConfigTop = {
 };
 
 const Form = () => {
-  const { register, getValues } = useForm();
+  const { register, getValues, setValue } = useForm();
   const [loading, setLoading] = useState(false);
   const [promptFio, setpromptFio] = useState(false);
   const [isLate, setIsLate] = useState(true);
@@ -103,6 +104,8 @@ const Form = () => {
 
   React.useEffect(() => {
     if (authState.isAuthorized) setFio(authState.fio);
+    if (authState?.userInfo?.category)
+      setValue("category", authState?.userInfo?.category);
   }, [authState]);
 
   //   React.useEffect(() => {
@@ -169,11 +172,25 @@ const Form = () => {
       const isValidCoach = formContext.coaches.find(
         (coach) => coach.name === getValues().coach
       );
+      const isValidCategory = categoryOptions.options.find(
+        (option) => option.value === getValues().category
+      );
       if (!isValidCoach && !authState.isAuthorized) {
         dispatch(
           openModal({
             title: "Ошибка!",
             modalMsg: "Выберите тренера из предложенного списка",
+          })
+        );
+        setLoading(false);
+        return false;
+      }
+
+      if (!isValidCategory && !authState.userInfo.category) {
+        dispatch(
+          openModal({
+            title: "Ошибка!",
+            modalMsg: "Выберите разряд из предложенного списка",
           })
         );
         setLoading(false);
@@ -319,8 +336,9 @@ const Form = () => {
         coach: authState.isAuthorized
           ? authState.userInfo.coach
           : getValues().coach,
+        category: getValues().category,
       };
-      //   console.log("newParticipant", newParticipant);
+      // console.log("newParticipant", newParticipant);
       addLocalStorageItem("fio", fio);
 
       try {
@@ -526,6 +544,31 @@ const Form = () => {
                 />
                 <label>Ваше ФИО</label>
               </div>
+              <AutocompleteFio
+                register={register}
+                onlyAllowedOptions
+                name="category"
+                label="Разряд*"
+                sx={{
+                  mb: 1,
+                  borderRadius: "2px",
+                  width: "23.86rem",
+                  marginLeft: "-7px",
+                  "& input": {
+                    height: 25,
+                    width: "22.86rem",
+                    border: "1px solid #535e692a",
+                  },
+                  "& fieldset": {
+                    border: "0px",
+                  },
+                  "& label": {
+                    fontSize: "13px",
+                    lineHeight: "2em",
+                  },
+                }}
+                defaultOptions={categoryOptions.options}
+              />
 
               {!authState?.isAuthorized && (
                 <>
@@ -628,8 +671,24 @@ const Form = () => {
               <CalendarIcon className="svg__calendar" onClick={flipForm} />
             </div>
 
-            <div className="line"></div>
+            {storeData.tableWarmUp && (
+              <div className="warmUp">
+                <div>
+                  <span>Начало разминки: {storeData.tableWarmUp}</span>
+                </div>
+              </div>
+            )}
+
+            <div className="warmUp">
+              <div>
+                <span>
+                  Окончание регистрации за 15 минут <br /> до начала турнира
+                </span>
+              </div>
+            </div>
+            <div className="line" />
           </form>
+
           <input
             className="drop_input"
             name="chacor"

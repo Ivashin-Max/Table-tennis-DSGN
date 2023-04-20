@@ -17,6 +17,7 @@ const AutocompleteFio: React.FC<InputProps> = ({
   refetchFlag,
   resetOptions,
   optionsFetch,
+  defaultOptions,
   ...rest
 }) => {
   const [names, setNames] = useState<any[]>([]);
@@ -26,7 +27,6 @@ const AutocompleteFio: React.FC<InputProps> = ({
 
   useEffect(() => {
     if (!optionsFetch) return;
-    console.log("🚀 ~ optionsFetch:", optionsFetch);
 
     optionsFetch()
       .then((res: any) => {
@@ -41,6 +41,10 @@ const AutocompleteFio: React.FC<InputProps> = ({
         setLoading(false);
       });
   }, [refetchFlag, optionsFetch]);
+
+  useEffect(() => {
+    if (defaultOptions) setNames(defaultOptions);
+  }, []);
 
   return (
     <>
@@ -58,14 +62,15 @@ const AutocompleteFio: React.FC<InputProps> = ({
         }
         loadingText="Загрузка..."
         options={names}
-        getOptionLabel={(option) => option.fio ?? option.name}
-        isOptionEqualToValue={(option: any, value: any) =>
-          value.id === option.id
-        }
+        getOptionLabel={(option) => option.fio ?? option.name ?? option.text}
+        isOptionEqualToValue={(option: any, value: any) => {
+          if (value.id) return value.id === option.id;
+          else return value.value === option.value;
+        }}
         renderOption={(props, option) => {
           return (
-            <span {...props} key={option.id}>
-              {option.fio ?? option.name}
+            <span {...props} key={option.id ?? option.value}>
+              {option.fio ?? option.name ?? option?.text}
             </span>
           );
         }}

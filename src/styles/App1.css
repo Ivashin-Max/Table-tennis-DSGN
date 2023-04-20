@@ -988,7 +988,7 @@ main.admin .neTable {
   fill: #AE393F !important;
 }
 .svg__rank {
-  fill: #5181B8;
+  fill: #39aea8;
 }
 .adminLinks__center {
   display: flex;
@@ -1303,6 +1303,7 @@ p {
   height: 1px;
   background-color: #E8E9E9;
   margin-top: 15px;
+  margin-bottom: 3px;
 }
 .buttons button {
   height: 41px;
@@ -1898,4 +1899,15 @@ a:hover {
   height: 0;
   display: inline-block;
   position: absolute;
+}
+.warmUp {
+  font-family: 'OpenSans';
+  font-size: 16px;
+  font-weight: 400;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding-top: 18px ;
+  width: 100%;
+  text-align: center;
 }

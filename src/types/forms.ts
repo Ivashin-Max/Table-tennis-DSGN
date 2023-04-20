@@ -7,6 +7,7 @@ export type RegistrationFormValues = {
   name?: string;
   city?: string;
   coach?: string;
+  category?: string;
 };
 
 export type ResetPassValues = {

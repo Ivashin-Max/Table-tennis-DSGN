@@ -51,7 +51,7 @@ const EditableInput = ({
     data.rttf_id = user.rttf_id;
     data.telegram_id = user.telegram_id;
     data.coach = user.coach;
-    data.rank = user.rank;
+    data.category = user.category;
 
     delete data.id;
     data[inputName] = inputValue;

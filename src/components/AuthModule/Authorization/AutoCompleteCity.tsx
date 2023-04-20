@@ -22,7 +22,7 @@ const AutocompleteCity: React.FC<InputCity> = ({
         size="small"
         sx={sx}
         freeSolo={!onlyAllowedOptions}
-        noOptionsText={"Выберите город из предложенных"}
+        noOptionsText={"Выберите из предложенных вариантов"}
         loadingText="Загрузка..."
         options={options}
         getOptionLabel={(option) => option.text}

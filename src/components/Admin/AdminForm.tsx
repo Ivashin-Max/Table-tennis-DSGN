@@ -14,7 +14,7 @@ import * as yup from "yup";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { ITournamentPatch } from "../../types/fetch";
 import Checkbox from "../Styled/Checkbox";
-import { setSeconds, subMinutes } from "date-fns";
+import { subMinutes } from "date-fns";
 import {
   addTournament,
   deleteTournament,
@@ -34,8 +34,11 @@ import {
 } from "../../actions/localStorage";
 import { DynamicPrizes } from "./DynamicPrizes";
 import { useSearchParams } from "react-router-dom";
-import { getCurrentTournamentByQuery } from "../../actions";
+import {
+  getCurrentTournamentByQuery,
+} from "../../actions";
 import { TimePicker } from "@mui/lab";
+
 
 // validation
 const AddTournamentSchema = yup.object().shape({
@@ -73,15 +76,10 @@ export const AdminForm = () => {
     hidepromptLocation();
   };
 
-  const [date, setDate] = React.useState<Date | null>(
-    setSeconds(new Date(), 0)
+  const [date, setDate] = React.useState<Date | null>(new Date());
+  const [warmup_date_time, setWarmStart] = React.useState<null | Date>(
+    new Date()
   );
-  const [warmStart, setWarmStart] = React.useState<number | null | Date>(
-    setSeconds(new Date(), 0)
-  );
-  const [registrationEndTime, setRegistrationEndTime] = React.useState<
-    number | null | Date
-  >(setSeconds(new Date(), 0));
 
   const dispatch = useDispatch();
   useEffect(() => {
@@ -108,11 +106,8 @@ export const AdminForm = () => {
       if (currentTournament.cost !== 0) setIsPaid(true);
       else setIsPaid(false);
       try {
-        if (currentTournament?.warmStart) {
-          setWarmStart(currentTournament.warmStart);
-        }
-        if (currentTournament?.registrationEndTime) {
-          setRegistrationEndTime(currentTournament.registrationEndTime);
+        if (currentTournament?.warmup_date_time) {
+          setWarmStart(currentTournament.warmup_date_time);
         }
       } catch {}
 
@@ -153,8 +148,13 @@ export const AdminForm = () => {
     data.reserve = +data.reserve;
     data.rating_range = isRate ? data.rating_range : "0";
     data.date_time = date?.toJSON().slice(0, 16).replace("T", " ");
-    data.warmStart = warmStart;
-    data.registrationEndTime = registrationEndTime;
+    try {
+      data.warmup_date_time = warmup_date_time
+        // @ts-gnore
+        ?.toJSON()
+        .slice(0, 16)
+        .replace("T", " ");
+    } catch {}
 
     const zone = searchParams.get("zone");
     if (zone) data.zone = +zone;
@@ -169,8 +169,6 @@ export const AdminForm = () => {
       const jsonPrize = JSON.stringify(child.current.submit());
       data.prize = jsonPrize;
     }
-
-    console.log(data);
 
     addLocalStorageItem("location", data.location);
     if (currentTournament) {
@@ -441,18 +439,9 @@ export const AdminForm = () => {
 
           <TimePicker
             label="Время начала разминки"
-            value={warmStart}
+            value={warmup_date_time}
             onChange={(newValue) => {
               setWarmStart(newValue);
-            }}
-            renderInput={(params) => <TextField sx={{ mb: 2 }} {...params} />}
-          />
-
-          <TimePicker
-            label="Время окончания регистрации"
-            value={registrationEndTime}
-            onChange={(newValue) => {
-              setRegistrationEndTime(newValue);
             }}
             renderInput={(params) => <TextField sx={{ mb: 2 }} {...params} />}
           />

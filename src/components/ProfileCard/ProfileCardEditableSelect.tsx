@@ -28,9 +28,12 @@ const EditableSelect = ({
   id,
   user,
   editable,
-}: Omit<EditableInputProps, "inputName">) => {
+  inputName,
+  fixedOptions,
+}: EditableInputProps & { fixedOptions?: any[] }) => {
   const [edit, setEdit] = useState(false);
-  const [coaches, setCoaches] = useState<any[]>([]);
+  const [options, setOptions] = useState<any[]>([]);
+  console.log("🚀 ~ options:", options);
   const [value, setValue] = useState("");
   const dispatch = useDispatch();
 
@@ -44,9 +47,11 @@ const EditableSelect = ({
     if (value === ("" || user.coach)) return;
     data.rttf_id = user.rttf_id;
     data.telegram_id = user.telegram_id;
+    data.coach = user.coach;
+    data.category = user.category;
 
     delete data.id;
-    data.coach = value;
+    data[inputName] = value;
 
     patchProfile(data)
       .then(() => profileInfo(user.id))
@@ -71,16 +76,20 @@ const EditableSelect = ({
   }, []);
 
   useEffect(() => {
-    getCoaches(user.city)
-      .then((res) => {
-        const coaches = res?.data?.map((el: ICoach) => {
-          return { value: el.name, text: el.name };
+    if (!fixedOptions) {
+      getCoaches(user.city)
+        .then((res) => {
+          const options = res?.data?.map((el: ICoach) => {
+            return { value: el.name, text: el.name };
+          });
+          setOptions(options);
+        })
+        .catch((res) => {
+          console.warn("Ошибка загрузки", res.toJSON());
         });
-        setCoaches(coaches);
-      })
-      .catch((res) => {
-        console.warn("Ошибка загрузки", res.toJSON());
-      });
+    } else {
+      setOptions(fixedOptions);
+    }
   }, []);
 
   return (
@@ -90,7 +99,7 @@ const EditableSelect = ({
       {edit ? (
         <form onSubmit={handleSubmit(onSubmit)} className="profileCard__form">
           <div>
-            <MySelect options={coaches} changeCallback={(e) => setValue(e)} />
+            <MySelect options={options} changeCallback={(e) => setValue(e)} />
             <motion.span
               variants={spanAnimation}
               whileHover="hover"

@@ -31,8 +31,7 @@ export interface ITournamentAdd {
   prize: string | null;
   zone: number;
   city: number;
-  warmStart: any;
-  registrationEndTime: any;
+  warmup_date_time: any;
 }
 
 export type DivisionsName =

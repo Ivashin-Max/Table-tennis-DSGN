@@ -94,10 +94,10 @@ const TableFio = ({
               </AnimatePresence>
 
               <div className="neTable__starDiv">
-                {participant?.rank && (
+                {participant?.category && (
                   <>
                     <RankIcon className="svg__star svg__star_red svg__rank" />
-                    <span>{participant.rank}</span>
+                    <span>{participant.category}</span>
                   </>
                 )}
 

@@ -86,6 +86,7 @@ export const getParticipants =
           .get<IParticipantGet[]>(apiUrl)
           .then(({ data }) => {
             const date = new Date(neededTournament.date_time);
+
             const tableFio = data.filter((participant) => !participant.reserve);
             const tableZapas = data.filter(
               (participant) => participant.reserve
@@ -101,6 +102,16 @@ export const getParticipants =
               })
               .split(",")[1];
 
+            let tableWarmUp = null;
+            if (neededTournament.warmup_date_time) {
+              tableWarmUp = new Date(neededTournament.warmup_date_time)
+                .toLocaleDateString("ru-RU", {
+                  hour: "2-digit",
+                  minute: "2-digit",
+                })
+                .split(",")[1];
+            }
+
             dispatch(
               setData({
                 tournamentPlace: neededTournament.location,
@@ -110,6 +121,8 @@ export const getParticipants =
                 tournamentOrgFio: neededTournament.organizer,
                 tournamentPrizes: neededTournament.prize,
                 tableDivisionName: neededTournament.tournament_name,
+                tableWarmUp: tableWarmUp,
+
                 tableDate: tableDate,
                 tableTime: tableTime,
                 tableTotal: neededTournament.reserve,

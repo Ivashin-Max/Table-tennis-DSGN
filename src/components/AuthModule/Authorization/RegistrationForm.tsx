@@ -19,6 +19,7 @@ import { getRegistrationNames } from "../../../actions/Profile/profileRequests";
 import { getCoaches } from "../../../actions/fetchDB";
 import React from "react";
 import { useFormCoaches } from "../../../context/FormContext";
+import categoryOptions from "../../../static/categoryOptions.json";
 
 export const defaultInputSx = {
   mb: 1,
@@ -56,10 +57,7 @@ const AuthSchema = yup.object().shape({
     .required("Обязательное поле"),
   coach: yup.string().required("Обязательное поле"),
   city: yup.string().required("Обязательное поле"),
-  rank: yup
-    .number()
-    .typeError("Должен содержать только цифры")
-    .required("Обязательное поле"),
+  category: yup.string().required("Обязательное поле"),
 });
 
 const RegistrationForm = (props: IAuthFormsProps) => {
@@ -67,6 +65,8 @@ const RegistrationForm = (props: IAuthFormsProps) => {
   const dispatch = useDispatch();
 
   const [cityId, setCityId] = useState<number | null>(null);
+  const [category, setCategory] = useState<string | null>(null);
+
   const context = useFormCoaches();
   const cities = useTypedSelector(
     (state) => state.divisions
@@ -80,8 +80,14 @@ const RegistrationForm = (props: IAuthFormsProps) => {
   } = useForm({ resolver: yupResolver(AuthSchema) });
 
   const onSubmit = (profile: RegistrationFormValues) => {
-    if (!cityId || !context) return;
+    if (!cityId || !context || !category) return;
     if (!context.coaches.find((coach) => coach.name === profile.coach)) return;
+    if (
+      !categoryOptions.options.find(
+        (option) => option.value === profile.category
+      )
+    )
+      return;
 
     profile.city = cityId.toString();
 
@@ -127,6 +133,10 @@ const RegistrationForm = (props: IAuthFormsProps) => {
     e ? setCityId(+e.value) : setCityId(null);
   };
 
+  const handleChangeCategory = (e: InputCityOption) => {
+    e ? setCategory(e.value) : setCategory(null);
+  };
+
   const cityOptions: any[] = cities?.map((city: IStructureCity) => {
     return { value: city.id, text: city.city };
   });
@@ -142,7 +152,8 @@ const RegistrationForm = (props: IAuthFormsProps) => {
     return res;
   }, [cityId]);
 
-  const validForm = watch("name") && watch("username") && watch("password");
+  const validForm =
+    watch("name") && watch("username") && watch("password") && !loading;
 
   return (
     <>
@@ -182,7 +193,16 @@ const RegistrationForm = (props: IAuthFormsProps) => {
           coachCityId={cityId}
           sx={defaultInputSx}
         />
-        <Input name="rank" placeholder="Разряд*" error={errors.rank?.message} />
+        <AutoCompleteCity
+          name="category"
+          error={errors.category?.message}
+          label="Разряд*"
+          onlyAllowedOptions
+          options={categoryOptions.options}
+          changeCallback={handleChangeCategory}
+          sx={defaultInputSx}
+        />
+
         <Input
           name="username"
           placeholder="E-mail*"
