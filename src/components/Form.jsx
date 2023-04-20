@@ -439,7 +439,7 @@ const Form = () => {
         <div className="form_wrap">
           <form action="#" id="form" className="form" ref={formRef}>
             <section className="form_header">
-              <a
+              <div
                 href={url.bot}
                 target="_blank"
                 className="form_header_vk"
@@ -451,7 +451,7 @@ const Form = () => {
                   alt="telegram Logo"
                 />
                 <span className="span black">Бот</span>
-              </a>
+              </div>
 
               <div>
                 <p id="tournamentAdress">{storeData.tournamentPlace}</p>

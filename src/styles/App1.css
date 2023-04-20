@@ -1884,6 +1884,7 @@ a:hover {
 .searchDivisionFio {
   padding-top: 30px;
   display: flex;
+  justify-content: center;
 }
 .searchDivisionFio form {
   border: none;
