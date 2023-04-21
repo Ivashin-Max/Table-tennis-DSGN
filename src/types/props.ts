@@ -23,6 +23,7 @@ export interface InputProps extends InputHTMLAttributes<HTMLInputElement> {
   optionsFetchCallback?: (optionsFetched: any[]) => void;
   defaultOptions?: any[];
   noOptionsText?: string;
+  pushedValue?: any;
 }
 
 export interface InputCity

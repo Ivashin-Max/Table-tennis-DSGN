@@ -21,6 +21,7 @@ import { ReactComponent as ClearStorageIcon } from "../styles/img/x-svgrepo-com.
 import { ReactComponent as PrizeIcon } from "../styles/img/gift-svgrepo-com.svg";
 import classNames from "classnames";
 import { useCurrentTournament } from "../hooks/useCurrentTournament";
+import AutocompleteCategory from "./AuthModule/Authorization/AutocompleteCategory";
 import {
   addParticipant,
   deleteParticipantDB,
@@ -73,6 +74,8 @@ const Form = () => {
   const [fio, setFio] = useState("");
   const [fio2, setFio2] = useState("");
   const [tell, setTell] = useState("");
+  const [pushedCategory, setPushedCategory] = useState({ value: "", text: "" });
+
   const currentTournament = useCurrentTournament();
   const currentCity = useTypedSelector((state) => state.city).city;
 
@@ -104,8 +107,13 @@ const Form = () => {
 
   React.useEffect(() => {
     if (authState.isAuthorized) setFio(authState.fio);
-    if (authState?.userInfo?.category)
+    if (authState?.userInfo?.category) {
       setValue("category", authState?.userInfo?.category);
+      setPushedCategory({
+        value: authState?.userInfo?.category,
+        text: authState?.userInfo?.category,
+      });
+    }
   }, [authState]);
 
   //   React.useEffect(() => {
@@ -186,7 +194,7 @@ const Form = () => {
         return false;
       }
 
-      if (!isValidCategory && !authState.userInfo.category) {
+      if (!isValidCategory) {
         dispatch(
           openModal({
             title: "Ошибка!",
@@ -544,9 +552,10 @@ const Form = () => {
                 />
                 <label>Ваше ФИО</label>
               </div>
-              <AutocompleteFio
+              <AutocompleteCategory
                 register={register}
                 onlyAllowedOptions
+                pushedValue={pushedCategory}
                 name="category"
                 label="Разряд*"
                 noOptionsText="Выберите из предложенных вариантов"
