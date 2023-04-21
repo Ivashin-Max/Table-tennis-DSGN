@@ -549,6 +549,7 @@ const Form = () => {
                 onlyAllowedOptions
                 name="category"
                 label="Разряд*"
+                noOptionsText="Выберите из предложенных вариантов"
                 sx={{
                   mb: 1,
                   borderRadius: "2px",
@@ -577,6 +578,7 @@ const Form = () => {
                     onlyAllowedOptions
                     name="coach"
                     label="Тренер*"
+                    noOptionsText="Тренера с таким ФИО нет в базе"
                     sx={{
                       mb: 1,
                       borderRadius: "2px",

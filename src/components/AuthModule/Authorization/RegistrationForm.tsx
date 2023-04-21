@@ -79,17 +79,48 @@ const RegistrationForm = (props: IAuthFormsProps) => {
     formState: { errors },
   } = useForm({ resolver: yupResolver(AuthSchema) });
 
-  const onSubmit = (profile: RegistrationFormValues) => {
-    if (!cityId || !context || !category) return;
-    if (!context.coaches.find((coach) => coach.name === profile.coach)) return;
-    if (
+  const checkEmptyInputs = (profile: RegistrationFormValues) => {
+    if (!cityId) {
+      dispatch(
+        openModal({
+          title: "Ошибка!",
+          modalMsg: "Выберите город из предложенного списка",
+        })
+      );
+    } else if (
+      !context?.coaches.find((coach) => coach.name === profile.coach)
+    ) {
+      dispatch(
+        openModal({
+          title: "Ошибка!",
+          modalMsg: "Выберите тренера из предложенного списка",
+        })
+      );
+
+      return false;
+    } else if (
       !categoryOptions.options.find(
         (option) => option.value === profile.category
       )
-    )
-      return;
+    ) {
+      dispatch(
+        openModal({
+          title: "Ошибка!",
+          modalMsg: "Выберите разряд из предложенного списка",
+        })
+      );
 
-    profile.city = cityId.toString();
+      return false;
+    }
+  };
+
+  const onSubmit = (profile: RegistrationFormValues) => {
+    if (!context) return;
+
+    const validForm = checkEmptyInputs(profile);
+
+    if (!validForm) return;
+    profile.city = cityId?.toString();
 
     setLoading(true);
     newProfile(profile)
@@ -191,6 +222,9 @@ const RegistrationForm = (props: IAuthFormsProps) => {
           optionsFetch={getCoachesFunction}
           resetOptions={!!cityId}
           coachCityId={cityId}
+          noOptionsText={
+            "Тренера с таким ФИО нет в базе, попробуйте поменять город"
+          }
           sx={defaultInputSx}
         />
         <AutoCompleteCity

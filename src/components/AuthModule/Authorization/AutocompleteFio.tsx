@@ -18,6 +18,7 @@ const AutocompleteFio: React.FC<InputProps> = ({
   resetOptions,
   optionsFetch,
   defaultOptions,
+  noOptionsText,
   ...rest
 }) => {
   const [names, setNames] = useState<any[]>([]);
@@ -55,11 +56,7 @@ const AutocompleteFio: React.FC<InputProps> = ({
         key={coachCityId}
         freeSolo={!onlyAllowedOptions}
         loading={loading}
-        noOptionsText={
-          coachCityId
-            ? "Тренера с таким ФИО нет в базе, попробуйте поменять город"
-            : undefined
-        }
+        noOptionsText={noOptionsText}
         loadingText="Загрузка..."
         options={names}
         getOptionLabel={(option) => option.fio ?? option.name ?? option.text}

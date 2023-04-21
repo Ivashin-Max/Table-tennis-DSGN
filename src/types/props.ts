@@ -22,6 +22,7 @@ export interface InputProps extends InputHTMLAttributes<HTMLInputElement> {
   resetOptions?: boolean;
   optionsFetchCallback?: (optionsFetched: any[]) => void;
   defaultOptions?: any[];
+  noOptionsText?: string;
 }
 
 export interface InputCity
