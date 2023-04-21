@@ -9,6 +9,7 @@ import { useCurrentDivision } from "../hooks/useCurrentTournament";
 const Table = ({ adminMode }: any) => {
   const [none, setNone] = useState(true);
   const [hover, setHover] = useState(false);
+
   const copyToClip = (arr: any[]) => {
     let stringsArr = [];
     for (let i = 0; i < arr.length; i++) {

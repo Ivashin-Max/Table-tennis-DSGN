@@ -5,6 +5,7 @@ import Table from "../Table";
 import { useNavigate } from "react-router-dom";
 import AdminForm from "./AdminForm";
 import Coaches from "../Coaches/Coaches";
+import AdminFormProvider from "../../context/AdminFormContext";
 
 const AdminWrapper = () => {
   let navigate = useNavigate();
@@ -20,14 +21,14 @@ const AdminWrapper = () => {
   }, []);
 
   return (
-    <>
+    <AdminFormProvider>
       <MyHeader adminMode />
       <main className="admin">
         <Table adminMode={true} />
         <AdminForm />
         <Coaches />
       </main>
-    </>
+    </AdminFormProvider>
   );
 };
 

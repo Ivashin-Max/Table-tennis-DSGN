@@ -1007,6 +1007,7 @@ main.admin .neTable {
 }
 .admin__checkbox {
   margin: 7px 0;
+  display: flex;
 }
 .admin__checkbox input {
   margin-right: 5px;
@@ -1884,7 +1885,6 @@ a:hover {
 .searchDivisionFio {
   padding-top: 30px;
   display: flex;
-  justify-content: center;
 }
 .searchDivisionFio form {
   border: none;

@@ -34,11 +34,9 @@ import {
 } from "../../actions/localStorage";
 import { DynamicPrizes } from "./DynamicPrizes";
 import { useSearchParams } from "react-router-dom";
-import {
-  getCurrentTournamentByQuery,
-} from "../../actions";
+import { getCurrentTournamentByQuery } from "../../actions";
 import { TimePicker } from "@mui/lab";
-
+import { useAdminForm } from "../../context/AdminFormContext";
 
 // validation
 const AddTournamentSchema = yup.object().shape({
@@ -54,6 +52,7 @@ const AddTournamentSchema = yup.object().shape({
 
 export const AdminForm = () => {
   let [searchParams] = useSearchParams();
+  const contextForm = useAdminForm();
 
   const currentZoneAndDivision = useCurrentZoneAndDivision();
   const currentTournament = useCurrentTournament();
@@ -77,6 +76,7 @@ export const AdminForm = () => {
   };
 
   const [date, setDate] = React.useState<Date | null>(new Date());
+
   const [warmup_date_time, setWarmStart] = React.useState<null | Date>(
     new Date()
   );
@@ -84,6 +84,14 @@ export const AdminForm = () => {
   const dispatch = useDispatch();
   useEffect(() => {
     if (currentTournament) {
+      const isLate = new Date() > new Date(currentTournament.date_time);
+
+      if (contextForm) {
+        isLate
+          ? contextForm.setIsLateToEdit(true)
+          : contextForm.setIsLateToEdit(false);
+      }
+
       let tournamentValues = {
         cost: currentTournament.cost,
         location: currentTournament.location,
@@ -94,11 +102,10 @@ export const AdminForm = () => {
         team: currentTournament.team,
         prize: currentTournament.prize,
         tournament_name: currentTournament.tournament_name,
-        dropParticipants: false,
+        dropParticipants: isLate,
       };
 
       setDate(new Date(currentTournament.date_time));
-      console.log(currentTournament.rating_range);
       if (currentTournament.rating_range !== "0") setIsRate(true);
       else setIsRate(false);
       if (currentTournament.prize !== null) setIsPrized(true);
@@ -129,6 +136,7 @@ export const AdminForm = () => {
       setDate(new Date());
       reset({ ...tournamentValues });
     }
+
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [currentTournament]);
 
@@ -456,9 +464,9 @@ export const AdminForm = () => {
           {currentTournament && (
             <Checkbox
               name="dropParticipants"
-              label="Очистить?"
+              disabled={contextForm?.isLateToEdit}
+              label="Очистить участников, для создание нового турнира?"
               className="admin__checkbox"
-              // // error={errors.team?.message}
             />
           )}
         </Form>
