@@ -1,4 +1,5 @@
 import { addHours } from "date-fns";
+import { scrollIntoView } from "seamless-scroll-polyfill";
 
 export const getCurrentTournamentByQuery = () => {
   const urlSearchParams = new URLSearchParams(window.location.search);
@@ -33,4 +34,21 @@ export const converFromMySqlDate = (date: Date | number | string) => {
   try {
     return addHours(new Date(date), -3);
   } catch {}
+};
+
+export const findAndShowValidNames = (name: string) => {
+  const dataFio = dataFioFormat(name);
+  document
+    .querySelectorAll(`[data-fio]`)
+    .forEach((el) => el.classList.remove("validSearch"));
+  document
+    .querySelectorAll(`[data-fio='${dataFio}']`)
+    .forEach((el) => el.classList.add("validSearch"));
+
+  const firstValidName = document.querySelector(`[data-fio='${dataFio}']`);
+  firstValidName &&
+    scrollIntoView(firstValidName, {
+      behavior: "smooth",
+      block: "end",
+    });
 };

@@ -16,10 +16,9 @@ import { IStructure } from "../../types/fetch";
 import MyHeader from "../MyHeader";
 
 import Button from "../Styled/Button";
-import Form from "../Styled/Form";
-import Input from "../Styled/Input";
 import DivisionsFio, { DivisionsChangeParticipant } from "./DivisionsFio";
 import { useTypedSelector } from "../../hooks/useTypedSelector";
+import DivisionsSearch from "./Search/DivisionsSearch";
 
 const Divisions: React.FC = () => {
   const [searchParams] = useSearchParams();
@@ -173,20 +172,7 @@ const Divisions: React.FC = () => {
         </Button>
       )}
 
-      {activeZone?.divisions && (
-        <div className="searchDivisionFio">
-          <Form
-            buttonLabel="Поиск"
-            register={register}
-            handleSubmit={handleSubmit}
-            onSubmit={onSubmit}
-            centered
-          >
-            <Input name="name" placeholder="Введите ФИО" />
-            <div />
-          </Form>
-        </div>
-      )}
+      {activeZone?.divisions && <DivisionsSearch />}
       <div className="divisions">
         {!activeZone && (
           <span className="neTable__header_name">Выберите город и зону </span>
