@@ -1,5 +1,6 @@
 {
   "options": [
+    { "value": "б/р", "text": "б/р" },
     { "value": "III юн", "text": "III юн" },
     { "value": "II юн", "text": "II юн" },
     { "value": "I юн", "text": "I юн" },
