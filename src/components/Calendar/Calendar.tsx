@@ -161,25 +161,41 @@ const MyCalendar = ({ flipCard }: any) => {
         overlay={
           <>
             <div>
-              <div className="calender__tooltipRow">
-                Название: {neededEvent.tournamentInfo.tournament_name}
-              </div>
-              <div className="calender__tooltipRow">
-                Цена: {neededEvent.tournamentInfo.cost}
-              </div>
-              <div className="calender__tooltipRow">
-                Локация: {neededEvent.tournamentInfo.location}
-              </div>
-              <div className="calender__tooltipRow">
-                Рейтинг: {neededEvent.tournamentInfo.rating_range}
-              </div>
+              {!!neededEvent?.tournamentInfo?.tournament_name && (
+                <div className="calender__tooltipRow">
+                  Название: {neededEvent.tournamentInfo.tournament_name}
+                </div>
+              )}
 
-              <div className="calender__tooltipRow">
-                Дата: {getTournamentDate(neededEvent.tournamentInfo.date_time)}
-              </div>
-              <div className="calender__tooltipRow">
-                Время: {getTournamentTime(neededEvent.tournamentInfo.date_time)}
-              </div>
+              {!!neededEvent?.tournamentInfo?.cost && (
+                <div className="calender__tooltipRow">
+                  Цена: {neededEvent.tournamentInfo.cost}
+                </div>
+              )}
+              {!!neededEvent?.tournamentInfo?.location && (
+                <div className="calender__tooltipRow">
+                  Локация: {neededEvent.tournamentInfo.location}
+                </div>
+              )}
+
+              {!!neededEvent?.tournamentInfo?.rating_range && (
+                <div className="calender__tooltipRow">
+                  Рейтинг: {neededEvent.tournamentInfo.rating_range}
+                </div>
+              )}
+              {!!neededEvent?.tournamentInfo?.date_time && (
+                <>
+                  <div className="calender__tooltipRow">
+                    Дата:
+                    {getTournamentDate(neededEvent.tournamentInfo.date_time)}
+                  </div>
+
+                  <div className="calender__tooltipRow">
+                    Время:
+                    {getTournamentTime(neededEvent.tournamentInfo.date_time)}
+                  </div>
+                </>
+              )}
             </div>
           </>
         }
