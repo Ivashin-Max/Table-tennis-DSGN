@@ -114,7 +114,7 @@ export const AdminForm = () => {
       else setIsPaid(false);
       try {
         if (currentTournament?.warmup_date_time) {
-          setWarmStart(currentTournament.warmup_date_time);
+          setWarmStart(new Date(currentTournament.warmup_date_time));
         }
       } catch {}
 
@@ -156,13 +156,11 @@ export const AdminForm = () => {
     data.reserve = +data.reserve;
     data.rating_range = isRate ? data.rating_range : "0";
     data.date_time = date?.toJSON().slice(0, 16).replace("T", " ");
-    try {
-      data.warmup_date_time = warmup_date_time
-        // @ts-gnore
-        ?.toJSON()
-        .slice(0, 16)
-        .replace("T", " ");
-    } catch {}
+
+    data.warmup_date_time = warmup_date_time
+      ?.toJSON()
+      .slice(0, 16)
+      .replace("T", " ");
 
     const zone = searchParams.get("zone");
     if (zone) data.zone = +zone;
@@ -445,13 +443,14 @@ export const AdminForm = () => {
             minDateTime={subMinutes(new Date(), 10)}
           />
 
-          <TimePicker
+          <DateTimePicker
+            renderInput={(params) => <TextField sx={{ mb: 2 }} {...params} />}
             label="Время начала разминки"
             value={warmup_date_time}
+            mask="__.__.____ __:__"
             onChange={(newValue) => {
               setWarmStart(newValue);
             }}
-            renderInput={(params) => <TextField sx={{ mb: 2 }} {...params} />}
           />
 
           <Checkbox
