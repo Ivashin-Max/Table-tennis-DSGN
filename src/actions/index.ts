@@ -49,7 +49,7 @@ export const findAndShowValidNames = (name: string) => {
   firstValidName &&
     scrollIntoView(firstValidName, {
       behavior: "smooth",
-      block: "start",
-      inline:'start'
+      block: "end",
+      inline: "end",
     });
 };
