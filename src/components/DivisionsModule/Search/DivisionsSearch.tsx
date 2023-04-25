@@ -1,15 +1,29 @@
 import React from "react";
 import { useForm } from "react-hook-form";
+import { useDispatch } from "react-redux";
 import { findAndShowValidNames } from "../../../actions";
+import { IStructureDivision } from "../../../types/fetch";
 import Form from "../../Styled/Form";
 import Input from "../../Styled/Input";
 
-const DivisionsSearch = () => {
+const DivisionsSearch: React.FC<{ divisions: IStructureDivision[] }> = ({
+  divisions,
+}) => {
   const { register, handleSubmit } = useForm();
+  const dispatch = useDispatch();
+  const allNames = divisions
+    .map((division) => {
+      const allParticipants = division.participants.map((participant) => ({
+        fio: participant.fio,
+        division: division.division_name,
+      }));
+      return allParticipants;
+    })
+    .flat();
 
   const onSubmit = (data: { name: string }) => {
     if (!data.name) return;
-    findAndShowValidNames(data.name);
+    dispatch(findAndShowValidNames(data.name, allNames));
   };
   return (
     <div className="searchDivisionFio">
@@ -27,4 +41,4 @@ const DivisionsSearch = () => {
   );
 };
 
-export default DivisionsSearch;
+export default React.memo(DivisionsSearch);

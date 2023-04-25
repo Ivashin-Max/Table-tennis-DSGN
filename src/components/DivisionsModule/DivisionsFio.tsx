@@ -19,6 +19,7 @@ export interface DivisionsFioProps {
   division_id: number;
   nextDivId: number | null;
   prevDivId: number | null;
+  divisionName?: string;
   changeCallBack: (participant: DivisionsChangeParticipant) => void;
 }
 
@@ -28,6 +29,7 @@ const DivisionsFio = ({
   nextDivId,
   prevDivId,
   division_id,
+  divisionName,
   changeCallBack,
 }: DivisionsFioProps) => {
   const isAdmin = !!sessionStorage.getItem("admin");
@@ -78,6 +80,7 @@ const DivisionsFio = ({
               <div
                 className="neTable__row_hidden"
                 data-fio={dataFioFormat(fio)}
+                data-division={divisionName}
               >
                 {fio}
               </div>

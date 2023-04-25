@@ -1913,3 +1913,35 @@ a:hover {
   width: 100%;
   text-align: center;
 }
+.DivisionsSearch__row {
+  display: flex;
+  justify-content: space-between;
+  margin: 10px 0;
+}
+.DivisionsSearch__row:last-of-type {
+  margin-bottom: 20px;
+}
+.DivisionsSearch__row svg {
+  width: 14px;
+  height: 14px;
+  margin-right: 5px;
+}
+.DivisionsSearch__row span {
+  font-weight: 600;
+}
+.DivisionsSearch__person {
+  display: flex;
+  align-items: baseline;
+}
+.DivisionsSearch__person svg {
+  fill: #39aea8;
+}
+.DivisionsSearch__division {
+  display: flex;
+  align-items: baseline;
+  margin-left: 10px;
+}
+.DivisionsSearch__division path {
+  fill: #AE393F;
+  stroke: #AE393F;
+}

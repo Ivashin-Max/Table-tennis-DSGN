@@ -138,8 +138,6 @@ const Divisions: React.FC = () => {
     getStructure();
   }, []);
 
-  const { register, handleSubmit } = useForm();
-
   const findAndShowValidNames = (name: string) => {
     const dataFio = dataFioFormat(name);
     document
@@ -151,11 +149,6 @@ const Divisions: React.FC = () => {
 
     const firstValidName = document.querySelector(`[data-fio='${dataFio}']`);
     firstValidName?.scrollIntoView({ behavior: "smooth" });
-  };
-
-  const onSubmit = (data: { name: string }) => {
-    if (!data.name) return;
-    findAndShowValidNames(data.name);
   };
 
   return (
@@ -172,7 +165,9 @@ const Divisions: React.FC = () => {
         </Button>
       )}
 
-      {activeZone?.divisions && <DivisionsSearch />}
+      {activeZone?.divisions && (
+        <DivisionsSearch divisions={activeZone?.divisions} />
+      )}
       <div className="divisions">
         {!activeZone && (
           <span className="neTable__header_name">Выберите город и зону </span>
@@ -218,6 +213,7 @@ const Divisions: React.FC = () => {
                   {...participant}
                   nextDivId={activeZone?.divisions[index + 1]?.id ?? null}
                   prevDivId={activeZone?.divisions[index - 1]?.id ?? null}
+                  divisionName={division.division_name}
                 />
               ))}
             </div>

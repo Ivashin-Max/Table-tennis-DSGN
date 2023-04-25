@@ -2436,3 +2436,47 @@ a {
     text-align: center;
 }
 
+.DivisionsSearch{
+
+
+    &__row{
+
+        &:last-of-type{
+            margin-bottom: 20px;
+        }
+        display: flex;
+        justify-content: space-between;
+        margin: 10px 0;
+        svg{
+            width: 14px;
+            height: 14px;
+            margin-right: 5px;
+        }
+        span{
+            font-weight: 600;
+        }
+    }
+
+&__person{
+    display: flex;
+    align-items: baseline;
+    svg{
+        fill:@color_green
+    }
+   
+}
+&__division{
+    display: flex;
+    align-items: baseline;
+    margin-left:10px;
+    path{
+        fill:@color_red;
+        stroke:@color_red
+
+    }
+    
+}
+}
+
+
+
