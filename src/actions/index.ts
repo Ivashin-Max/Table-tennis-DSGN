@@ -53,7 +53,7 @@ export const findAndShowValidNames =
     let searchText = "";
     for (let i = 0; i < validNames.length; i++) {
       const element = validNames[i];
-      searchText += `<div class='DivisionsSearch__row'><div class='DivisionsSearch__person'>${PERSON_SVG}<span>${element.fio}</span></div> <div class='DivisionsSearch__division'>${DIVISION_SVG}<span>${element.division}</span></div></div>`;
+      searchText += `<div class='DivisionsSearch__row'><div class='DivisionsSearch__person'>${PERSON_SVG}<span class='DivisionsSearch__fio'>${element.fio}</span></div> <div class='DivisionsSearch__division'>${DIVISION_SVG}<span>${element.division}</span></div></div>`;
     }
 
     if (!!searchText) {
