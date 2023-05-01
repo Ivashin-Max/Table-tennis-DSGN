@@ -639,8 +639,8 @@ main.admin .neTable {
   border-radius: 10px;
   min-height: 779px;
   max-height: 779px;
-  min-width: 355px;
-  max-width: 33.57rem;
+  min-width: 380px;
+  max-width: 380px;
   transition: 1s ease-in-out;
   z-index: 100;
 }
@@ -1015,7 +1015,7 @@ main.admin .neTable {
 .form {
   transition: ease 1s;
   box-shadow: 0px 3px 10px rgba(0, 0, 0, 0.25);
-  margin: 95px auto 0;
+  margin: auto 0;
   background-color: white;
   border-top-left-radius: 10px;
   border-top-right-radius: 10px;

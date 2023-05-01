@@ -12,7 +12,7 @@ import { useAdminForm } from "../context/AdminFormContext";
 
 const alignConfig = {
   //   offset: [-240, 5],
-  targetOffset: [80, 13],
+  targetOffset: [160, 13],
   overflow: { adjustX: true, adjustY: true },
 };
 
@@ -36,11 +36,9 @@ const TableFio = ({
           <>
             <div className="neTable__row_fio">
               <span>{participant.name}</span>
-              {adminMode && (
-                <span>| Тренер: {participant?.coach ?? "не указан"}</span>
-              )}
               <StarIcon className="svg__star svg__star_red" />
               <span>{participant.rating}</span>
+              <span>| Тренер: {participant?.coach ?? "не указан"}</span>
             </div>
             <div className="neTable__row_fio">
               {participant.name_2}
