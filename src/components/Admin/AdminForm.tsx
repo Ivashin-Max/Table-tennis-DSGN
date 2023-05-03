@@ -230,7 +230,7 @@ export const AdminForm = () => {
   const getFormTitle = () => {
     let title;
     if (currentTournament) title = `Редактирование турнира ${currentTournament.tournament_name}`
-    else title = currentDivisionName ? `Добавление турнира в ${currentDivisionName} дивизион` : `Выбери дивизион`
+    else title = currentDivisionName ? `Добавление турнира в группу ${currentDivisionName}` : `Выбери дивизион`
     return title
   }
 

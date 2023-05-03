@@ -38,8 +38,7 @@ const Table = ({ adminMode }: any) => {
   }
 
   const getDivisionName = () => {
-    if (currentDivisionName && currentDivisionName !== 'TTClub') return currentDivisionName + ' дивизион'
-    else return selector.tableDivisionName
+    return selector.tableDivisionName
   }
 
 
