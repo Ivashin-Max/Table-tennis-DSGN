@@ -13,10 +13,10 @@ import { yupResolver } from "@hookform/resolvers/yup";
 import { ITournamentPatch } from "../../types/fetch";
 import Checkbox from "../Styled/Checkbox";
 import { setSeconds, subMinutes } from 'date-fns'
-import { addTournament, deleteTournament, patchTournament } from "../../actions/Admin/adminRequests";
+import { addTournament, deleteTournament, patchTournament, getParticipantsLikeAdmin } from "../../actions/Admin/adminRequests";
 import { useDispatch } from "react-redux";
 import { openModal } from "../../store/reducer";
-import { getDivisionsInfo, getParticipants } from "../../actions/fetchDB";
+import { getDivisionsInfo} from "../../actions/fetchDB";
 import AdminLinksWrapper from "./LinksForm/AdminLinksWrapper";
 import { motion } from 'framer-motion/dist/framer-motion';
 import { ReactComponent as ClearStorageIcon } from '../../styles/img/x-svgrepo-com.svg';
@@ -165,7 +165,7 @@ export const AdminForm = () => {
         })
         .then(() => {
           dispatch(getDivisionsInfo())
-          if (data.dropParticipants) dispatch(getParticipants(data.tournament_id))
+          if (data.dropParticipants) dispatch(getParticipantsLikeAdmin(data.tournament_id))
         })
         .catch(e => {
 
@@ -369,7 +369,7 @@ export const AdminForm = () => {
             currentTournament &&
             <Checkbox
               name="dropParticipants"
-              label="Очистить?"
+              label="Очистить всех участников для создания нового турнира?"
               className="admin__checkbox"
             // // error={errors.team?.message}
             />

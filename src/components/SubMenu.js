@@ -5,6 +5,7 @@ import { ReactComponent as PersonIcon } from '../styles/img/personWhite.svg';
 import { ReactComponent as CalendarIcon } from '../styles/img/calendar-svgrepo-com (1).svg';
 import { getTournamentDay, getTournamentDate } from '../actions/date';
 import { getParticipants } from '../actions/fetchDB';
+import { getParticipantsLikeAdmin } from '../actions/Admin/adminRequests';
 import { ReactComponent as GroupIcon } from '../styles/img/group-svgrepo-com.svg';
 import { useSearchParams } from 'react-router-dom';
 
@@ -24,7 +25,7 @@ const SubMenu = ({ divisionId, tournaments, adminMode }) => {
       neededDivisionId: divisionId,
       neededTournamentId: id
     }))
-    await dispatch(getParticipants(id));
+    await dispatch(adminMode ? getParticipantsLikeAdmin(id) : getParticipants(id));
 
     setSearchParams({ tournament: id, division: divisionId })
 

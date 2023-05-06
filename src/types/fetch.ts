@@ -16,7 +16,8 @@ export interface IParticipantGet {
   name: string,
   name_2?: string,
   rating: number,
-  reserve?: boolean
+  reserve?: boolean,
+  password?: string
 }
 
 export interface ITournamentAdd {

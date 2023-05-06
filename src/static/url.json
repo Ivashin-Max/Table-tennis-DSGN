@@ -16,7 +16,8 @@
       "addTournament": "/admin/tournament/add",
       "deleteTournament": "/admin/tournament/drop?id=",
       "patchTournament": "/admin/tournament/edit",
-      "deleteLink": "/links?id="
+      "deleteLink": "/links?id=",
+      "getParticipantsAdminLike": "/participant/admin/get?id="
     }
   },
   "bot": "https://t.me/TT_CLUB_bot"

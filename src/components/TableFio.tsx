@@ -28,7 +28,18 @@ const TableFio = ({ currentTournament, participant, adminMode, zapas }: TableFio
             <div className="neTable__row_fio" >
               <span>{participant.name}</span>
               <StarIcon className='svg__star svg__star_red' />
-              <span>{participant.rating}</span>
+              {adminMode ?
+              <>
+                <span>{participant.rating}</span>
+                <span>| Телефон: {participant?.password ?? "выберите турнир из списка"}</span>
+              </> :
+              <>
+                <span>{participant.rating}</span>
+              </>
+            }
+              
+              
+
 
             </div>
             <div className="neTable__row_fio" >
