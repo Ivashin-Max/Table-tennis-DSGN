@@ -4,17 +4,12 @@ import { useDispatch } from "react-redux";
 import { TableFioProps } from "../types/props";
 import { ReactComponent as StarIcon } from "../styles/img/star-svgrepo-com.svg";
 import { ReactComponent as RankIcon } from "../styles/img/rank.svg";
+import { useMediaQuery } from "react-responsive";
 
 import { ReactComponent as XIcon } from "../styles/img/x-svgrepo-com.svg";
 import { motion, AnimatePresence } from "framer-motion/dist/framer-motion";
 import { adminTableFioAnimations } from "../styles/animations/formAnimations";
 import { useAdminForm } from "../context/AdminFormContext";
-
-const alignConfig = {
-  //   offset: [-240, 5],
-  targetOffset: [160, 13],
-  overflow: { adjustX: true, adjustY: true },
-};
 
 const TableFio = ({
   currentTournament,
@@ -26,7 +21,13 @@ const TableFio = ({
   const zapasClassName = zapas ? "neTable__row zapas" : "neTable__row";
   const dispatch = useDispatch();
   const contextForm = useAdminForm();
+  const isMobile = useMediaQuery({ query: "(max-width: 1024px)" });
   const disableDelete = adminMode && contextForm?.isLateToEdit;
+
+  const alignConfig = {
+    targetOffset: [isMobile ? 60 : 130, 13],
+    overflow: { adjustX: true, adjustY: true },
+  };
 
   return (
     <>
@@ -79,12 +80,7 @@ const TableFio = ({
             <div className="neTable__row_square"></div>
           )}
 
-          <a
-            className="neTable__row_column"
-            href={!!participant?.rttf_id ? participant?.rttf_id : undefined}
-            target={participant?.rttf_id ? "_blank" : "_self"}
-            rel="noreferrer"
-          >
+          <div className="neTable__row_column">
             <div className="neTable__row_new">
               <div className="neTable__row_hidden">{participant.name}</div>
               <AnimatePresence>
@@ -116,7 +112,7 @@ const TableFio = ({
                 <span>{participant.rating_2}</span>
               </div>
             </div>
-          </a>
+          </div>
         </div>
       </Tooltip>
     </>
