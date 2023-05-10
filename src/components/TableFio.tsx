@@ -36,9 +36,8 @@ const TableFio = ({
           <>
             <div className="neTable__row_fio">
               <span>{participant.name}</span>
-              <StarIcon className="svg__star svg__star_red" />
-              <span>{participant.rating}</span>
-              <span>| Тренер: {participant?.coach ?? "не указан"}</span>
+              <span className="neTable__row_line" />
+              <span>Тренер: {participant?.coach ?? "не указан"}</span>
             </div>
             <div className="neTable__row_fio">
               {participant.name_2}
