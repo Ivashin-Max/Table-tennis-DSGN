@@ -944,6 +944,7 @@ main {
 }
 .admin__checkbox {
   margin: 7px 0;
+  display: flex;
 }
 .admin__checkbox input {
   margin-right: 5px;

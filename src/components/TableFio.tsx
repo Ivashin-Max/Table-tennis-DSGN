@@ -4,6 +4,7 @@ import { useDispatch } from "react-redux";
 import { TableFioProps } from "../types/props";
 import { ReactComponent as StarIcon } from "../styles/img/star-svgrepo-com.svg";
 import { ReactComponent as XIcon } from "../styles/img/x-svgrepo-com.svg";
+import { useAdminForm } from "../context/AdminFormContext";
 
 const alignConfig = {
   offset: [-240, 5], // the offset sourceNode by 10px in x and 20px in y,
@@ -19,6 +20,8 @@ const TableFio = ({
 }: TableFioProps) => {
   const zapasClassName = zapas ? "neTable__row zapas" : "neTable__row";
   const dispatch = useDispatch();
+  const contextForm = useAdminForm();
+  const disableDelete = adminMode && contextForm?.isLateToEdit;
 
   return (
     <>
@@ -61,24 +64,26 @@ const TableFio = ({
           key={participant.name + currentTournament}
         >
           {adminMode ? (
-            <>
-              <div
-                onClick={() =>
-                  dispatch(
-                    deleteParticipantAdmin(participant.name, currentTournament)
-                  )
-                }
-              >
-                <XIcon
-                  className="svg__xIcon_big svg__xIcon"
-                  title="Удалить участника"
-                />
-              </div>
-            </>
+            <div
+              style={{
+                ...(disableDelete && {
+                  filter: "grayscale(1)",
+                  pointerEvents: "none",
+                }),
+              }}
+              onClick={() =>
+                dispatch(
+                  deleteParticipantAdmin(participant.name, currentTournament)
+                )
+              }
+            >
+              <XIcon
+                className="svg__xIcon_big svg__xIcon"
+                title="Удалить участника"
+              />
+            </div>
           ) : (
-            <>
-              <div className="neTable__row_square"></div>
-            </>
+            <div className="neTable__row_square"></div>
           )}
 
           <a
