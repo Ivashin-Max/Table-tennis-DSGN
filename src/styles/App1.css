@@ -1750,6 +1750,16 @@ a:hover {
     left: 28%;
     top: 12%;
   }
+  .neTable {
+    min-width: 90vw;
+    max-width: 90vw;
+  }
+  .neTable__row_column {
+    width: 90%;
+  }
+  .neTable__row_hidden {
+    text-overflow: ellipsis;
+  }
   .header {
     font-size: 1rem;
     flex-direction: column;
