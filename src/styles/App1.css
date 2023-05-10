@@ -261,14 +261,6 @@ body {
   position: static;
   padding: 16px 13.5px 13px;
 }
-.header__navbar_menu > li::before {
-  position: absolute;
-  content: '';
-  display: block;
-  width: 100%;
-  height: 2.142rem;
-  top: 2.142rem;
-}
 .header__navbar_menu > li:hover .header__navbar_menu_sub {
   transition: all 0.9s;
   visibility: visible;
@@ -297,6 +289,17 @@ body {
   padding-top: 11px;
   padding-bottom: 11px;
   min-width: max-content;
+}
+@media only screen and (min-width: 500px) {
+  .header__navbar_menu_sub::before {
+    position: absolute;
+    content: '';
+    display: block;
+    width: 300%;
+    height: 200px;
+    top: -2.142rem;
+    left: -250px;
+  }
 }
 .header__navbar_menu_sub li {
   display: block;

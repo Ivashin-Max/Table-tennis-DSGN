@@ -326,15 +326,15 @@ body {
       position: static;
       padding: 16px 13.5px 13px;
 
-      &::before {
-        position: absolute;
-        content: '';
-        display: block;
-        width: 100%;
-        height: 2.142rem;
-        top: 2.142rem;
-        // opacity:1;
-      }
+    //   &::before {
+    //     position: absolute;
+    //     content: '';
+    //     display: block;
+    //     width: 100%;
+    //     height: 2.142rem;
+    //     top: 2.142rem;
+    //     // opacity:1;
+    //   }
 
       &:hover .header__navbar_menu_sub {
         transition: all 0.9s;
@@ -377,6 +377,23 @@ body {
         padding-bottom: 11px;
         min-width: max-content;
       }
+
+
+      @media only screen and (min-width: 500px) {
+
+        &::before{
+            position: absolute;
+                content: '';
+                display: block;
+                width: 300%;
+                height: 200px;
+                top: -2.142rem;
+                left:-250px;
+    
+          }
+      }
+
+     
 
       & li {
         display: block;
