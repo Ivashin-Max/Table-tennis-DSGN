@@ -37,16 +37,7 @@ import { useAdminForm } from "../../context/AdminFormContext";
 import { DynamicPrizes } from "./DynamicPrizes";
 
 // validation
-const AddTournamentSchema = yup.object().shape({
-  cost: yup
-    .number()
-    .transform((value) => (isNaN(value) ? 0 : value))
-    .nullable(),
 
-  location: yup.string().required("Обязательное поле"),
-
-  tournament_name: yup.string().required("Обязательное поле"),
-});
 
 export const AdminForm = () => {
   const currentDivisionName = useCurrentDivision()?.division_name;
@@ -59,7 +50,13 @@ export const AdminForm = () => {
   const [isRate, setIsRate] = useState(false);
   const [isPrized, setIsPrized] = useState(false);
   const [promptLocation, setPromptLocation] = useState(false);
-
+  
+  const AddTournamentSchema = yup.object().shape({
+    cost: isPaid ? yup.string().matches(/^\d+(\/\d+)*$/,"Неправильный формат. Ожидаются цифры").required("Обязательное поле") : yup.string().nullable(),
+    location: yup.string().required("Обязательное поле"),
+  
+    tournament_name: yup.string().required("Обязательное поле"),
+  });
   const showpromptLocation = () => {
     setPromptLocation(true);
   };
@@ -402,9 +399,8 @@ export const AdminForm = () => {
           {isPaid && (
             <Input
               name="cost"
-              type="number"
               placeholder="Стоимость турнира"
-              // // error={errors.cost?.message}
+              error={errors.cost?.message}
             />
           )}
 
