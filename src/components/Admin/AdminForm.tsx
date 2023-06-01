@@ -35,6 +35,7 @@ import {
 } from "../../actions/localStorage";
 import { useAdminForm } from "../../context/AdminFormContext";
 import { DynamicPrizes } from "./DynamicPrizes";
+import TextArea from "../Styled/Textarea";
 
 // validation
 const AddTournamentSchema = yup.object().shape({
@@ -72,9 +73,7 @@ export const AdminForm = () => {
     hidepromptLocation();
   };
 
-  const [date, setDate] = React.useState<Date | null>(
-    setSeconds(new Date(), 0)
-  );
+  const [date, setDate] = React.useState<Date | null>(null);
   const dispatch = useDispatch();
   useEffect(() => {
     console.log("currentTournament", currentTournament);
@@ -99,6 +98,7 @@ export const AdminForm = () => {
         prize: currentTournament.prize,
         tournament_name: currentTournament.tournament_name,
         dropParticipants: isLate,
+        comment: currentTournament.comment,
       };
 
       setDate(new Date(currentTournament.date_time));
@@ -124,8 +124,9 @@ export const AdminForm = () => {
         reserve: "",
         team: 0,
         tournament_name: "",
+        comment: "",
       };
-      setDate(new Date());
+      setDate(null);
       reset({ ...tournamentValues });
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -218,7 +219,7 @@ export const AdminForm = () => {
     if (currentTournament) {
       deleteTournament(currentTournament.id)
         .then((res) => {
-          console.log(11111, res);
+          console.log(res);
           dispatch(
             openModal({
               title: "Успешно",
@@ -252,6 +253,9 @@ export const AdminForm = () => {
     return title;
   };
 
+  const isValidDate = date && date < new Date();
+  const formIsInvalid = !(!!currentDivisionId && !isValidDate);
+
   return (
     <>
       <div
@@ -266,7 +270,7 @@ export const AdminForm = () => {
           buttonLabel={
             currentTournament ? "Редактировать турнир" : "Добавить турнир"
           }
-          disabled={currentDivisionId ? false : true}
+          disabled={formIsInvalid}
           register={register}
           handleSubmit={handleSubmit}
           onSubmit={onSubmit}
@@ -349,6 +353,7 @@ export const AdminForm = () => {
             placeholder="Лимит участников"
             // // error={errors.reserve?.message}
           />
+          <TextArea name="comment" placeholder="Дополнительная информация" />
           <div className="admin__checkbox">
             <input
               type="checkbox"

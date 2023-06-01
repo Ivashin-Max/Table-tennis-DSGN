@@ -1091,11 +1091,16 @@ main {
   top: -100px
 }
 
+
+.textStyles() {
+    font-family: 'OpenSans';
+    font-size: 13px;
+    font-weight: 400;
+    margin-bottom: 16px;
+  }
+
 .price {
-  font-family: 'OpenSans';
-  font-size: 13px;
-  font-weight: 400;
-  margin-bottom: 16px;
+  .textStyles
 }
 
 // button for mobiles
@@ -2301,5 +2306,26 @@ a {
     &_6{
         font-family: 'OpenSans';
         font-weight: 600;
+    }
+}
+
+.comment{
+    position:relative;
+    color:@color_text;
+    cursor: pointer;
+    .textStyles;
+    &::after{
+        content:'';
+        position:absolute;
+        width:100%;
+        height:1px;
+        background-color:@color_text;
+        bottom:-3px;
+        display:block;
+        
+    }
+
+    &-tooltip{
+        max-width: 300px;
     }
 }
