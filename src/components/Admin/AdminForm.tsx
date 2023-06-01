@@ -74,6 +74,7 @@ export const AdminForm = () => {
   };
 
   const [date, setDate] = React.useState<Date | null>(null);
+  console.log("🚀 ~ date:", date);
   const dispatch = useDispatch();
   useEffect(() => {
     console.log("currentTournament", currentTournament);
@@ -253,8 +254,8 @@ export const AdminForm = () => {
     return title;
   };
 
-  const isValidDate = date && date < new Date();
-  const formIsInvalid = !(!!currentDivisionId && !isValidDate);
+  const isValidDate = !!(date && date > new Date());
+  const disableForm = !(!!currentDivisionId && isValidDate);
 
   return (
     <>
@@ -270,7 +271,7 @@ export const AdminForm = () => {
           buttonLabel={
             currentTournament ? "Редактировать турнир" : "Добавить турнир"
           }
-          disabled={formIsInvalid}
+          disabled={disableForm}
           register={register}
           handleSubmit={handleSubmit}
           onSubmit={onSubmit}
