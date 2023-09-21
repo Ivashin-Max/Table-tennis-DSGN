@@ -112,6 +112,7 @@ const RegistrationForm = (props: IAuthFormsProps) => {
 
       return false;
     }
+    return true;
   };
 
   const onSubmit = (profile: RegistrationFormValues) => {
