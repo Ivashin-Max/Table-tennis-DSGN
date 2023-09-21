@@ -381,6 +381,13 @@ body {
 .profileCard__rating {
   display: flex;
 }
+.profileCard__wallet {
+  color: #2B476A;
+  font-size: 15px;
+  font-weight: 500;
+  padding: 0 10px 10px 10px;
+  font-family: "Montserrat";
+}
 .profileCard__form {
   display: flex;
   align-items: center;

@@ -15,6 +15,7 @@ import { getDivisionName } from '../../actions/divisions';
 
 const ProfileCardAuth = () => {
   const user = useTypedSelector(state => state.auth);
+
   const allDivisions = useTypedSelector(state => state.divisions).divisions;
   const myTournaments = useExactTournaments(user.tournamentsId)
   const dispatch = useDispatch();
@@ -24,7 +25,8 @@ const ProfileCardAuth = () => {
     !!user?.userInfo?.play_status_vd;
   const lastName = user.fio.split(' ')[0]
   const name = user.fio.split(' ')[1];
-
+  const isPrivileged = user?.userInfo?.privileged;
+  const wallet = user?.userInfo?.wallet;
   const lastNameName = lastName + ' ' + (name ? name : '');
 
   const [settings, setSettings] = useState(false);
@@ -71,11 +73,13 @@ const ProfileCardAuth = () => {
     <div className='profileCard_Auth'>
       <div className="profileCard__header">
         <div className="profileCard__text">{lastNameName}</div>
+       
         <div className='profileCard__rating profileCard__text'>
           <StarIcon className='svg__star_red svg__star' />
           <span >{user.rate_value}</span>
         </div>
       </div>
+     {!isPrivileged && <div className="profileCard__wallet">{'Баланс: '}{wallet }{` ₽`}</div>}
       <div className="profileCard__line"></div>
       <div className="overflow">
 

@@ -230,15 +230,15 @@ const Form = () => {
               console.warn("Ошибка удаления:", errorJSON);
               dispatch(
                 openModal({
-                  title: "Ошибка!",
-                  modalMsg: `Ошибка удаления: участник не найден`,
+                  title: "Ошибка удаления!",
+                  modalMsg: `Участник не найден или ${authState.isAuthorized?'при регистрации был введен номер телефона </br></br>  Подсказка: попробуйте выйти из профиля':'указан неправильный телефон <br/><br/>Подсказка: попробуйте войти в профиль'} `,
                 })
               );
             } else {
               console.warn("Ошибка удаления:", errorJSON);
               dispatch(
                 openModal({
-                  title: "Ошибка!",
+                  title: "Ошибка !",
                   modalMsg: `Ошибка удаления:${errorJSON.message}`,
                 })
               );
@@ -249,8 +249,8 @@ const Form = () => {
           console.warn("Ошибка удаления:", errorJSON);
           dispatch(
             openModal({
-              title: "Ошибка!",
-              modalMsg: `Ошибка удаления: участник не найден`,
+              title: "Ошибка удаления!",
+              modalMsg: `Участник не найден или ${authState.isAuthorized?'при регистрации был введен номер телефона </br></br>  Подсказка: попробуйте выйти из профиля':'указан неправильный телефон <br/><br/>Подсказка: попробуйте войти в профиль'} `,
             })
           );
         } else {
@@ -521,6 +521,7 @@ const Form = () => {
                     placeholder=" "
                     value={tell}
                     onChange={(event) => setTell(event.target.value)}
+                    type='tel'
                   />
 
                   <label>Ваш телефон</label>

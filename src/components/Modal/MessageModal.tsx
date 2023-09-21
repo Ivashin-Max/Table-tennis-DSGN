@@ -41,7 +41,7 @@ export default function MessageModal() {
           <SModal>
             <STitle>{title}</STitle>
             <div>
-              <p>{modalMsg}</p>
+              <p dangerouslySetInnerHTML={{__html:modalMsg}}/>
             </div>
             <div>
               <Button onClick={handleClose} type="button">Ок</Button>
