@@ -20,6 +20,7 @@ import { getCoaches } from "../../../actions/fetchDB";
 import React from "react";
 import { useFormCoaches } from "../../../context/FormContext";
 import categoryOptions from "../../../static/categoryOptions.json";
+import { Link } from "react-router-dom";
 
 export const defaultInputSx = {
   mb: 1,
@@ -249,7 +250,20 @@ const RegistrationForm = (props: IAuthFormsProps) => {
           placeholder="Пароль*"
           error={errors.password?.message}
         />
-
+        <div className="price">
+          Создавая профиль, вы даете согласие на обработку
+          <Link to="/privacy-policy">
+            <a
+              style={{
+                textAlign: "center",
+                textDecoration: "underline",
+                color: "#2B476A",
+              }}
+            >
+              своих персональных данных
+            </a>
+          </Link>
+        </div>
         <Title onClick={props.changeForm("auth")} pointer fz="12px">
           Вход
         </Title>

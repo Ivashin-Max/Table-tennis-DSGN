@@ -14,6 +14,7 @@ import { getUser } from "./actions/localStorage";
 import ResetPass from "./components/AuthModule/ResetPass";
 import Divisions from "./components/DivisionsModule/Divisions";
 import FontsDisplay from "./components/FontsDisplay";
+import Policy from "./components/Policy";
 
 function App() {
   const dispatch = useDispatch();
@@ -56,6 +57,7 @@ function App() {
             <Route path="/editor" element={<EditorWrapper />} />
             <Route path="/reset" element={<ResetPass />} />
             <Route path="/divisions" element={<Divisions />} />
+            <Route path="/privacy-policy" element={<Policy />} />
 
             <Route path="*" element={<Navigate to="/" replace />} />
           </Routes>

@@ -1,6 +1,7 @@
 import React, { useRef, useState, useCallback } from "react";
 import { useSelector } from "react-redux";
 import logoPingPong from "../styles/img/ping-pong.svg";
+import { Link } from "react-router-dom";
 
 import logoPingPongLoader from "../styles/img/ping-pong-loader.svg";
 import person from "../styles/img/personBlue.svg";
@@ -634,7 +635,20 @@ const Form = () => {
                 ? `${storeData.tournamentPrice} рублей`
                 : "бесплатно"}
             </div>
-
+            <div className="price">
+              Записавшись на турнир, вы даете согласие на обработку
+              <Link to="/privacy-policy">
+                <a
+                  style={{
+                    textAlign: "center",
+                    textDecoration: "underline",
+                    color: "#2B476A",
+                  }}
+                >
+                  своих персональных данных
+                </a>
+              </Link>
+            </div>
             <div className="buttons">
               <button
                 className={classNameGreen}
