@@ -1,31 +1,27 @@
-import { useForm } from 'react-hook-form'
-import { newProfile } from '../../../actions/Profile/profileRequests'
-import { IAuthFormsProps, RegistrationFormValues } from '../../../types/forms'
-import Form from '../../Styled/Form'
-import Input from '../../Styled/Input'
-import Title from '../../Styled/Title';
+import { useForm } from "react-hook-form";
+import { newProfile } from "../../../actions/Profile/profileRequests";
+import { IAuthFormsProps, RegistrationFormValues } from "../../../types/forms";
+import Form from "../../Styled/Form";
+import Input from "../../Styled/Input";
+import Title from "../../Styled/Title";
 import * as yup from "yup";
 import { yupResolver } from "@hookform/resolvers/yup";
-import { useDispatch } from 'react-redux'
-import { openModal } from '../../../store/reducer'
-import { AutocompleteFio } from './AutocompleteFio';
-import { useState } from 'react'
+import { useDispatch } from "react-redux";
+import { openModal } from "../../../store/reducer";
+import { AutocompleteFio } from "./AutocompleteFio";
+import { useState } from "react";
+import { Link } from "react-router-dom";
 
 const AuthSchema = yup.object().shape({
-
   username: yup
     .string()
-    .email('Неправильный формат почты ')
-    .required("Обязательное поле")
-  ,
-  name: yup
-    .string()
-    .required("Обязательное поле")
-  ,
+    .email("Неправильный формат почты ")
+    .required("Обязательное поле"),
+  name: yup.string().required("Обязательное поле"),
   password: yup
     .string()
     .min(4, "Минимальная длинна 4 символа")
-    .required("Обязательное поле")
+    .required("Обязательное поле"),
 });
 
 const RegistrationForm = (props: IAuthFormsProps) => {
@@ -34,47 +30,47 @@ const RegistrationForm = (props: IAuthFormsProps) => {
   const {
     register,
     handleSubmit,
-    formState: { errors }
+    formState: { errors },
   } = useForm({ resolver: yupResolver(AuthSchema) });
 
-
-
   const onSubmit = (profile: RegistrationFormValues) => {
-
-    console.log(profile)
-    setLoading(true)
+    console.log(profile);
+    setLoading(true);
     newProfile(profile)
-      .then(response => {
-        console.log(response)
+      .then((response) => {
+        console.log(response);
         if (response.status === 200) {
-          dispatch(openModal({
-            title: 'Успешно',
-            modalMsg: `Профиль с никнеймом ${profile.username} зарегистрирован успешно`
-          }))
+          dispatch(
+            openModal({
+              title: "Успешно",
+              modalMsg: `Профиль с никнеймом ${profile.username} зарегистрирован успешно`,
+            })
+          );
         }
-        setLoading(false)
+        setLoading(false);
         props.closeFormModal();
-
       })
-      .catch(e => {
-        const JSONerror = e.toJSON()
-        console.warn(`Ошибка регистрации:`, JSONerror)
-        setLoading(false)
+      .catch((e) => {
+        const JSONerror = e.toJSON();
+        console.warn(`Ошибка регистрации:`, JSONerror);
+        setLoading(false);
         if (JSONerror.status === 409)
-          dispatch(openModal({
-            title: 'Ошибка!',
-            modalMsg: 'Профиль уже существует'
-          }))
+          dispatch(
+            openModal({
+              title: "Ошибка!",
+              modalMsg: "Профиль уже существует",
+            })
+          );
         else {
-          dispatch(openModal({
-            title: 'Ошибка!',
-            modalMsg: e.message
-          }))
+          dispatch(
+            openModal({
+              title: "Ошибка!",
+              modalMsg: e.message,
+            })
+          );
         }
-      })
-
-
-  }
+      });
+  };
 
   return (
     <>
@@ -87,16 +83,12 @@ const RegistrationForm = (props: IAuthFormsProps) => {
         onSubmit={onSubmit}
         className="Войти"
       >
-        <AutocompleteFio
-          name="name"
-          error={errors.name?.message}
-        />
+        <AutocompleteFio name="name" error={errors.name?.message} />
 
         <Input
           name="username"
           placeholder="E-mail*"
           error={errors.username?.message}
-
         />
         <Input
           name="password"
@@ -104,13 +96,27 @@ const RegistrationForm = (props: IAuthFormsProps) => {
           placeholder="Пароль*"
           error={errors.password?.message}
         />
-
-        <Title onClick={props.changeForm('auth')} pointer fz='12px'>Вход</Title>
-
+        <div className="policy_text">
+          Создавая профиль, вы даете согласие на обработку
+          <Link
+            to="/privacy-policy"
+            style={{
+              textAlign: "center",
+              textDecoration: "underline",
+              color: "#2B476A",
+              marginBottom: 14,
+              marginTop: 0,
+            }}
+          >
+            своих персональных данных
+          </Link>
+        </div>
+        <Title onClick={props.changeForm("auth")} pointer fz="12px">
+          Вход
+        </Title>
       </Form>
-
     </>
-  )
-}
+  );
+};
 
-export default RegistrationForm
+export default RegistrationForm;

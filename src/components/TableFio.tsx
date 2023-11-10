@@ -35,10 +35,6 @@ const TableFio = ({
               {adminMode ? (
                 <>
                   <span>{participant.rating}</span>
-                  <span>
-                    | Телефон:{" "}
-                    {participant?.password ?? "выберите турнир из списка"}
-                  </span>
                 </>
               ) : (
                 <>
