@@ -33,6 +33,7 @@ import { motion } from "framer-motion/dist/framer-motion";
 import url from "../static/url.json";
 import MyCalendar from "./Calendar/Calendar";
 import { promptAnimate } from "../styles/animations/formAnimations";
+import { Link } from "react-router-dom";
 const alignConfig = {
   // the offset sourceNode by 10px in x and 20px in y,
   targetOffset: ["60%", "-200%"], // the offset targetNode by 30% of targetNode width in x and 40% of targetNode height in y,
@@ -231,7 +232,11 @@ const Form = () => {
               dispatch(
                 openModal({
                   title: "Ошибка удаления!",
-                  modalMsg: `Участник не найден или ${authState.isAuthorized?'при регистрации был введен номер телефона </br></br>  Подсказка: попробуйте выйти из профиля':'указан неправильный телефон <br/><br/>Подсказка: попробуйте войти в профиль'} `,
+                  modalMsg: `Участник не найден или ${
+                    authState.isAuthorized
+                      ? "при регистрации был введен номер телефона </br></br>  Подсказка: попробуйте выйти из профиля"
+                      : "указан неправильный телефон <br/><br/>Подсказка: попробуйте войти в профиль"
+                  } `,
                 })
               );
             } else {
@@ -250,7 +255,11 @@ const Form = () => {
           dispatch(
             openModal({
               title: "Ошибка удаления!",
-              modalMsg: `Участник не найден или ${authState.isAuthorized?'при регистрации был введен номер телефона </br></br>  Подсказка: попробуйте выйти из профиля':'указан неправильный телефон <br/><br/>Подсказка: попробуйте войти в профиль'} `,
+              modalMsg: `Участник не найден или ${
+                authState.isAuthorized
+                  ? "при регистрации был введен номер телефона </br></br>  Подсказка: попробуйте выйти из профиля"
+                  : "указан неправильный телефон <br/><br/>Подсказка: попробуйте войти в профиль"
+              } `,
             })
           );
         } else {
@@ -431,7 +440,21 @@ const Form = () => {
                 alt="red rocket"
               />
             </section>
-
+            <div className="policy_text">
+              Записавшись на турнир, вы даете согласие на обработку
+              <Link
+                to="/privacy-policy"
+                style={{
+                  textAlign: "center",
+                  textDecoration: "underline",
+                  color: "#2B476A",
+                  marginBottom: 14,
+                  marginTop: 0,
+                }}
+              >
+                своих персональных данных
+              </Link>
+            </div>
             <div className="inputs">
               <div className="placeholder-container">
                 <div
@@ -521,7 +544,7 @@ const Form = () => {
                     placeholder=" "
                     value={tell}
                     onChange={(event) => setTell(event.target.value)}
-                    type='tel'
+                    type="tel"
                   />
 
                   <label>Ваш телефон</label>
@@ -552,7 +575,6 @@ const Form = () => {
                 <div className="comment">Дополнительная информация</div>
               </Tooltip>
             )}
-
             <div className="buttons">
               <button
                 className={classNameGreen}
