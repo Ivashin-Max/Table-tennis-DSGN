@@ -489,7 +489,21 @@ const Form = () => {
                 alt="red rocket"
               />
             </section>
-
+            <div className="policy_text">
+              Записавшись на турнир, вы даете согласие на обработку
+              <Link
+                to="/privacy-policy"
+                style={{
+                  textAlign: "center",
+                  textDecoration: "underline",
+                  color: "#2B476A",
+                  marginBottom: 14,
+                  marginTop: 0,
+                }}
+              >
+                своих персональных данных
+              </Link>
+            </div>
             <div className="inputs">
               <div className="placeholder-container">
                 <div
@@ -635,20 +649,7 @@ const Form = () => {
                 ? `${storeData.tournamentPrice} рублей`
                 : "бесплатно"}
             </div>
-            <div className="price">
-              Записавшись на турнир, вы даете согласие на обработку
-              <Link to="/privacy-policy">
-                <a
-                  style={{
-                    textAlign: "center",
-                    textDecoration: "underline",
-                    color: "#2B476A",
-                  }}
-                >
-                  своих персональных данных
-                </a>
-              </Link>
-            </div>
+
             <div className="buttons">
               <button
                 className={classNameGreen}

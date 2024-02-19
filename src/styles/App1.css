@@ -917,6 +917,15 @@ main.admin .neTable {
   margin: 49px 0 0 13px;
   top: -100px;
 }
+.policy_text {
+  font-family: "OpenSans";
+  font-size: 13px;
+  font-weight: 400;
+  width: 280px;
+  text-align: center;
+  color: #2b476a;
+}
+
 .price {
   font-family: "OpenSans";
   font-size: 13px;

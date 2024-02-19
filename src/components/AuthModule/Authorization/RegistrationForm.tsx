@@ -250,18 +250,19 @@ const RegistrationForm = (props: IAuthFormsProps) => {
           placeholder="Пароль*"
           error={errors.password?.message}
         />
-        <div className="price">
+        <div className="policy_text">
           Создавая профиль, вы даете согласие на обработку
-          <Link to="/privacy-policy">
-            <a
-              style={{
-                textAlign: "center",
-                textDecoration: "underline",
-                color: "#2B476A",
-              }}
-            >
-              своих персональных данных
-            </a>
+          <Link
+            to="/privacy-policy"
+            style={{
+              textAlign: "center",
+              textDecoration: "underline",
+              color: "#2B476A",
+              marginBottom: 14,
+              marginTop: 0,
+            }}
+          >
+            своих персональных данных
           </Link>
         </div>
         <Title onClick={props.changeForm("auth")} pointer fz="12px">
