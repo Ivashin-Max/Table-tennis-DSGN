@@ -1,6 +1,7 @@
 import React, { useRef, useState } from "react";
 import { useSelector } from "react-redux";
 import logoPingPong from "../styles/img/ping-pong.svg";
+import PhoneMaskInput from "./PhoneMaskInput";
 
 import logoPingPongLoader from "../styles/img/ping-pong-loader.svg";
 import person from "../styles/img/personBlue.svg";
@@ -13,7 +14,6 @@ import {
   getPromptFromLocalStorage,
 } from "../actions/localStorage";
 import { ReactComponent as CalendarIcon } from "../styles/img/calendar-new.svg";
-import InputMask from "react-input-mask";
 import Tooltip from "rc-tooltip";
 import { openModal, setCalendarMode } from "../store/reducer";
 import ReactCardFlip from "react-card-flip";
@@ -536,17 +536,13 @@ const Form = () => {
 
               {!authState.isAuthorized && (
                 <div className="placeholder-container">
-                  <InputMask
-                    mask="+7\(999)-999-99-99"
-                    maskChar=""
+                  <PhoneMaskInput
                     id="participantTell"
                     autoComplete="off"
                     placeholder=" "
                     value={tell}
                     onChange={(event) => setTell(event.target.value)}
-                    type="tel"
                   />
-
                   <label>Ваш телефон</label>
                 </div>
               )}
